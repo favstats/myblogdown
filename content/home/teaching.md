@@ -15,14 +15,6 @@ weight = 60
 
 +++
 
-This is an example of using the *custom* widget to create your own homepage section.
-
-I am a teaching instructor for the following courses at University of Stuttgart:
+I am a teaching instructor for the following courses at *University of Stuttgart*:
 
 - Statistische Modellbildung II Tutorium
-- CS102: An intro to computer science
-- CS103: An intro to computer science
-- CS104: An intro to computer science
-- CS105: An intro to computer science
-- CS106: An intro to computer science
-- CS107: An intro to computer science
