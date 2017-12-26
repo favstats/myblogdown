@@ -130,13 +130,17 @@ Here is the resulting chart:
 
 ![](https://github.com/favstats/GodlyGovernance/blob/master/images/daesh_Arab Barometer.png?raw=true)
 
-A quarter of people (25.36%) seem to blame the United States for the creation of Daesh. It is however not clear from the context if they mean that the United States is literally responsible for its creation (a conspiracy pushed by many on the internet) or whether they mean that the United States created the conditions that ultimately led to the creation of ISIS. 
+A quarter of people (25.36%) seem to blame Western countries for the creation of Daesh. It is however not clear from the context if they mean that Western countries literally responsible for its creation (a quite popular conspiracy theory) or whether they mean that the United States created the conditions that ultimately led to the creation of ISIS. 
 
-This unclear interpretation is not really available when it comes to blaming Israel for the creation of ISIS (14.02%), which is probably due to the not uncommon belief of [anti-Israeli and antisemitic conspiracy theories in the Arab world](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
+This ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of ISIS (14.02%), which is probably due to the not uncommon belief of [anti-Israeli and antisemitic conspiracy theories in the Arab world](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
 
-An interesting number shows off with Iran (4.48%), which might be rooted in anti-Shia sentiments.
+An interesting number shows up with Iran (4.48%), which might be rooted in anti-Shia sentiments.
 
 Individual charts for each country can be found [here](https://imgur.com/a/oNF2X).
+
+**Addendum:**
+
+After I was asked to include this: [Here](https://imgur.com/a/DO7A4) is the data that only includes Sunni Muslims. Unfortunately, this question was only asked in Lebanon, Morocco, Algeria and Tunisia. However, one can't see considerably different results than shown here.
 
 ## What is next?
 
