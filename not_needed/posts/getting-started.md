@@ -78,6 +78,24 @@ The core parameters for the website can be edited in the `config.toml` configura
 
 Edit your biography in the *about* widget `content/home/about.md` that you copied across from the `themes/academic/exampleSite/` folder. The research interests and qualifications are stored as `interests` and `education` variables. The academic qualifications are defined as multiples of `[[education.courses]]` and can be created or deleted as necessary. It's possible to completely hide the interests and education lists by deleting their respective variables.
 
+![Goal's and Violence](https://github.com/favstats/GodlyGovernance/blob/master/images/combined.png?raw=true)
+
+How do you like this. Blaire White is a transgender woman that doesn't understand the difference between "transgender" and "gender dysphoria".  She made a video with a highly ignorant and unfortunate title, incorrectly labelling "transgenderism" as a "mental disorder", illustrating a complete lack of understanding of this subject.
+
+Here I review the various errors in her video, and talk about how frustrating it is that it's so hard to talk sense with people on this topic.  
+
+People are literally arguing from a position of wanting transgenderism to be a disorder cuz their fee fees say so, despite the medical community moving away from this conception of it.  
+
+Mindlessly clinging to the past.
+
+I try to understand Blaire White's motivations here, and I can't think of anything except a desire to hold back society and revel in being ignorant.  
+
+I suppose?
+
+NOTE ON THE SOUND: I screwed up the sound in this video cuz I thought I was recording through my microphone plugged into my digital recorder, but I was recording through the recorder's on-board mics which were facing away and on the table.  So any time I so much as touch the table, you get a thump.  So the video is full of thumping.  Apologies.
+
+Ps.  If I ever say "dysmorphia" instead of dysphoria at any point in this video it's an error, solely because the words sounds so similar.  I'm solely talking dysphoria here and am well aware of their differences.
+
 ### Customize the homepage
 
 Refer to our guide on using [widgets]({{< ref "post/widgets.md" >}}) to customize your homepage.

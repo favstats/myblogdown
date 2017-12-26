@@ -134,8 +134,8 @@ defaultContentLanguageInSubdir = false
   #   For more info on the highlighting options, see:
   #   https://sourcethemes.com/academic/post/writing-markdown-latex/#highlighting-options
   highlight = true
-  highlight_languages = []
-  # highlight_style = "github"
+  highlight_languages = ["go", "clojure"]
+  highlight_style = "github"
 
   # Enable native social sharing buttons?
   sharing = true
@@ -162,15 +162,15 @@ defaultContentLanguageInSubdir = false
   ]
 
   # Configuration of talk pages.
-  [params.talks]
+#  [params.talks]
     # Show talk time?
-    time = true
+#    time = true
 
   # Configuration of publication pages.
-  [params.publications]
-    # Date format (refer to Go's date format: http://fuckinggodateformat.com )
+#  [params.publications]
+#    # Date format (refer to Go's date format: http://fuckinggodateformat.com )
     #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
-    date_format = "January, 2006"
+#    date_format = "January, 2006"
 
   # Configuration of project pages.
   [params.projects]
@@ -236,10 +236,10 @@ defaultContentLanguageInSubdir = false
   url = "#about"
   weight = 1
 
-[[menu.main]]
-  name = "Publications"
-  url = "#publications_selected"
-  weight = 2
+#[[menu.main]]
+#  name = "Publications"
+#  url = "#publications_selected"
+#  weight = 2
 
 [[menu.main]]
   name = "Posts"

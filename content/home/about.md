@@ -12,7 +12,9 @@ weight = 5
   interests = [
     "Statistical Modeling",
     "Computational Social Science",
-    "Deliberative Theory",
+    "Political Extremism",
+    "Religion & Politics",
+    "Political Polarization",
     "Everything R related"
   ]
 
@@ -27,8 +29,13 @@ weight = 5
   institution = "University of Stuttgart"
   year = 2017
  
+[[education.courses]]
+  course = "Exchange Student: Government"
+  institution = "California State University Sacramento"
+  year = 2016
+ 
 +++
 
 # Biography
 
-I am a graduate student of Empirical Political and Social Research and tutor for statistics at the University of Stuttgart. My research interests include statistical modeling, computational social science and everything R related. I teach statistics to graduate students, both in SPSS and R.
+I am a graduate student of Empirical Political and Social Research and tutor for statistics at the University of Stuttgart. My research interests are political polarization, political extremism of all kinds and the interaction of religion and politics (especially in the Middle East). I am a very quantitative focused person and I enjoy statistical modeling, computational social science and everything R related. I currently teach statistics to graduate students, both in SPSS and R.
