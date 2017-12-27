@@ -1,12 +1,12 @@
 +++
 date = 2017-12-26
-lastmod = 2017-12-26
+lastmod = 2017-12-27
 draft = false
 tags = ["Daesh", "ISIS", "Arab Barometer", "Survey Data"]
 title = "What do Arab Muslims think about ISIS (Daesh)?"
 math = true
 summary = """
-A little project to visualize Arab Muslim attitudes towards ISIS (Daesh)
+Here I want to dive a little bit into how Arab Muslims see Daesh (*a term for ISIS often used by Arab speakers*). The data I will be using is from the [Arab Barometer Wave 4](http://www.arabbarometer.org/), released just a few weeks ago.
 """
 
 [header]
@@ -66,7 +66,7 @@ There were also two options for *missing values* (not included in visualization)
 
 Overall, one can see that pretty much all populations seem to be quite concerned about the threat that Daesh poses to their country. *Lebanon* is on top of the chart with over **98%** of people saying that Daesh poses somewhat of a threat or even a grave threat to their country. Not surprising, since the Lebanese army and the Hezbollah militia are [directly involved](https://www.reuters.com/article/us-mideast-crisis-lebanon-syria/lebanese-army-hezbollah-announce-offensives-against-islamic-state-on-syrian-border-idUSKCN1AZ03G) in the Syrian civil war and the threat of terror attacks is always present.
 
-Next on the list is *Tunisia*, where about **95%** consider Daesh to be a threat to their country. This is probably due to the unusual number of Tunisians who have gone to fight with Daesh and are expected to [soon return to Tunisia](https://www.nytimes.com/2017/02/25/world/europe/isis-tunisia.html).
+Next on the list is *Tunisia*, where about **95%** consider Daesh to be a threat to their country. This might have something to do with the unusual number of Tunisians who have gone to fight with Daesh and are expected to [return soon to Tunisia](https://www.nytimes.com/2017/02/25/world/europe/isis-tunisia.html).
 
 The countries least concerned seem to be *Morocco* and *Palestine*, where only **half the population** considers Daesh to be a grave threat, although it adds up to **75%** who think they are at least somewhat of a threat. 
 
@@ -102,7 +102,8 @@ Here is the chart:
 
 ![](https://github.com/favstats/GodlyGovernance/blob/master/images/compatible.png?raw=true)
 
-Right from the get-go, we can see that the left side of the chart is quite empty. There aren't many Arab Muslims who think that the tactics of Daesh are in any way compatible with Islam. Populations that most agree with the Islamic nature of Daesh are found in Palestine (9.0%), Algeria (9.4%), Lebanon (5.6%) and Tunisia (5.3%). Of course, one has to keep in mind that a sensitive question like this might be skewed by *social desirability bias*. However, the overall low number of declined answers might be an indicator that the bias isn't as severe as one would expect (although this can never be guaranteed).
+Right from the get go, we can see that the left side of the chart is quite empty. The overwhelming majority of Arab Muslims does not believe that the tactics of Daesh are in any way compatible with Islam. However, it's also worth investigating the fraction of people who do agree with this notion. Populations that most perceive the actions of Daesh as Islamic are found in Palestine (9.0%), Algeria (9.4%), Lebanon (5.6%) and Tunisia (5.3%). 
+
 
 ## Daesh's violence and goals
 
@@ -116,7 +117,8 @@ Here is the chart:
 
 ![](https://github.com/favstats/GodlyGovernance/blob/master/images/combined.png?raw=true)
 
-Again, one can see that a very similar pattern emerges. The overwhelming majority of Arab Muslims does not agree with Daesh's goals nor their use of violence. The highest approval ratings of both goals and use of violence can be found in the same countries that have the highest proportion of people that think Daesh's tactics represent *true Islam*: Palestine (6.4%; 5.4%), Algeria (4.9%; 5.1%), Lebanon (2.0%; 0%) and Tunisia (1.8%; 1.5%).
+Again, one can see that a very similar pattern emerges. The overwhelming majority of Arab Muslims does not agree with Daesh's goals nor their use of violence. The highest approval ratings of both goals and use of violence can be found in the same countries that have the highest proportion of people that think Daesh's tactics represent *true Islam*: Palestine (6.4%; 5.4%), Algeria (4.9%; 5.1%), Lebanon (2.0%; 0%) and Tunisia (1.8%; 1.5%). Of course, one has to keep in mind that a sensitive question like this (asking flat out if someone supports use of violence) could be subject to *social desirability bias*. However, the overall low number of declined answers indicates that the possible bias isn't as severe as one might expect (although this can never be guaranteed).
+
 
 ## Who is responsible for Daesh?
 
@@ -124,23 +126,23 @@ The last question I will be looking at is also very interesting. It asks about t
 
 > Who or what do you think is responsible for creating Daesh? (`q830` and `q831`)
 
-The variable (`q831`) includes the *"Other"* category. I opened it up and coded a few more categories. For example, I've thrown all Western countries mentioned into one category (however, "The United States" is the most mentioned Western country by far). I also created one category for all Arab countries that were mentioned.
+The variable (`q831`) includes the *"Other"* category. I opened it up and coded a few more categories. For example, I've summarized all Western countries mentioned into one category (however, "The United States" is the most mentioned Western country by far). I also created one category for all Arab countries that were mentioned.
 
 Here is the resulting chart:
 
 ![](https://github.com/favstats/GodlyGovernance/blob/master/images/daesh_Arab Barometer.png?raw=true)
 
-A quarter of people (25.36%) seem to blame Western countries for the creation of Daesh. It is however not clear from the context if they mean that Western countries literally responsible for its creation (a quite popular conspiracy theory) or whether they mean that the United States created the conditions that ultimately led to the creation of ISIS. 
+A quarter of people (25.36%) seem to blame the United States for the creation of Daesh. It is however not clear whether they mean that Western countries are literally responsible for Daesh's creation (a quite popular conspiracy theory which strangely enough was also repeated by the [current President of the United States during his bid for office](http://www.businessinsider.de/trump-obama-clinton-isis-2016-8?r=US&IR=T)) or whether they mean that the United States created the conditions that ultimately led to the creation of Daesh. 
 
-This ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of ISIS (14.02%), which is probably due to the not uncommon belief of [anti-Israeli and antisemitic conspiracy theories in the Arab world](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
+However, this ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of Daesh (14.02%), which might hint at [anti-Israeli and antisemitic conspiracy theories](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
 
 An interesting number shows up with Iran (4.48%), which might be rooted in anti-Shia sentiments.
 
-Individual charts for each country can be found [here](https://imgur.com/a/oNF2X).
+Individual charts for each country can be found [here](https://imgur.com/a/fR4Li).
 
 **Addendum:**
 
-After I was asked to include this: [Here](https://imgur.com/a/DO7A4) is the data that only includes Sunni Muslims. Unfortunately, this question was only asked in Lebanon, Morocco, Algeria and Tunisia. However, one can't see considerably different results than shown here.
+After I was asked to include this: [here](https://imgur.com/a/wQV3H) are the same visualizations that only include *Sunni Muslims*. Unfortunately, this question was only asked in Lebanon, Morocco, Algeria and Tunisia. However, the results are very similar to what is shown here.
 
 ## What is next?
 
