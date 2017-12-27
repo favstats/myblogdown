@@ -134,9 +134,9 @@ Here is the resulting chart:
 
 A quarter of people (25.36%) seem to blame the United States for the creation of Daesh. It is however not clear whether they mean that Western countries are literally responsible for Daesh's creation (a quite popular conspiracy theory which strangely enough was also repeated by the [current President of the United States during his bid for office](http://www.businessinsider.de/trump-obama-clinton-isis-2016-8?r=US&IR=T)) or whether they mean that the United States created the conditions that ultimately led to the creation of Daesh. 
 
-However, this ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of Daesh (14.02%), which might hint at [anti-Israeli and antisemitic conspiracy theories](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
+However, this ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of Daesh (14.02%) hinting at [anti-Israeli and antisemitic conspiracy theories](https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre). 
 
-An interesting number shows up with Iran (4.48%), which might be rooted in anti-Shia sentiments.
+Another interesting number shows up when considering Iran (4.48%) which might be rooted in anti-Shia sentiments.
 
 Individual charts for each country can be found [here](https://imgur.com/a/fR4Li).
 
