@@ -50,7 +50,7 @@
 
 &lt;p&gt;First of all, the data has to be prepared. For all of the following charts I use the provided weights that are meant to make the survey more representative.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
-&lt;p&gt;Furthermore, the data is filtered by religious affiliation, only including Muslim respondents &lt;code&gt;q1012 == 1&lt;/code&gt;. Unfortunately, questions about Daesh were not asked in Egypt (which is included in the original survey project). This leaves us with &lt;em&gt;8295 respondents&lt;/em&gt; across 6 different countries including a sample of Syrian refugees.&lt;/p&gt;
+&lt;p&gt;Furthermore, the data is filtered by religious affiliation, only including Muslim respondents &lt;code&gt;q1012 == 1&lt;/code&gt;. Unfortunately, questions about Daesh were not asked in Egypt (which is included in the original survey project). This leaves us with &lt;em&gt;7149 respondents&lt;/em&gt; across 6 different countries including a sample of Syrian refugees.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a rel=&#34;footnote&#34; href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;All questions that are of interest here, can be found in &lt;em&gt;Section VIII: Current Affairs&lt;/em&gt; of the &lt;a href=&#34;http://www.arabbarometer.org/sites/default/files/code_book/AB4%20English%20Codebook%20Final%20English_0.pdf&#34; target=&#34;_blank&#34;&gt;Arab Barometer Wave 4 Codebook&lt;/a&gt;&lt;/p&gt;
 
@@ -202,8 +202,10 @@
 &lt;hr /&gt;
 
 &lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;Download the &lt;a href=&#34;http://www.arabbarometer.org/sites/default/files/code_book/Arab%20Barometer%20Fourth%20Wave%20Methodology.pdf&#34; target=&#34;_blank&#34;&gt;Arab Barometer IV Methodology Statement&lt;/a&gt; for more details.
+&lt;li id=&#34;fn:1&#34;&gt;Download the &lt;a href=&#34;http://www.arabbarometer.org/sites/default/files/code_book/Arab%20Barometer%20Fourth%20Wave%20Methodology.pdf&#34; target=&#34;_blank&#34;&gt;Arab Barometer IV Methodology Statement&lt;/a&gt; for more details. 
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;Note that in a first version of this blog post the sample size was wrongly stated as 8259.
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>

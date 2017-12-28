@@ -29,7 +29,7 @@ Without further ado, here are some insights into the perception of Daesh in the 
 
 First of all, the data has to be prepared. For all of the following charts I use the provided weights that are meant to make the survey more representative.[^1] 
 
-Furthermore, the data is filtered by religious affiliation, only including Muslim respondents `q1012 == 1`. Unfortunately, questions about Daesh were not asked in Egypt (which is included in the original survey project). This leaves us with *8295 respondents* across 6 different countries including a sample of Syrian refugees.
+Furthermore, the data is filtered by religious affiliation, only including Muslim respondents `q1012 == 1`. Unfortunately, questions about Daesh were not asked in Egypt (which is included in the original survey project). This leaves us with *7149 respondents* across 6 different countries including a sample of Syrian refugees.[^2] 
 
 All questions that are of interest here, can be found in *Section VIII: Current Affairs* of the [Arab Barometer Wave 4 Codebook](http://www.arabbarometer.org/sites/default/files/code_book/AB4%20English%20Codebook%20Final%20English_0.pdf)
 
@@ -167,3 +167,5 @@ Here are some other projects I am currently working on and will appear in my blo
 
 
 [^1]: Download the [Arab Barometer IV Methodology Statement](http://www.arabbarometer.org/sites/default/files/code_book/Arab%20Barometer%20Fourth%20Wave%20Methodology.pdf) for more details. 
+
+[^2]: Note that in a first version of this blog post the sample size was wrongly stated as 8259.
