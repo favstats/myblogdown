@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/tidylocations/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/daesh/</loc>
       <lastmod>2017-12-27T00:00:00+01:00</lastmod>
     </url>
@@ -80,8 +89,48 @@
     
     <url>
     
+      <loc>/tags/dataviz/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/ggmap/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/ggplot/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/isis/</loc>
       <lastmod>2017-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/maps/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
     
