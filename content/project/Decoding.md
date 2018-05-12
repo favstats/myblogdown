@@ -16,7 +16,7 @@ image_preview = "altright.jpg"
 tags = ["R Group Stuttgart"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "www.decoding-the-altright.netlify.com"
+external_link = "http://decoding-the-altright.netlify.com"
 
 # Does the project detail page use math formatting?
 math = false
