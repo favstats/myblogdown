@@ -11,7 +11,7 @@
   <meta name="description" content="Grad Student Empirical Social and Political Research">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/tidylocations/">
+  <link rel="alternate" hreflang="en-us" href="/post/terror_map/">
 
   
   
@@ -55,14 +55,14 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/tidylocations/">
+  <link rel="canonical" href="/post/terror_map/">
 
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Academic">
-  <meta property="og:url" content="/post/tidylocations/">
-  <meta property="og:title" content="Mapping your 2017 Geolocations: The Tidy Way | Academic">
-  <meta property="og:description" content=""><meta property="og:image" content="/img/headers/map4.png">
+  <meta property="og:url" content="/post/terror_map/">
+  <meta property="og:title" content="Mapping Terror Attacks with Highcharter | Academic">
+  <meta property="og:description" content=""><meta property="og:image" content="/img/headers/terror_title.png">
   <meta property="og:locale" content="en-us">
   
   <meta property="article:published_time" content="2018-01-03T00:00:00&#43;01:00">
@@ -72,7 +72,7 @@
 
   
 
-  <title>Mapping your 2017 Geolocations: The Tidy Way | Academic</title>
+  <title>Mapping Terror Attacks with Highcharter | Academic</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -200,15 +200,15 @@
 
   
 <div class="article-header">
-  <img src="/img/headers/map4.png" class="article-banner" itemprop="image">
-  <span class="article-header-caption">Map of Germany made with ggmap and Google Geolocation Data</span>
+  <img src="/img/headers/terror_title.png" class="article-banner" itemprop="image">
+  <span class="article-header-caption">The finished map</span>
 </div>
 
 
 
   <div class="article-container">
     <div class="article-inner">
-      <h1 itemprop="name">Mapping your 2017 Geolocations: The Tidy Way</h1>
+      <h1 itemprop="name">Mapping Terror Attacks with Highcharter</h1>
 
       
 
@@ -231,7 +231,7 @@
   
   
   <span class="middot-divider"></span>
-  <a href="/post/tidylocations/#disqus_thread"></a>
+  <a href="/post/terror_map/#disqus_thread"></a>
   
 
   
@@ -242,35 +242,35 @@
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Mapping%20your%202017%20Geolocations%3a%20The%20Tidy%20Way&amp;url=%2fpost%2ftidylocations%2f"
+         href="https://twitter.com/intent/tweet?text=Mapping%20Terror%20Attacks%20with%20Highcharter&amp;url=%2fpost%2fterror_map%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftidylocations%2f"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fterror_map%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftidylocations%2f&amp;title=Mapping%20your%202017%20Geolocations%3a%20The%20Tidy%20Way"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fterror_map%2f&amp;title=Mapping%20Terror%20Attacks%20with%20Highcharter"
          target="_blank" rel="noopener">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftidylocations%2f&amp;title=Mapping%20your%202017%20Geolocations%3a%20The%20Tidy%20Way"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fterror_map%2f&amp;title=Mapping%20Terror%20Attacks%20with%20Highcharter"
          target="_blank" rel="noopener">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Mapping%20your%202017%20Geolocations%3a%20The%20Tidy%20Way&amp;body=%2fpost%2ftidylocations%2f">
+         href="mailto:?subject=Mapping%20Terror%20Attacks%20with%20Highcharter&amp;body=%2fpost%2fterror_map%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -284,80 +284,63 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code <a href="https://github.com/asheshwor/R-maps/blob/master/05_ggmap_google_location.R" target="_blank">here</a>. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?</p>
+        <p>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.</p>
 
-<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/tidy_locations" target="_blank">GitHub Repository</a>.</p>
+<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/terror_map" target="_blank">GitHub Repository</a>.</p>
 
 <p><strong>Getting Started</strong></p>
 
-<p>First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours <a href="https://takeout.google.com/settings/takeout" target="_blank">here</a>.</p>
+<p>First I need data about terror attacks. For this I downloaded the <a href="https://www.start.umd.edu/gtd/" target="_blank">Global Terrorism Database</a>.</p>
 
 <p>Now in Rstudio, I load in the needed packages:</p>
 
-<pre><code class="language-r">pacman::p_load(ggmap, jsonlite, tidyverse, lubridate, magrittr)
+<pre><code class="language-r">pacman::p_load(tidyverse, magrittr, readxl, highcharter)
 </code></pre>
 
-<p>After I put the downloaded <code>.json</code> file into my working directory, I use <code>fromJSON</code> to read in the data.<sup class="footnote-ref" id="fnref:1"><a rel="footnote" href="#fn:1">1</a></sup></p>
+<p>After I put the downloaded <code>.xlsx</code> file into my working directory, I use <code>readxl</code> to read in the data.</p>
 
-<pre><code class="language-r">loc_history &lt;- fromJSON('data/Standortverlauf.json')
+<pre><code class="language-r">terror &lt;- read_xlsx(&quot;data/globalterrorism.xlsx&quot;, sheet = &quot;Data&quot;)
 </code></pre>
 
-<p>As a next step, we want to extract our locations from the data. The locations are located (ha!) under <code>loc_history$locations</code>.</p>
+<p>Now comes the <strong>data wrangling part</strong>.</p>
 
-<pre><code class="language-r">locations &lt;- loc_history$locations #we are only interested in locations
+<pre><code class="language-r">terror_map &lt;- terror %&gt;% 
+  filter(iyear &gt;= 2000) %&gt;% 
+  filter(region %in% c(8, 9)) %&gt;% 
+  filter(nkill &gt; 0) %&gt;% 
+  filter(longitude &lt;= 38) %&gt;% 
+  # filter(longitude &gt;= 24) %&gt;% 
+  # filter(latitude &gt;= 13) %&gt;% 
+  arrange(desc(nkill)) %&gt;% 
+  mutate(lon = longitude) %&gt;% 
+  mutate(lat = latitude) %&gt;% 
+  mutate(date = paste(iyear, imonth, iday, sep = &quot;-&quot;)) %&gt;% 
+  mutate(name = paste0(&quot;&lt;br&gt; &lt;b&gt;Country:&lt;/b&gt; &quot;, country_txt,
+                       &quot;&lt;br&gt; &lt;b&gt;City:&lt;/b&gt; &quot;, city, 
+                       &quot;&lt;br&gt; &lt;b&gt;Date:&lt;/b&gt; &quot;, date,
+                       &quot;&lt;br&gt; &lt;b&gt;Group:&lt;/b&gt; &quot;, gname,
+                       &quot;&lt;br&gt; &lt;b&gt;Attack Type:&lt;/b&gt; &quot;, attacktype1_txt,
+                       &quot;&lt;br&gt; &lt;b&gt;Target:&lt;/b&gt; &quot;, target1,
+                       &quot;&lt;br&gt; &lt;b&gt;Death Count&lt;/b&gt;&quot;)) %&gt;% 
+  select(name, lon = longitude, lat,  z = nkill)
 </code></pre>
 
-<p>Now comes the <strong>data wrangling part</strong>. We want the data to be in the right format. Especially the dates are easily transformed with the powerful <code>lubridate</code> package. First we create a <code>time</code> variable, using the <code>as_datetime</code> function. Next we bring the longitudes and lattitudes in the right format, then we select three relevant variables <code>time</code>, <code>lon</code> and <code>lat</code>. Lastly, we filter the dataframe so that we will only be left with data of 2017.</p>
+<p>And finally, I apply the <code>highcharter</code> functions to create a beautiful interactive map.</p>
 
-<pre><code class="language-r">locations %&lt;&gt;% 
- mutate(time = as_datetime(as.numeric(timestampMs) / 1000)) %&gt;% 
- mutate(lon = longitudeE7/1E7) %&gt;% 
- mutate(lat = latitudeE7/1E7) %&gt;% 
- select(time, lon, lat) %&gt;% 
- filter(time &gt; as_datetime(&quot;2017-01-01 00:00:01&quot;) &amp; time &lt; as_datetime(&quot;2017-12-31 23:59:59&quot;))
+<pre><code class="language-r">hcmap(&quot;custom/europe&quot;, showInLegend = FALSE) %&gt;%
+  hc_add_series(data = na.omit(terror_map), type = &quot;mapbubble&quot;,
+                minSize = 0, maxSize = 30,
+                name = &quot;Terror Attack&quot;, fillOpacity = 0.01) %&gt;%
+  highcharter::hc_title(text = &quot;Terror Attacks with Casualties &gt; 1 (2000 - 2016)&quot;, 
+                        style = list(fontWeight = &quot;bold&quot;)) %&gt;%
+  hc_subtitle(text = &quot;Source: &lt;a href='https://www.start.umd.edu/gtd/'&gt;Global Terrorism Database (GTD)&lt;/a&gt;&quot;)
 </code></pre>
 
-<p>Finally, we come to the <strong>plotting part</strong>! We type in our keyword and off we go with the <code>ggmap</code> package!</p>
+<p>The result:</p>
 
-<pre><code class="language-r">map1 &lt;- &quot;Stuttgart&quot; %&gt;% 
-  qmap(maptype = &quot;toner&quot;, source = &quot;stamen&quot;, zoom = 14) + # creates the map
-  geom_point(aes(x = lon, y = lat),                       # adding your data
-             size = 1,
-             data = locations,
-             color = &quot;red&quot;, 
-             alpha = 0.01)
-map1
-</code></pre>
+<p><img src="https://github.com/favstats/terror_map/blob/master/images/terror_map.png?raw=true" alt="" /></p>
 
-<p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map1.png?raw=true" alt="" /></p>
-
-<p>We could also zoom out and get a map from all of Germany</p>
-
-<pre><code class="language-r">map2 &lt;- &quot;germany&quot; %&gt;% 
-  qmap(maptype = &quot;toner&quot;, source = &quot;stamen&quot;, zoom = 5) + # creates the map
-  geom_point(aes(x = lon, y = lat),                       # adding your data
-             size = 1,
-             data = locations,
-             color = &quot;red&quot;, 
-             alpha = 0.01)
-map2
-</code></pre>
-
-<p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map4.png?raw=true" alt="" /></p>
-
-<p>If we wanted to save the map on our computer, we could use the following code:</p>
-
-<pre><code class="language-r">ggsave(map2, file = &quot;images/map2.png&quot;, height = 4, width = 4)
-</code></pre>
-<div class="footnotes">
-
-<hr />
-
-<ol>
-<li id="fn:1">Note that the name of your <code>.json</code> might differ from mine if you are not using Google in German.
- <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
-</ol>
-</div>
+<p><strong>Click <a href="https://favstats.github.io/terror_map/" target="_blank">here</a> for interactive version.</strong></p>
 
       </div>
 
@@ -370,7 +353,7 @@ map2
   
   <a class="btn btn-primary btn-outline" href="/tags/ggplot">ggplot</a>
   
-  <a class="btn btn-primary btn-outline" href="/tags/ggmap">ggmap</a>
+  <a class="btn btn-primary btn-outline" href="/tags/highcharter">highcharter</a>
   
   <a class="btn btn-primary btn-outline" href="/tags/dataviz">dataviz</a>
   
@@ -390,7 +373,7 @@ map2
   <h3>Related</h3>
   <ul>
     
-    <li><a href="/post/terror_map/">Mapping Terror Attacks with Highcharter</a></li>
+    <li><a href="/post/tidylocations/">Mapping your 2017 Geolocations: The Tidy Way</a></li>
     
   </ul>
 </div>

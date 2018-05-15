@@ -11,6 +11,72 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Mapping Terror Attacks with Highcharter</title>
+      <link>/post/terror_map/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/terror_map/</guid>
+      <description>&lt;p&gt;A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.&lt;/p&gt;
+
+&lt;p&gt;The code for this blogpost can be found in this &lt;a href=&#34;https://github.com/favstats/terror_map&#34; target=&#34;_blank&#34;&gt;GitHub Repository&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Getting Started&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;First I need data about terror attacks. For this I downloaded the &lt;a href=&#34;https://www.start.umd.edu/gtd/&#34; target=&#34;_blank&#34;&gt;Global Terrorism Database&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now in Rstudio, I load in the needed packages:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, magrittr, readxl, highcharter)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;After I put the downloaded &lt;code&gt;.xlsx&lt;/code&gt; file into my working directory, I use &lt;code&gt;readxl&lt;/code&gt; to read in the data.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;terror &amp;lt;- read_xlsx(&amp;quot;data/globalterrorism.xlsx&amp;quot;, sheet = &amp;quot;Data&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now comes the &lt;strong&gt;data wrangling part&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;terror_map &amp;lt;- terror %&amp;gt;% 
+  filter(iyear &amp;gt;= 2000) %&amp;gt;% 
+  filter(region %in% c(8, 9)) %&amp;gt;% 
+  filter(nkill &amp;gt; 0) %&amp;gt;% 
+  filter(longitude &amp;lt;= 38) %&amp;gt;% 
+  # filter(longitude &amp;gt;= 24) %&amp;gt;% 
+  # filter(latitude &amp;gt;= 13) %&amp;gt;% 
+  arrange(desc(nkill)) %&amp;gt;% 
+  mutate(lon = longitude) %&amp;gt;% 
+  mutate(lat = latitude) %&amp;gt;% 
+  mutate(date = paste(iyear, imonth, iday, sep = &amp;quot;-&amp;quot;)) %&amp;gt;% 
+  mutate(name = paste0(&amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Country:&amp;lt;/b&amp;gt; &amp;quot;, country_txt,
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;City:&amp;lt;/b&amp;gt; &amp;quot;, city, 
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Date:&amp;lt;/b&amp;gt; &amp;quot;, date,
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Group:&amp;lt;/b&amp;gt; &amp;quot;, gname,
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Attack Type:&amp;lt;/b&amp;gt; &amp;quot;, attacktype1_txt,
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Target:&amp;lt;/b&amp;gt; &amp;quot;, target1,
+                       &amp;quot;&amp;lt;br&amp;gt; &amp;lt;b&amp;gt;Death Count&amp;lt;/b&amp;gt;&amp;quot;)) %&amp;gt;% 
+  select(name, lon = longitude, lat,  z = nkill)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And finally, I apply the &lt;code&gt;highcharter&lt;/code&gt; functions to create a beautiful interactive map.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;hcmap(&amp;quot;custom/europe&amp;quot;, showInLegend = FALSE) %&amp;gt;%
+  hc_add_series(data = na.omit(terror_map), type = &amp;quot;mapbubble&amp;quot;,
+                minSize = 0, maxSize = 30,
+                name = &amp;quot;Terror Attack&amp;quot;, fillOpacity = 0.01) %&amp;gt;%
+  highcharter::hc_title(text = &amp;quot;Terror Attacks with Casualties &amp;gt; 1 (2000 - 2016)&amp;quot;, 
+                        style = list(fontWeight = &amp;quot;bold&amp;quot;)) %&amp;gt;%
+  hc_subtitle(text = &amp;quot;Source: &amp;lt;a href=&#39;https://www.start.umd.edu/gtd/&#39;&amp;gt;Global Terrorism Database (GTD)&amp;lt;/a&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/terror_map/blob/master/images/terror_map.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Click &lt;a href=&#34;https://favstats.github.io/terror_map/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for interactive version.&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Mapping your 2017 Geolocations: The Tidy Way</title>
       <link>/post/tidylocations/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>

@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/terror_map/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/tidylocations/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
     </url>
@@ -119,6 +128,16 @@
     <url>
     
       <loc>/tags/ggplot/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/highcharter/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
       <priority>0</priority>
     </url>
