@@ -1,22 +1,22 @@
 +++
 # Date this page was created.
-date = "2018-04-27"
+date = "2018-06-08"
 
 # Project title.
-title = "Slides: Decoding the Alt-Right"
+title = "Slides: Variants of Populism"
 
 # Project summary to display on homepage.
-summary = "These slides were presented at a VOX-Pol counter-extremism workshop in May 2018. The research project is about tracking the Alt-Right and its spread into mainstream media."
+summary = "These slides were presented at the Politicologenetmaal conference in June 2018. This research is about the support for populism in Europe."
 
 # Optional image to display on homepage (relative to `static/img/` folder).
-image_preview = "altright.jpg"
+image_preview = "populism.jpg"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["machine-learning", "deep-learning"]`
-tags = ["R Group Stuttgart"]
+tags = ["Populism"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "http://decoding-the-altright.netlify.com"
+external_link = "http://variants-of-populism.netlify.com"
 
 # Does the project detail page use math formatting?
 math = false

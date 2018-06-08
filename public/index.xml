@@ -11,6 +11,24 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Slides: Variants of Populism</title>
+      <link>/project/populism/</link>
+      <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/populism/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slides: Decoding the Alt-Right</title>
+      <link>/project/decoding/</link>
+      <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/decoding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Mapping Terror Attacks with Highcharter</title>
       <link>/post/terror_map/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
@@ -366,15 +384,6 @@ map2
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/project/example-external-project/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Slides: Decoding the Alt-Right</title>
-      <link>/project/decoding/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/project/decoding/</guid>
       <description></description>
     </item>
     

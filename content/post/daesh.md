@@ -6,7 +6,7 @@ tags = ["Daesh", "ISIS", "Arab Barometer", "Survey Data"]
 title = "What do Arab Muslims think about ISIS (Daesh)?"
 math = true
 summary = """
-Here I want to dive a little bit into how Arab Muslims see Daesh (*a term for ISIS often used by Arab speakers*). The data I will be using is from the [Arab Barometer Wave 4](http://www.arabbarometer.org/), released just a few weeks ago.
+Here I want to dive a little bit into how Arab Muslims see Daesh (*a term for ISIS often used by Arabic speakers*). The data I will be using is from the [Arab Barometer Wave 4](http://www.arabbarometer.org/), released just a few weeks ago.
 """
 
 [header]
