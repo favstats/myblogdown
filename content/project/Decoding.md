@@ -13,7 +13,7 @@ image_preview = "altright.jpg"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["machine-learning", "deep-learning"]`
-tags = ["R Group Stuttgart"]
+tags = ["VOX-Pol", "Extremism"]
 
 # Optional external URL for project (replaces project detail page).
 external_link = "http://decoding-the-altright.netlify.com"

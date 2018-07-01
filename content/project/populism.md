@@ -13,7 +13,7 @@ image_preview = "populism.jpg"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["machine-learning", "deep-learning"]`
-tags = ["Populism"]
+tags = ["Extremism", "Survey"]
 
 # Optional external URL for project (replaces project detail page).
 external_link = "http://variants-of-populism.netlify.com"

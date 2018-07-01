@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Academic on Academic</title>
+    <title>favstats - personal blog on favstats - personal blog</title>
     <link>/</link>
-    <description>Recent content in Academic on Academic</description>
+    <description>Recent content in favstats - personal blog on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2017 Your Name</copyright>
+    <copyright>&amp;copy; 2018 Fabio Votta</copyright>
     <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0100</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Slides: Deliberation Across the World</title>
+      <link>/project/deliberation/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/deliberation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slides: Godly Governance</title>
+      <link>/project/godly/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/godly/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deliberation Across the World A Cross-National Examination of the Link Between Deliberation and Regime Legitimacy</title>
+      <link>/publication/deliberation_paper/</link>
+      <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/deliberation_paper/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Godly Governance - Support for Religious Governance in Arab Muslim-Majority Countries</title>
+      <link>/publication/godlygovernance_paper/</link>
+      <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/godlygovernance_paper/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Slides: Variants of Populism</title>
@@ -25,6 +61,15 @@
       <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/project/decoding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Fighting Fake News and Post-Truth Politics with Behavioral Science: The Pro-Truth Pledge</title>
+      <link>/publication/truthpledge_paper/</link>
+      <pubDate>Mon, 12 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/truthpledge_paper/</guid>
       <description></description>
     </item>
     

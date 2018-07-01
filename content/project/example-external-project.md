@@ -13,7 +13,7 @@ image_preview = "multicol2.png"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["machine-learning", "deep-learning"]`
-tags = ["R Group Stuttgart"]
+tags = ["r-group"]
 
 # Optional external URL for project (replaces project detail page).
 external_link = "https://favstats.shinyapps.io/regdiag/"

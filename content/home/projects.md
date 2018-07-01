@@ -29,12 +29,24 @@ filter_default = 0
   tag = "*"
   
 [[filter]]
-  name = "Deep Learning"
-  tag = ".deep-learning"
+  name = "WAPOR 2018"
+  tag = ".WAPOR"
 
 [[filter]]
-  name = "Other"
-  tag = ".demo"
+  name = "R Group Stuttgart"
+  tag = ".r-group"
 
+[[filter]]
+  name = "Survey Research"
+  tag = ".Survey"
+  
+[[filter]]
+  name = "Extremism"
+  tag = ".Extremism"
+  
+[[filter]]
+  name = "VOX-Pol"
+  tag = ".VOX-Pol"
+  
 +++
 
