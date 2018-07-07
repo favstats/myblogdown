@@ -7,3 +7,4 @@
 
 {{/* Return parsed CSS. */}}
 {{- $scr.Get "css" -}}
+

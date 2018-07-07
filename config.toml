@@ -206,6 +206,11 @@ defaultContentLanguageInSubdir = false
     icon = "envelope"
     icon_pack = "fa"
     link = "mailto:fabio.votta@gmail.com"
+    
+  [[params.social]]
+    icon = "twitter"
+    icon_pack = "fa"
+    link = "https://twitter.com/FabioFavusMaxim"
 
   [[params.social]]
     icon = "academia"
