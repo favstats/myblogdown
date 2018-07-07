@@ -12,7 +12,7 @@ paginate = 10
 disqusShortname = "https-favstats-netlify-com"
 
 # Enable analytics by entering your Google Analytics tracking ID
-googleAnalytics = ""
+googleAnalytics = "UA-121993278-1"
 
 # Default language to use (if you setup multilingual support)
 defaultContentLanguage = "en"
