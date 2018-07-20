@@ -17,8 +17,8 @@ authors = ["Fabio Votta"]
 publication_types = ["3"]
 
 # Publication name and optional abbreviated version.
-publication = "*Working Paper*"
-publication_short = ""
+publication = "*Arab Barometer Working Paper Series 01/2018*"
+publication_short = "*Arab Barometer Working Paper Series 01/2018*"
 
 # Abstract and optional shortened version.
 abstract = "This paper seeks to investigate Muslim support for religious governance in Arab Muslim-Majority countries, focusing on the role of personal piety. It does so by exploring the relevant literature and deriving hypotheses from it, which are subsequently tested by using survey data of the Arab Barometer (Wave III and IV). The following analysis conducts hierarchical linear regression with the dependent variable ideological support for religious governance (Islamism). The analysis finds that religiosity indeed plays a major role in explaining support for religious governance, however this effect depends substantially on an individual’s interpretation of their religion as well as the tendency to endorse patriarchal values. The findings of the analysis suggest that further studies in the field should account for the multidimensional impact of religiosity and avoid essentialist explanations that inextricably link Muslim religiosity to support for religious governance."
