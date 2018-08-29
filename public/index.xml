@@ -533,6 +533,8 @@ pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, g
 
 &lt;h2 id=&#34;simulation-function&#34;&gt;Simulation Function&lt;/h2&gt;
 
+&lt;p&gt;First, I write a little function to simulate collinearity.&lt;/p&gt;
+
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;generate_multi &amp;lt;- function(n, cor_seq){
   set.seed(2017)
   x &amp;lt;- runif(n, 1, 10)
@@ -575,6 +577,8 @@ draw.data &amp;lt;- function(cor_seq = NULL, step_seq = NULL){
 
 &lt;h2 id=&#34;simulate-data&#34;&gt;Simulate Data&lt;/h2&gt;
 
+&lt;p&gt;Draw data from function and save it.&lt;/p&gt;
+
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data &amp;lt;- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
 
 if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
@@ -587,7 +591,17 @@ save(sim_data, file = &amp;quot;data/sim_data.Rdata&amp;quot;)
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/sim_data.Rdata&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
+&lt;p&gt;Now, consider the following linear regression: y ~ x1 + x2.&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,&lt;/p&gt;
+
 &lt;h3 id=&#34;standard-errors&#34;&gt;Standard Errors&lt;/h3&gt;
+
+&lt;p&gt;First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;get_smooths &amp;lt;- function(smooth_dat, n_val, y) {
   smooth_dat &amp;lt;- filter(smooth_dat, n == n_val &amp;amp; term == &amp;quot;x1&amp;quot;)
@@ -628,7 +642,9 @@ sim_data %&amp;gt;%
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/std_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;t-statistic&#34;&gt;T-Statistic&lt;/h3&gt;
+&lt;h3 id=&#34;t-statistic-and-p-values&#34;&gt;T-Statistic and P-Values&lt;/h3&gt;
+
+&lt;p&gt;Next, let&amp;rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
      filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;% 
@@ -650,8 +666,6 @@ sim_data %&amp;gt;%
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/t_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;p-values&#34;&gt;P-Values&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
      filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 
@@ -676,6 +690,8 @@ sim_data %&amp;gt;%
 
 &lt;h4 id=&#34;b-coefficients&#34;&gt;B-Coefficients&lt;/h4&gt;
 
+&lt;p&gt;This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.&lt;/p&gt;
+
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;%
     filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;%
     filter(n&amp;gt;200) %&amp;gt;%
@@ -699,6 +715,8 @@ sim_data %&amp;gt;%
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h5 id=&#34;standardized&#34;&gt;Standardized&lt;/h5&gt;
+
+&lt;p&gt;Same spiel, just this time with standardized coefficients.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
      filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 

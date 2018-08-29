@@ -31,6 +31,8 @@ pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, g
 
 ## Simulation Function
 
+First, I write a little function to simulate collinearity.
+
 ``` r
 generate_multi <- function(n, cor_seq){
   set.seed(2017)
@@ -74,6 +76,8 @@ draw.data <- function(cor_seq = NULL, step_seq = NULL){
 
 ## Simulate Data
 
+Draw data from function and save it.
+
 ``` r
 sim_data <- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
 
@@ -88,7 +92,18 @@ save(sim_data, file = "data/sim_data.Rdata")
 load("data/sim_data.Rdata")
 ```
 
+Now, consider the following linear regression: y ~ x1 + x2. 
+
+\begin{equation}
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
+\end{equation}
+
+For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,
+
+
 ### Standard Errors
+
+First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.
 
 ``` r
 get_smooths <- function(smooth_dat, n_val, y) {
@@ -131,7 +146,9 @@ sim_data %>%
 ggsave(filename = "images/std_static.png", width = 10, height = 7)
 ```
 
-### T-Statistic
+### T-Statistic and P-Values
+
+Next, let's take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.
 
 ``` r
 sim_data  %>% 
@@ -155,8 +172,6 @@ sim_data  %>%
 ``` r
 ggsave(filename = "images/t_static.png", width = 10, height = 7)
 ```
-
-#### P-Values
 
 ``` r
 sim_data  %>% 
@@ -182,6 +197,8 @@ ggsave(filename = "images/p_static.png", width = 10, height = 7)
 ```
 
 #### B-Coefficients
+
+This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.
 
 ``` r
 sim_data  %>%
@@ -209,6 +226,8 @@ ggsave(filename = "images/b_static.png", width = 10, height = 7)
 ```
 
 ##### Standardized
+
+Same spiel, just this time with standardized coefficients. 
 
 ``` r
 sim_data  %>% 
