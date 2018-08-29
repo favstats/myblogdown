@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.31.1" />
+  <meta name="author" content="Fabio Votta">
+  <meta name="description" content="Grad Student Empirical Social and Political Research">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/multicol_sim/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-121993278-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="favstats - personal blog">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="favstats - personal blog">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/multicol_sim/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/FabioFavusMaxim">
+  <meta property="twitter:creator" content="@https://twitter.com/FabioFavusMaxim">
+  
+  <meta property="og:site_name" content="favstats - personal blog">
+  <meta property="og:url" content="/post/multicol_sim/">
+  <meta property="og:title" content="How does Collinearity Influence Linear Regressions? | favstats - personal blog">
+  <meta property="og:description" content=""><meta property="og:image" content="/img/headers/multicol_header.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-08-25T00:00:00&#43;02:00">
+  
+  <meta property="article:modified_time" content="2018-08-25T00:00:00&#43;02:00">
+  
+
+  
+
+  <title>How does Collinearity Influence Linear Regressions? | favstats - personal blog</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/logo.png" alt="favstats - personal blog"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#awards">
+            
+            <span>Awards</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/headers/multicol_header.png" class="article-banner" itemprop="image">
+  <span class="article-header-caption">B-Coefficients Simulation</span>
+</div>
+
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">How does Collinearity Influence Linear Regressions?</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-08-25 00:00:00 &#43;0200 CEST" itemprop="datePublished">
+      Aug 25, 2018
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/multicol_sim/#disqus_thread"></a>
+  
+
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=How%20does%20Collinearity%20Influence%20Linear%20Regressions%3f&amp;url=%2fpost%2fmulticol_sim%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmulticol_sim%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmulticol_sim%2f&amp;title=How%20does%20Collinearity%20Influence%20Linear%20Regressions%3f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmulticol_sim%2f&amp;title=How%20does%20Collinearity%20Influence%20Linear%20Regressions%3f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=How%20does%20Collinearity%20Influence%20Linear%20Regressions%3f&amp;body=%2fpost%2fmulticol_sim%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        
+
+<p>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.</p>
+
+<h2 id="packages">Packages</h2>
+
+<p>Load the necessary packages</p>
+
+<pre><code class="language-r"># install pacman once if not avaible on your machine
+# install.packages(&quot;pacman&quot;)
+
+pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
+</code></pre>
+
+<h2 id="simulation-function">Simulation Function</h2>
+
+<pre><code class="language-r">generate_multi &lt;- function(n, cor_seq){
+  set.seed(2017)
+  x &lt;- runif(n, 1, 10)
+  models &lt;- list()
+  std.models &lt;- list()
+  for (jj in seq_along(cor_seq)) {
+    ## generate correlated variable x2
+    dat &lt;- data.frame(corgen(x = x, r = cor_seq[jj],  epsilon = 0))
+    colnames(dat) &lt;- c(&quot;x1&quot;, &quot;x2&quot;)
+    ## generate y variable
+    dat$y &lt;- 0.5 * dat$x1 + 0.5 * dat$x2 + rnorm(n, sd = 10)
+    ## modelling and tidy dataframe
+    models[[jj]] &lt;- tidy(lm(y ~ x1 + x2, data = dat))
+    ## get standardized betas
+    std.models[[jj]] &lt;- data.frame(lm.beta::coef.lm.beta((lm.beta::lm.beta(lm(y ~ x1 + x2, data = dat)))))
+    colnames(std.models[[jj]]) &lt;- c(&quot;std.estimate&quot;)  
+    ## bind it together
+    models[[jj]] &lt;- std.models[[jj]] %&gt;% 
+                      bind_cols(models[[jj]]) 
+    models[[jj]]$cors &lt;- cor_seq[jj]
+  }
+  sim_dat &lt;- bind_rows(models)
+  sim_dat$col &lt;- n
+  return(sim_dat)
+}
+
+draw.data &lt;- function(cor_seq = NULL, step_seq = NULL){
+    sim.list &lt;- list()
+    for(jj in seq_along(step_seq)) {
+      sim.list[[jj]] &lt;- generate_multi(n = step_seq[jj], cor_seq)
+      sim.list[[jj]]$n &lt;- step_seq[jj]
+      
+      cat(paste0(&quot;Batch: &quot;, jj, &quot;\t&quot;))
+      
+    } 
+    sim_data &lt;- bind_rows(sim.list)
+    return(sim_data)
+}
+</code></pre>
+
+<h2 id="simulate-data">Simulate Data</h2>
+
+<pre><code class="language-r">sim_data &lt;- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
+
+if(!dir.exists(&quot;data&quot;)) dir.create(&quot;data&quot;)
+
+save(sim_data, file = &quot;data/sim_data.Rdata&quot;)
+</code></pre>
+
+<h2 id="visualizing-the-influence-of-collinearity">Visualizing the Influence of Collinearity</h2>
+
+<pre><code class="language-r">load(&quot;data/sim_data.Rdata&quot;)
+</code></pre>
+
+<h3 id="standard-errors">Standard Errors</h3>
+
+<pre><code class="language-r">get_smooths &lt;- function(smooth_dat, n_val, y) {
+  smooth_dat &lt;- filter(smooth_dat, n == n_val &amp; term == &quot;x1&quot;)
+  fm &lt;- paste0(y,&quot; ~ cors&quot;)
+  smooth_vals &lt;- predict(loess(fm, smooth_dat), smooth_dat$cors) 
+  
+  smooth_dat %&gt;% 
+  mutate(smooth = smooth_vals) %&gt;% 
+  group_by(n) %&gt;% 
+  summarise(max_smooth = max(smooth),
+            min_smooth = min(smooth)
+            )
+}
+
+smooth_dat &lt;- c(50, 100, 150, 200, 10000) %&gt;% 
+  map_df(~get_smooths(sim_data, n_val = .x, y = &quot;std.error&quot;)) %&gt;% 
+  mutate(n_lab = ifelse(n == 50, &quot;Sample Size: 50&quot;, n))
+
+sim_data %&gt;% 
+  filter(term == &quot;x1&quot;) %&gt;% 
+  ggplot(aes(cors, std.error, colour = n, group = n)) + 
+  geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~Standard~Error)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on Standard Error&quot;) +
+  geom_point(data = smooth_dat, aes(x = .99, y = max_smooth)) +
+  geom_text_repel(data = smooth_dat, aes(x = .99, y = max_smooth, label = n_lab), 
+                  nudge_y = 0.07, nudge_x = 0.03) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/std_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/std_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h3 id="t-statistic">T-Statistic</h3>
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term == &quot;x1&quot;) %&gt;% 
+     ggplot(aes(cors, statistic, colour = n, group = n)) + 
+     geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~t-Statistic)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 1.96, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 2.3, label = &quot;t = 1.96&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on t-Statistic&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/t_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/t_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h4 id="p-values">P-Values</h4>
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term==&quot;x1&quot;) %&gt;% 
+     ggplot(aes(cors, p.value, colour = n, group = n)) + 
+     geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~p-value)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 0.05, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 0.08, label = &quot;p = 0.05&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on p-values&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/p_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/p_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h4 id="b-coefficients">B-Coefficients</h4>
+
+<pre><code class="language-r">sim_data  %&gt;%
+    filter(term==&quot;x1&quot;) %&gt;%
+    filter(n&gt;200) %&gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &quot;dashed&quot;, alpha = 0.9) +
+    geom_line(alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 0.08, label = &quot;b = 0.5&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on b-coefficients&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/b_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h5 id="standardized">Standardized</h5>
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term==&quot;x1&quot;) %&gt;% 
+     filter(n&gt;200) %&gt;%
+     ggplot(aes(cors, std.estimate, colour = n, group = n)) + 
+    geom_line(alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on standardized b-coefficients&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_standardized_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/b_standardized_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.5.0 (2018-04-23)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=German_Germany.1252  LC_CTYPE=German_Germany.1252   
+## [3] LC_MONETARY=German_Germany.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=German_Germany.1252    
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] bindrcpp_0.2.2     ggrepel_0.8.0      lm.beta_1.5-1     
+##  [4] gridExtra_2.3      viridis_0.5.1      viridisLite_0.3.0 
+##  [7] ecodist_2.0.1      forcats_0.3.0      stringr_1.3.0     
+## [10] dplyr_0.7.5        readr_1.1.1        tidyr_0.8.1       
+## [13] tibble_1.4.2       ggplot2_3.0.0.9000 tidyverse_1.2.1   
+## [16] ggthemes_4.0.0     broom_0.4.4        purrr_0.2.4       
+## [19] arm_1.10-1         lme4_1.1-17        Matrix_1.2-14     
+## [22] MASS_7.3-49       
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.18     lubridate_1.7.4  lattice_0.20-35  assertthat_0.2.0
+##  [5] rprojroot_1.3-2  digest_0.6.15    psych_1.8.3.3    R6_2.2.2        
+##  [9] cellranger_1.1.0 plyr_1.8.4       backports_1.1.2  evaluate_0.10.1 
+## [13] coda_0.19-1      httr_1.3.1       pillar_1.2.1     rlang_0.2.1     
+## [17] lazyeval_0.2.1   readxl_1.1.0     minqa_1.2.4      rstudioapi_0.7  
+## [21] nloptr_1.0.4     rmarkdown_1.9    labeling_0.3     splines_3.5.0   
+## [25] foreign_0.8-70   munsell_0.4.3    compiler_3.5.0   modelr_0.1.1    
+## [29] pkgconfig_2.0.1  mnormt_1.5-5     htmltools_0.3.6  tidyselect_0.2.4
+## [33] crayon_1.3.4     withr_2.1.2      nlme_3.1-137     jsonlite_1.5    
+## [37] gtable_0.2.0     pacman_0.4.6     magrittr_1.5     scales_0.5.0    
+## [41] cli_1.0.0        stringi_1.1.7    reshape2_1.4.3   xml2_1.2.0      
+## [45] tools_3.5.0      glue_1.3.0       hms_0.4.2        abind_1.4-5     
+## [49] parallel_3.5.0   yaml_2.1.19      colorspace_1.4-0 rvest_0.3.2     
+## [53] knitr_1.20       bindr_0.1.1      haven_1.1.2
+</code></pre>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/simulation">simulation</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/dataviz">dataviz</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/post/ecprconf18/">Analyzing Tweets of the ECPR General Conference 2018</a></li>
+    
+    <li><a href="/post/tidylocations/">Mapping your 2017 Geolocations: The Tidy Way</a></li>
+    
+    <li><a href="/post/terror_map/">Mapping Terror Attacks with Highcharter</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-favstats-netlify-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 Fabio Votta &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//https-favstats-netlify-com.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/clojure.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

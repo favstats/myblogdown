@@ -14,6 +14,15 @@
     
     <url>
     
+      <loc>/post/multicol_sim/</loc>
+      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/project/deliberation/</loc>
       <lastmod>2018-06-30T00:00:00+00:00</lastmod>
     </url>
@@ -301,6 +310,16 @@
     
       <loc>/tags/r-group/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/simulation/</loc>
+      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
