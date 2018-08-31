@@ -252,6 +252,9 @@ sim_data  %>%
 ggsave(filename = "images/b_standardized_static.png", width = 10, height = 7)
 ```
 
+
+
+
 ``` r
 sessionInfo()
 ```
