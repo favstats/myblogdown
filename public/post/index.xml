@@ -786,6 +786,182 @@ sim_data %&amp;gt;%
     </item>
     
     <item>
+      <title>Visualizing Temperature Rise in Stuttgart, Germany over Time</title>
+      <link>/post/temperature_viz/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/temperature_viz/</guid>
+      <description>
+
+&lt;p&gt;This is a quick use-case of gganimate to visualize the rise of average temperature in my home town, Stuttgart, Germany.&lt;/p&gt;
+
+&lt;h2 id=&#34;get-packages&#34;&gt;Get Packages&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, rvest, gganimate)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;get-and-save-data&#34;&gt;Get and Save Data&lt;/h2&gt;
+
+&lt;p&gt;You can get the data from here: &lt;a href=&#34;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&#34; target=&#34;_blank&#34;&gt;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The German Weather Service (DWD) provides climate data for more than 70 observation stations from the measurement network in Germany. The stations provide scheduled, daily and monthly readings of temperatures, rainfall, sunshine duration, wind speed, humidity, barometric pressure and cloud cover, which are updated daily.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In this use-case, we are only interested in the temperature in &lt;em&gt;Stuttgart&lt;/em&gt;. The available data for the observation station in Stuttgart ranges from 1953 until today.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;url &amp;lt;- &amp;quot;http://icdc.cen.uni-hamburg.de/las/ProductServer.do?xml=%3C%3Fxml+version%3D%221.0%22%3F%3E%3ClasRequest+href%3D%22file%3Alas.xml%22%3E%3Clink+match%3D%22%2Flasdata%2Foperations%2Foperation%5B%40ID%3D%27DBExtractRowset%27%5D%22%3E%3C%2Flink%3E%3Cproperties%3E%3Cferret%3E%3Ccomponents%3E+grw_m+antdyn_m+greendyn_m+antsmb_m+ocn_m+greensmb_m+glac_m+gia_m%3C%2Fcomponents%3E%3Cview%3Exy%3C%2Fview%3E%3C%2Fferret%3E%3C%2Fproperties%3E%3Cargs%3E%3Cconstraint+id%3D%22undefined%22+type%3D%22text%22%3E%3Cv%3EStations_Kennziffer%3C%2Fv%3E%3Cv%3E%253D%3C%2Fv%3E%3Cv%3E10738%3C%2Fv%3E%3C%2Fconstraint%3E%3Clink+match%3D%22%2Flasdata%2Fdatasets%2Fdwd_data%2Fvariables%2Favg_temp_day%22%3E%3C%2Flink%3E%3Cregion%3E%3Crange+type%3D%22t%22+low%3D%2201-Jan-1876%22+high%3D%2227-Aug-2018%22%3E%3C%2Frange%3E%3Crange+type%3D%22x%22+low%3D%220%22+high%3D%2224%22%3E%3C%2Frange%3E%3Crange+type%3D%22y%22+low%3D%2240%22+high%3D%2259%22%3E%3C%2Frange%3E%3C%2Fregion%3E%3C%2Fargs%3E%3C%2FlasRequest%3E&amp;quot;
+
+temp_stgt &amp;lt;- read_html(url) %&amp;gt;% 
+  rvest::html_node(&amp;quot;table&amp;quot;) %&amp;gt;% html_table()
+
+if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
+
+temp_stgt &amp;lt;- temp_stgt %&amp;gt;% 
+  janitor::clean_names() %&amp;gt;% 
+  rename(avg_temp_day = luftemperatur_avg) %&amp;gt;% 
+  mutate(t = lubridate::ymd(t)) %&amp;gt;% 
+  mutate(month = lubridate::month(t)) %&amp;gt;% 
+  mutate(day = lubridate::yday(t)) %&amp;gt;% 
+  arrange(t) %&amp;gt;% 
+  mutate(year = lubridate::year(t)) %&amp;gt;% 
+  mutate(time = year) %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  mutate(avg_temp_year_year = mean(avg_temp_day)) %&amp;gt;% 
+  ungroup()
+
+save(temp_stgt, file = &amp;quot;data/temp_stgt.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;plot-temperature-static&#34;&gt;Plot Temperature (Static)&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/temp_stgt.Rdata&amp;quot;)
+
+months &amp;lt;- c(&amp;quot;Jan&amp;quot;, &amp;quot;Feb&amp;quot;, &amp;quot;Mar&amp;quot;, &amp;quot;Apr&amp;quot;, &amp;quot;May&amp;quot;, &amp;quot;Jun&amp;quot;, &amp;quot;Jul&amp;quot;, &amp;quot;Aug&amp;quot;, &amp;quot;Sep&amp;quot;, &amp;quot;Oct&amp;quot;, &amp;quot;Nov&amp;quot;, &amp;quot;Dec&amp;quot;)
+
+temp_stgt %&amp;gt;% 
+  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
+  ggplot(aes(day, avg_temp_day, color = year, group = year)) +
+  geom_point(size = .01, alpha = .1) +
+  geom_line(size = .01, alpha = .1) +
+  geom_smooth(se = F, size = .01, alpha = .2) +
+  viridis::scale_color_viridis(&amp;quot;Year&amp;quot;, direction = -1, discrete = F,
+                               breaks = c(1953, 1985, 2018),
+                               labels = c(1953, 1985, 2018)) +
+  ggthemes::theme_hc() +
+  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;if(!dir.exists(&amp;quot;images&amp;quot;)) dir.create(&amp;quot;images&amp;quot;)
+
+ggsave(filename = &amp;quot;images/avg_temp_year.png&amp;quot;, height = 6, width = 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;animations&#34;&gt;Animations&lt;/h2&gt;
+
+&lt;h3 id=&#34;average-temperature-over-time-by-day&#34;&gt;Average Temperature over Time by Day&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_all &amp;lt;- temp_stgt %&amp;gt;% 
+  select(-year)
+
+p1 &amp;lt;- temp_stgt %&amp;gt;% 
+  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
+  ggplot(aes(day, avg_temp_day, color = avg_temp_year, group = year)) +
+  geom_smooth(data = temp_stgt_all, aes(day, avg_temp_day, group = time), 
+              color = &amp;quot;grey&amp;quot;, se = F, size = .1, alpha = .1) +
+  geom_point(size = .5, alpha = .7) +
+  geom_line(size = .5, alpha = .7) +  
+  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F) +
+  geom_smooth(se = F, size = 1, alpha = .7) +
+
+  ggthemes::theme_hc()  +
+  geom_text(aes(x = 340, y = 28, label = paste0(&amp;quot;Year = &amp;quot;, year)), size = 3, 
+            hjust = 1, color = &amp;quot;black&amp;quot;) +
+  geom_text(aes(x = 340, y = 26, 
+                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
+                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
+                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 1) +
+  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
+  # Here comes the gganimate code
+  transition_time(
+    year
+  ) +
+  enter_fade() + 
+  exit_fade() +
+  ease_aes(&#39;linear&#39;)
+
+magick::image_write(
+  image = animate(p1,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
+  path = &amp;quot;images/daily_temp.gif&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;average-temperature-over-time-by-year&#34;&gt;Average Temperature over Time by Year&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_allyear &amp;lt;- temp_stgt %&amp;gt;% 
+  filter(year != 2018) %&amp;gt;%
+  group_by(year) %&amp;gt;% 
+  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
+  mutate(time = year) %&amp;gt;% 
+  select(-year)
+
+p2 &amp;lt;- temp_stgt %&amp;gt;% 
+  filter(year != 2018) %&amp;gt;%
+  group_by(year) %&amp;gt;% 
+  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
+  ggplot(aes(year, avg_temp_year)) +
+  geom_smooth(data = temp_stgt_allyear, aes(time, avg_temp_year), 
+              color = &amp;quot;red&amp;quot;, se = F, size = .8) +
+  geom_line(data = temp_stgt_allyear, aes(time, avg_temp_year), 
+              color = &amp;quot;black&amp;quot;, size = .8, alpha = .6) +
+  geom_point(data = temp_stgt_allyear, aes(time, avg_temp_year, color = avg_temp_year), size = 2.5) +
+  geom_point(aes(color = avg_temp_year), size = 5) +
+  ggthemes::theme_hc()  +
+  geom_text(aes(x = 1953.5, y = 10.8, 
+                label = paste0(&amp;quot;Year = &amp;quot;, year)), 
+                size = 3, color = &amp;quot;black&amp;quot;,
+                hjust = 0) +
+  geom_text(aes(x = 1953.5, y = 10.7, 
+                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
+                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
+                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 0) +
+  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F)  +
+  labs(title = &amp;quot;Average Yearly Temperature in Stuttgart (1953 - 2017)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Yearly Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
+  # Here comes the gganimate code
+  transition_time(
+    year
+  ) +
+  enter_fade() + 
+  exit_fade() +
+  ease_aes(&#39;linear&#39;) +
+  ease_aes(&#39;linear&#39;)
+
+magick::image_write(
+  image = animate(p2,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
+  path = &amp;quot;images/yearly_temp.gif&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Mapping Terror Attacks with Highcharter</title>
       <link>/post/terror_map/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
