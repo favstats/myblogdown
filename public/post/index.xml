@@ -958,6 +958,59 @@ magick::image_write(
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;  ## R version 3.5.0 (2018-04-23)
+  ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+  ## Running under: Windows &amp;gt;= 8 x64 (build 9200)
+  ## 
+  ## Matrix products: default
+  ## 
+  ## locale:
+  ## [1] LC_COLLATE=German_Germany.1252 
+  ## [2] LC_CTYPE=German_Germany.1252   
+  ## [3] LC_MONETARY=German_Germany.1252
+  ## [4] LC_NUMERIC=C                   
+  ## [5] LC_TIME=German_Germany.1252    
+  ## 
+  ## attached base packages:
+  ## [1] stats     graphics  grDevices utils     datasets  methods  
+  ## [7] base     
+  ## 
+  ## other attached packages:
+  ##  [1] gganimate_0.9.9.9999 rvest_0.3.2         
+  ##  [3] xml2_1.2.0           forcats_0.3.0       
+  ##  [5] stringr_1.3.0        dplyr_0.7.5         
+  ##  [7] purrr_0.2.4          readr_1.1.1         
+  ##  [9] tidyr_0.8.1          tibble_1.4.2        
+  ## [11] ggplot2_3.0.0.9000   tidyverse_1.2.1     
+  ## 
+  ## loaded via a namespace (and not attached):
+  ##  [1] Rcpp_0.12.18      lubridate_1.7.4   lattice_0.20-35  
+  ##  [4] prettyunits_1.0.2 png_0.1-7         class_7.3-14     
+  ##  [7] digest_0.6.15     assertthat_0.2.0  psych_1.8.3.3    
+  ## [10] R6_2.2.2          cellranger_1.1.0  plyr_1.8.4       
+  ## [13] e1071_1.6-8       httr_1.3.1        pillar_1.2.1     
+  ## [16] rlang_0.2.1       progress_1.2.0    lazyeval_0.2.1   
+  ## [19] readxl_1.1.0      rstudioapi_0.7    gifski_0.8.3     
+  ## [22] magick_1.9        labeling_0.3      foreign_0.8-70   
+  ## [25] munsell_0.4.3     broom_0.4.4       compiler_3.5.0   
+  ## [28] modelr_0.1.1      pkgconfig_2.0.1   mnormt_1.5-5     
+  ## [31] tidyselect_0.2.4  gridExtra_2.3     lpSolve_5.6.13   
+  ## [34] viridisLite_0.3.0 crayon_1.3.4      withr_2.1.2      
+  ## [37] sf_0.6-3          grid_3.5.0        nlme_3.1-137     
+  ## [40] spData_0.2.8.3    jsonlite_1.5      gtable_0.2.0     
+  ## [43] DBI_1.0.0         pacman_0.4.6      magrittr_1.5     
+  ## [46] units_0.6-0       scales_0.5.0      cli_1.0.0        
+  ## [49] stringi_1.1.7     farver_1.0        reshape2_1.4.3   
+  ## [52] ggthemes_4.0.0    viridis_0.5.1     bindrcpp_0.2.2   
+  ## [55] transformr_0.1.0  tools_3.5.0       glue_1.3.0       
+  ## [58] tweenr_0.1.5.9999 hms_0.4.2         parallel_3.5.0   
+  ## [61] colorspace_1.4-0  classInt_0.2-3    knitr_1.20       
+  ## [64] bindr_0.1.1       haven_1.1.2       patchwork_0.0.1       
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
