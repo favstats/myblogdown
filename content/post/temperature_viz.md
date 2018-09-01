@@ -1,6 +1,6 @@
 +++
-date = 2018-08-25
-lastmod = 2018-08-25
+date = 2018-09-01
+lastmod = 2018-09-01
 draft = false
 tags = ["dataviz"]
 title = "Visualizing Temperature Rise in Stuttgart, Germany over Time"

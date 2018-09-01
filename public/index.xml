@@ -11,6 +11,509 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Visualizing Temperature Rise in Stuttgart, Germany over Time</title>
+      <link>/post/temperature_viz/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/temperature_viz/</guid>
+      <description>
+
+&lt;p&gt;This is a quick use-case of gganimate to visualize the rise of average temperature in my home town, Stuttgart, Germany.&lt;/p&gt;
+
+&lt;h2 id=&#34;get-packages&#34;&gt;Get Packages&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, rvest, gganimate)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;get-and-save-data&#34;&gt;Get and Save Data&lt;/h2&gt;
+
+&lt;p&gt;You can get the data from here: &lt;a href=&#34;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&#34; target=&#34;_blank&#34;&gt;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The German Weather Service (DWD) provides climate data for more than 70 observation stations from the measurement network in Germany. The stations provide scheduled, daily and monthly readings of temperatures, rainfall, sunshine duration, wind speed, humidity, barometric pressure and cloud cover, which are updated daily.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In this use-case, we are only interested in the temperature in &lt;em&gt;Stuttgart&lt;/em&gt;. The available data for the observation station in Stuttgart ranges from 1953 until today.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;url &amp;lt;- &amp;quot;http://icdc.cen.uni-hamburg.de/las/ProductServer.do?xml=%3C%3Fxml+version%3D%221.0%22%3F%3E%3ClasRequest+href%3D%22file%3Alas.xml%22%3E%3Clink+match%3D%22%2Flasdata%2Foperations%2Foperation%5B%40ID%3D%27DBExtractRowset%27%5D%22%3E%3C%2Flink%3E%3Cproperties%3E%3Cferret%3E%3Ccomponents%3E+grw_m+antdyn_m+greendyn_m+antsmb_m+ocn_m+greensmb_m+glac_m+gia_m%3C%2Fcomponents%3E%3Cview%3Exy%3C%2Fview%3E%3C%2Fferret%3E%3C%2Fproperties%3E%3Cargs%3E%3Cconstraint+id%3D%22undefined%22+type%3D%22text%22%3E%3Cv%3EStations_Kennziffer%3C%2Fv%3E%3Cv%3E%253D%3C%2Fv%3E%3Cv%3E10738%3C%2Fv%3E%3C%2Fconstraint%3E%3Clink+match%3D%22%2Flasdata%2Fdatasets%2Fdwd_data%2Fvariables%2Favg_temp_day%22%3E%3C%2Flink%3E%3Cregion%3E%3Crange+type%3D%22t%22+low%3D%2201-Jan-1876%22+high%3D%2227-Aug-2018%22%3E%3C%2Frange%3E%3Crange+type%3D%22x%22+low%3D%220%22+high%3D%2224%22%3E%3C%2Frange%3E%3Crange+type%3D%22y%22+low%3D%2240%22+high%3D%2259%22%3E%3C%2Frange%3E%3C%2Fregion%3E%3C%2Fargs%3E%3C%2FlasRequest%3E&amp;quot;
+
+temp_stgt &amp;lt;- read_html(url) %&amp;gt;% 
+  rvest::html_node(&amp;quot;table&amp;quot;) %&amp;gt;% html_table()
+
+if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
+
+temp_stgt &amp;lt;- temp_stgt %&amp;gt;% 
+  janitor::clean_names() %&amp;gt;% 
+  rename(avg_temp_day = luftemperatur_avg) %&amp;gt;% 
+  mutate(t = lubridate::ymd(t)) %&amp;gt;% 
+  mutate(month = lubridate::month(t)) %&amp;gt;% 
+  mutate(day = lubridate::yday(t)) %&amp;gt;% 
+  arrange(t) %&amp;gt;% 
+  mutate(year = lubridate::year(t)) %&amp;gt;% 
+  mutate(time = year) %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  mutate(avg_temp_year_year = mean(avg_temp_day)) %&amp;gt;% 
+  ungroup()
+
+save(temp_stgt, file = &amp;quot;data/temp_stgt.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;plot-temperature-static&#34;&gt;Plot Temperature (Static)&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/temp_stgt.Rdata&amp;quot;)
+
+months &amp;lt;- c(&amp;quot;Jan&amp;quot;, &amp;quot;Feb&amp;quot;, &amp;quot;Mar&amp;quot;, &amp;quot;Apr&amp;quot;, &amp;quot;May&amp;quot;, &amp;quot;Jun&amp;quot;, &amp;quot;Jul&amp;quot;, &amp;quot;Aug&amp;quot;, &amp;quot;Sep&amp;quot;, &amp;quot;Oct&amp;quot;, &amp;quot;Nov&amp;quot;, &amp;quot;Dec&amp;quot;)
+
+temp_stgt %&amp;gt;% 
+  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
+  ggplot(aes(day, avg_temp_day, color = year, group = year)) +
+  geom_point(size = .01, alpha = .1) +
+  geom_line(size = .01, alpha = .1) +
+  geom_smooth(se = F, size = .01, alpha = .2) +
+  viridis::scale_color_viridis(&amp;quot;Year&amp;quot;, direction = -1, discrete = F,
+                               breaks = c(1953, 1985, 2018),
+                               labels = c(1953, 1985, 2018)) +
+  ggthemes::theme_hc() +
+  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;if(!dir.exists(&amp;quot;images&amp;quot;)) dir.create(&amp;quot;images&amp;quot;)
+
+ggsave(filename = &amp;quot;images/avg_temp_year.png&amp;quot;, height = 6, width = 10)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;animations&#34;&gt;Animations&lt;/h2&gt;
+
+&lt;h3 id=&#34;average-temperature-over-time-by-day&#34;&gt;Average Temperature over Time by Day&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_all &amp;lt;- temp_stgt %&amp;gt;% 
+  select(-year)
+
+p1 &amp;lt;- temp_stgt %&amp;gt;% 
+  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
+  ggplot(aes(day, avg_temp_day, color = avg_temp_year, group = year)) +
+  geom_smooth(data = temp_stgt_all, aes(day, avg_temp_day, group = time), 
+              color = &amp;quot;grey&amp;quot;, se = F, size = .1, alpha = .1) +
+  geom_point(size = .5, alpha = .7) +
+  geom_line(size = .5, alpha = .7) +  
+  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F) +
+  geom_smooth(se = F, size = 1, alpha = .7) +
+
+  ggthemes::theme_hc()  +
+  geom_text(aes(x = 340, y = 28, label = paste0(&amp;quot;Year = &amp;quot;, year)), size = 3, 
+            hjust = 1, color = &amp;quot;black&amp;quot;) +
+  geom_text(aes(x = 340, y = 26, 
+                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
+                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
+                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 1) +
+  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
+  # Here comes the gganimate code
+  transition_time(
+    year
+  ) +
+  enter_fade() + 
+  exit_fade() +
+  ease_aes(&#39;linear&#39;)
+
+magick::image_write(
+  image = animate(p1,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
+  path = &amp;quot;images/daily_temp.gif&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;average-temperature-over-time-by-year&#34;&gt;Average Temperature over Time by Year&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_allyear &amp;lt;- temp_stgt %&amp;gt;% 
+  filter(year != 2018) %&amp;gt;%
+  group_by(year) %&amp;gt;% 
+  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
+  mutate(time = year) %&amp;gt;% 
+  select(-year)
+
+p2 &amp;lt;- temp_stgt %&amp;gt;% 
+  filter(year != 2018) %&amp;gt;%
+  group_by(year) %&amp;gt;% 
+  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
+  ggplot(aes(year, avg_temp_year)) +
+  geom_smooth(data = temp_stgt_allyear, aes(time, avg_temp_year), 
+              color = &amp;quot;red&amp;quot;, se = F, size = .8) +
+  geom_line(data = temp_stgt_allyear, aes(time, avg_temp_year), 
+              color = &amp;quot;black&amp;quot;, size = .8, alpha = .6) +
+  geom_point(data = temp_stgt_allyear, aes(time, avg_temp_year, color = avg_temp_year), size = 2.5) +
+  geom_point(aes(color = avg_temp_year), size = 5) +
+  ggthemes::theme_hc()  +
+  geom_text(aes(x = 1953.5, y = 10.8, 
+                label = paste0(&amp;quot;Year = &amp;quot;, year)), 
+                size = 3, color = &amp;quot;black&amp;quot;,
+                hjust = 0) +
+  geom_text(aes(x = 1953.5, y = 10.7, 
+                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
+                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
+                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 0) +
+  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F)  +
+  labs(title = &amp;quot;Average Yearly Temperature in Stuttgart (1953 - 2017)&amp;quot;, 
+       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
+       y = &amp;quot;Average Yearly Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
+  # Here comes the gganimate code
+  transition_time(
+    year
+  ) +
+  enter_fade() + 
+  exit_fade() +
+  ease_aes(&#39;linear&#39;) +
+  ease_aes(&#39;linear&#39;)
+
+magick::image_write(
+  image = animate(p2,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
+  path = &amp;quot;images/yearly_temp.gif&amp;quot;
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;  ## R version 3.5.0 (2018-04-23)
+  ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+  ## Running under: Windows &amp;gt;= 8 x64 (build 9200)
+  ## 
+  ## Matrix products: default
+  ## 
+  ## locale:
+  ## [1] LC_COLLATE=German_Germany.1252 
+  ## [2] LC_CTYPE=German_Germany.1252   
+  ## [3] LC_MONETARY=German_Germany.1252
+  ## [4] LC_NUMERIC=C                   
+  ## [5] LC_TIME=German_Germany.1252    
+  ## 
+  ## attached base packages:
+  ## [1] stats     graphics  grDevices utils     datasets  methods  
+  ## [7] base     
+  ## 
+  ## other attached packages:
+  ##  [1] gganimate_0.9.9.9999 rvest_0.3.2         
+  ##  [3] xml2_1.2.0           forcats_0.3.0       
+  ##  [5] stringr_1.3.0        dplyr_0.7.5         
+  ##  [7] purrr_0.2.4          readr_1.1.1         
+  ##  [9] tidyr_0.8.1          tibble_1.4.2        
+  ## [11] ggplot2_3.0.0.9000   tidyverse_1.2.1     
+  ## 
+  ## loaded via a namespace (and not attached):
+  ##  [1] Rcpp_0.12.18      lubridate_1.7.4   lattice_0.20-35  
+  ##  [4] prettyunits_1.0.2 png_0.1-7         class_7.3-14     
+  ##  [7] digest_0.6.15     assertthat_0.2.0  psych_1.8.3.3    
+  ## [10] R6_2.2.2          cellranger_1.1.0  plyr_1.8.4       
+  ## [13] e1071_1.6-8       httr_1.3.1        pillar_1.2.1     
+  ## [16] rlang_0.2.1       progress_1.2.0    lazyeval_0.2.1   
+  ## [19] readxl_1.1.0      rstudioapi_0.7    gifski_0.8.3     
+  ## [22] magick_1.9        labeling_0.3      foreign_0.8-70   
+  ## [25] munsell_0.4.3     broom_0.4.4       compiler_3.5.0   
+  ## [28] modelr_0.1.1      pkgconfig_2.0.1   mnormt_1.5-5     
+  ## [31] tidyselect_0.2.4  gridExtra_2.3     lpSolve_5.6.13   
+  ## [34] viridisLite_0.3.0 crayon_1.3.4      withr_2.1.2      
+  ## [37] sf_0.6-3          grid_3.5.0        nlme_3.1-137     
+  ## [40] spData_0.2.8.3    jsonlite_1.5      gtable_0.2.0     
+  ## [43] DBI_1.0.0         pacman_0.4.6      magrittr_1.5     
+  ## [46] units_0.6-0       scales_0.5.0      cli_1.0.0        
+  ## [49] stringi_1.1.7     farver_1.0        reshape2_1.4.3   
+  ## [52] ggthemes_4.0.0    viridis_0.5.1     bindrcpp_0.2.2   
+  ## [55] transformr_0.1.0  tools_3.5.0       glue_1.3.0       
+  ## [58] tweenr_0.1.5.9999 hms_0.4.2         parallel_3.5.0   
+  ## [61] colorspace_1.4-0  classInt_0.2-3    knitr_1.20       
+  ## [64] bindr_0.1.1       haven_1.1.2       patchwork_0.0.1       
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How does Collinearity Influence Linear Regressions?</title>
+      <link>/post/multicol_sim/</link>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/multicol_sim/</guid>
+      <description>
+
+&lt;p&gt;This is a short simulation study trying to figure out the impact of collinearity on linear regressions.&lt;/p&gt;
+
+&lt;h2 id=&#34;packages&#34;&gt;Packages&lt;/h2&gt;
+
+&lt;p&gt;Load the necessary packages&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# install pacman once if not avaible on your machine
+# install.packages(&amp;quot;pacman&amp;quot;)
+
+pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;simulation-function&#34;&gt;Simulation Function&lt;/h2&gt;
+
+&lt;p&gt;First, I write a little function to simulate collinearity.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;generate_multi &amp;lt;- function(n, cor_seq){
+  set.seed(2017)
+  x &amp;lt;- runif(n, 1, 10)
+  models &amp;lt;- list()
+  std.models &amp;lt;- list()
+  for (jj in seq_along(cor_seq)) {
+    ## generate correlated variable x2
+    dat &amp;lt;- data.frame(corgen(x = x, r = cor_seq[jj],  epsilon = 0))
+    colnames(dat) &amp;lt;- c(&amp;quot;x1&amp;quot;, &amp;quot;x2&amp;quot;)
+    ## generate y variable
+    dat$y &amp;lt;- 0.5 * dat$x1 + 0.5 * dat$x2 + rnorm(n, sd = 10)
+    ## modelling and tidy dataframe
+    models[[jj]] &amp;lt;- tidy(lm(y ~ x1 + x2, data = dat))
+    ## get standardized betas
+    std.models[[jj]] &amp;lt;- data.frame(lm.beta::coef.lm.beta((lm.beta::lm.beta(lm(y ~ x1 + x2, data = dat)))))
+    colnames(std.models[[jj]]) &amp;lt;- c(&amp;quot;std.estimate&amp;quot;)  
+    ## bind it together
+    models[[jj]] &amp;lt;- std.models[[jj]] %&amp;gt;% 
+                      bind_cols(models[[jj]]) 
+    models[[jj]]$cors &amp;lt;- cor_seq[jj]
+  }
+  sim_dat &amp;lt;- bind_rows(models)
+  sim_dat$col &amp;lt;- n
+  return(sim_dat)
+}
+
+draw.data &amp;lt;- function(cor_seq = NULL, step_seq = NULL){
+    sim.list &amp;lt;- list()
+    for(jj in seq_along(step_seq)) {
+      sim.list[[jj]] &amp;lt;- generate_multi(n = step_seq[jj], cor_seq)
+      sim.list[[jj]]$n &amp;lt;- step_seq[jj]
+      
+      cat(paste0(&amp;quot;Batch: &amp;quot;, jj, &amp;quot;\t&amp;quot;))
+      
+    } 
+    sim_data &amp;lt;- bind_rows(sim.list)
+    return(sim_data)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;simulate-data&#34;&gt;Simulate Data&lt;/h2&gt;
+
+&lt;p&gt;Draw data from function and save it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data &amp;lt;- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
+
+if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
+
+save(sim_data, file = &amp;quot;data/sim_data.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;visualizing-the-influence-of-collinearity&#34;&gt;Visualizing the Influence of Collinearity&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/sim_data.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now, consider the following linear regression: y ~ x1 + x2.&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,&lt;/p&gt;
+
+&lt;h3 id=&#34;standard-errors&#34;&gt;Standard Errors&lt;/h3&gt;
+
+&lt;p&gt;First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;get_smooths &amp;lt;- function(smooth_dat, n_val, y) {
+  smooth_dat &amp;lt;- filter(smooth_dat, n == n_val &amp;amp; term == &amp;quot;x1&amp;quot;)
+  fm &amp;lt;- paste0(y,&amp;quot; ~ cors&amp;quot;)
+  smooth_vals &amp;lt;- predict(loess(fm, smooth_dat), smooth_dat$cors) 
+  
+  smooth_dat %&amp;gt;% 
+  mutate(smooth = smooth_vals) %&amp;gt;% 
+  group_by(n) %&amp;gt;% 
+  summarise(max_smooth = max(smooth),
+            min_smooth = min(smooth)
+            )
+}
+
+smooth_dat &amp;lt;- c(50, 100, 150, 200, 10000) %&amp;gt;% 
+  map_df(~get_smooths(sim_data, n_val = .x, y = &amp;quot;std.error&amp;quot;)) %&amp;gt;% 
+  mutate(n_lab = ifelse(n == 50, &amp;quot;Sample Size: 50&amp;quot;, n))
+
+sim_data %&amp;gt;% 
+  filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;% 
+  ggplot(aes(cors, std.error, colour = n, group = n)) + 
+  geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~Standard~Error)) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on Standard Error&amp;quot;) +
+  geom_point(data = smooth_dat, aes(x = .99, y = max_smooth)) +
+  geom_text_repel(data = smooth_dat, aes(x = .99, y = max_smooth, label = n_lab), 
+                  nudge_y = 0.07, nudge_x = 0.03) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/std_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/std_static.png&amp;quot;, width = 10, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;t-statistic-and-p-values&#34;&gt;T-Statistic and P-Values&lt;/h3&gt;
+
+&lt;p&gt;Next, let&amp;rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
+     filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;% 
+     ggplot(aes(cors, statistic, colour = n, group = n)) + 
+     geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~t-Statistic)) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 1.96, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
+  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 2.3, label = &amp;quot;t = 1.96&amp;quot;) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on t-Statistic&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/t_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/t_static.png&amp;quot;, width = 10, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
+     filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 
+     ggplot(aes(cors, p.value, colour = n, group = n)) + 
+     geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~p-value)) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 0.05, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
+  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 0.08, label = &amp;quot;p = 0.05&amp;quot;) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on p-values&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/p_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/p_static.png&amp;quot;, width = 10, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;b-coefficients&#34;&gt;B-Coefficients&lt;/h4&gt;
+
+&lt;p&gt;This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;%
+    filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;%
+    filter(n&amp;gt;200) %&amp;gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
+    geom_line(alpha = 0.5) +
+  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 0.08, label = &amp;quot;b = 0.5&amp;quot;) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on b-coefficients&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_static.png&amp;quot;, width = 10, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;standardized&#34;&gt;Standardized&lt;/h5&gt;
+
+&lt;p&gt;Same spiel, just this time with standardized coefficients.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
+     filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 
+     filter(n&amp;gt;200) %&amp;gt;%
+     ggplot(aes(cors, std.estimate, colour = n, group = n)) + 
+    geom_line(alpha = 0.5) +
+  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on standardized b-coefficients&amp;quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_standardized_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_standardized_static.png&amp;quot;, width = 10, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## R version 3.5.0 (2018-04-23)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=German_Germany.1252  LC_CTYPE=German_Germany.1252   
+## [3] LC_MONETARY=German_Germany.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=German_Germany.1252    
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+##  [1] bindrcpp_0.2.2     ggrepel_0.8.0      lm.beta_1.5-1     
+##  [4] gridExtra_2.3      viridis_0.5.1      viridisLite_0.3.0 
+##  [7] ecodist_2.0.1      forcats_0.3.0      stringr_1.3.0     
+## [10] dplyr_0.7.5        readr_1.1.1        tidyr_0.8.1       
+## [13] tibble_1.4.2       ggplot2_3.0.0.9000 tidyverse_1.2.1   
+## [16] ggthemes_4.0.0     broom_0.4.4        purrr_0.2.4       
+## [19] arm_1.10-1         lme4_1.1-17        Matrix_1.2-14     
+## [22] MASS_7.3-49       
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.18     lubridate_1.7.4  lattice_0.20-35  assertthat_0.2.0
+##  [5] rprojroot_1.3-2  digest_0.6.15    psych_1.8.3.3    R6_2.2.2        
+##  [9] cellranger_1.1.0 plyr_1.8.4       backports_1.1.2  evaluate_0.10.1 
+## [13] coda_0.19-1      httr_1.3.1       pillar_1.2.1     rlang_0.2.1     
+## [17] lazyeval_0.2.1   readxl_1.1.0     minqa_1.2.4      rstudioapi_0.7  
+## [21] nloptr_1.0.4     rmarkdown_1.9    labeling_0.3     splines_3.5.0   
+## [25] foreign_0.8-70   munsell_0.4.3    compiler_3.5.0   modelr_0.1.1    
+## [29] pkgconfig_2.0.1  mnormt_1.5-5     htmltools_0.3.6  tidyselect_0.2.4
+## [33] crayon_1.3.4     withr_2.1.2      nlme_3.1-137     jsonlite_1.5    
+## [37] gtable_0.2.0     pacman_0.4.6     magrittr_1.5     scales_0.5.0    
+## [41] cli_1.0.0        stringi_1.1.7    reshape2_1.4.3   xml2_1.2.0      
+## [45] tools_3.5.0      glue_1.3.0       hms_0.4.2        abind_1.4-5     
+## [49] parallel_3.5.0   yaml_2.1.19      colorspace_1.4-0 rvest_0.3.2     
+## [53] knitr_1.20       bindr_0.1.1      haven_1.1.2
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Analyzing Tweets of the ECPR General Conference 2018</title>
       <link>/post/ecprconf18/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
@@ -507,509 +1010,6 @@ rt_hashtags %&amp;gt;%
 ## [61] parallel_3.5.0    yaml_2.1.19       colorspace_1.4-0 
 ## [64] rvest_0.3.2       knitr_1.20        bindr_0.1.1      
 ## [67] haven_1.1.2
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>How does Collinearity Influence Linear Regressions?</title>
-      <link>/post/multicol_sim/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/post/multicol_sim/</guid>
-      <description>
-
-&lt;p&gt;This is a short simulation study trying to figure out the impact of collinearity on linear regressions.&lt;/p&gt;
-
-&lt;h2 id=&#34;packages&#34;&gt;Packages&lt;/h2&gt;
-
-&lt;p&gt;Load the necessary packages&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# install pacman once if not avaible on your machine
-# install.packages(&amp;quot;pacman&amp;quot;)
-
-pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;simulation-function&#34;&gt;Simulation Function&lt;/h2&gt;
-
-&lt;p&gt;First, I write a little function to simulate collinearity.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;generate_multi &amp;lt;- function(n, cor_seq){
-  set.seed(2017)
-  x &amp;lt;- runif(n, 1, 10)
-  models &amp;lt;- list()
-  std.models &amp;lt;- list()
-  for (jj in seq_along(cor_seq)) {
-    ## generate correlated variable x2
-    dat &amp;lt;- data.frame(corgen(x = x, r = cor_seq[jj],  epsilon = 0))
-    colnames(dat) &amp;lt;- c(&amp;quot;x1&amp;quot;, &amp;quot;x2&amp;quot;)
-    ## generate y variable
-    dat$y &amp;lt;- 0.5 * dat$x1 + 0.5 * dat$x2 + rnorm(n, sd = 10)
-    ## modelling and tidy dataframe
-    models[[jj]] &amp;lt;- tidy(lm(y ~ x1 + x2, data = dat))
-    ## get standardized betas
-    std.models[[jj]] &amp;lt;- data.frame(lm.beta::coef.lm.beta((lm.beta::lm.beta(lm(y ~ x1 + x2, data = dat)))))
-    colnames(std.models[[jj]]) &amp;lt;- c(&amp;quot;std.estimate&amp;quot;)  
-    ## bind it together
-    models[[jj]] &amp;lt;- std.models[[jj]] %&amp;gt;% 
-                      bind_cols(models[[jj]]) 
-    models[[jj]]$cors &amp;lt;- cor_seq[jj]
-  }
-  sim_dat &amp;lt;- bind_rows(models)
-  sim_dat$col &amp;lt;- n
-  return(sim_dat)
-}
-
-draw.data &amp;lt;- function(cor_seq = NULL, step_seq = NULL){
-    sim.list &amp;lt;- list()
-    for(jj in seq_along(step_seq)) {
-      sim.list[[jj]] &amp;lt;- generate_multi(n = step_seq[jj], cor_seq)
-      sim.list[[jj]]$n &amp;lt;- step_seq[jj]
-      
-      cat(paste0(&amp;quot;Batch: &amp;quot;, jj, &amp;quot;\t&amp;quot;))
-      
-    } 
-    sim_data &amp;lt;- bind_rows(sim.list)
-    return(sim_data)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;simulate-data&#34;&gt;Simulate Data&lt;/h2&gt;
-
-&lt;p&gt;Draw data from function and save it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data &amp;lt;- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
-
-if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
-
-save(sim_data, file = &amp;quot;data/sim_data.Rdata&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;visualizing-the-influence-of-collinearity&#34;&gt;Visualizing the Influence of Collinearity&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/sim_data.Rdata&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now, consider the following linear regression: y ~ x1 + x2.&lt;/p&gt;
-
-&lt;p&gt;\begin{equation}
-Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
-\end{equation}&lt;/p&gt;
-
-&lt;p&gt;For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,&lt;/p&gt;
-
-&lt;h3 id=&#34;standard-errors&#34;&gt;Standard Errors&lt;/h3&gt;
-
-&lt;p&gt;First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;get_smooths &amp;lt;- function(smooth_dat, n_val, y) {
-  smooth_dat &amp;lt;- filter(smooth_dat, n == n_val &amp;amp; term == &amp;quot;x1&amp;quot;)
-  fm &amp;lt;- paste0(y,&amp;quot; ~ cors&amp;quot;)
-  smooth_vals &amp;lt;- predict(loess(fm, smooth_dat), smooth_dat$cors) 
-  
-  smooth_dat %&amp;gt;% 
-  mutate(smooth = smooth_vals) %&amp;gt;% 
-  group_by(n) %&amp;gt;% 
-  summarise(max_smooth = max(smooth),
-            min_smooth = min(smooth)
-            )
-}
-
-smooth_dat &amp;lt;- c(50, 100, 150, 200, 10000) %&amp;gt;% 
-  map_df(~get_smooths(sim_data, n_val = .x, y = &amp;quot;std.error&amp;quot;)) %&amp;gt;% 
-  mutate(n_lab = ifelse(n == 50, &amp;quot;Sample Size: 50&amp;quot;, n))
-
-sim_data %&amp;gt;% 
-  filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;% 
-  ggplot(aes(cors, std.error, colour = n, group = n)) + 
-  geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
-  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
-  ylab(expression(x[1]~Standard~Error)) + 
-  theme_hc() + 
-  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
-       breaks = seq(1000, 10000, 3000),
-       labels = seq(1000, 10000, 3000)) +
-  ggtitle(&amp;quot;Sample Size and Collinearity Influence on Standard Error&amp;quot;) +
-  geom_point(data = smooth_dat, aes(x = .99, y = max_smooth)) +
-  geom_text_repel(data = smooth_dat, aes(x = .99, y = max_smooth, label = n_lab), 
-                  nudge_y = 0.07, nudge_x = 0.03) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/std_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/std_static.png&amp;quot;, width = 10, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;t-statistic-and-p-values&#34;&gt;T-Statistic and P-Values&lt;/h3&gt;
-
-&lt;p&gt;Next, let&amp;rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
-     filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;% 
-     ggplot(aes(cors, statistic, colour = n, group = n)) + 
-     geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
-  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
-  ylab(expression(x[1]~t-Statistic)) + 
-  theme_hc() + 
-  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
-       breaks = seq(1000, 10000, 3000),
-       labels = seq(1000, 10000, 3000)) +
-  geom_hline(yintercept = 1.96, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
-  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 2.3, label = &amp;quot;t = 1.96&amp;quot;) +
-  ggtitle(&amp;quot;Sample Size and Collinearity Influence on t-Statistic&amp;quot;) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/t_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/t_static.png&amp;quot;, width = 10, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
-     filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 
-     ggplot(aes(cors, p.value, colour = n, group = n)) + 
-     geom_smooth(method = &amp;quot;loess&amp;quot;, se = F, size = 1, alpha = 0.5) +
-  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
-  ylab(expression(x[1]~p-value)) + 
-  theme_hc() + 
-  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
-       breaks = seq(1000, 10000, 3000),
-       labels = seq(1000, 10000, 3000)) +
-  geom_hline(yintercept = 0.05, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
-  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 0.08, label = &amp;quot;p = 0.05&amp;quot;) +
-  ggtitle(&amp;quot;Sample Size and Collinearity Influence on p-values&amp;quot;) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/p_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/p_static.png&amp;quot;, width = 10, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;b-coefficients&#34;&gt;B-Coefficients&lt;/h4&gt;
-
-&lt;p&gt;This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;%
-    filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;%
-    filter(n&amp;gt;200) %&amp;gt;%
-    ggplot(aes(cors, estimate, colour = n, group = n)) +
-    geom_hline(yintercept = 0.5, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
-    geom_line(alpha = 0.5) +
-  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
-  ylab(expression(x[1]~b-coefficient)) + 
-  theme_hc() + 
-  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
-       breaks = seq(1000, 10000, 3000),
-       labels = seq(1000, 10000, 3000)) +
-  annotate(geom = &amp;quot;text&amp;quot;, x = 0, y = 0.08, label = &amp;quot;b = 0.5&amp;quot;) +
-  ggtitle(&amp;quot;Sample Size and Collinearity Influence on b-coefficients&amp;quot;) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_static.png&amp;quot;, width = 10, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h5 id=&#34;standardized&#34;&gt;Standardized&lt;/h5&gt;
-
-&lt;p&gt;Same spiel, just this time with standardized coefficients.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sim_data  %&amp;gt;% 
-     filter(term==&amp;quot;x1&amp;quot;) %&amp;gt;% 
-     filter(n&amp;gt;200) %&amp;gt;%
-     ggplot(aes(cors, std.estimate, colour = n, group = n)) + 
-    geom_line(alpha = 0.5) +
-  xlab(expression(&amp;quot;Pearson&#39;s&amp;quot;~r~correlation~between~x[1]~and~x[2])) + 
-  ylab(expression(x[1]~b-coefficient)) + 
-  theme_hc() + 
-  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, direction = -1,
-       breaks = seq(1000, 10000, 3000),
-       labels = seq(1000, 10000, 3000)) +
-  ggtitle(&amp;quot;Sample Size and Collinearity Influence on standardized b-coefficients&amp;quot;) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_standardized_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_standardized_static.png&amp;quot;, width = 10, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## R version 3.5.0 (2018-04-23)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 17134)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=German_Germany.1252  LC_CTYPE=German_Germany.1252   
-## [3] LC_MONETARY=German_Germany.1252 LC_NUMERIC=C                   
-## [5] LC_TIME=German_Germany.1252    
-## 
-## attached base packages:
-## [1] grid      stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
-## 
-## other attached packages:
-##  [1] bindrcpp_0.2.2     ggrepel_0.8.0      lm.beta_1.5-1     
-##  [4] gridExtra_2.3      viridis_0.5.1      viridisLite_0.3.0 
-##  [7] ecodist_2.0.1      forcats_0.3.0      stringr_1.3.0     
-## [10] dplyr_0.7.5        readr_1.1.1        tidyr_0.8.1       
-## [13] tibble_1.4.2       ggplot2_3.0.0.9000 tidyverse_1.2.1   
-## [16] ggthemes_4.0.0     broom_0.4.4        purrr_0.2.4       
-## [19] arm_1.10-1         lme4_1.1-17        Matrix_1.2-14     
-## [22] MASS_7.3-49       
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.18     lubridate_1.7.4  lattice_0.20-35  assertthat_0.2.0
-##  [5] rprojroot_1.3-2  digest_0.6.15    psych_1.8.3.3    R6_2.2.2        
-##  [9] cellranger_1.1.0 plyr_1.8.4       backports_1.1.2  evaluate_0.10.1 
-## [13] coda_0.19-1      httr_1.3.1       pillar_1.2.1     rlang_0.2.1     
-## [17] lazyeval_0.2.1   readxl_1.1.0     minqa_1.2.4      rstudioapi_0.7  
-## [21] nloptr_1.0.4     rmarkdown_1.9    labeling_0.3     splines_3.5.0   
-## [25] foreign_0.8-70   munsell_0.4.3    compiler_3.5.0   modelr_0.1.1    
-## [29] pkgconfig_2.0.1  mnormt_1.5-5     htmltools_0.3.6  tidyselect_0.2.4
-## [33] crayon_1.3.4     withr_2.1.2      nlme_3.1-137     jsonlite_1.5    
-## [37] gtable_0.2.0     pacman_0.4.6     magrittr_1.5     scales_0.5.0    
-## [41] cli_1.0.0        stringi_1.1.7    reshape2_1.4.3   xml2_1.2.0      
-## [45] tools_3.5.0      glue_1.3.0       hms_0.4.2        abind_1.4-5     
-## [49] parallel_3.5.0   yaml_2.1.19      colorspace_1.4-0 rvest_0.3.2     
-## [53] knitr_1.20       bindr_0.1.1      haven_1.1.2
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Visualizing Temperature Rise in Stuttgart, Germany over Time</title>
-      <link>/post/temperature_viz/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/post/temperature_viz/</guid>
-      <description>
-
-&lt;p&gt;This is a quick use-case of gganimate to visualize the rise of average temperature in my home town, Stuttgart, Germany.&lt;/p&gt;
-
-&lt;h2 id=&#34;get-packages&#34;&gt;Get Packages&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, rvest, gganimate)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;get-and-save-data&#34;&gt;Get and Save Data&lt;/h2&gt;
-
-&lt;p&gt;You can get the data from here: &lt;a href=&#34;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&#34; target=&#34;_blank&#34;&gt;https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html&lt;/a&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The German Weather Service (DWD) provides climate data for more than 70 observation stations from the measurement network in Germany. The stations provide scheduled, daily and monthly readings of temperatures, rainfall, sunshine duration, wind speed, humidity, barometric pressure and cloud cover, which are updated daily.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In this use-case, we are only interested in the temperature in &lt;em&gt;Stuttgart&lt;/em&gt;. The available data for the observation station in Stuttgart ranges from 1953 until today.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;url &amp;lt;- &amp;quot;http://icdc.cen.uni-hamburg.de/las/ProductServer.do?xml=%3C%3Fxml+version%3D%221.0%22%3F%3E%3ClasRequest+href%3D%22file%3Alas.xml%22%3E%3Clink+match%3D%22%2Flasdata%2Foperations%2Foperation%5B%40ID%3D%27DBExtractRowset%27%5D%22%3E%3C%2Flink%3E%3Cproperties%3E%3Cferret%3E%3Ccomponents%3E+grw_m+antdyn_m+greendyn_m+antsmb_m+ocn_m+greensmb_m+glac_m+gia_m%3C%2Fcomponents%3E%3Cview%3Exy%3C%2Fview%3E%3C%2Fferret%3E%3C%2Fproperties%3E%3Cargs%3E%3Cconstraint+id%3D%22undefined%22+type%3D%22text%22%3E%3Cv%3EStations_Kennziffer%3C%2Fv%3E%3Cv%3E%253D%3C%2Fv%3E%3Cv%3E10738%3C%2Fv%3E%3C%2Fconstraint%3E%3Clink+match%3D%22%2Flasdata%2Fdatasets%2Fdwd_data%2Fvariables%2Favg_temp_day%22%3E%3C%2Flink%3E%3Cregion%3E%3Crange+type%3D%22t%22+low%3D%2201-Jan-1876%22+high%3D%2227-Aug-2018%22%3E%3C%2Frange%3E%3Crange+type%3D%22x%22+low%3D%220%22+high%3D%2224%22%3E%3C%2Frange%3E%3Crange+type%3D%22y%22+low%3D%2240%22+high%3D%2259%22%3E%3C%2Frange%3E%3C%2Fregion%3E%3C%2Fargs%3E%3C%2FlasRequest%3E&amp;quot;
-
-temp_stgt &amp;lt;- read_html(url) %&amp;gt;% 
-  rvest::html_node(&amp;quot;table&amp;quot;) %&amp;gt;% html_table()
-
-if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
-
-temp_stgt &amp;lt;- temp_stgt %&amp;gt;% 
-  janitor::clean_names() %&amp;gt;% 
-  rename(avg_temp_day = luftemperatur_avg) %&amp;gt;% 
-  mutate(t = lubridate::ymd(t)) %&amp;gt;% 
-  mutate(month = lubridate::month(t)) %&amp;gt;% 
-  mutate(day = lubridate::yday(t)) %&amp;gt;% 
-  arrange(t) %&amp;gt;% 
-  mutate(year = lubridate::year(t)) %&amp;gt;% 
-  mutate(time = year) %&amp;gt;% 
-  group_by(year) %&amp;gt;% 
-  mutate(avg_temp_year_year = mean(avg_temp_day)) %&amp;gt;% 
-  ungroup()
-
-save(temp_stgt, file = &amp;quot;data/temp_stgt.Rdata&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;plot-temperature-static&#34;&gt;Plot Temperature (Static)&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/temp_stgt.Rdata&amp;quot;)
-
-months &amp;lt;- c(&amp;quot;Jan&amp;quot;, &amp;quot;Feb&amp;quot;, &amp;quot;Mar&amp;quot;, &amp;quot;Apr&amp;quot;, &amp;quot;May&amp;quot;, &amp;quot;Jun&amp;quot;, &amp;quot;Jul&amp;quot;, &amp;quot;Aug&amp;quot;, &amp;quot;Sep&amp;quot;, &amp;quot;Oct&amp;quot;, &amp;quot;Nov&amp;quot;, &amp;quot;Dec&amp;quot;)
-
-temp_stgt %&amp;gt;% 
-  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
-  ggplot(aes(day, avg_temp_day, color = year, group = year)) +
-  geom_point(size = .01, alpha = .1) +
-  geom_line(size = .01, alpha = .1) +
-  geom_smooth(se = F, size = .01, alpha = .2) +
-  viridis::scale_color_viridis(&amp;quot;Year&amp;quot;, direction = -1, discrete = F,
-                               breaks = c(1953, 1985, 2018),
-                               labels = c(1953, 1985, 2018)) +
-  ggthemes::theme_hc() +
-  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
-       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
-       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
-  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/avg_temp_year.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;if(!dir.exists(&amp;quot;images&amp;quot;)) dir.create(&amp;quot;images&amp;quot;)
-
-ggsave(filename = &amp;quot;images/avg_temp_year.png&amp;quot;, height = 6, width = 10)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;animations&#34;&gt;Animations&lt;/h2&gt;
-
-&lt;h3 id=&#34;average-temperature-over-time-by-day&#34;&gt;Average Temperature over Time by Day&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_all &amp;lt;- temp_stgt %&amp;gt;% 
-  select(-year)
-
-p1 &amp;lt;- temp_stgt %&amp;gt;% 
-  # filter(year %in% c(1960, 1970, 1980, 1990, 2000, 2010, 2018)) %&amp;gt;% 
-  ggplot(aes(day, avg_temp_day, color = avg_temp_year, group = year)) +
-  geom_smooth(data = temp_stgt_all, aes(day, avg_temp_day, group = time), 
-              color = &amp;quot;grey&amp;quot;, se = F, size = .1, alpha = .1) +
-  geom_point(size = .5, alpha = .7) +
-  geom_line(size = .5, alpha = .7) +  
-  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F) +
-  geom_smooth(se = F, size = 1, alpha = .7) +
-
-  ggthemes::theme_hc()  +
-  geom_text(aes(x = 340, y = 28, label = paste0(&amp;quot;Year = &amp;quot;, year)), size = 3, 
-            hjust = 1, color = &amp;quot;black&amp;quot;) +
-  geom_text(aes(x = 340, y = 26, 
-                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
-                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
-                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 1) +
-  labs(title = &amp;quot;Average Daily Temperature in Stuttgart (1953 - 2018)&amp;quot;, 
-       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
-       y = &amp;quot;Average Daily Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
-  scale_x_continuous(breaks = seq(0, 365, length.out = 12), labels = months) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
-  # Here comes the gganimate code
-  transition_time(
-    year
-  ) +
-  enter_fade() + 
-  exit_fade() +
-  ease_aes(&#39;linear&#39;)
-
-magick::image_write(
-  image = animate(p1,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
-  path = &amp;quot;images/daily_temp.gif&amp;quot;
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/daily_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;average-temperature-over-time-by-year&#34;&gt;Average Temperature over Time by Year&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;temp_stgt_allyear &amp;lt;- temp_stgt %&amp;gt;% 
-  filter(year != 2018) %&amp;gt;%
-  group_by(year) %&amp;gt;% 
-  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
-  mutate(time = year) %&amp;gt;% 
-  select(-year)
-
-p2 &amp;lt;- temp_stgt %&amp;gt;% 
-  filter(year != 2018) %&amp;gt;%
-  group_by(year) %&amp;gt;% 
-  summarise(avg_temp_year = mean(avg_temp_year)) %&amp;gt;% 
-  ggplot(aes(year, avg_temp_year)) +
-  geom_smooth(data = temp_stgt_allyear, aes(time, avg_temp_year), 
-              color = &amp;quot;red&amp;quot;, se = F, size = .8) +
-  geom_line(data = temp_stgt_allyear, aes(time, avg_temp_year), 
-              color = &amp;quot;black&amp;quot;, size = .8, alpha = .6) +
-  geom_point(data = temp_stgt_allyear, aes(time, avg_temp_year, color = avg_temp_year), size = 2.5) +
-  geom_point(aes(color = avg_temp_year), size = 5) +
-  ggthemes::theme_hc()  +
-  geom_text(aes(x = 1953.5, y = 10.8, 
-                label = paste0(&amp;quot;Year = &amp;quot;, year)), 
-                size = 3, color = &amp;quot;black&amp;quot;,
-                hjust = 0) +
-  geom_text(aes(x = 1953.5, y = 10.7, 
-                label = paste0(&amp;quot;Avg. Temperature = &amp;quot;, 
-                           sprintf(&amp;quot;%.2f&amp;quot;, round(avg_temp_year, 2)), &amp;quot;°C&amp;quot;)), 
-                                  size = 3, color = &amp;quot;black&amp;quot;, hjust = 0) +
-  viridis::scale_color_viridis(&amp;quot;Average Yearly Temperature&amp;quot;, direction = -1, discrete = F)  +
-  labs(title = &amp;quot;Average Yearly Temperature in Stuttgart (1953 - 2017)&amp;quot;, 
-       caption = &amp;quot;Data: Der Deutsche Wetterdienst (DWD)&amp;quot;,
-       y = &amp;quot;Average Yearly Temperature&amp;quot;, x = &amp;quot;&amp;quot;) +
-  guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
-  # Here comes the gganimate code
-  transition_time(
-    year
-  ) +
-  enter_fade() + 
-  exit_fade() +
-  ease_aes(&#39;linear&#39;) +
-  ease_aes(&#39;linear&#39;)
-
-magick::image_write(
-  image = animate(p2,  width = 1000, height = 600, renderer = magick_renderer(), length = 45), 
-  path = &amp;quot;images/yearly_temp.gif&amp;quot;
-)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/temperature_viz/blob/master/images/yearly_temp.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;  ## R version 3.5.0 (2018-04-23)
-  ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-  ## Running under: Windows &amp;gt;= 8 x64 (build 9200)
-  ## 
-  ## Matrix products: default
-  ## 
-  ## locale:
-  ## [1] LC_COLLATE=German_Germany.1252 
-  ## [2] LC_CTYPE=German_Germany.1252   
-  ## [3] LC_MONETARY=German_Germany.1252
-  ## [4] LC_NUMERIC=C                   
-  ## [5] LC_TIME=German_Germany.1252    
-  ## 
-  ## attached base packages:
-  ## [1] stats     graphics  grDevices utils     datasets  methods  
-  ## [7] base     
-  ## 
-  ## other attached packages:
-  ##  [1] gganimate_0.9.9.9999 rvest_0.3.2         
-  ##  [3] xml2_1.2.0           forcats_0.3.0       
-  ##  [5] stringr_1.3.0        dplyr_0.7.5         
-  ##  [7] purrr_0.2.4          readr_1.1.1         
-  ##  [9] tidyr_0.8.1          tibble_1.4.2        
-  ## [11] ggplot2_3.0.0.9000   tidyverse_1.2.1     
-  ## 
-  ## loaded via a namespace (and not attached):
-  ##  [1] Rcpp_0.12.18      lubridate_1.7.4   lattice_0.20-35  
-  ##  [4] prettyunits_1.0.2 png_0.1-7         class_7.3-14     
-  ##  [7] digest_0.6.15     assertthat_0.2.0  psych_1.8.3.3    
-  ## [10] R6_2.2.2          cellranger_1.1.0  plyr_1.8.4       
-  ## [13] e1071_1.6-8       httr_1.3.1        pillar_1.2.1     
-  ## [16] rlang_0.2.1       progress_1.2.0    lazyeval_0.2.1   
-  ## [19] readxl_1.1.0      rstudioapi_0.7    gifski_0.8.3     
-  ## [22] magick_1.9        labeling_0.3      foreign_0.8-70   
-  ## [25] munsell_0.4.3     broom_0.4.4       compiler_3.5.0   
-  ## [28] modelr_0.1.1      pkgconfig_2.0.1   mnormt_1.5-5     
-  ## [31] tidyselect_0.2.4  gridExtra_2.3     lpSolve_5.6.13   
-  ## [34] viridisLite_0.3.0 crayon_1.3.4      withr_2.1.2      
-  ## [37] sf_0.6-3          grid_3.5.0        nlme_3.1-137     
-  ## [40] spData_0.2.8.3    jsonlite_1.5      gtable_0.2.0     
-  ## [43] DBI_1.0.0         pacman_0.4.6      magrittr_1.5     
-  ## [46] units_0.6-0       scales_0.5.0      cli_1.0.0        
-  ## [49] stringi_1.1.7     farver_1.0        reshape2_1.4.3   
-  ## [52] ggthemes_4.0.0    viridis_0.5.1     bindrcpp_0.2.2   
-  ## [55] transformr_0.1.0  tools_3.5.0       glue_1.3.0       
-  ## [58] tweenr_0.1.5.9999 hms_0.4.2         parallel_3.5.0   
-  ## [61] colorspace_1.4-0  classInt_0.2-3    knitr_1.20       
-  ## [64] bindr_0.1.1       haven_1.1.2       patchwork_0.0.1       
 &lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>

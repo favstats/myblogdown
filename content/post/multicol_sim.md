@@ -1,6 +1,6 @@
 +++
-date = 2018-08-25
-lastmod = 2018-08-25
+date = 2018-08-28
+lastmod = 2018-08-28
 draft = false
 tags = ["simulation", "dataviz"]
 title = "How does Collinearity Influence Linear Regressions?"
