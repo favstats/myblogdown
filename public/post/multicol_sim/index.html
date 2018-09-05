@@ -274,7 +274,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
   </span>
   
 
@@ -338,7 +338,24 @@
 
 <p>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.</p>
 
-<h2 id="packages">Packages</h2>
+<p><strong>Overview:</strong></p>
+
+<ul>
+<li><a href="#packages">Packages</a></li>
+<li><a href="#sim1">Simulation Function</a></li>
+<li><a href="#sim2">Simulate and Save Data</a></li>
+<li><a href="#coll">Visualizing the Influence of Collinearity</a>
+
+<ul>
+<li><a href="#std">Standard Errors</a></li>
+<li><a href="#t_stat">T-Statistic and P-Values</a></li>
+<li><a href="#b_coef">B-Coefficients</a></li>
+<li><a href="#anim">Animation</a></li>
+<li><a href="#b_stand">Standardized</a></li>
+</ul></li>
+</ul>
+
+<h2 id="a-id-packages-a-packages-packages"><a id="packages"></a><a href="#packages">Packages</a></h2>
 
 <p>Load the necessary packages</p>
 
@@ -348,7 +365,7 @@
 pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
 </code></pre>
 
-<h2 id="simulation-function">Simulation Function</h2>
+<h2 id="a-id-sim1-a-simulation-function-sim1"><a id="sim1"></a><a href="#sim1">Simulation Function</a></h2>
 
 <p>First, I write a little function to simulate collinearity.</p>
 
@@ -392,7 +409,7 @@ draw.data &lt;- function(cor_seq = NULL, step_seq = NULL){
 }
 </code></pre>
 
-<h2 id="simulate-data">Simulate Data</h2>
+<h2 id="a-id-sim2-a-simulate-and-save-data-sim2"><a id="sim2"></a><a href="#sim2">Simulate and Save Data</a></h2>
 
 <p>Draw data from function and save it.</p>
 
@@ -403,7 +420,7 @@ if(!dir.exists(&quot;data&quot;)) dir.create(&quot;data&quot;)
 save(sim_data, file = &quot;data/sim_data.Rdata&quot;)
 </code></pre>
 
-<h2 id="visualizing-the-influence-of-collinearity">Visualizing the Influence of Collinearity</h2>
+<h2 id="a-id-coll-a-visualizing-the-influence-of-collinearity-coll"><a id="coll"></a><a href="#coll">Visualizing the Influence of Collinearity</a></h2>
 
 <pre><code class="language-r">load(&quot;data/sim_data.Rdata&quot;)
 </code></pre>
@@ -416,7 +433,7 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
 
 <p>For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,</p>
 
-<h3 id="standard-errors">Standard Errors</h3>
+<h3 id="a-id-std-a-standard-errors-std"><a id="std"></a><a href="#std">Standard Errors</a></h3>
 
 <p>First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.</p>
 
@@ -459,7 +476,7 @@ sim_data %&gt;%
 <pre><code class="language-r">ggsave(filename = &quot;images/std_static.png&quot;, width = 10, height = 7)
 </code></pre>
 
-<h3 id="t-statistic-and-p-values">T-Statistic and P-Values</h3>
+<h3 id="a-id-t-stat-a-t-statistic-and-p-values-t-stat"><a id="t_stat"></a><a href="#t_stat">T-Statistic and P-Values</a></h3>
 
 <p>Next, let&rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.</p>
 
@@ -505,7 +522,7 @@ sim_data %&gt;%
 <pre><code class="language-r">ggsave(filename = &quot;images/p_static.png&quot;, width = 10, height = 7)
 </code></pre>
 
-<h4 id="b-coefficients">B-Coefficients</h4>
+<h3 id="a-id-b-coef-a-b-coefficients-b-coef"><a id="b_coef"></a><a href="#b_coef">B-Coefficients</a></h3>
 
 <p>This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.</p>
 
@@ -528,10 +545,64 @@ sim_data %&gt;%
 
 <p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true" alt="" /><!-- --></p>
 
+<h5 id="a-id-anim-a-animation-anim"><a id="anim"></a><a href="#anim">Animation</a></h5>
+
+<pre><code class="language-r">library(gganimate)
+
+sim_data_sub &lt;- sim_data  %&gt;%
+    filter(term == &quot;x1&quot;) %&gt;%
+    filter(n &gt; 200) %&gt;% 
+    filter(n %in% c(300, 1000, 10000)) %&gt;% 
+  mutate(estimate_lab = round(estimate, 2) %&gt;% as.character) %&gt;% 
+  mutate(n = as.factor(n))
+
+
+ anim1 &lt;-  sim_data_sub  %&gt;%
+    # filter(term == &quot;x1&quot;) %&gt;%
+    # filter(n &gt; 200) %&gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  geom_line() +
+  geom_segment(aes(xend = 1, yend = estimate), linetype = 2, colour = 'grey') +
+  geom_point(size = 2) +
+  geom_text(aes(x = 1, label = n), hjust = 0, size = 4, fontface = &quot;bold&quot;) +
+  geom_text(aes(x = 0.15, y = 1.8, label = paste0(&quot;Correlation: &quot;, cors)), 
+                hjust = 1, size = 5, color = &quot;black&quot;) +
+  geom_text(aes(label = estimate_lab), hjust = 0, size = 3, fontface = &quot;bold&quot;, nudge_y = 0.1) +
+  xlab(&quot;Pearson's r correlation between x1 and x2&quot;) +
+  ylab(&quot;x1 b-coefficient&quot;) + 
+  coord_cartesian(clip = 'off') + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, 
+                      direction = -1, 
+                      discrete = T,
+                      begin = 0.3,
+       # limits = seq(1000, 10000, 3000),
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  guides(colour = F) +
+  theme(title = element_text(size = 15, face = &quot;bold&quot;), 
+        axis.text.x = element_text(size = 14, face = &quot;bold&quot;), 
+        axis.text.y = element_text(size = 10, face = &quot;italic&quot;)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on b-coefficients (Sample Sizes: 300, 1000 and 10.000)&quot;) +
+  # guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;)) +
+  # Here comes the gganimate code
+  transition_reveal(n, cors) 
+
+
+anim1 %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 3
+)
+
+anim_save(&quot;images/b_anim.gif&quot;)
+</code></pre>
+
+<p><a href="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true" target="_blank"><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true" alt="" /></a></p>
+
 <pre><code class="language-r">ggsave(filename = &quot;images/b_static.png&quot;, width = 10, height = 7)
 </code></pre>
 
-<h5 id="standardized">Standardized</h5>
+<h5 id="a-id-b-stand-a-standardized-b-stand"><a id="b_stand"></a><a href="#b_stand">Standardized</a></h5>
 
 <p>Same spiel, just this time with standardized coefficients.</p>
 
@@ -554,6 +625,8 @@ sim_data %&gt;%
 
 <pre><code class="language-r">ggsave(filename = &quot;images/b_standardized_static.png&quot;, width = 10, height = 7)
 </code></pre>
+
+<h5 id="a-id-session-a-session-info-session"><a id="session"></a><a href="#session">Session Info</a></h5>
 
 <pre><code class="language-r">sessionInfo()
 </code></pre>

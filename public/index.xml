@@ -276,7 +276,24 @@ loaded via a namespace (and not attached):
 
 &lt;p&gt;This is a short simulation study trying to figure out the impact of collinearity on linear regressions.&lt;/p&gt;
 
-&lt;h2 id=&#34;packages&#34;&gt;Packages&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Overview:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#packages&#34;&gt;Packages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sim1&#34;&gt;Simulation Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sim2&#34;&gt;Simulate and Save Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#coll&#34;&gt;Visualizing the Influence of Collinearity&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#std&#34;&gt;Standard Errors&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#t_stat&#34;&gt;T-Statistic and P-Values&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#b_coef&#34;&gt;B-Coefficients&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#anim&#34;&gt;Animation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#b_stand&#34;&gt;Standardized&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;a-id-packages-a-packages-packages&#34;&gt;&lt;a id=&#34;packages&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#packages&#34;&gt;Packages&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;Load the necessary packages&lt;/p&gt;
 
@@ -286,7 +303,7 @@ loaded via a namespace (and not attached):
 pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;simulation-function&#34;&gt;Simulation Function&lt;/h2&gt;
+&lt;h2 id=&#34;a-id-sim1-a-simulation-function-sim1&#34;&gt;&lt;a id=&#34;sim1&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#sim1&#34;&gt;Simulation Function&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;First, I write a little function to simulate collinearity.&lt;/p&gt;
 
@@ -330,7 +347,7 @@ draw.data &amp;lt;- function(cor_seq = NULL, step_seq = NULL){
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;simulate-data&#34;&gt;Simulate Data&lt;/h2&gt;
+&lt;h2 id=&#34;a-id-sim2-a-simulate-and-save-data-sim2&#34;&gt;&lt;a id=&#34;sim2&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#sim2&#34;&gt;Simulate and Save Data&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;Draw data from function and save it.&lt;/p&gt;
 
@@ -341,7 +358,7 @@ if(!dir.exists(&amp;quot;data&amp;quot;)) dir.create(&amp;quot;data&amp;quot;)
 save(sim_data, file = &amp;quot;data/sim_data.Rdata&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;visualizing-the-influence-of-collinearity&#34;&gt;Visualizing the Influence of Collinearity&lt;/h2&gt;
+&lt;h2 id=&#34;a-id-coll-a-visualizing-the-influence-of-collinearity-coll&#34;&gt;&lt;a id=&#34;coll&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#coll&#34;&gt;Visualizing the Influence of Collinearity&lt;/a&gt;&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/sim_data.Rdata&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
@@ -354,7 +371,7 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
 
 &lt;p&gt;For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,&lt;/p&gt;
 
-&lt;h3 id=&#34;standard-errors&#34;&gt;Standard Errors&lt;/h3&gt;
+&lt;h3 id=&#34;a-id-std-a-standard-errors-std&#34;&gt;&lt;a id=&#34;std&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#std&#34;&gt;Standard Errors&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.&lt;/p&gt;
 
@@ -397,7 +414,7 @@ sim_data %&amp;gt;%
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/std_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;t-statistic-and-p-values&#34;&gt;T-Statistic and P-Values&lt;/h3&gt;
+&lt;h3 id=&#34;a-id-t-stat-a-t-statistic-and-p-values-t-stat&#34;&gt;&lt;a id=&#34;t_stat&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#t_stat&#34;&gt;T-Statistic and P-Values&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;Next, let&amp;rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.&lt;/p&gt;
 
@@ -443,7 +460,7 @@ sim_data %&amp;gt;%
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/p_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;b-coefficients&#34;&gt;B-Coefficients&lt;/h4&gt;
+&lt;h3 id=&#34;a-id-b-coef-a-b-coefficients-b-coef&#34;&gt;&lt;a id=&#34;b_coef&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#b_coef&#34;&gt;B-Coefficients&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.&lt;/p&gt;
 
@@ -466,10 +483,64 @@ sim_data %&amp;gt;%
 
 &lt;p&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
+&lt;h5 id=&#34;a-id-anim-a-animation-anim&#34;&gt;&lt;a id=&#34;anim&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#anim&#34;&gt;Animation&lt;/a&gt;&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(gganimate)
+
+sim_data_sub &amp;lt;- sim_data  %&amp;gt;%
+    filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;%
+    filter(n &amp;gt; 200) %&amp;gt;% 
+    filter(n %in% c(300, 1000, 10000)) %&amp;gt;% 
+  mutate(estimate_lab = round(estimate, 2) %&amp;gt;% as.character) %&amp;gt;% 
+  mutate(n = as.factor(n))
+
+
+ anim1 &amp;lt;-  sim_data_sub  %&amp;gt;%
+    # filter(term == &amp;quot;x1&amp;quot;) %&amp;gt;%
+    # filter(n &amp;gt; 200) %&amp;gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &amp;quot;dashed&amp;quot;, alpha = 0.9) +
+  geom_line() +
+  geom_segment(aes(xend = 1, yend = estimate), linetype = 2, colour = &#39;grey&#39;) +
+  geom_point(size = 2) +
+  geom_text(aes(x = 1, label = n), hjust = 0, size = 4, fontface = &amp;quot;bold&amp;quot;) +
+  geom_text(aes(x = 0.15, y = 1.8, label = paste0(&amp;quot;Correlation: &amp;quot;, cors)), 
+                hjust = 1, size = 5, color = &amp;quot;black&amp;quot;) +
+  geom_text(aes(label = estimate_lab), hjust = 0, size = 3, fontface = &amp;quot;bold&amp;quot;, nudge_y = 0.1) +
+  xlab(&amp;quot;Pearson&#39;s r correlation between x1 and x2&amp;quot;) +
+  ylab(&amp;quot;x1 b-coefficient&amp;quot;) + 
+  coord_cartesian(clip = &#39;off&#39;) + 
+  theme_hc() + 
+  scale_color_viridis(&amp;quot;Sample Size&amp;quot;, 
+                      direction = -1, 
+                      discrete = T,
+                      begin = 0.3,
+       # limits = seq(1000, 10000, 3000),
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  guides(colour = F) +
+  theme(title = element_text(size = 15, face = &amp;quot;bold&amp;quot;), 
+        axis.text.x = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
+        axis.text.y = element_text(size = 10, face = &amp;quot;italic&amp;quot;)) +
+  ggtitle(&amp;quot;Sample Size and Collinearity Influence on b-coefficients (Sample Sizes: 300, 1000 and 10.000)&amp;quot;) +
+  # guides(colour = guide_colourbar(barwidth = 20, label.position = &amp;quot;bottom&amp;quot;)) +
+  # Here comes the gganimate code
+  transition_reveal(n, cors) 
+
+
+anim1 %&amp;gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 3
+)
+
+anim_save(&amp;quot;images/b_anim.gif&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&#34;standardized&#34;&gt;Standardized&lt;/h5&gt;
+&lt;h5 id=&#34;a-id-b-stand-a-standardized-b-stand&#34;&gt;&lt;a id=&#34;b_stand&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#b_stand&#34;&gt;Standardized&lt;/a&gt;&lt;/h5&gt;
 
 &lt;p&gt;Same spiel, just this time with standardized coefficients.&lt;/p&gt;
 
@@ -492,6 +563,8 @@ sim_data %&amp;gt;%
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/b_standardized_static.png&amp;quot;, width = 10, height = 7)
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;a-id-session-a-session-info-session&#34;&gt;&lt;a id=&#34;session&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#session&#34;&gt;Session Info&lt;/a&gt;&lt;/h5&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
 &lt;/code&gt;&lt;/pre&gt;

@@ -15,10 +15,24 @@ caption = "B-Coefficients Simulation"
 
 +++
 
-
 This is a short simulation study trying to figure out the impact of collinearity on linear regressions.
 
-## Packages
+**Overview:**
+
++ [Packages](#packages)
++ [Simulation Function](#sim1)
++ [Simulate and Save Data](#sim2)
++ [Visualizing the Influence of Collinearity](#coll)
+    * [Standard Errors](#std)
+    * [T-Statistic and P-Values](#t_stat)
+    * [B-Coefficients](#b_coef)
+    * [Animation](#anim)
+    * [Standardized](#b_stand)
+
+
+
+## <a id="packages"></a>[Packages](#packages)
+
 
 Load the necessary packages
 
@@ -29,7 +43,8 @@ Load the necessary packages
 pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
 ```
 
-## Simulation Function
+## <a id="sim1"></a>[Simulation Function](#sim1)
+
 
 First, I write a little function to simulate collinearity.
 
@@ -74,7 +89,8 @@ draw.data <- function(cor_seq = NULL, step_seq = NULL){
 }
 ```
 
-## Simulate Data
+## <a id="sim2"></a>[Simulate and Save Data](#sim2)
+
 
 Draw data from function and save it.
 
@@ -86,7 +102,7 @@ if(!dir.exists("data")) dir.create("data")
 save(sim_data, file = "data/sim_data.Rdata")
 ```
 
-## Visualizing the Influence of Collinearity
+## <a id="coll"></a>[Visualizing the Influence of Collinearity](#coll)
 
 ``` r
 load("data/sim_data.Rdata")
@@ -101,7 +117,7 @@ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
 For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,
 
 
-### Standard Errors
+### <a id="std"></a>[Standard Errors](#std)
 
 First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.
 
@@ -146,7 +162,7 @@ sim_data %>%
 ggsave(filename = "images/std_static.png", width = 10, height = 7)
 ```
 
-### T-Statistic and P-Values
+### <a id="t_stat"></a>[T-Statistic and P-Values](#t_stat)
 
 Next, let's take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.
 
@@ -196,7 +212,7 @@ sim_data  %>%
 ggsave(filename = "images/p_static.png", width = 10, height = 7)
 ```
 
-#### B-Coefficients
+### <a id="b_coef"></a>[B-Coefficients](#b_coef)
 
 This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.
 
@@ -220,12 +236,66 @@ sim_data  %>%
 
 ![](https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true)<!-- -->
 
+##### <a id="anim"></a>[Animation](#anim)
+
+``` r
+library(gganimate)
+
+sim_data_sub <- sim_data  %>%
+    filter(term == "x1") %>%
+    filter(n > 200) %>% 
+    filter(n %in% c(300, 1000, 10000)) %>% 
+  mutate(estimate_lab = round(estimate, 2) %>% as.character) %>% 
+  mutate(n = as.factor(n))
+
+
+ anim1 <-  sim_data_sub  %>%
+    # filter(term == "x1") %>%
+    # filter(n > 200) %>%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.9) +
+  geom_line() +
+  geom_segment(aes(xend = 1, yend = estimate), linetype = 2, colour = 'grey') +
+  geom_point(size = 2) +
+  geom_text(aes(x = 1, label = n), hjust = 0, size = 4, fontface = "bold") +
+  geom_text(aes(x = 0.15, y = 1.8, label = paste0("Correlation: ", cors)), 
+                hjust = 1, size = 5, color = "black") +
+  geom_text(aes(label = estimate_lab), hjust = 0, size = 3, fontface = "bold", nudge_y = 0.1) +
+  xlab("Pearson's r correlation between x1 and x2") +
+  ylab("x1 b-coefficient") + 
+  coord_cartesian(clip = 'off') + 
+  theme_hc() + 
+  scale_color_viridis("Sample Size", 
+                      direction = -1, 
+                      discrete = T,
+                      begin = 0.3,
+       # limits = seq(1000, 10000, 3000),
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  guides(colour = F) +
+  theme(title = element_text(size = 15, face = "bold"), 
+        axis.text.x = element_text(size = 14, face = "bold"), 
+        axis.text.y = element_text(size = 10, face = "italic")) +
+  ggtitle("Sample Size and Collinearity Influence on b-coefficients (Sample Sizes: 300, 1000 and 10.000)") +
+  # guides(colour = guide_colourbar(barwidth = 20, label.position = "bottom")) +
+  # Here comes the gganimate code
+  transition_reveal(n, cors) 
+
+
+anim1 %>% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 3
+)
+
+anim_save("images/b_anim.gif")
+```
+
+[![](https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true)](https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true) 
 
 ``` r
 ggsave(filename = "images/b_static.png", width = 10, height = 7)
 ```
 
-##### Standardized
+##### <a id="b_stand"></a>[Standardized](#b_stand)
 
 Same spiel, just this time with standardized coefficients. 
 
@@ -252,7 +322,7 @@ sim_data  %>%
 ggsave(filename = "images/b_standardized_static.png", width = 10, height = 7)
 ```
 
-
+##### <a id="session"></a>[Session Info](#session)
 
 
 ``` r
