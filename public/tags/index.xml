@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on favstats - personal blog</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on favstats - personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Fabio Votta</copyright>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Content tagged as &#39;Academic&#39;</title>
+      <link>/tags/academic/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/academic/</guid>
+      <description>Here is a list of all the content that has been tagged as academic.</description>
+    </item>
+    
+    <item>
+      <title>Arab Barometer</title>
+      <link>/tags/arab-barometer/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/arab-barometer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Conferences</title>
+      <link>/tags/conferences/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/conferences/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Daesh</title>
+      <link>/tags/daesh/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/daesh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dataviz</title>
+      <link>/tags/dataviz/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/dataviz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Extremism</title>
+      <link>/tags/extremism/</link>
+      <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/extremism/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggmap</title>
+      <link>/tags/ggmap/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/ggmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggraph</title>
+      <link>/tags/ggraph/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/ggraph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Highcharter</title>
+      <link>/tags/highcharter/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/highcharter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ISIS</title>
+      <link>/tags/isis/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/isis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Maps</title>
+      <link>/tags/maps/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/maps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R-group</title>
+      <link>/tags/r-group/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r-group/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simulation</title>
+      <link>/tags/simulation/</link>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/simulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Survey</title>
+      <link>/tags/survey/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/survey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Survey Data</title>
+      <link>/tags/survey-data/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/survey-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Twitter</title>
+      <link>/tags/twitter/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/twitter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VOX-Pol</title>
+      <link>/tags/vox-pol/</link>
+      <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/vox-pol/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WAPOR</title>
+      <link>/tags/wapor/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/wapor/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R-group on favstats - personal blog</title>
+    <link>/tags/r-group/</link>
+    <description>Recent content in R-group on favstats - personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Fabio Votta</copyright>
+    <lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r-group/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>LearnR - Modelldiagnostik</title>
+      <link>/project/example-external-project/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/project/example-external-project/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

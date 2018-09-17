@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Survey on favstats - personal blog</title>
+    <link>/tags/survey/</link>
+    <description>Recent content in Survey on favstats - personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Fabio Votta</copyright>
+    <lastBuildDate>Sat, 30 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/survey/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Slides: Deliberation Across the World</title>
+      <link>/project/deliberation/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/deliberation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slides: Godly Governance</title>
+      <link>/project/godly/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/godly/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Slides: Variants of Populism</title>
+      <link>/project/populism/</link>
+      <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/populism/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
