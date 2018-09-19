@@ -37,6 +37,9 @@ knitr::opts_chunk$set(message = F,  warning = F, error = F,
 
 pacman::p_load(tidyverse)
 
+# Creates folders
+# tidytemplate::data_dir()
+# tidytemplate::images_dir()
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;helper-functions&#34;&gt;Helper Functions&lt;/h2&gt;
@@ -861,7 +864,7 @@ afd_origin
 
 &lt;p&gt;&lt;strong&gt;To-Do&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;a-id-mapping1-a-mapping-mapping1&#34;&gt;&lt;a id=&#34;mapping1&#34;&gt;&lt;/a&gt;&lt;a href=&#34;#mapping1&#34;&gt;Mapping&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;mapping&#34;&gt;mapping&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;btw_data &amp;lt;- tidytemplate::load_it(&amp;quot;data/btw_data.Rdata&amp;quot;)
 

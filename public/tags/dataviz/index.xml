@@ -21,7 +21,7 @@
       <description>Data Sources:
 https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017
 https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html
-Settings, Packages and Folders options(scipen = 999) knitr::opts_chunk$set(message = F, warning = F, error = F, fig.align = &amp;quot;center&amp;quot;, fig.width = 10, fig.height = 6) # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse)  Helper Functions get_percentage &amp;lt;- function(part, total, digits = NULL) { if(!is.numeric(part) | !is.numeric(total)){ cat(&amp;quot;Non-numeric variables.. converting\n&amp;quot;) part &amp;lt;- as.numeric(part) total &amp;lt;- as.numeric(total) } val &amp;lt;- part / total * 100 if(!</description>
+Settings, Packages and Folders options(scipen = 999) knitr::opts_chunk$set(message = F, warning = F, error = F, fig.align = &amp;quot;center&amp;quot;, fig.width = 10, fig.height = 6) # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Helper Functions get_percentage &amp;lt;- function(part, total, digits = NULL) { if(!is.numeric(part) | !is.numeric(total)){ cat(&amp;quot;Non-numeric variables.. converting\n&amp;quot;) part &amp;lt;- as.</description>
     </item>
     
     <item>

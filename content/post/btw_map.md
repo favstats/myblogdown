@@ -35,6 +35,9 @@ knitr::opts_chunk$set(message = F,  warning = F, error = F,
 
 pacman::p_load(tidyverse)
 
+# Creates folders
+# tidytemplate::data_dir()
+# tidytemplate::images_dir()
 ```
 
 ## Helper Functions
@@ -888,7 +891,7 @@ tidytemplate::ggsave_it(afd_origin, width = 12, height = 8)
 
 **To-Do**
 
-## <a id="mapping1"></a>[Mapping](#mapping1)
+## mapping
 
 ``` r
 btw_data <- tidytemplate::load_it("data/btw_data.Rdata")
