@@ -36,7 +36,7 @@ selected = false
 projects = ["godly"]
 
 # Links (optional).
-url_pdf = "https://www.academia.edu/36488238/Godly_Governance_A_Cross-National_Examination_of_Religious_Politics_in_Arab_Muslim-Majority_Countries"
+url_pdf = "http://www.arabbarometer.org/wp-content/uploads/ABWorkingPaper012018.pdf"
 url_preprint = ""
 url_code = "https://github.com/favstats/godlygovernance"
 url_dataset = ""
