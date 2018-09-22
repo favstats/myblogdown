@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Visualizing Gas Explosions in Lawrence, MA</title>
+      <link>/project/lawrence_ma/</link>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/project/lawrence_ma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Number of Refugees accepted by the US (2002 - 2018)</title>
       <link>/post/refugee_dat/</link>
       <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
@@ -177,7 +186,7 @@ anim_save(&amp;quot;images/gg_refugee.gif&amp;quot;)
     </item>
     
     <item>
-      <title>Visualzing Results of German Elections (2013 and 2017)</title>
+      <title>Visualizing Results of German Elections (2013 and 2017)</title>
       <link>/post/btw_map/</link>
       <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
       
@@ -2673,207 +2682,6 @@ map2
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;Note that the name of your &lt;code&gt;.json&lt;/code&gt; might differ from mine if you are not using Google in German.
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>What do Arab Muslims think about ISIS (Daesh)?</title>
-      <link>/post/daesh/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
-      
-      <guid>/post/daesh/</guid>
-      <description>
-
-&lt;p&gt;Welcome to my &lt;em&gt;very first blogpost&lt;/em&gt;. Here I want to dive a little bit into how Arab Muslims see Daesh (&lt;em&gt;a term for ISIS often used by Arab speakers&lt;/em&gt;). The data I will be using is from the &lt;a href=&#34;http://www.arabbarometer.org/&#34; target=&#34;_blank&#34;&gt;Arab Barometer Wave 4&lt;/a&gt;, released just a few weeks ago. I will also be using the Arab Barometer in the future because it has a lot of interesting questions asked, including a small sample size of &lt;em&gt;Syrian refugees&lt;/em&gt;. So stay tuned.&lt;/p&gt;
-
-&lt;p&gt;Survey data from the Middle East is especially interesting to me because it is a region that is often talked about without considering local voices.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Note: Whenever I speak of Arab Muslims in this blogpost, I am referring to the sample at hand.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Without further ado, here are some insights into the perception of Daesh in the Arab world.&lt;/p&gt;
-
-&lt;h2&gt;Table of Contents&lt;/h2&gt;
-&lt;nav id=&#34;TableOfContents&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#data-preparation&#34;&gt;Data Preparation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#the-threat-of-daesh&#34;&gt;The Threat of Daesh&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#threat-to-country&#34;&gt;Threat to Country&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#threat-to-region&#34;&gt;Threat to Region&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#does-daesh-represent-islam&#34;&gt;Does Daesh represent Islam?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#daesh-s-violence-and-goals&#34;&gt;Daesh&amp;rsquo;s violence and goals&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#who-is-responsible-for-daesh&#34;&gt;Who is responsible for Daesh?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#what-is-next&#34;&gt;What is next?&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/nav&gt;
-
-
-&lt;h2 id=&#34;data-preparation&#34;&gt;Data Preparation&lt;/h2&gt;
-
-&lt;p&gt;First of all, the data has to be prepared. For all of the following charts I use the provided weights that are meant to make the survey more representative.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;Furthermore, the data is filtered by religious affiliation, only including Muslim respondents &lt;code&gt;q1012 == 1&lt;/code&gt;. Unfortunately, questions about Daesh were not asked in Egypt (which is included in the original survey project). This leaves us with &lt;em&gt;7149 respondents&lt;/em&gt; across 6 different countries including a sample of Syrian refugees.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;p&gt;All questions that are of interest here, can be found in &lt;em&gt;Section VIII: Current Affairs&lt;/em&gt; of the &lt;a href=&#34;http://www.arabbarometer.org/sites/default/files/code_book/AB4%20English%20Codebook%20Final%20English_0.pdf&#34; target=&#34;_blank&#34;&gt;Arab Barometer Wave 4 Codebook&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;If you are interested in the code that produced the following charts, feel free to visit this &lt;a href=&#34;https://github.com/favstats/GodlyGovernance/&#34; target=&#34;_blank&#34;&gt;GitHub Repository&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-threat-of-daesh&#34;&gt;The Threat of Daesh&lt;/h2&gt;
-
-&lt;p&gt;The first charts we are going to look at are visualizations of two questions:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Does Daesh pose a threat to our country? (&lt;code&gt;q826&lt;/code&gt;)&lt;/p&gt;
-
-&lt;p&gt;Does Daesh pose a threat to the Arab region? (&lt;code&gt;q827&lt;/code&gt;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Respondents could answer on a three-point scale:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Very grave threat&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Somewhat of a threat&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;No threat at all&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;There were also two options for &lt;em&gt;missing values&lt;/em&gt; (not included in visualization):&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;I don’t know (Do not read)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Declined to answer (Do not read)&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;em&gt;Here come the charts:&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;threat-to-country&#34;&gt;Threat to Country&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/GodlyGovernance/blob/master/images/threat_cntry.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Overall, one can see that pretty much all populations seem to be quite concerned about the threat that Daesh poses to their country. &lt;em&gt;Lebanon&lt;/em&gt; is on top of the chart with over &lt;strong&gt;98%&lt;/strong&gt; of people saying that Daesh poses somewhat of a threat or even a grave threat to their country. Not surprising, since the Lebanese army and the Hezbollah militia are &lt;a href=&#34;https://www.reuters.com/article/us-mideast-crisis-lebanon-syria/lebanese-army-hezbollah-announce-offensives-against-islamic-state-on-syrian-border-idUSKCN1AZ03G&#34; target=&#34;_blank&#34;&gt;directly involved&lt;/a&gt; in the Syrian civil war and the threat of terror attacks is always present.&lt;/p&gt;
-
-&lt;p&gt;Next on the list is &lt;em&gt;Tunisia&lt;/em&gt;, where about &lt;strong&gt;95%&lt;/strong&gt; consider Daesh to be a threat to their country. This might have something to do with the unusual number of Tunisians who have gone to fight with Daesh and are expected to &lt;a href=&#34;https://www.nytimes.com/2017/02/25/world/europe/isis-tunisia.html&#34; target=&#34;_blank&#34;&gt;return soon to Tunisia&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The countries least concerned seem to be &lt;em&gt;Morocco&lt;/em&gt; and &lt;em&gt;Palestine&lt;/em&gt;, where only &lt;strong&gt;half the population&lt;/strong&gt; considers Daesh to be a grave threat, although it adds up to &lt;strong&gt;75%&lt;/strong&gt; who think they are at least somewhat of a threat.&lt;/p&gt;
-
-&lt;h3 id=&#34;threat-to-region&#34;&gt;Threat to Region&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/GodlyGovernance/blob/master/images/threat_reg.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Considering the entire Arab region, a clearer picture emerges. The fraction of people who don&amp;rsquo;t consider Daesh a threat at all is consistently &lt;strong&gt;below 10%&lt;/strong&gt;. This clearly shows that Arab Muslims are very concerned and well aware about the threat that Daesh poses to the entire region. Again, Lebanon and Tunisia appear on top of the chart, however, there don&amp;rsquo;t seem to be very significant differences between the countries.&lt;/p&gt;
-
-&lt;h2 id=&#34;does-daesh-represent-islam&#34;&gt;Does Daesh represent Islam?&lt;/h2&gt;
-
-&lt;p&gt;Next, we will take a look at a very interesting question. It is often alleged that Daesh represents what can be called &lt;em&gt;true Islam&lt;/em&gt;. As Graeme Wood put it in his widely cited &lt;em&gt;The Atlantic&lt;/em&gt; article &lt;a href=&#34;https://www.theatlantic.com/magazine/archive/2015/03/what-isis-really-wants/384980/9&#34; target=&#34;_blank&#34;&gt;What ISIS really wants&lt;/a&gt;: &amp;ldquo;The reality is that the Islamic State is Islamic. &lt;em&gt;Very Islamic.&lt;/em&gt;&amp;rdquo; And he isn&amp;rsquo;t alone with this perception. In fact, the organization itself claims to represent the only authentic form of Islam. But how do Arab Muslims themselves see this organization that claims to represent their faith? We are about to find out.&lt;/p&gt;
-
-&lt;p&gt;We are looking at the following question:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;To what extent do you believe Daesh’s tactics are compatible with the teachings of Islam? (&lt;code&gt;q828&lt;/code&gt;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Respondents were able to answer in the following way:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;Certainly represents true Islam&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Represents true Islam&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Does not represent true Islam&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Certainly does not represent true Islam&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The categories for &lt;em&gt;missing values&lt;/em&gt; (don&amp;rsquo;t know and decline to answer) have been summarized into a single category.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Note: The chart includes differently worded answer categories, but only because they fit better on the graphic.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is the chart:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/GodlyGovernance/blob/master/images/compatible.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Right from the get go, we can see that the left side of the chart is quite empty. The overwhelming majority of Arab Muslims does not believe that the tactics of Daesh are in any way compatible with Islam. However, it&amp;rsquo;s also worth investigating the fraction of people who do agree with this notion. Populations that most perceive the actions of Daesh as Islamic are found in Palestine (9.0%), Algeria (9.4%), Lebanon (5.6%) and Tunisia (5.3%).&lt;/p&gt;
-
-&lt;h2 id=&#34;daesh-s-violence-and-goals&#34;&gt;Daesh&amp;rsquo;s violence and goals&lt;/h2&gt;
-
-&lt;p&gt;The next chart we will be looking at goes in the same direction as the previous one. The questions asked are the following:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;To what extent do you agree with the goals of Daesh? (&lt;code&gt;q829&lt;/code&gt;)&lt;/p&gt;
-
-&lt;p&gt;To what extent to do you support Daesh’s use of violence? (&lt;code&gt;q830&lt;/code&gt;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Here is the chart:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/GodlyGovernance/blob/master/images/combined.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Again, one can see that a very similar pattern emerges. The overwhelming majority of Arab Muslims does not agree with Daesh&amp;rsquo;s goals nor their use of violence. The highest approval ratings of both goals and use of violence can be found in the same countries that have the highest proportion of people that think Daesh&amp;rsquo;s tactics represent &lt;em&gt;true Islam&lt;/em&gt;: Palestine (6.4%; 5.4%), Algeria (4.9%; 5.1%), Lebanon (2.0%; 0%) and Tunisia (1.8%; 1.5%). Of course, one has to keep in mind that a sensitive question like this (asking flat out if someone supports use of violence) could be subject to &lt;em&gt;social desirability bias&lt;/em&gt;. However, the overall low number of declined answers indicates that the possible bias isn&amp;rsquo;t as severe as one might expect (although this can never be guaranteed).&lt;/p&gt;
-
-&lt;h2 id=&#34;who-is-responsible-for-daesh&#34;&gt;Who is responsible for Daesh?&lt;/h2&gt;
-
-&lt;p&gt;The last question I will be looking at is also very interesting. It asks about the origins of Daesh and who or what is responsible for its creation. Here is the phrasing:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Who or what do you think is responsible for creating Daesh? (&lt;code&gt;q830&lt;/code&gt; and &lt;code&gt;q831&lt;/code&gt;)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The variable (&lt;code&gt;q831&lt;/code&gt;) includes the &lt;em&gt;&amp;ldquo;Other&amp;rdquo;&lt;/em&gt; category. I opened it up and coded a few more categories. For example, I&amp;rsquo;ve summarized all Western countries mentioned into one category (however, &amp;ldquo;The United States&amp;rdquo; is the most mentioned Western country by far). I also created one category for all Arab countries that were mentioned.&lt;/p&gt;
-
-&lt;p&gt;Here is the resulting chart:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/GodlyGovernance/blob/master/images/daesh_Arab Barometer.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A quarter of people (25.36%) seem to blame the United States for the creation of Daesh. It is however not clear whether they mean that Western countries are literally responsible for Daesh&amp;rsquo;s creation (a quite popular conspiracy theory which strangely enough was also repeated by the &lt;a href=&#34;http://www.businessinsider.de/trump-obama-clinton-isis-2016-8?r=US&amp;amp;IR=T&#34; target=&#34;_blank&#34;&gt;current President of the United States during his bid for office&lt;/a&gt;) or whether they mean that the United States created the conditions that ultimately led to the creation of Daesh.&lt;/p&gt;
-
-&lt;p&gt;However, this ambiguous interpretation is not readily available when it comes to blaming Israel for the creation of Daesh (14.02%) hinting at &lt;a href=&#34;https://www.adl.org/blog/anti-israel-conspiracy-theories-appear-in-arabic-language-media-in-wake-of-sinai-massacre&#34; target=&#34;_blank&#34;&gt;anti-Israeli and antisemitic conspiracy theories&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Another interesting number shows up when considering Iran (4.48%) which might be rooted in anti-Shia sentiments.&lt;/p&gt;
-
-&lt;p&gt;Individual charts for each country can be found &lt;a href=&#34;https://imgur.com/a/fR4Li&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Addendum:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;After I was asked to include this: &lt;a href=&#34;https://imgur.com/a/wQV3H&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; are the same visualizations that only include &lt;em&gt;Sunni Muslims&lt;/em&gt;. Unfortunately, this question was only asked in Lebanon, Morocco, Algeria and Tunisia. However, the results are very similar to what is shown here.&lt;/p&gt;
-
-&lt;h2 id=&#34;what-is-next&#34;&gt;What is next?&lt;/h2&gt;
-
-&lt;p&gt;I am looking forward to further analyze the data.&lt;/p&gt;
-
-&lt;p&gt;Here are some ideas:&lt;/p&gt;
-
-&lt;p&gt;Extract the people who are sympathetic to Daesh (respondents who see them as representing Islam, agree with their violence and their goals) and find out how they compare to people who aren&amp;rsquo;t. For example, I could see how religious, educated, well-off or poor ISIS sympathizers are compared to their peers.&lt;/p&gt;
-
-&lt;p&gt;Let me know if you have any other ideas, I am always open to suggestions!&lt;/p&gt;
-
-&lt;p&gt;Here are some other projects I am currently working on and will appear in my blog in the near future:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The Evolution of the Atheist/Skeptic Community on YouTube&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Alt Right discourse on Mainstream media&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Who support populist parties in Europe (European Social Survey 8 Data)&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;Visualization of Terror Incidents in 2017&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;Download the &lt;a href=&#34;http://www.arabbarometer.org/sites/default/files/code_book/Arab%20Barometer%20Fourth%20Wave%20Methodology.pdf&#34; target=&#34;_blank&#34;&gt;Arab Barometer IV Methodology Statement&lt;/a&gt; for more details. 
- &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&#34;fn:2&#34;&gt;Note that in a first version of this blog post the sample size was wrongly stated as 8259.
- &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>

@@ -3,7 +3,7 @@ date = 2018-09-19
 lastmod = 2018-09-19
 draft = false
 tags = ["elections", "dataviz"]
-title = "Visualzing Results of German Elections (2013 and 2017)"
+title = "Visualizing Results of German Elections (2013 and 2017)"
 math = true
 summary = """
 I recently got my hands on some German election data and here I play around with it a little bit.
