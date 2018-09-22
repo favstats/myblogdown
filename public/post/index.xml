@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Number of Refugees accepted by the US (2002 - 2018)</title>
+      <link>/post/refugee_dat/</link>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/refugee_dat/</guid>
+      <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
+Packages and Folders # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, readxl, sjmisc) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Load Data refugee_dat &amp;lt;- read_excel(&amp;quot;data/refugee_dat.xls&amp;quot;) %&amp;gt;% drop_na(X__1) %&amp;gt;% rename(cntry = X__1) %&amp;gt;% select(-Religion, -X__2, -X__3, - Total) %&amp;gt;% filter(!(str_detect(cntry, &amp;quot;Total|Data&amp;quot;))) %&amp;gt;% gather(year, n, -cntry) %&amp;gt;% mutate(year = str_replace(year, &amp;quot;CY &amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% as.numeric) refugee_dat %&amp;gt;% group_by(cntry) %&amp;gt;% tally() %&amp;gt;% arrange(desc(nn)) %&amp;gt;% .</description>
+    </item>
+    
+    <item>
       <title>Visualzing Results of German Elections (2013 and 2017)</title>
       <link>/post/btw_map/</link>
       <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>

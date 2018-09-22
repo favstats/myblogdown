@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Refugees on favstats - personal blog</title>
+    <link>/tags/refugees/</link>
+    <description>Recent content in Refugees on favstats - personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Fabio Votta</copyright>
+    <lastBuildDate>Sat, 22 Sep 2018 00:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="/tags/refugees/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Number of Refugees accepted by the US (2002 - 2018)</title>
+      <link>/post/refugee_dat/</link>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/refugee_dat/</guid>
+      <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
+Packages and Folders # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, readxl, sjmisc) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Load Data refugee_dat &amp;lt;- read_excel(&amp;quot;data/refugee_dat.xls&amp;quot;) %&amp;gt;% drop_na(X__1) %&amp;gt;% rename(cntry = X__1) %&amp;gt;% select(-Religion, -X__2, -X__3, - Total) %&amp;gt;% filter(!(str_detect(cntry, &amp;quot;Total|Data&amp;quot;))) %&amp;gt;% gather(year, n, -cntry) %&amp;gt;% mutate(year = str_replace(year, &amp;quot;CY &amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% as.numeric) refugee_dat %&amp;gt;% group_by(cntry) %&amp;gt;% tally() %&amp;gt;% arrange(desc(nn)) %&amp;gt;% .</description>
+    </item>
+    
+  </channel>
+</rss>

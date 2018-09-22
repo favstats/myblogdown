@@ -11,6 +11,172 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Number of Refugees accepted by the US (2002 - 2018)</title>
+      <link>/post/refugee_dat/</link>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/refugee_dat/</guid>
+      <description>
+
+&lt;p&gt;Data from:
+&lt;a href=&#34;http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion&#34; target=&#34;_blank&#34;&gt;http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;packages-and-folders&#34;&gt;Packages and Folders&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have theme yet
+# devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;)
+# install.packages(&amp;quot;pacman&amp;quot;)
+
+pacman::p_load(tidyverse, readxl, sjmisc)
+
+# Creates folders
+# tidytemplate::data_dir()
+# tidytemplate::images_dir()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;load-data&#34;&gt;Load Data&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;refugee_dat &amp;lt;- read_excel(&amp;quot;data/refugee_dat.xls&amp;quot;) %&amp;gt;% 
+  drop_na(X__1) %&amp;gt;% 
+  rename(cntry = X__1) %&amp;gt;% 
+  select(-Religion, -X__2, -X__3, - Total) %&amp;gt;% 
+  filter(!(str_detect(cntry, &amp;quot;Total|Data&amp;quot;))) %&amp;gt;% 
+  gather(year, n, -cntry) %&amp;gt;% 
+  mutate(year = str_replace(year, &amp;quot;CY &amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% as.numeric)
+
+refugee_dat %&amp;gt;% group_by(cntry) %&amp;gt;% tally() %&amp;gt;% arrange(desc(nn)) %&amp;gt;% .[1:10,] %&amp;gt;% .$cntry -&amp;gt; top10
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## Using `n` as weighting variable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;static&#34;&gt;Static&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;year_dat &amp;lt;- tibble(year = c(2005, 2009, 2013, 2017), label = c(&amp;quot;Bush II&amp;quot;, &amp;quot;Obama I&amp;quot;, &amp;quot;Obama II&amp;quot;, &amp;quot;Trump I&amp;quot;))
+
+
+refugee_total &amp;lt;- refugee_dat %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  tally() %&amp;gt;% 
+  ggplot(aes(year, nn)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 100000, label = label), 
+            angle = 0, color = &amp;quot;black&amp;quot;) +
+  geom_line(linetype = &amp;quot;dashed&amp;quot;) + 
+  geom_point() +
+  theme_minimal() +
+  scale_color_manual(&amp;quot;Country&amp;quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 11, face = &amp;quot;bold&amp;quot;), 
+    plot.caption = element_text(size = 10),
+        legend.position = &amp;quot;bottom&amp;quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Number of Refugees\n&amp;quot;, 
+       title = &amp;quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&amp;quot;, 
+       subtitle = &amp;quot;Total accepted Refugees in Timerange: 943.338\n&amp;quot;,
+       caption = &amp;quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## Using `n` as weighting variable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;refugee_total
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tidytemplate::ggsave_it(refugee_total, width = 10, height = 6)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;colored&#34;&gt;Colored&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;qualitative &amp;lt;- c(&#39;#a6cee3&#39;,&#39;#1f78b4&#39;,&#39;#b2df8a&#39;,&#39;#33a02c&#39;,&#39;#fb9a99&#39;,&#39;#e31a1c&#39;,&#39;#fdbf6f&#39;,&#39;#ff7f00&#39;,&#39;#cab2d6&#39;,&#39;#6a3d9a&#39;)
+
+gg_refugee_static_data &amp;lt;- refugee_dat %&amp;gt;% 
+  filter(cntry %in% top10) 
+
+label_dat &amp;lt;- gg_refugee_static_data %&amp;gt;% 
+  group_by(cntry) %&amp;gt;% 
+  summarize(n = max(n)) %&amp;gt;% 
+  select(-cntry) %&amp;gt;% 
+  inner_join(gg_refugee_static_data)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## Joining, by = &amp;quot;n&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;gg_refugee_static &amp;lt;- gg_refugee_static_data %&amp;gt;% 
+  ggplot(aes(year, n)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 22000, label = label), 
+            angle = 0, color = &amp;quot;black&amp;quot;) +
+  geom_line(aes(linetype = cntry, color = cntry)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat, aes(label = cntry, color = cntry), show.legend = F) + 
+  geom_point(data = label_dat, aes(color = cntry)) + 
+  scale_color_manual(&amp;quot;Country&amp;quot;, values = qualitative) +
+  scale_linetype(&amp;quot;Country&amp;quot;) +
+  theme(plot.title = element_text(size = 13, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 11, face = &amp;quot;bold&amp;quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &amp;quot;line&amp;quot;),
+    legend.position = &amp;quot;bottom&amp;quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Number of Refugees\n&amp;quot;, 
+       title = &amp;quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&amp;quot;, subtitle = &amp;quot;Top 10 Origin Countries\n&amp;quot;,
+       caption = &amp;quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&amp;quot;) 
+  # geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),
+  #             color = &amp;quot;black&amp;quot;,
+  #             alpha = 0.8,
+  #             inherit.aes = FALSE)
+
+gg_refugee_static
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tidytemplate::ggsave_it(gg_refugee_static, width = 12, height = 8)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;animated&#34;&gt;Animated&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(gganimate)
+
+gg_refugee &amp;lt;- refugee_dat %&amp;gt;%
+  filter(cntry %in% top10) %&amp;gt;%
+  ggplot(aes(year, n, color = cntry)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 22000, label = label),
+            angle = 0, color = &amp;quot;black&amp;quot;) +
+  geom_line() +
+  geom_segment(aes(xend = 2018, yend = n), alpha = 0.5) +
+  geom_point() +
+  geom_text(aes(x = 2019, label = cntry)) +
+  theme_minimal() +
+  scale_color_manual(&amp;quot;Country&amp;quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 12, face = &amp;quot;bold&amp;quot;),
+    plot.caption = element_text(size = 10),
+        legend.position = &amp;quot;bottom&amp;quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Number of Refugees\n&amp;quot;,
+       title = &amp;quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&amp;quot;, subtitle = &amp;quot;Top 10 Origin Countries\n&amp;quot;,
+       caption = &amp;quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&amp;quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(cntry, year, keep_last = T)
+
+gg_refugee %&amp;gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
+)
+
+anim_save(&amp;quot;images/gg_refugee.gif&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Visualzing Results of German Elections (2013 and 2017)</title>
       <link>/post/btw_map/</link>
       <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
@@ -2711,15 +2877,6 @@ map2
 &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>LearnR - Modelldiagnostik</title>
-      <link>/project/example-external-project/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/project/example-external-project/</guid>
-      <description></description>
     </item>
     
   </channel>
