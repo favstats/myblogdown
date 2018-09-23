@@ -210,7 +210,7 @@ defaultContentLanguageInSubdir = false
   [[params.social]]
     icon = "twitter"
     icon_pack = "fa"
-    link = "https://twitter.com/FabioFavusMaxim"
+    link = "https://twitter.com/favstats"
 
   [[params.social]]
     icon = "academia"

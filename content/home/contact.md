@@ -15,4 +15,4 @@ autolink = true
 
 +++
 
-{{< tweet FabioFavusMaxim >}}
+{{< tweet favstats >}}
