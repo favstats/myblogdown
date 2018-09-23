@@ -274,7 +274,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    9 min read
   </span>
   
 
@@ -492,6 +492,288 @@ anim_save(&quot;images/gg_refugee.gif&quot;)
 
 <p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif" alt="" /></a></p>
 
+<h2 id="region">Region</h2>
+
+<h3 id="static-1">Static</h3>
+
+<pre><code class="language-r">gg_refugee_static_region &lt;- refugee_dat %&gt;% 
+  mutate(continent = countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;continent&quot;)) %&gt;% 
+  mutate(region = countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;region&quot;)) %&gt;%
+  mutate(continent = case_when(
+    continent == &quot;Asia&quot; ~ region,
+    T ~ continent
+  )) %&gt;% 
+  mutate(continent = case_when(
+    cntry == &quot;Tibet&quot; ~ &quot;Eastern Asia&quot;,
+    cntry == &quot;Yemen (Sanaa)&quot; ~ &quot;Middle East&quot;,
+    cntry == &quot;Yugoslavia&quot; ~ &quot;Europe&quot;,
+    str_detect(cntry, &quot;Georgia|Armenia|Azerbaijan&quot;) ~ &quot;Central Asia&quot;,
+    continent == &quot;Western Asia&quot; ~ &quot;Middle East&quot;,
+    T ~ continent
+  )) %&gt;% 
+  # group_by(continent) %&gt;% tally
+  # filter(continent == &quot;Western Asia&quot;)
+  group_by(year, continent) %&gt;% 
+  tally() 
+</code></pre>
+
+<pre><code>## Warning in countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;continent&quot;): Some values were not matched unambiguously: Tibet, Yemen (Sanaa), Yugoslavia
+
+## Warning in countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;region&quot;): Some values were not matched unambiguously: Tibet, Yemen (Sanaa), Yugoslavia
+
+## Using `n` as weighting variable
+</code></pre>
+
+<pre><code class="language-r"># gg_refugee_static_region %&gt;% filter(continent == &quot;Southern Asia&quot;) %&gt;% summarize_all(sum)
+  
+label_dat &lt;- gg_refugee_static_region %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(nn = max(nn)) %&gt;% 
+  select(-continent) %&gt;% 
+  inner_join(gg_refugee_static_region) %&gt;% 
+  filter(!(year == 2018 &amp; continent == &quot;Eastern Asia&quot;)) %&gt;% 
+  filter(!(year == 2004 &amp; continent == &quot;Eastern Asia&quot;)) %&gt;% 
+  mutate(nn = ifelse(continent == &quot;Southern Asia&quot;, 10385, nn)) %&gt;% 
+  mutate(year = ifelse(continent == &quot;Southern Asia&quot;, 2015, year))
+</code></pre>
+
+<pre><code>## Joining, by = &quot;nn&quot;
+</code></pre>
+
+<pre><code class="language-r">gg_static_region &lt;- gg_refugee_static_region %&gt;%   
+  ggplot(aes(year, nn)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 41000, label = label), 
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(linetype = continent, color = continent)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat, 
+                            aes(label = continent, color = continent), 
+                            show.legend = F, seed = 13092018) +
+  geom_point(data = label_dat, aes(color = continent)) +
+  scale_color_manual(&quot;Region&quot;, values = qualitative) +
+  scale_linetype(&quot;Region&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, 
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) 
+  # geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),
+  #             color = &quot;black&quot;,
+  #             alpha = 0.8,
+  #             inherit.aes = FALSE)
+
+gg_static_region
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png" alt="" /></a></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_static_region, width = 12, height = 8)
+</code></pre>
+
+<h3 id="percent">Percent</h3>
+
+<pre><code class="language-r">gg_static_region_perc &lt;- gg_refugee_static_region %&gt;% 
+  group_by(year) %&gt;% 
+  mutate(total = sum(nn)) %&gt;% 
+  mutate(perc = tidytemplate::get_percentage(nn, total))  
+  
+label_dat &lt;- gg_static_region_perc %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(perc = max(perc)) %&gt;% 
+  select(-continent) %&gt;% 
+  inner_join(gg_static_region_perc)
+</code></pre>
+
+<pre><code>## Joining, by = &quot;perc&quot;
+</code></pre>
+
+<pre><code class="language-r">gg_region_perc &lt;- gg_static_region_perc %&gt;% 
+  ggplot(aes(year, perc)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 60, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(linetype = continent, color = continent)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat,
+                            aes(label = continent, color = continent),
+                            show.legend = F, seed = 13092018) +
+  geom_point(data = label_dat, aes(color = continent)) +
+  scale_color_manual(&quot;Region&quot;, values = qualitative) +
+  scale_linetype(&quot;Region&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Percentage of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) 
+
+gg_region_perc
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png" alt="" /></a></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_region_perc, width = 12, height = 8)
+</code></pre>
+
+<h3 id="animation">Animation</h3>
+
+<pre><code class="language-r">library(gganimate)
+
+gg_anim_region &lt;- gg_refugee_static_region %&gt;%
+  mutate(continent = ifelse(continent == &quot;South-Eastern Asia&quot;, &quot;S.E. Asia&quot;, continent)) %&gt;% 
+  ggplot(aes(year, nn, color = continent)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 41000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line() +
+  geom_segment(aes(xend = 2018, yend = nn), alpha = 0.5) +
+  geom_point() +
+  geom_text(aes(x = 2019, label = continent)) +
+  theme_minimal() +
+  scale_color_manual(&quot;Country&quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 12, face = &quot;bold&quot;),
+    plot.caption = element_text(size = 10),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;,
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(continent, year, keep_last = T)
+
+gg_anim_region %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
+)
+
+anim_save(&quot;images/gg_anim_region.gif&quot;)
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif" alt="" /></a></p>
+
+<h2 id="religion-data">Religion Data</h2>
+
+<pre><code class="language-r">relig_refugee &lt;- read_excel(&quot;data/refugee_dat.xls&quot;) %&gt;% 
+  drop_na(Religion) %&gt;% 
+  rename(religion = Religion) %&gt;% 
+  select(-X__1, -X__2, -X__3, - Total) %&gt;% 
+  # filter(!(str_detect(cntry, &quot;Total|Data&quot;))) %&gt;% 
+  gather(year, n, -religion) %&gt;% 
+  mutate(year = str_replace(year, &quot;CY &quot;, &quot;&quot;) %&gt;% as.numeric) %&gt;% 
+  # group_by(religion, year) %&gt;% 
+  # mutate(n = sum(n)) %&gt;% 
+  mutate(religion_cat = case_when(
+    str_detect(religion, &quot;Moslem|Ahmadiyya&quot;) ~ &quot;Muslim&quot;,
+    str_detect(religion, &quot;Christ|Baptist|Chald|Coptic|Greek|Jehovah|Lutheran|Mennonite|Orthodox|Pentecostalist|Protestant|Uniate|Adventist|Cath|Meth|Old Believer&quot;) ~ &quot;Christian&quot;,
+    str_detect(religion, &quot;Atheist|No Religion&quot;) ~ &quot;Atheist/No Religion&quot;,
+    religion == &quot;Hindu&quot; ~ &quot;Hindu&quot;,
+    T ~ &quot;Other/Unknown&quot;
+  )) %&gt;% 
+  # filter(religion == &quot;Unknown&quot;) %&gt;% 
+  # .$n %&gt;% sum%&gt;% 
+  group_by(religion_cat, year) %&gt;% 
+  summarize(n = sum(n)) 
+</code></pre>
+
+<h3 id="static-2">Static</h3>
+
+<pre><code class="language-r">label_dat &lt;- relig_refugee %&gt;% 
+  filter(year == 2018)
+
+gg_relig &lt;- relig_refugee  %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 48000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(color = religion_cat), size = .8) +
+  theme_minimal() +
+  ggrepel::geom_text_repel(data = label_dat, 
+                           aes(label = religion_cat, color = religion_cat), 
+                           nudge_x = 2,
+                           show.legend = F, 
+                           direction = &quot;y&quot;, min.segment.length = 0.7) +
+  geom_point(data = label_dat, aes(color = religion_cat)) +
+  ggthemes::scale_color_gdocs(&quot;Religion&quot;) +
+  # scale_color_manual(&quot;Religion&quot;, values = qualitative) +
+  scale_linetype(&quot;Religion&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018, 
+                     limits = c(2002, 2021),
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Aggregated by Religion\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) +
+  guides(color = F)
+
+gg_relig
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png" alt="" /></a></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_relig, width = 10, height = 6)
+</code></pre>
+
+<h3 id="animated-1">Animated</h3>
+
+<pre><code class="language-r">library(gganimate)
+
+gg_religion &lt;- relig_refugee %&gt;%
+  ggplot(aes(year, n, color = religion_cat)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 48000, label = label),
+            angle = 0, color = &quot;black&quot;, size = 6) +
+  geom_line(size = 1) +
+  geom_segment(aes(xend = 2018, yend = n), alpha = 0.5) +
+  geom_point(size = 2) +
+  geom_text(aes(x = 2019, label = religion_cat), 
+            size = 6, face = &quot;bold&quot;, nudge_x = .75) +
+  theme_minimal() +
+  ggthemes::scale_color_gdocs(&quot;Religion&quot;) +
+  theme(plot.title = element_text(size = 18, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 16, face = &quot;bold&quot;),
+    plot.caption = element_text(size = 14),
+    axis.title = element_text(size = 14, face = &quot;bold&quot;),
+    axis.text = element_text(size = 14),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, 
+                     labels = c(&quot;'02&quot;, &quot;'03&quot;, &quot;'04&quot;,
+                                &quot;'05&quot;, &quot;'06&quot;, &quot;'07&quot;,
+                                &quot;'08&quot;, &quot;'09&quot;, &quot;'10&quot;,
+                                &quot;'11&quot;, &quot;'12&quot;, &quot;'13&quot;,
+                                &quot;'14&quot;, &quot;'15&quot;, &quot;'16&quot;,
+                                &quot;'17&quot;, &quot;'18&quot;), 
+                     limits = c(2002, 2020.5),
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n\n&quot;,
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Aggregated by Religion\n\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(religion_cat, year, keep_last = T)
+
+gg_religion %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
+)
+
+anim_save(&quot;images/gg_religion.gif&quot;)
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif" alt="" /></a></p>
+
       </div>
 
       
@@ -527,7 +809,7 @@ anim_save(&quot;images/gg_refugee.gif&quot;)
     
     <li><a href="/post/ecprconf18/">Analyzing Tweets of the ECPR General Conference 2018</a></li>
     
-    <li><a href="/post/tidylocations/">Mapping your 2017 Geolocations: The Tidy Way</a></li>
+    <li><a href="/post/terror_map/">Mapping Terror Attacks with Highcharter</a></li>
     
   </ul>
 </div>
