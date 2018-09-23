@@ -414,7 +414,7 @@ gg_relig &amp;lt;- relig_refugee  %&amp;gt;%
 gg_relig
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tidytemplate::ggsave_it(gg_relig, width = 10, height = 6)
 &lt;/code&gt;&lt;/pre&gt;
