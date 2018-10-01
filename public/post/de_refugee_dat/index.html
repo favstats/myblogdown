@@ -274,7 +274,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    5 min read
   </span>
   
 
@@ -423,6 +423,68 @@ ggsave(filename = &quot;images/asylum_numbers.png&quot;, width = 12, height = 7)
 </code></pre>
 
 <p><a href="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png" alt="" /></a></p>
+
+<h2 id="logged-numbers">Logged Numbers</h2>
+
+<pre><code class="language-r">rev_cols &lt;- c(&quot;#56B4E9&quot;, &quot;#E69F00&quot;, &quot;#000000&quot;)
+#rev(ggthemes::colorblind_pal()(3))
+
+n_peak &lt;- asylum_dat %&gt;% 
+  filter(time == as.Date(&quot;2016-08-01&quot;)) %&gt;% 
+  filter(key == &quot;Total Number of Asylum Applications&quot;) %&gt;% 
+  .$number
+
+
+asylum_dat %&gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;Logged Number of Applications/Decisions&quot;) +
+  labs(caption = &quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Applications in Time Range: 1.948.428\nfavstats.eu; @favstats&quot;) +
+  theme_minimal() +
+  scale_color_manual(&quot;&quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2015-09-05&quot;)), linetype = &quot;dashed&quot;) +
+  ## Open Door Policy
+  annotate(&quot;label&quot;, as.Date(&quot;2014-01-05&quot;), y = 75000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2014-12-05&quot;), y = 75000, 
+                 xend = as.Date(&quot;2015-09-03&quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&quot;label&quot;, as.Date(&quot;2018-05-07&quot;), y = 80000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;August 2016\nApplications peak and\ndecline sharply&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-08-07&quot;), y = 80000, 
+                 xend = as.Date(&quot;2016-08-01&quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.2) +
+  annotate(&quot;label&quot;, as.Date(&quot;2017-03-07&quot;), y = 3500, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;March 2016\nClosure of Balkan Route and\nEU - Turkey Refugee Deal&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-03-07&quot;), y = 4500, 
+                 xend = as.Date(&quot;2016-03-09&quot;), yend = 6000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.4) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-09&quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-20&quot;)), linetype=4) +
+  scale_y_log10(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&quot;1 year&quot;), 
+               labels = scales::date_format(&quot;%Y&quot;), limits = c(as.Date(&quot;2010-01-01&quot;),
+                                                              as.Date(&quot;2018-12-12&quot;))) +
+  theme(legend.position = &quot;bottom&quot;, 
+        legend.key.width = unit(3, &quot;line&quot;), 
+        legend.key.size = unit(1.2, &quot;line&quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &quot;bold&quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title = element_text(size = 10))
+
+
+ggsave(filename = &quot;images/asylum_numbers_logged.png&quot;, width = 12, height = 7)
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png" alt="" /></a></p>
 
 <h2 id="animation">Animation</h2>
 

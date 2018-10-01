@@ -106,6 +106,68 @@ ggsave(filename = &amp;quot;images/asylum_numbers.png&amp;quot;, width = 12, hei
 
 &lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
+&lt;h2 id=&#34;logged-numbers&#34;&gt;Logged Numbers&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;)
+#rev(ggthemes::colorblind_pal()(3))
+
+n_peak &amp;lt;- asylum_dat %&amp;gt;% 
+  filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% 
+  filter(key == &amp;quot;Total Number of Asylum Applications&amp;quot;) %&amp;gt;% 
+  .$number
+
+
+asylum_dat %&amp;gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
+  xlab(&amp;quot;&amp;quot;) +
+  ylab(&amp;quot;Logged Number of Applications/Decisions&amp;quot;) +
+  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Applications in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
+  theme_minimal() +
+  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
+  ## Open Door Policy
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
+                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
+                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2017-03-07&amp;quot;), y = 3500, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;March 2016\nClosure of Balkan Route and\nEU - Turkey Refugee Deal&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2017-03-07&amp;quot;), y = 4500, 
+                 xend = as.Date(&amp;quot;2016-03-09&amp;quot;), yend = 6000),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.4) +
+  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
+  scale_y_log10(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
+               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
+                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
+  theme(legend.position = &amp;quot;bottom&amp;quot;, 
+        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
+        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title = element_text(size = 10))
+
+
+ggsave(filename = &amp;quot;images/asylum_numbers_logged.png&amp;quot;, width = 12, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
 &lt;h2 id=&#34;animation&#34;&gt;Animation&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;asyl_anim &amp;lt;- asylum_dat %&amp;gt;% 
