@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Fabio Votta</copyright>
-    <lastBuildDate>Sat, 22 Sep 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 01 Oct 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/refugees/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
+      <link>/post/de_refugee_dat/</link>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/de_refugee_dat/</guid>
+      <description>Data Sources:
+ http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html
+ http://biaj.de/
+  Load packages pacman::p_load(tidyverse, tabulizer, gganimate)  Get Acceptance Rates source(&amp;quot;asylum_dat.R&amp;quot;) load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)  Number of Refugees Data load(&amp;quot;data/asylum_dat.Rdata&amp;quot;) asylum_dat &amp;lt;- asylum_dat %&amp;gt;% full_join(refugee_decisions) %&amp;gt;% select(time, `Total Number of Asylum Seekers` = number, `Accepted Applications` = pos, `Declined Applications` = neg) %&amp;gt;% gather(key, number, -time)  Plot Static rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;) #rev(ggthemes::colorblind_pal()(3)) n_peak &amp;lt;- asylum_dat %&amp;gt;% filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% .</description>
+    </item>
     
     <item>
       <title>Number of Refugees accepted by the US (2002 - 2018)</title>

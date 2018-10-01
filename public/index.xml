@@ -11,6 +11,160 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
+      <link>/post/de_refugee_dat/</link>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/de_refugee_dat/</guid>
+      <description>
+
+&lt;p&gt;Data Sources:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html&#34; target=&#34;_blank&#34;&gt;http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://biaj.de/&#34; target=&#34;_blank&#34;&gt;http://biaj.de/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;load-packages&#34;&gt;Load packages&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, tabulizer, gganimate)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;get-acceptance-rates&#34;&gt;Get Acceptance Rates&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;source(&amp;quot;asylum_dat.R&amp;quot;)
+
+load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;number-of-refugees-data&#34;&gt;Number of Refugees Data&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/asylum_dat.Rdata&amp;quot;)
+
+asylum_dat &amp;lt;- asylum_dat %&amp;gt;% 
+  full_join(refugee_decisions) %&amp;gt;%
+  select(time, `Total Number of Asylum Seekers` = number, 
+         `Accepted Applications` = pos, 
+         `Declined Applications` = neg) %&amp;gt;% 
+  gather(key, number, -time) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;plot-static&#34;&gt;Plot Static&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;)
+#rev(ggthemes::colorblind_pal()(3))
+
+n_peak &amp;lt;- asylum_dat %&amp;gt;% 
+  filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% 
+  filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% 
+  .$number
+
+
+asylum_dat %&amp;gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
+  xlab(&amp;quot;&amp;quot;) +
+  ylab(&amp;quot;&amp;quot;) +
+  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
+  theme_minimal() +
+  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
+  ## Open Door Policy
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
+                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
+                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
+  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
+               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
+                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
+  theme(legend.position = &amp;quot;bottom&amp;quot;, 
+        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
+        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title = element_text(size = 10))
+
+
+ggsave(filename = &amp;quot;images/asylum_numbers.png&amp;quot;, width = 12, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;animation&#34;&gt;Animation&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;asyl_anim &amp;lt;- asylum_dat %&amp;gt;% 
+  full_join(refugee_decisions) %&amp;gt;%
+  select(time, `Total Number of Asylum Seekers` = number, 
+         `Accepted Applications` = pos, 
+         `Declined Applications` = neg) %&amp;gt;% 
+  gather(key, number, -time) %&amp;gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
+  xlab(&amp;quot;&amp;quot;) +
+  ylab(&amp;quot;&amp;quot;) +
+  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
+  theme_minimal() +
+  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
+  ## Open Door Policy
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
+                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
+  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
+                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
+  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
+               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
+                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
+  theme(legend.position = &amp;quot;bottom&amp;quot;, 
+        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
+        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title= element_text(size = 10)) +
+  transition_reveal(key, time)
+
+asyl_anim %&amp;gt;% animate(
+  nframes = 500, fps = 20, width = 1000, height = 600, detail = 1
+)
+
+anim_save(&amp;quot;images/asyl_anim.gif&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Visualizing Gas Explosions in Lawrence, MA</title>
       <link>/project/lawrence_ma/</link>
       <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
@@ -464,6 +618,218 @@ anim_save(&amp;quot;images/gg_religion.gif&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;maps&#34;&gt;Maps&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/world_map.Rdata&amp;quot;)
+
+refugee_map_total &amp;lt;- refugee_dat %&amp;gt;% 
+  mutate(id = countrycode::countrycode(cntry, &amp;quot;country.name&amp;quot;, &amp;quot;country.name&amp;quot;)) %&amp;gt;% 
+  mutate(id = ifelse(cntry == &amp;quot;Tibet&amp;quot;, yes = &amp;quot;China&amp;quot;, no = id)) %&amp;gt;%
+  group_by(id) %&amp;gt;% 
+  summarize(n = sum(n, na.rm = T)) %&amp;gt;% 
+  full_join(world_map) %&amp;gt;% 
+  mutate(n = cut(n,  
+                 breaks = c(1, 100, 10000, 50000, 100000, 175000), 
+                 labels = c(&amp;quot;&amp;lt; 100&amp;quot;, &amp;quot;100 - 10.000&amp;quot;, 
+                          &amp;quot;10.001 - 50.000&amp;quot;, &amp;quot;50.001 - 100.000&amp;quot;, 
+                            &amp;quot;100.001 - 175.000&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;total-map&#34;&gt;Total Map&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;refugee_map_total %&amp;gt;% 
+  ggplot() +
+  geom_map(map = world_map,
+         aes(x = long, y = lat, group = group, map_id = id),
+         color = &amp;quot;#7f7f7f&amp;quot;, fill = &amp;quot;gray80&amp;quot;, size = 0.15) +
+  geom_map(data = refugee_map_total, 
+           map = world_map,
+        aes(map_id  = id, 
+            fill = n), size = 0.01) + 
+  theme_void() +
+#  scale_fill_gradient(low = &amp;quot;red&amp;quot;, high = &amp;quot;blue&amp;quot;) + 
+  coord_equal() +
+  viridis::scale_fill_viridis(&amp;quot;Number of Refugees&amp;quot;, 
+                              direction = -1,
+                              option = &amp;quot;D&amp;quot;, 
+                              discrete = T, 
+                              # begin = .2, 
+                              # end = .8, 
+                              na.value = &amp;quot;grey&amp;quot;,
+                        #       limits = c(0, 1), 
+                        # breaks = c(0, .20, .40, .60, .8, 1),
+                        labels = c(&amp;quot;&amp;lt; 100&amp;quot;, &amp;quot;100 - 10.000&amp;quot;, 
+                          &amp;quot;10.000 - 50.000&amp;quot;, &amp;quot;50.000 - 100.000&amp;quot;, 
+                            &amp;quot;100.000 - 175.000&amp;quot;, &amp;quot;No Refugees&amp;quot;)) +
+  # facet_wrap(~year, ncol = 6) +
+  theme(
+    plot.title = element_text(size = 18, face = &amp;quot;bold&amp;quot;, hjust = 0.5),
+    plot.caption = element_text(size = 14),
+    legend.justification = c(1, 0),
+    legend.position = c(0.2, 0.25),
+    legend.title = element_text(size = 10), 
+    #axis.ticks.length = unit(3, &amp;quot;cm&amp;quot;),
+    legend.direction = &amp;quot;vertical&amp;quot;) +
+  # guides(fill = guide_colorbar(barwidth = 0.7, barheight = 15,
+  #               title.position = &amp;quot;bottom&amp;quot;, title.hjust = 0.5,
+  #               label.theme = element_text(colour = &amp;quot;black&amp;quot;, size = 6, angle = 0))) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;,
+       title = &amp;quot;Refugees arriving in the United States of America by Nationality (2002 - 2018)&amp;quot;,
+       caption = &amp;quot;Data: Department of State, Office of Admissions - Refugee Processing Center   \nfavstats.eu; @favstats   &amp;quot;)   
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;
+ggsave(filename = &amp;quot;images/refugee_total_map.png&amp;quot;, height = 6, width = 12) 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;extended-data-1975-2018&#34;&gt;Extended Data (1975 - 2018)&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;refuge_admissions75 &amp;lt;- &#39;https://static1.squarespace.com/static/580e4274e58c624696efadc6/t/5b8ff632aa4a999f85f99e8d/1536161330411/Graph+Refugee+Admissions+since+1975%289.5.18%29.pdf&#39;
+
+# Extract the table
+out &amp;lt;- extract_tables(refuge_admissions75)
+
+first_pages &amp;lt;- do.call(rbind, out[-length(out)]) %&amp;gt;% as_tibble()
+
+correct_names &amp;lt;- first_pages[2,] %&amp;gt;% as.character()
+
+final1 &amp;lt;- first_pages %&amp;gt;% 
+  set_names(correct_names) %&amp;gt;% 
+  .[-c(1:2),] %&amp;gt;% 
+  .[-c(length(.)),] 
+
+last_page &amp;lt;- cbind(
+   out[[3]][,1],
+   out[[3]][,2],
+   out[[3]][,3],
+   out[[3]][,5],
+   out[[3]][,6],
+   out[[3]][,7],
+   out[[3]][,8],
+   out[[3]][,9],
+   out[[3]][,10],
+   out[[3]][,11]
+) %&amp;gt;% as_tibble() 
+  
+correct_lastpage &amp;lt;- last_page[2,] %&amp;gt;% as.character()
+
+final2 &amp;lt;- last_page %&amp;gt;% 
+  set_names(correct_lastpage) %&amp;gt;% 
+  .[-c(1:2),] 
+
+
+
+admissions75 &amp;lt;- bind_rows(final1, final2) %&amp;gt;% 
+  select(-Total) %&amp;gt;% 
+  mutate_all(parse_number) %&amp;gt;% 
+  na.omit() %&amp;gt;% 
+  gather(region, n, -`Fiscal\rYear`) %&amp;gt;% 
+  janitor::clean_names()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;plot-it&#34;&gt;Plot It&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;year_lab &amp;lt;- paste0(&amp;quot;&#39;&amp;quot;, stringi::stri_sub(1975:2018, -2 , -1))
+
+year_dat &amp;lt;- tibble(fiscal_year = c(seq(1976, 2016, 4)), 
+                   label = c(&amp;quot;Carter I&amp;quot;, &amp;quot;Reagan I&amp;quot;, &amp;quot;Reagan II&amp;quot;, 
+                             &amp;quot;H.W. Bush I&amp;quot;, &amp;quot;Clinton I&amp;quot;, &amp;quot;Clinton II&amp;quot;, &amp;quot;Bush I&amp;quot;, 
+                             &amp;quot;Bush II&amp;quot;, &amp;quot;Obama I&amp;quot;, &amp;quot;Obama II&amp;quot;, &amp;quot;Trump I&amp;quot;))
+
+n_refugee_2018 &amp;lt;- admissions75 %&amp;gt;% 
+  filter(fiscal_year == 2018) %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+n_refugee_2002 &amp;lt;- admissions75 %&amp;gt;% 
+  filter(fiscal_year == 2002) %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+n_refugee_1992 &amp;lt;- admissions75 %&amp;gt;% 
+  filter(fiscal_year == 1992) %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+n_refugee_1980 &amp;lt;- admissions75 %&amp;gt;% 
+  filter(fiscal_year == 1980) %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+n_refugee_1975 &amp;lt;- admissions75 %&amp;gt;% 
+  filter(fiscal_year == 1975) %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+admissions75 %&amp;gt;% 
+  summarize(n = sum(n)) %&amp;gt;% 
+  .$n
+
+
+admissions75 %&amp;gt;% 
+  mutate(region = case_when(
+    region == &amp;quot;Former\rSoviet\rUnion&amp;quot; ~ &amp;quot;(Former) Soviet Union&amp;quot;,
+    region == &amp;quot;Latin America\rCaribbean&amp;quot; ~ &amp;quot;Latin America/Caribbean&amp;quot;,
+    region == &amp;quot;Near East\rSouth Asia&amp;quot; ~ &amp;quot;Near East/South Asia&amp;quot;,    
+    region == &amp;quot;PSI&amp;quot; ~ &amp;quot;Private Sector Initiative&amp;quot;,   
+    T ~ region
+  )) %&amp;gt;% 
+  ggplot(aes(fiscal_year, n))  +
+  geom_vline(data = year_dat, aes(xintercept = fiscal_year), alpha = 0.35) +
+  geom_label(data = year_dat, aes(x = fiscal_year, y = 220000, label = label),
+            angle = 0, color = &amp;quot;black&amp;quot;) +
+  geom_area(aes(fill = region), alpha = 0.9) +
+  geom_hline(yintercept = n_refugee_2018, 
+             linetype = &amp;quot;dashed&amp;quot;, color = &amp;quot;black&amp;quot;, alpha = 0.85) +
+  annotate(&amp;quot;label&amp;quot;, x = 1978, y = 115000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;End of\n Vietnam War&amp;quot;) +
+  annotate(&amp;quot;label&amp;quot;, x = 1984, y = 185000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;Refugee Act of 1980&amp;quot;) +
+  annotate(&amp;quot;label&amp;quot;, x = 1997, y = 150000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;Fall of Soviet Union&amp;quot;) +
+  annotate(&amp;quot;label&amp;quot;, x = 2000, y = 105000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;Drop after 9/11&amp;quot;) +
+  annotate(&amp;quot;label&amp;quot;, x = 2015, y = 110000, 
+           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
+           label = &amp;quot;Number of Refugees in 2018\n lowest since 1977&amp;quot;) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_fill_manual(&amp;quot;Region&amp;quot;, values = qualitative) +
+  geom_curve(aes(x = 1977, y = 125000, xend = 1975, yend = n_refugee_1975),
+  arrow = arrow(length = unit(0.03, &amp;quot;npc&amp;quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 1982, y = 190000, xend = 1980, yend = n_refugee_1980),
+  arrow = arrow(length = unit(0.03, &amp;quot;npc&amp;quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 1994, y = 150000, xend = 1992, yend = n_refugee_1992),
+  arrow = arrow(length = unit(0.03, &amp;quot;npc&amp;quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 2000, y = 100000, xend = 2002, yend = n_refugee_2002),
+  arrow = arrow(length = unit(0.03, &amp;quot;npc&amp;quot;)), curvature = -0.3) +
+  geom_curve(aes(x = 2016, y = 100000, xend = 2018, yend = n_refugee_2018),
+  arrow = arrow(length = unit(0.03, &amp;quot;npc&amp;quot;)), curvature = -0.2) +
+  theme(plot.title = element_text(size = 13, face = &amp;quot;bold&amp;quot;),
+    # plot.subtitle = element_text(size = 11, face = &amp;quot;bold&amp;quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &amp;quot;line&amp;quot;),
+    legend.position = &amp;quot;bottom&amp;quot;) +
+  scale_x_continuous(breaks = 1975:2018, labels = year_lab,
+                     minor_breaks = seq(1975, 2018, 1)) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Number of Refugees\n&amp;quot;, 
+       title = &amp;quot;Refugees arriving in the United States of America by Year (1975 - 2018)\n&amp;quot;, 
+       caption = &amp;quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nTotal Number of Accepted Refugees since 1975: 3.340.709\nfavstats.eu; @favstats&amp;quot;) 
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(filename = &amp;quot;images/refugee75.png&amp;quot;, height = 7, width = 13) 
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
@@ -2883,89 +3249,6 @@ rt_hashtags %&amp;gt;%
 &lt;p&gt;&lt;img src=&#34;https://github.com/favstats/terror_map/blob/master/images/terror_map.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Click &lt;a href=&#34;https://favstats.github.io/terror_map/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for interactive version.&lt;/strong&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Mapping your 2017 Geolocations: The Tidy Way</title>
-      <link>/post/tidylocations/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/post/tidylocations/</guid>
-      <description>&lt;p&gt;A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code &lt;a href=&#34;https://github.com/asheshwor/R-maps/blob/master/05_ggmap_google_location.R&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?&lt;/p&gt;
-
-&lt;p&gt;The code for this blogpost can be found in this &lt;a href=&#34;https://github.com/favstats/tidy_locations&#34; target=&#34;_blank&#34;&gt;GitHub Repository&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Getting Started&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours &lt;a href=&#34;https://takeout.google.com/settings/takeout&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Now in Rstudio, I load in the needed packages:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(ggmap, jsonlite, tidyverse, lubridate, magrittr)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;After I put the downloaded &lt;code&gt;.json&lt;/code&gt; file into my working directory, I use &lt;code&gt;fromJSON&lt;/code&gt; to read in the data.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;loc_history &amp;lt;- fromJSON(&#39;data/Standortverlauf.json&#39;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As a next step, we want to extract our locations from the data. The locations are located (ha!) under &lt;code&gt;loc_history$locations&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;locations &amp;lt;- loc_history$locations #we are only interested in locations
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now comes the &lt;strong&gt;data wrangling part&lt;/strong&gt;. We want the data to be in the right format. Especially the dates are easily transformed with the powerful &lt;code&gt;lubridate&lt;/code&gt; package. First we create a &lt;code&gt;time&lt;/code&gt; variable, using the &lt;code&gt;as_datetime&lt;/code&gt; function. Next we bring the longitudes and lattitudes in the right format, then we select three relevant variables &lt;code&gt;time&lt;/code&gt;, &lt;code&gt;lon&lt;/code&gt; and &lt;code&gt;lat&lt;/code&gt;. Lastly, we filter the dataframe so that we will only be left with data of 2017.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;locations %&amp;lt;&amp;gt;% 
- mutate(time = as_datetime(as.numeric(timestampMs) / 1000)) %&amp;gt;% 
- mutate(lon = longitudeE7/1E7) %&amp;gt;% 
- mutate(lat = latitudeE7/1E7) %&amp;gt;% 
- select(time, lon, lat) %&amp;gt;% 
- filter(time &amp;gt; as_datetime(&amp;quot;2017-01-01 00:00:01&amp;quot;) &amp;amp; time &amp;lt; as_datetime(&amp;quot;2017-12-31 23:59:59&amp;quot;))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Finally, we come to the &lt;strong&gt;plotting part&lt;/strong&gt;! We type in our keyword and off we go with the &lt;code&gt;ggmap&lt;/code&gt; package!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;map1 &amp;lt;- &amp;quot;Stuttgart&amp;quot; %&amp;gt;% 
-  qmap(maptype = &amp;quot;toner&amp;quot;, source = &amp;quot;stamen&amp;quot;, zoom = 14) + # creates the map
-  geom_point(aes(x = lon, y = lat),                       # adding your data
-             size = 1,
-             data = locations,
-             color = &amp;quot;red&amp;quot;, 
-             alpha = 0.01)
-map1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/tidy_locations/blob/master/images/map1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We could also zoom out and get a map from all of Germany&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;map2 &amp;lt;- &amp;quot;germany&amp;quot; %&amp;gt;% 
-  qmap(maptype = &amp;quot;toner&amp;quot;, source = &amp;quot;stamen&amp;quot;, zoom = 5) + # creates the map
-  geom_point(aes(x = lon, y = lat),                       # adding your data
-             size = 1,
-             data = locations,
-             color = &amp;quot;red&amp;quot;, 
-             alpha = 0.01)
-map2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/tidy_locations/blob/master/images/map4.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If we wanted to save the map on our computer, we could use the following code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave(map2, file = &amp;quot;images/map2.png&amp;quot;, height = 4, width = 4)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
-&lt;li id=&#34;fn:1&#34;&gt;Note that the name of your &lt;code&gt;.json&lt;/code&gt; might differ from mine if you are not using Google in German.
- &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     
