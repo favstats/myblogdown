@@ -36,8 +36,9 @@ weight = 5
  
 +++
 
-# Biography
+# About Me
+
+<a href="https://docs.google.com/viewer?url=https://github.com/favstats/cv_hub/raw/master/docs/Votta_CV.pdf">Curriculum Vitae</a>
 
 I am a graduate student of Empirical Political and Social Research and tutor for statistics at the University of Stuttgart. My research interests are political polarization, political extremism of all kinds and the interaction of religion and politics (especially in the Middle East). I am a very quantitative focused person and I enjoy statistical modeling, computational social science and everything R related. I currently teach statistics to graduate students, both in SPSS and R.
 
-<a href="https://docs.google.com/viewer?url=https://github.com/favstats/cv_hub/raw/master/docs/Votta_CV.pdf">Curriculum Vitae</a>
