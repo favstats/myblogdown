@@ -22,7 +22,7 @@ weight = 5
 [[education.courses]]
   course = "M.A. Empirical Political and Social Research"
   institution = "University of Stuttgart"
-  year = 2017
+  year = 2018
 
 [[education.courses]]
   course = "B.A. Social Sciences"
