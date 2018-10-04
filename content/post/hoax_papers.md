@@ -332,7 +332,7 @@ incident seems unwarranted to me.
 There are enough journals that rejected the hoaxes and papers in other
 [fields are retracted all the time](https://retractionwatch.com/)
 because of fraud or other shortcomings. As an example, [this
-video](https://www.youtube.com/watch?v=wLlA1w4OZWQ) details an egregious
+video](https://www.youtube.com/watch?v=wLlA1w4OZWQ) explains a
 case in a nanoscience journal where images were blatantly forged,
 something that would have been obvious to any non-nanoscientist. I
 understand that this might come off as an attempt to whatabout the issue
