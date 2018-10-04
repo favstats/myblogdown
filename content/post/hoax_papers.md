@@ -15,23 +15,6 @@ caption = "Graph shows Ranking of Journals that received Hoax Papers"
 
 +++
 
-+++
-date = 2018-10-01
-lastmod = 2018-10-01
-draft = false
-tags = ["refugees", "dataviz"]
-title = "Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)"
-math = true
-summary = """
-A short script visualizing the number of accepted refugees in Germany.
-"""
-
-[header]
-image = "headers/asylum_numbers.png"
-caption = "Graph shows number of applications over time"
-
-+++
-
 Here I want to analyze the Rankings of Journals that received hoax
 papers by Boghossian, Lindsay and Pluckrose. You can read about the
 story

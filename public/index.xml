@@ -18,23 +18,6 @@
       <guid>/post/hoax_papers/</guid>
       <description>
 
-&lt;p&gt;+++
-date = 2018-10-01
-lastmod = 2018-10-01
-draft = false
-tags = [&amp;ldquo;refugees&amp;rdquo;, &amp;ldquo;dataviz&amp;rdquo;]
-title = &amp;ldquo;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)&amp;rdquo;
-math = true
-summary = &amp;ldquo;&amp;rdquo;&amp;rdquo;
-A short script visualizing the number of accepted refugees in Germany.
-&amp;ldquo;&amp;rdquo;&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;[header]
-image = &amp;ldquo;headers/asylum_numbers.png&amp;rdquo;
-caption = &amp;ldquo;Graph shows number of applications over time&amp;rdquo;&lt;/p&gt;
-
-&lt;p&gt;+++&lt;/p&gt;
-
 &lt;p&gt;Here I want to analyze the Rankings of Journals that received hoax
 papers by Boghossian, Lindsay and Pluckrose. You can read about the
 story
