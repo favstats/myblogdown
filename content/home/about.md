@@ -10,7 +10,7 @@ weight = 5
 # List your academic interests.
 [interests]
   interests = [
-    "Statistical Modeling",
+    "Data Visualization",
     "Computational Social Science",
     "Political Extremism",
     "Religion & Politics",
@@ -40,5 +40,5 @@ weight = 5
 
 <a href="https://docs.google.com/viewer?url=https://github.com/favstats/cv_hub/raw/master/docs/Votta_CV.pdf">Curriculum Vitae</a>
 
-I am a graduate student of Empirical Political and Social Research and tutor for statistics at the University of Stuttgart. My research interests are political polarization, political extremism of all kinds and the interaction of religion and politics (especially in the Middle East). I am a very quantitative focused person and I enjoy statistical modeling, computational social science and everything R related. I currently teach statistics to graduate students, both in SPSS and R.
+I am currently completing my Master program *Empirical Political and Social Research* at the University of Stuttgart. My research interests include political polarization, political extremism and the interaction of religion and politics. I am also very quantitative focused person and very passionate about data and data visualization. I enjoy statistical modeling, computational social science and everything R related. At the University of Stuttgart I tutor graduate students in statistics, using both SPSS and R.
 

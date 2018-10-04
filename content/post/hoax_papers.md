@@ -1,4 +1,21 @@
 +++
+date = 2018-10-04
+lastmod = 2018-10-04
+draft = false
+tags = ["hoax", "dataviz"]
+title = "Pluckrose et al. Hoax Papers"
+math = true
+summary = """
+Taking a look at the Journals that received Hoax Papers by Pluckrose et al.
+"""
+
+[header]
+image = "headers/gender_studies.png"
+caption = "Graph shows Ranking of Journals that received Hoax Papers"
+
++++
+
++++
 date = 2018-10-01
 lastmod = 2018-10-01
 draft = false
@@ -241,7 +258,8 @@ sj_data %>%
   guides(color = guide_legend(override.aes = list(size = 4)))
 ```
 
-<img src="hoax_scripts_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
+[![](https://github.com/favstats/hoax_papers/blob/master/images/gender_studies.png?raw=true)](https://github.com/favstats/hoax_papers/blob/master/images/gender_studies.png?raw=true) 
+
 
 ``` r
 tidytemplate::ggsave_it(gender_studies, width = 12, height = 9)
@@ -291,7 +309,7 @@ sj_data %>%
   guides(color = F)
 ```
 
-<img src="hoax_scripts_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" />
+[![](https://github.com/favstats/hoax_papers/blob/master/images/gender_studies_boxplots.png?raw=true)](https://github.com/favstats/hoax_papers/blob/master/images/gender_studies_boxplots.png?raw=true) 
 
 ``` r
 tidytemplate::ggsave_it(gender_studies_boxplots, width = 10, height = 6)

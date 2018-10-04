@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/hoax_papers/</loc>
+      <lastmod>2018-10-04T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/de_refugee_dat/</loc>
       <lastmod>2018-10-01T00:00:00+02:00</lastmod>
     </url>
@@ -254,7 +263,7 @@
     <url>
     
       <loc>/tags/dataviz/</loc>
-      <lastmod>2018-10-01T00:00:00+02:00</lastmod>
+      <lastmod>2018-10-04T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -325,6 +334,16 @@
     
       <loc>/tags/highcharter/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/hoax/</loc>
+      <lastmod>2018-10-04T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     

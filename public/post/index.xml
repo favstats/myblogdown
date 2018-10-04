@@ -13,15 +13,26 @@
     
     
     <item>
+      <title>Pluckrose et al. Hoax Papers</title>
+      <link>/post/hoax_papers/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/hoax_papers/</guid>
+      <description>+++ date = 2018-10-01 lastmod = 2018-10-01 draft = false tags = [&amp;ldquo;refugees&amp;rdquo;, &amp;ldquo;dataviz&amp;rdquo;] title = &amp;ldquo;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)&amp;rdquo; math = true summary = &amp;ldquo;&amp;rdquo;&amp;rdquo; A short script visualizing the number of accepted refugees in Germany. &amp;ldquo;&amp;rdquo;&amp;rdquo;
+[header] image = &amp;ldquo;headers/asylum_numbers.png&amp;rdquo; caption = &amp;ldquo;Graph shows number of applications over time&amp;rdquo;
++++
+Here I want to analyze the Rankings of Journals that received hoax papers by Boghossian, Lindsay and Pluckrose.</description>
+    </item>
+    
+    <item>
       <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
       <link>/post/de_refugee_dat/</link>
       <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/de_refugee_dat/</guid>
-      <description>Data Sources:
- http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html
- http://biaj.de/
-  Load packages pacman::p_load(tidyverse, tabulizer, gganimate)  Get Acceptance Rates source(&amp;quot;asylum_dat.R&amp;quot;) load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)  Number of Refugees Data load(&amp;quot;data/asylum_dat.Rdata&amp;quot;) asylum_dat &amp;lt;- asylum_dat %&amp;gt;% full_join(refugee_decisions) %&amp;gt;% select(time, `Total Number of Asylum Seekers` = number, `Accepted Applications` = pos, `Declined Applications` = neg) %&amp;gt;% gather(key, number, -time)  Plot Static rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;) #rev(ggthemes::colorblind_pal()(3)) n_peak &amp;lt;- asylum_dat %&amp;gt;% filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% .</description>
+      <description>Here I want to analyze the Rankings of Journals that received hoax papers by Boghossian, Lindsay and Pluckrose. You can read about the story here and here in their own words.
+Packages Loading in some packages.
+# Install these packages if you don&#39;t have them yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, rvest, sjrdata, janitor, ggthemes)  Load Data Some quick webscraping to get the details on the papers created by Pluckrose et al.</description>
     </item>
     
     <item>
