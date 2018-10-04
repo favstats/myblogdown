@@ -78,6 +78,8 @@ tidytemplate::save_it(areo_data)
 &lt;p&gt;Next, I combine the article data with the &lt;a href=&#34;https://www.scimagojr.com/&#34; target=&#34;_blank&#34;&gt;Scimago Journal &amp;amp; Country
 Rank Database&lt;/a&gt; to get Journal Rankings.&lt;/p&gt;
 
+&lt;p&gt;There is a great package out there called &lt;a href=&#34;https://ikashnitsky.github.io/2018/sjrdata-package/&#34; target=&#34;_blank&#34;&gt;sjrdata&lt;/a&gt; by &lt;a href=&#34;https://twitter.com/ikashnitsky&#34; target=&#34;_blank&#34;&gt;Ilya Kashnitsky&lt;/a&gt; which makes all the journal ranking data from Scimago available.&lt;/p&gt;
+
 &lt;h3 id=&#34;merging-and-overview&#34;&gt;Merging and Overview&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sj_data &amp;lt;- sjrdata::sjr_journals %&amp;gt;% 

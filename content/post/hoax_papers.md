@@ -75,7 +75,9 @@ tidytemplate::save_it(areo_data)
 ## Scimago Journal & Country Rank Data
 
 Next, I combine the article data with the [Scimago Journal & Country
-Rank Database](https://www.scimagojr.com/) to get Journal Rankings.
+Rank Database](https://www.scimagojr.com/) to get Journal Rankings. 
+
+There is a great package out there called [sjrdata](https://ikashnitsky.github.io/2018/sjrdata-package/) by [Ilya Kashnitsky](https://twitter.com/ikashnitsky) which makes all the journal ranking data from Scimago available. 
 
 ### Merging and Overview
 
