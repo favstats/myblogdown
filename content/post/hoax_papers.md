@@ -256,7 +256,7 @@ the paper *“An Ethnography of Breastaurant Masculinity”*) and **Gender,
 Place, and Culture** (with the paper *“Human Reactions to Rape Culture
 and Queer Performativity in Urban Dog Parks in Portland, Oregon”*).
 Other than that, quite a few of the journals that accepted or published
-hoax papers are found in the lower left quadrant with comparatively low
+hoax papers are found in the lower left quadrant with comparatively lower
 impact.
 
 ### Boxplot
