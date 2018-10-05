@@ -300,12 +300,7 @@ sj_data %>%
 tidytemplate::ggsave_it(gender_studies_boxplots, width = 10, height = 6)
 ```
 
-Some interesting patterns are revealed here. Seems like journals that
-rejected papers were *somewhat better ranked* than those that accepted
-hoax papers (more evident with the Journal h-index). It’s also worth
-noting, that the majority of the other journals in the field of
-Gender/Cultural Studies do rank considerably lower than those that
-Pluckrose et al. managed to get their papers published in.
+Some interesting patterns are revealed here. Seems like journals that rejected papers were *somewhat better ranked* than those that accepted hoax papers (more evident with the Journal h-index). It's also worth noting, that the majority of the other journals in the field of Gender/Cultural Studies do rank considerably lower than those that Pluckrose et al. managed to get their papers published in. In fact, most of the journals they were accepted or published in are in the top quartile of the field. However, it should be noted that the majority of ranked journals in gender/cultural studies is indeed very poorly ranked to begin with.
 
 ## So what are some conclusions to draw from this?
 
