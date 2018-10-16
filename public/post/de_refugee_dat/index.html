@@ -274,7 +274,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    10 min read
+    5 min read
   </span>
   
 
@@ -336,565 +336,211 @@
       <div class="article-style" itemprop="articleBody">
         
 
-<p>Here I want to analyze the Rankings of Journals that received hoax
-papers by Boghossian, Lindsay and Pluckrose. You can read about the
-story
-<a href="https://www.motherjones.com/kevin-drum/2018/10/cultural-studies-is-the-target-of-another-hoax-and-this-one-stings/" target="_blank">here</a>
-and
-<a href="https://areomagazine.com/2018/10/02/academic-grievance-studies-and-the-corruption-of-scholarship/" target="_blank">here</a>
-in their own words.</p>
-
-<h2 id="packages">Packages</h2>
-
-<p>Loading in some packages.</p>
-
-<pre><code class="language-r"># Install these packages if you don't have them yet
-# devtools::install_github(&quot;favstats/tidytemplate&quot;)
-# install.packages(&quot;pacman&quot;)
-
-pacman::p_load(tidyverse, rvest, sjrdata, janitor, ggthemes)
-</code></pre>
-
-<h2 id="load-data">Load Data</h2>
-
-<p>Some quick webscraping to get the details on the papers created by
-Pluckrose et
-al.</p>
-
-<pre><code class="language-r">areo_html &lt;- read_html(&quot;https://areomagazine.com/2018/10/02/academic-grievance-studies-and-the-corruption-of-scholarship/&quot;)
-
-journals &lt;- areo_html %&gt;% 
-  html_nodes(&quot;em:nth-child(1) a&quot;) %&gt;% 
-  html_text()
-
-titles &lt;- areo_html %&gt;% 
-  html_nodes(&quot;p&quot;) %&gt;% 
-  html_text() %&gt;% 
-  .[str_detect(., &quot;Title: |Title. |Rubbing One Out: &quot;)]  
-
-short_titles &lt;- areo_html %&gt;% 
-  html_nodes(&quot;p:nth-child(309) strong , hr+ p strong , p:nth-child(67) strong&quot;) %&gt;% 
-  html_text() %&gt;% 
-  .[!(str_detect(., &quot;Part&quot;))] 
-
-
-status &lt;- areo_html %&gt;% 
-  html_nodes(&quot;p&quot;) %&gt;% 
-  html_text() %&gt;% 
-  .[str_detect(., &quot;Status: &quot;)]  
-
-
-areo_data &lt;- tibble(journals, titles, short_titles, status) %&gt;% 
-  mutate(titles = str_remove(titles, &quot;Title: |Title. &quot;)) %&gt;% 
-  mutate(status = str_remove(status, &quot;Status: &quot;))
-
-tidytemplate::save_it(areo_data)
-</code></pre>
-
-<h2 id="scimago-journal-country-rank-data">Scimago Journal &amp; Country Rank Data</h2>
-
-<p>Next, I combine the article data with the <a href="https://www.scimagojr.com/" target="_blank">Scimago Journal &amp; Country
-Rank Database</a> to get Journal Rankings.</p>
-
-<h3 id="merging-and-overview">Merging and Overview</h3>
-
-<pre><code class="language-r">sj_data &lt;- sjrdata::sjr_journals %&gt;% 
-  filter(year == 2017) %&gt;% 
-  rename(journals = title) %&gt;% 
-  ### renaming journals so they match the article
-  mutate(journals = case_when(
-    journals == &quot;Sexuality and Culture&quot; ~ &quot;Sexuality &amp; Culture&quot;,
-    journals == &quot;Affilia - Journal of Women and Social Work&quot; ~ &quot;Affilia&quot;,
-    journals == &quot;Women's Studies International Forum&quot; ~ &quot;Women’s Studies International Forum&quot;,
-    journals == &quot;Gender, Work and Organization&quot; ~ &quot;Gender, Work, and Organization&quot;,
-    journals == &quot;Glq&quot; ~ &quot;GLQ: A Journal of Gay and Lesbian Studies&quot;,
-    T ~ journals
-  )) %&gt;% 
-  full_join(areo_data) 
-</code></pre>
-
-<p>Let’s take a look the papers and journals, sorted by journal rank. There
-are two metrics in the SJR Database that we’ll focus on:</p>
-
-<ul>
-<li><strong>SCImago Journal Rank (SJR indicator)</strong></li>
-</ul>
-
-<p>It expresses the average number of weighted citations received in the
-selected year by the documents published in the selected journal in the
-three previous years, –i.e. weighted citations received in year X to
-documents published in the journal in years X-1, X-2 and X-3. <a href="https://www.scimagojr.com/SCImagoJournalRank.pdf" target="_blank">See
-detailed description of SJR
-(PDF)</a>.</p>
-
-<ul>
-<li><strong>H Index</strong></li>
-</ul>
-
-<p>The h index expresses the journal’s number of articles (h) that have
-received at least h citations. It quantifies both journal scientific
-productivity and scientific impact and it is also applicable to
-scientists, countries, etc. <a href="http://en.wikipedia.org/wiki/Hirsch_number" target="_blank">(see H-index wikipedia
-definition)</a>.</p>
-
-<pre><code class="language-r">sj_data %&gt;% 
-  filter(!is.na(status)) %&gt;% 
-  select(titles, status, journals, rank, sjr, h_index, categories) %&gt;% 
-  arrange(desc(sjr)) %&gt;% 
-  knitr::kable()
-</code></pre>
-
-<table>
-<thead>
-<tr>
-<th align="left">titles</th>
-<th align="left">status</th>
-<th align="left">journals</th>
-<th align="right">rank</th>
-<th align="right">sjr</th>
-<th align="right">h_index</th>
-<th align="left">categories</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="left">Rubbing One Out: Defining Metasexual Violence of Objectification Through Nonconsensual Masturbation</td>
-<td align="left">Rejected after peer review</td>
-<td align="left">Sociological Theory</td>
-<td align="right">1966</td>
-<td align="right">1.641</td>
-<td align="right">64</td>
-<td align="left">Sociology and Political Science (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Strategies for Dealing with Cisnormative Discursive Aggression in the Workplace: Disruption, Criticism, Self-Enforcement, and Collusion</td>
-<td align="left">Under review</td>
-<td align="left">Gender, Work, and Organization</td>
-<td align="right">3683</td>
-<td align="right">1.129</td>
-<td align="right">59</td>
-<td align="left">Gender Studies (Q1); Organizational Behavior and Human Resource Management (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Human Reactions to Rape Culture and Queer Performativity in Urban Dog Parks in Portland, Oregon</td>
-<td align="left">Accepted &amp; Published</td>
-<td align="left">Gender, Place, and Culture</td>
-<td align="right">3860</td>
-<td align="right">1.096</td>
-<td align="right">55</td>
-<td align="left">Arts and Humanities (miscellaneous) (Q1); Cultural Studies (Q1); Demography (Q1); Gender Studies (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Agency as an Elephant Test for Feminist Porn: Impacts on Male Explicit and Implicit Associations about Women in Society by Immersive Pornography Consumption</td>
-<td align="left">Revise and resubmit.</td>
-<td align="left">Porn Studies</td>
-<td align="right">4321</td>
-<td align="right">1.008</td>
-<td align="right">7</td>
-<td align="left">Cultural Studies (Q1); Gender Studies (Q1); Social Psychology (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">“Pretty Good for a Girl”: Feminist Physicality and Women’s Bodybuilding</td>
-<td align="left">Retired.</td>
-<td align="left">Sociology of Sport Journal</td>
-<td align="right">5576</td>
-<td align="right">0.832</td>
-<td align="right">45</td>
-<td align="left">Physical Therapy, Sports Therapy and Rehabilitation (Q1); Sociology and Political Science (Q1); Orthopedics and Sports Medicine (Q2); Sports Science (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">An Ethnography of Breastaurant Masculinity: Themes of Objectification, Sexual Conquest, Male Control, and Masculine Toughness in a Sexually Objectifying Restaurant</td>
-<td align="left">Accepted, Published</td>
-<td align="left">Sex Roles</td>
-<td align="right">5939</td>
-<td align="right">0.789</td>
-<td align="right">93</td>
-<td align="left">Gender Studies (Q1); Developmental and Educational Psychology (Q2); Social Psychology (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Masculinity and the Others Within: A Schizoethnographic Approach to Autoethnography</td>
-<td align="left">Retired.</td>
-<td align="left">Qualitative Inquiry</td>
-<td align="right">6878</td>
-<td align="right">0.691</td>
-<td align="right">59</td>
-<td align="left">Anthropology (Q1); Social Sciences (miscellaneous) (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Rebraiding Masculinity: Redefining the Struggle of Women Under the Domination of the Masculinity Trinity</td>
-<td align="left">Retired.</td>
-<td align="left">Signs</td>
-<td align="right">7164</td>
-<td align="right">0.660</td>
-<td align="right">51</td>
-<td align="left">Gender Studies (Q1); Arts and Humanities (miscellaneous) (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Grappling with Hegemonic Masculinity: The Roles of Masculinity and Heteronormativity in Brazilian Jiu Jitsu</td>
-<td align="left">Retired.</td>
-<td align="left">International Review for the Sociology of Sport</td>
-<td align="right">7478</td>
-<td align="right">0.632</td>
-<td align="right">46</td>
-<td align="left">Social Sciences (miscellaneous) (Q1); Sociology and Political Science (Q1); Sports Science (Q3)</td>
-</tr>
-
-<tr>
-<td align="left">Super-Frankenstein and the Masculine Imaginary: Feminist Epistemology and Superintelligent Artificial Intelligence Safety Research</td>
-<td align="left">Revise and Resubmit</td>
-<td align="left">Feminist Theory</td>
-<td align="right">7748</td>
-<td align="right">0.611</td>
-<td align="right">32</td>
-<td align="left">Gender Studies (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Self-Reflections on Self-Reflections: An Autoethnographic Defense of Autoethnography</td>
-<td align="left">Retired.</td>
-<td align="left">Journal of Contemporary Ethnography</td>
-<td align="right">8142</td>
-<td align="right">0.580</td>
-<td align="right">43</td>
-<td align="left">Anthropology (Q1); Language and Linguistics (Q1); Sociology and Political Science (Q2); Urban Studies (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Going in Through the Back Door: Challenging Straight Male Homohysteria and Transphobia through Receptive Penetrative Sex Toy Use</td>
-<td align="left">Accepted, Published</td>
-<td align="left">Sexuality &amp; Culture</td>
-<td align="right">8214</td>
-<td align="right">0.574</td>
-<td align="right">19</td>
-<td align="left">Cultural Studies (Q1); Gender Studies (Q1)</td>
-</tr>
-
-<tr>
-<td align="left">Queering Plato: Plato’s Allegory of the Cave as a Queer-Theoretic Emancipatory Text on Sexuality and Gender</td>
-<td align="left">Desk rejected after several months and retired.</td>
-<td align="left">GLQ: A Journal of Gay and Lesbian Studies</td>
-<td align="right">8826</td>
-<td align="right">0.530</td>
-<td align="right">30</td>
-<td align="left">Cultural Studies (Q1); Gender Studies (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">When the Joke Is on You: A Feminist Perspective on How Positionality Influences Satire</td>
-<td align="left">Accepted</td>
-<td align="left">Hypatia</td>
-<td align="right">8897</td>
-<td align="right">0.525</td>
-<td align="right">20</td>
-<td align="left">Philosophy (Q1); Gender Studies (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">The Progressive Stack: An Intersectional Feminist Approach to Pedagogy</td>
-<td align="left">3 Reject and Resubmit decisions</td>
-<td align="left">Hypatia</td>
-<td align="right">8897</td>
-<td align="right">0.525</td>
-<td align="right">20</td>
-<td align="left">Philosophy (Q1); Gender Studies (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Our Struggle is My Struggle: Solidarity Feminism as an Intersectional Reply to Neoliberal and Choice Feminism</td>
-<td align="left">Accepted</td>
-<td align="left">Affilia</td>
-<td align="right">9295</td>
-<td align="right">0.496</td>
-<td align="right">28</td>
-<td align="left">Gender Studies (Q2); Social Sciences (miscellaneous) (Q2); Social Work (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Stars, Planets, and Gender: A Framework for a Feminist Astronomy</td>
-<td align="left">Revise and Resubmit</td>
-<td align="left">Women’s Studies International Forum</td>
-<td align="right">10077</td>
-<td align="right">0.448</td>
-<td align="right">48</td>
-<td align="left">Development (Q2); Education (Q2); Law (Q2); Sociology and Political Science (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Hegemonic Academic Bullying: The Ethics of Sokal-style Hoax Papers on Gender Studies</td>
-<td align="left">Retired.</td>
-<td align="left">Journal of Gender Studies</td>
-<td align="right">10321</td>
-<td align="right">0.434</td>
-<td align="right">27</td>
-<td align="left">Arts and Humanities (miscellaneous) (Q2); Gender Studies (Q2); Social Sciences (miscellaneous) (Q2)</td>
-</tr>
-
-<tr>
-<td align="left">Who Are They to Judge?: Overcoming Anthropometry and a Framework for Fat Bodybuilding</td>
-<td align="left">Accepted, Published</td>
-<td align="left">Fat Studies</td>
-<td align="right">12401</td>
-<td align="right">0.336</td>
-<td align="right">7</td>
-<td align="left">Cultural Studies (Q1); Anthropology (Q2); Gender Studies (Q2); Health (social science) (Q3); Nutrition and Dietetics (Q3); Social Psychology (Q3)</td>
-</tr>
-
-<tr>
-<td align="left">Moon Meetings and the Meaning of Sisterhood: A Poetic Portrayal of Lived Feminist Spirituality</td>
-<td align="left">Accepted (without any requested revisions or comments)</td>
-<td align="left">Journal of Poetry Therapy</td>
-<td align="right">14943</td>
-<td align="right">0.255</td>
-<td align="right">9</td>
-<td align="left">Clinical Psychology (Q3); Rehabilitation (Q3)</td>
-</tr>
-
-<tr>
-<td align="left">My Struggle to Dismantle My Whiteness: A Critical-Race Examination of Whiteness from within Whiteness</td>
-<td align="left">Rejected after peer review</td>
-<td align="left">Sociology of Race and Ethnicity</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="left">NA</td>
-</tr>
-</tbody>
-</table>
-
-<p>One limitation becomes notable at the end of the table: The journal
-<a href="https://uk.sagepub.com/sites/default/files/upm-binaries/93165_SRE_Sociology_of_Race_and_Ethnicity_Rate_Card_2018.pdf" target="_blank">Sociology of Race and
-Ethnicity</a>
-is a very new journal and has no ranking yet. So the paper that was
-submitted here is not included in the following plot.</p>
-
-<p>It’s good to have an overview of all the created papers. But how do the
-journals that they were submitted to rank in comparison to other
-journals in the field? That is what I attempt to show next.</p>
-
-<p>First, I filter the dataset to only include the journals that received
-hoax papers and that are tagged as belonging to <em>Gender/Cultural
-Studies</em>. Next, I collapse the (pending) status of the papers into the
-following categories:</p>
+<p>Data Sources:</p>
 
 <ol>
-<li><p>Accepted or Published</p></li>
+<li><p><a href="http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html" target="_blank">http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html</a></p></li>
 
-<li><p>Reject/Revise and Resubmit</p></li>
-
-<li><p>(Desk) Rejected/Retired</p></li>
-
-<li><p>Under Review</p></li>
+<li><p><a href="http://biaj.de/" target="_blank">http://biaj.de/</a></p></li>
 </ol>
 
-<!-- end list -->
+<h2 id="load-packages">Load packages</h2>
 
-<pre><code class="language-r">sj_data &lt;- sj_data %&gt;%  
-  filter(str_detect(categories, &quot;Gender Studies|Cultural Studies&quot;) | !(is.na(status))) %&gt;% 
-  mutate(status = case_when(
-    str_detect(status, &quot;Published&quot;) ~ &quot;Accepted or Published&quot;,
-    str_detect(status, &quot;Reject and Resubmit&quot;) ~ &quot;Reject/Revise and Resubmit&quot;,
-    str_detect(status, &quot;Revise and .esubmit&quot;) ~ &quot;Reject/Revise and Resubmit&quot;,
-    str_detect(status, &quot;Accepted&quot;) ~ &quot;Accepted or Published&quot;,
-    str_detect(status, &quot;.ejected&quot;) ~ &quot;(Desk) Rejected/Retired&quot;,
-    str_detect(status, &quot;review&quot;) ~ &quot;Under Review&quot;,
-    str_detect(status, &quot;Retired&quot;) ~ &quot;(Desk) Rejected/Retired&quot;,
-    T ~ &quot;Other Journals&quot;
-  )) 
-
-sj_data %&gt;% 
-  janitor::tabyl(status) %&gt;% 
-  knitr::kable()
+<pre><code class="language-r">pacman::p_load(tidyverse, tabulizer, gganimate)
 </code></pre>
 
-<table>
-<thead>
-<tr>
-<th align="left">status</th>
-<th align="right">n</th>
-<th align="right">percent</th>
-</tr>
-</thead>
+<h2 id="get-acceptance-rates">Get Acceptance Rates</h2>
 
-<tbody>
-<tr>
-<td align="left">(Desk) Rejected/Retired</td>
-<td align="right">9</td>
-<td align="right">0.0091743</td>
-</tr>
+<pre><code class="language-r">source(&quot;asylum_dat.R&quot;)
 
-<tr>
-<td align="left">Accepted or Published</td>
-<td align="right">7</td>
-<td align="right">0.0071356</td>
-</tr>
+load(&quot;data/refugee_decisions.Rdata&quot;)
+</code></pre>
 
-<tr>
-<td align="left">Other Journals</td>
-<td align="right">960</td>
-<td align="right">0.9785933</td>
-</tr>
+<h2 id="number-of-refugees-data">Number of Refugees Data</h2>
 
-<tr>
-<td align="left">Reject/Revise and Resubmit</td>
-<td align="right">4</td>
-<td align="right">0.0040775</td>
-</tr>
+<pre><code class="language-r">load(&quot;data/asylum_dat.Rdata&quot;)
 
-<tr>
-<td align="left">Under Review</td>
-<td align="right">1</td>
-<td align="right">0.0010194</td>
-</tr>
-</tbody>
-</table>
+asylum_dat &lt;- asylum_dat %&gt;% 
+  full_join(refugee_decisions) %&gt;%
+  select(time, `Total Number of Asylum Seekers` = number, 
+         `Accepted Applications` = pos, 
+         `Declined Applications` = neg) %&gt;% 
+  gather(key, number, -time) 
+</code></pre>
 
-<p>Now, it’s time to take a look at how the journals that received hoax
-papers compare to other journals in the field.</p>
+<h2 id="plot-static">Plot Static</h2>
 
-<h3 id="scatterplot">Scatterplot</h3>
+<pre><code class="language-r">rev_cols &lt;- c(&quot;#56B4E9&quot;, &quot;#E69F00&quot;, &quot;#000000&quot;)
+#rev(ggthemes::colorblind_pal()(3))
 
-<pre><code class="language-r">sj_data %&gt;% 
-  filter(status != &quot;Other Journals&quot;) %&gt;% 
-  ggplot(aes(h_index, sjr, color = status)) +
-  ## grey background
-  geom_point(data = sj_data %&gt;% 
-               filter(status == &quot;Other Journals&quot;), 
-             color = &quot;lightgrey&quot;, alpha = 0.6) +
-  ggrepel::geom_text_repel(data = sj_data  %&gt;% 
-                             filter(status == &quot;Other Journals&quot;) %&gt;% 
-                             filter(h_index &gt;= 60 | sjr &gt;= 1.7), 
-                           aes(label = journals),  show.legend = F, 
-                                  color = &quot;lightgrey&quot;, alpha = 0.5) +
-  geom_point(size = 1.5, shape = 15) +
-  scale_color_manual(&quot;&quot;, values = c(ggthemes::colorblind_pal()(5))) +
-  coord_flip() +
+n_peak &lt;- asylum_dat %&gt;% 
+  filter(time == as.Date(&quot;2016-08-01&quot;)) %&gt;% 
+  filter(key == &quot;Total Number of Asylum Seekers&quot;) %&gt;% 
+  .$number
+
+
+asylum_dat %&gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;&quot;) +
+  labs(caption = &quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&quot;) +
   theme_minimal() +
-  ggrepel::geom_text_repel(data = sj_data  %&gt;% 
-                             filter(status != &quot;Other Journals&quot;), #%&gt;% 
-                           aes(label = journals), show.legend = F, force = 4) +
-  labs(y = &quot;SCImago Journal Rank (Average Prestige per Article)&quot;, 
-       x = &quot;Journal h-index&quot;, 
-       title = &quot;Rank of Journals that received Hoax Papers by Pluckrose, Lindsay and Boghossian&quot;,
-       subtitle = &quot;Compared to Journals tagged with 'Gender/Cultural Studies'\n&quot;,
-       caption = &quot;Data: Scimago Journal &amp; Country Rank Database\nAccessed using {sjrdata} package\nfavstats.eu; @favstats&quot;) +
-  theme(
-    legend.text = element_text(size = 10),
-    axis.title = element_text(size = 12, face = &quot;bold&quot;),
-    plot.title = element_text(size = 18, face = &quot;bold&quot;, hjust = 0),
-    plot.caption = element_text(size = 12),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 10), 
-    #axis.ticks.length = unit(3, &quot;cm&quot;)
-    ) +
-  guides(color = guide_legend(override.aes = list(size = 4)))
+  scale_color_manual(&quot;&quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2015-09-05&quot;)), linetype = &quot;dashed&quot;) +
+  ## Open Door Policy
+  annotate(&quot;label&quot;, as.Date(&quot;2014-01-05&quot;), y = 75000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2014-12-05&quot;), y = 75000, 
+                 xend = as.Date(&quot;2015-09-03&quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&quot;label&quot;, as.Date(&quot;2018-05-07&quot;), y = 80000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;August 2016\nApplications peak and\ndecline sharply&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-08-07&quot;), y = 80000, 
+                 xend = as.Date(&quot;2016-08-01&quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.2) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-09&quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-20&quot;)), linetype=4) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&quot;1 year&quot;), 
+               labels = scales::date_format(&quot;%Y&quot;), limits = c(as.Date(&quot;2010-01-01&quot;),
+                                                              as.Date(&quot;2018-12-12&quot;))) +
+  theme(legend.position = &quot;bottom&quot;, 
+        legend.key.width = unit(3, &quot;line&quot;), 
+        legend.key.size = unit(1.2, &quot;line&quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &quot;bold&quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title = element_text(size = 10))
+
+
+ggsave(filename = &quot;images/asylum_numbers.png&quot;, width = 12, height = 7)
 </code></pre>
 
-<p><img src="hoax_scripts_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /></p>
+<p><a href="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png" alt="" /></a></p>
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gender_studies, width = 12, height = 9)
-</code></pre>
+<h2 id="logged-numbers">Logged Numbers</h2>
 
-<p><em>Now, how bad is the damage?</em> Well, the most notable and impactful
-journals that published or accepted hoax papers were <strong>Sex Roles</strong> (with
-the paper <em>“An Ethnography of Breastaurant Masculinity”</em>) and <strong>Gender,
-Place, and Culture</strong> (with the paper <em>“Human Reactions to Rape Culture
-and Queer Performativity in Urban Dog Parks in Portland, Oregon”</em>).
-Other than that, quite a few of the journals that accepted or published
-hoax papers are found in the lower left quadrant with comparitively low
-impact.</p>
+<pre><code class="language-r">rev_cols &lt;- c(&quot;#56B4E9&quot;, &quot;#E69F00&quot;, &quot;#000000&quot;)
+#rev(ggthemes::colorblind_pal()(3))
 
-<h3 id="boxplot">Boxplot</h3>
+n_peak &lt;- asylum_dat %&gt;% 
+  filter(time == as.Date(&quot;2016-08-01&quot;)) %&gt;% 
+  filter(key == &quot;Total Number of Asylum Applications&quot;) %&gt;% 
+  .$number
 
-<p>Let’s compare the journal rankings directly now, with the help of box-
-and violinplots.</p>
 
-<pre><code class="language-r">sj_data %&gt;% 
-  rename(`SCImago Journal Rank` = sjr,
-         `Journal h-index` = h_index) %&gt;% 
-  select(status, `SCImago Journal Rank`, `Journal h-index`) %&gt;% 
-  gather(key, value, -status) %&gt;% 
-  ggplot(aes(status, value, color = status)) +
-  geom_violin() +
-  geom_boxplot(width = 0.4) +
-  scale_color_manual(&quot;&quot;, values = c(ggthemes::colorblind_pal()(5))) +
-  coord_flip() +
+asylum_dat %&gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;Logged Number of Applications/Decisions&quot;) +
+  labs(caption = &quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Applications in Time Range: 1.948.428\nfavstats.eu; @favstats&quot;) +
   theme_minimal() +
-  facet_wrap(~key, scales = &quot;free_x&quot;) +
-  labs(y = &quot;Journal Rank&quot;, 
-       x = &quot;&quot;, 
-       title = &quot;Rank of Journals that received Hoax Papers by Pluckrose, Lindsay and Boghossian&quot;,
-       subtitle = &quot;Compared to Journals tagged with 'Gender/Cultural Studies'\n&quot;,
-       caption = &quot;Data: Scimago Journal &amp; Country Rank Database\nAccessed using {sjrdata} package\nfavstats.eu; @favstats&quot;) +
-  theme(
-    panel.spacing = unit(2.4, &quot;lines&quot;),
-    legend.text = element_text(size = 8),
-    axis.title = element_text(size = 10, face = &quot;bold&quot;),
-    plot.title = element_text(size = 14, face = &quot;bold&quot;, hjust = 0),
-    plot.caption = element_text(size = 10),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 8), 
-    ) +
-  guides(color = F)
+  scale_color_manual(&quot;&quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2015-09-05&quot;)), linetype = &quot;dashed&quot;) +
+  ## Open Door Policy
+  annotate(&quot;label&quot;, as.Date(&quot;2014-01-05&quot;), y = 75000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2014-12-05&quot;), y = 75000, 
+                 xend = as.Date(&quot;2015-09-03&quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&quot;label&quot;, as.Date(&quot;2018-05-07&quot;), y = 80000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;August 2016\nApplications peak and\ndecline sharply&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-08-07&quot;), y = 80000, 
+                 xend = as.Date(&quot;2016-08-01&quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.2) +
+  annotate(&quot;label&quot;, as.Date(&quot;2017-03-07&quot;), y = 3500, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;March 2016\nClosure of Balkan Route and\nEU - Turkey Refugee Deal&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-03-07&quot;), y = 4500, 
+                 xend = as.Date(&quot;2016-03-09&quot;), yend = 6000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.4) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-09&quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-20&quot;)), linetype=4) +
+  scale_y_log10(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&quot;1 year&quot;), 
+               labels = scales::date_format(&quot;%Y&quot;), limits = c(as.Date(&quot;2010-01-01&quot;),
+                                                              as.Date(&quot;2018-12-12&quot;))) +
+  theme(legend.position = &quot;bottom&quot;, 
+        legend.key.width = unit(3, &quot;line&quot;), 
+        legend.key.size = unit(1.2, &quot;line&quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &quot;bold&quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title = element_text(size = 10))
+
+
+ggsave(filename = &quot;images/asylum_numbers_logged.png&quot;, width = 12, height = 7)
 </code></pre>
 
-<p><img src="hoax_scripts_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /></p>
+<p><a href="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png" alt="" /></a></p>
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gender_studies_boxplots, width = 10, height = 6)
+<h2 id="animation">Animation</h2>
+
+<pre><code class="language-r">asyl_anim &lt;- asylum_dat %&gt;% 
+  full_join(refugee_decisions) %&gt;%
+  select(time, `Total Number of Asylum Seekers` = number, 
+         `Accepted Applications` = pos, 
+         `Declined Applications` = neg) %&gt;% 
+  gather(key, number, -time) %&gt;% 
+  ggplot(aes(time, number)) +
+  geom_line(aes(color = key), size = 1.1) +
+  ggtitle(&quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&quot;) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;&quot;) +
+  labs(caption = &quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&quot;) +
+  theme_minimal() +
+  scale_color_manual(&quot;&quot;, values = rev_cols) +
+  geom_vline(xintercept = as.numeric(as.Date(&quot;2015-09-05&quot;)), linetype = &quot;dashed&quot;) +
+  ## Open Door Policy
+  annotate(&quot;label&quot;, as.Date(&quot;2014-01-05&quot;), y = 75000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2014-12-05&quot;), y = 75000, 
+                 xend = as.Date(&quot;2015-09-03&quot;), yend = 60000),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = -0.2) +
+  ## Peak
+  annotate(&quot;label&quot;, as.Date(&quot;2018-05-07&quot;), y = 80000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;August 2016\nApplications peak and\ndecline sharply&quot;) +
+  geom_curve(aes(x = as.Date(&quot;2017-08-07&quot;), y = 80000, 
+                 xend = as.Date(&quot;2016-08-01&quot;), yend = n_peak),
+  arrow = arrow(length = unit(0.02, &quot;npc&quot;), type = &quot;closed&quot;), curvature = 0.2) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-09&quot;)), linetype=4) +
+  # geom_vline(xintercept = as.numeric(as.Date(&quot;2016-03-20&quot;)), linetype=4) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_date(breaks = scales::date_breaks(&quot;1 year&quot;), 
+               labels = scales::date_format(&quot;%Y&quot;), limits = c(as.Date(&quot;2010-01-01&quot;),
+                                                              as.Date(&quot;2018-12-12&quot;))) +
+  theme(legend.position = &quot;bottom&quot;, 
+        legend.key.width = unit(3, &quot;line&quot;), 
+        legend.key.size = unit(1.2, &quot;line&quot;),
+        legend.text = element_text(size = 12),
+        axis.text = element_text(size = 10), 
+        title = element_text(size = 14, face = &quot;bold&quot;), 
+        plot.caption = element_text(size = 10),
+        axis.title= element_text(size = 10)) +
+  transition_reveal(key, time)
+
+asyl_anim %&gt;% animate(
+  nframes = 500, fps = 20, width = 1000, height = 600, detail = 1
+)
+
+anim_save(&quot;images/asyl_anim.gif&quot;)
 </code></pre>
 
-<p>Some interesting patterns are revealed here. Seems like journals that
-rejected papers were <em>somewhat better ranked</em> than those that accepted
-hoax papers (more evident with the Journal h-index). It’s also worth
-noting, that the majority of the other journals in the field of
-Gender/Cultural Studies do rank considerably lower than those that
-Pluckrose et al. managed to get their papers published in.</p>
-
-<h2 id="so-what-are-some-conclusions-to-draw-from-this">So what are some conclusions to draw from this?</h2>
-
-<p>What Pluckrose et al. accomplished by getting seven of their papers
-accepted in peer-reviewed journals is definetely remarkable. Reading
-through the papers, one can’t really come away and think that this is
-anything less than sloppy. The journals that fell for the hoax should
-look into making the editorial board clean up their standards. As a
-quant guy, I particularly cringed at the “statistical analysis” in the
-<em>“Agency as an Elephant Test for Feminist Porn”</em> paper.</p>
-
-<p>Having said that, I think the conclusions that the authors draw from
-their hoax project are very far fetched. <a href="https://www.youtube.com/watch?v=kVk9a5Jcd1k&amp;feature=youtu.be" target="_blank">In the video they published
-along with the
-papers</a>,
-they say:</p>
-
-<blockquote>
-<p>“[…] corruption is pervasive among many disciplines including
-women’s and gender studies, feminist studies, race studies,
-sexuality studies, fat studies, queer studies, cultural studies and
-sociology.”</p>
-</blockquote>
-
-<p>To claim that entire fields of studies are “corrupted” because of this
-incident seems unwarranted to me.</p>
-
-<p>There are enough journals that rejected the hoaxes and papers in other
-<a href="https://retractionwatch.com/" target="_blank">fields are retracted all the time</a>
-because of fraud or other shortcomings. As an example, <a href="https://www.youtube.com/watch?v=wLlA1w4OZWQ" target="_blank">this
-video</a> details an egregious
-case in a nanoscience journal where images were blatantly forged,
-something that would have been obvious to any non-nanoscientist. I
-understand that this might come off as an attempt to whatabout the issue
-away. But nobody would come up with the idea that <strong>corruption is
-pervasive</strong> in nanoscience because of this very blatant case of forgery
-and I don’t believe anyone should think the same of gender studies and
-related fields.</p>
+<p><a href="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif" alt="" /></a></p>
 
       </div>
 
