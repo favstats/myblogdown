@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Statistische Modellbildung II: Tutorium</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats     favstats.eu      @FabioFavusMaxim    fabio.votta@gmail.com      2018-16-10" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Statistische Modellbildung II: Tutorium
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  favstats.eu</a> <br> <a href="https://twitter.com/FabioFavusMaxim"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@FabioFavusMaxim</span></a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-16-10
+
+---
+
+
+
+
+    
+
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+&lt;/style&gt;
+
+
+
+
+
+
+# Eckdaten
+
+## Donnerstags, 17:30 – 19:00 
+
+## beginnend ab 18. Oktober 2018... also heute!
+
+## Raum: Breitscheidstraße 2 &lt;br&gt; CIP – Pool 5.005 (5. Stock)
+
+---
+
+# Warum ins Tutorium?
+
+## Gemeinsame Bearbeitung der Aufgaben in SPSS und R
+
+&lt;br&gt;
+
+--
+
+&lt;style type="text/css"&gt;
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#999;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#999;color:#444;background-color:#F7FDFA;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#999;color:#fff;background-color:#26ADE4;}
+.tg .tg-uys7{border-color:inherit;text-align:center}
+.tg .tg-xldj{border-color:inherit;text-align:left}
+&lt;/style&gt;
+&lt;table class="tg" style="undefined;table-layout: fixed; width: 678px"&gt;
+&lt;colgroup&gt;
+&lt;col style="width: 314px"&gt;
+&lt;col style="width: 364px"&gt;
+&lt;/colgroup&gt;
+  &lt;tr&gt;
+    &lt;th class="tg-uys7"&gt;SPSS&lt;/th&gt;
+    &lt;th class="tg-uys7"&gt;R&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-xldj"&gt;+ Point &amp;amp; Click&lt;br&gt;+ Drag &amp;amp; Drop&lt;br&gt;+ Einfache Bedienung&lt;br&gt;+ Bisherige Standardsoftware&lt;br&gt;&lt;/td&gt;
+    &lt;td class="tg-xldj"&gt;+ Statistische Programmiersprache&lt;br&gt;+ Community Support&lt;br&gt;+ Tausende Packages (Add-Ons)&lt;br&gt;+ Open Source und kostenlos&lt;br&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="tg-xldj"&gt;- Limitierte Möglichkeiten&lt;br&gt;- Lizenz sehr teuer&lt;br&gt;&lt;/td&gt;
+    &lt;td class="tg-xldj"&gt;- „Blender-Lernkurve“: Anfangs fällt das Lernen schwer, doch später fällt es leichter.&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+class: center
+
+**SPSS Code**
+
+&lt;img src="images/spss_code.png" alt="" width="480" height="150"&gt;
+
+--
+
+**SPSS Output**
+
+&lt;img src="images/spss_output.png" alt="" width="600" height="300"&gt;
+
+---
+
+
+
+**R Code**
+
+
+```r
+mod1 &lt;- lm(feel_eu ~ geburtsjahr + class + linksrechts, data = euro)
+
+texreg::texreg(model1)
+```
+
+--
+
+**R Output**
+
+&lt;img src="images/r_table.png" alt="" width="300" height="400"&gt;
+
+---
+
+## Visualisierung
+
+
+```r
+sjPlot::plot_model(mod1, show.p = T, show.values = T)
+```
+
+&lt;img src="00_smII_slides_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+background-image: url("images/map_example.png")
+background-position: 50% 50%
+background-size: 100%
+class: center, top
+
+## Visualisierung
+---
+
+## Fragen
+
++ Wie viele haben schon Erfahrung mit SPSS?
++ Wie viele haben schon Erfahrung mit R?
++ Habt ihr schon eine Idee was ihr machen wollt?
+
+--
+
+## Idee für die erste Sitzung am 18.10.:
+
+**Da keine Übungsaufgabe in erster Woche:**
+
++ SPSS Basics Einführung/Refresher
++ Kleiner Einführungsworkshop für R
++ Datenmanipulation und –aufbereitung
+
+---
+
+## Bitte folgendes vorbereiten bis zu dem Tutorium:
+
+Mitnahme des eigenen Laptops ist empfohlen 
+
+&lt;br&gt;
+
+**Installation von SPSS 25 auf dem Laptop:**
+
+http://www.stud.uni-stuttgart.de/dienste/software/spss.html
+
+*(VPN wird dafür benötigt: http://www.tik.uni-stuttgart.de/beratung/hilfe/vpn)*
+
+**Installation von R und Rstudio auf dem Laptop:**
+
++ R Version: 3.5.1: https://cran.r-project.org/bin/windows/base/
++ Rstudio: https://www.rstudio.com/products/rstudio/download/
+
+---
+
+class: center, middle
+
+# Übungsaufgaben bitte an:
+
+
+##&lt;a href="mailto:fabio-antonello.votta@sowi.uni-stuttgart.de"&gt;fabio-antonello.votta@sowi.uni-stuttgart.de&lt;/a&gt;
+
+Mit Betreff: SMII Tutorium - Aufgabe X - [DEIN NAME]
+
+#bis jeweils Montag um 12 Uhr senden!
+
+---
+
+class: center, middle
+
+# Alles klar?
+
+--
+
+## Dann bis Bald! :)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

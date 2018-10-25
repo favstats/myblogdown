@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 2. Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats     favstats.eu      @FabioFavusMaxim    fabio.votta@gmail.com      2018-25-10" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 2. Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  favstats.eu</a> <br> <a href="https://twitter.com/FabioFavusMaxim"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@FabioFavusMaxim</span></a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-25-10
+
+---
+
+
+
+
+
+## Übersicht
+
+1. Übungsaufgabe - SPSS
+  + Wichtige Befehle
+2. Übungsaufgabe - R
+  + Projekte &amp; Datenpfade
+  + Hilfreiche Funktionen
+
+---
+
+class: center, middle
+
+## Ziel der Übungsaufgabe
+
+### (Multivariate) Lineare Regression kennenlernen
+
+---
+
+class: center, middle
+
+## Übungsaufgabe SPSS
+
+[In SPSS]
+
+---
+
+class: center, middle
+
+## Übungsaufgabe R
+
+---
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+1: Neues Projekt öffnen
+
+&lt;center&gt;
+&lt;img src="images/project1.png"&gt;
+&lt;/center&gt;
+
+---
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+2: Auf `New Directory` klicken
+
+&lt;center&gt;
+&lt;img src="images/project2.png"&gt;
+&lt;/center&gt;
+
+---
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+3: Auf `New Project` klicken
+
+&lt;br&gt;
+
+&lt;center&gt;
+&lt;img src="images/project3.png"&gt;
+&lt;/center&gt;
+
+---
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+4: Details eures Projektes ausfüllen
+
+
+&lt;center&gt;
+&lt;img src="images/project4.png"&gt;
+&lt;/center&gt;
+
+
+---
+
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+5: So oder so ähnlich sollte euer Ordner jetzt aussehen
+
+&lt;br&gt;
+
+&lt;center&gt;
+&lt;img src="images/project5.png"&gt;
+&lt;/center&gt;
+
+---
+
+## Projekte &amp; Datenpfade
+
+&gt; Mit Hilfe von **Projekten** können wir Ordnung halten!
+
+
+6: Ordnerstruktur erstellen
+
+&lt;center&gt;
+&lt;img src="images/project6.png"&gt;
+&lt;/center&gt;
+
+---
+
+
+## Projekte &amp; Datenpfade
+
+
++ In einem R Projekt ist das `Working Directory` immer dorthin gelegt wo das Projekt liegt
+    + Noch genauer: Immer wo das jeweilige Skript (`.Rmd` oder `.R` file) innerhalb des Projekts liegt 
+
+--
+
++ So erspart man sich lange hässliche Pfade zu kopieren :)
+
+
+```r
+getwd()
+```
+
+
+
+```
+## [1] "C:/Users/Fabio/Documents/git_proj/smII_aufgaben/01ua"
+```
+
+
++ In unserem Fall wollen wir noch den folgenden Part zu unserem Pfad hinzufügen:
+
+--
+
+
+```
+## [1] "../"
+```
+
++ Dadurch springt der Pfad einen Ordner nach oben, wo sich der `data` Ordner befindet :)
+
+
+---
+
+## Projekte &amp; Datenpfade
+
+
+**Der riesige Vorteil: kein Datenwirrwarr und alle Pfade sind gelegt!**
+
+
+```r
+allbus &lt;- read_sav("../data/allbus2014.sav")
+
+allbus %&gt;% select(V1:V15) %&gt;% head() %&gt;% kable(., "html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; V1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V4 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V5 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V6 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V7 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V8 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V9 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V10 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V11 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V12 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V13 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V14 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; V15 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: center, middle
+
+### Jetzt noch ein paar hilfreiche Funktionen für die Übungsaufgabe
+
+![](https://media.giphy.com/media/26gJA2YrG9FS5PyrS/giphy.gif)
+
+---
+
+#### Hilfreiche Funktionen für Übungsaufgabe
+
+&gt; Datensatz einladen
+
+
+```r
+allbus &lt;- read_sav("../data/allbus2014.sav") 
+```
+
+&gt; Datensatz inspizieren mit `binoculaR`
+
+
+```r
+# devtools muss dazu einmal installiert werden
+
+install.packages("devtools")
+
+# jetzt kann binoculaR über GitHub installiert werden
+
+devtools::install_github("systats/binoculaR") 
+```
+
+Anwendung von [binoculaR](https://github.com/systats/binoculaR#binocular)
+
+
+```r
+binoculaR(allbus) 
+```
+
+
+---
+
+#### Hilfreiche Funktionen für Übungsaufgabe
+
+&gt; Variablen auswählen
+
+
+```r
+select(data, var1, var2, var3)
+```
+
+
+&gt; Variablen umbennen
+
+
+```r
+rename(data, var1_new = var1, 
+             var2_new = var2, 
+             var3_new = var3)
+```
+
+&gt; Neue Variable erstellen und Rekodieren
+
+
+```r
+mutate(data, var1_new2 = var1_new + 5, 
+             var2_new2 = ifelse(var2_new == 1, NA, var2_new), 
+             var3_new2 = ifelse(var3_new == 1 | var3_new == 2, 1, var3_new))
+```
+
+
+---
+
+#### Hilfreiche Funktionen für Übungsaufgabe
+
+&gt; Neue Variable erstellen und Rekodieren
+
+
+```r
+mutate(data, var1_new2 = var1_new + 5, 
+             var2_new2 = ifelse(var2_new == 1, NA, var2_new), 
+             var3_new2 = ifelse(var3_new == 1 | var3_new == 2, 1, var3_new))
+```
+
+&gt; Remember:
+
+`ifelse` funktioniert nach folgender Logik:
+
+1. Argument: `logischer Test` 
+2. Argument: was soll passieren wenn `TRUE` 
+3. Argument: was soll passieren wenn `FALSE`
+
+Falls ihr nochmal Anwendungsbeispiele braucht, schaut doch in das `01_intro.Rmd` aus der ersten Sitzung :)
+
+
+---
+
+#### Hilfreiche Funktionen für Übungsaufgabe
+
+&gt; Variablen inspizieren
+
+
+```r
+frq(allbus, V58)
+```
+
+```
+## 
+## # MUSIK: VOLKSMUSIK HOEREN (V58) &lt;numeric&gt; 
+## # total N=3471  valid N=3464  mean=3.34  sd=1.30
+##  
+##  val        label frq raw.prc valid.prc cum.prc
+##    1    SEHR GERN 323    9.31      9.32    9.32
+##    2         GERN 725   20.89     20.93   30.25
+##    3   WEDER NOCH 710   20.46     20.50   50.75
+##    4       UNGERN 863   24.86     24.91   75.66
+##    5  SEHR UNGERN 843   24.29     24.34  100.00
+##    9 KEINE ANGABE   0    0.00      0.00  100.00
+##   NA           NA   7    0.20        NA      NA
+```
+
+---
+
+&gt; Lineare Regression
+
+
+
+
+
+```r
+model1 &lt;- lm(y ~ x1 + x2, data = example_data)
+
+htmlreg(model1) 
+```
+
+.pull-left[
+
+&lt;head&gt;
+&lt;title&gt;Statistical models&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;table cellspacing="0" align="center" style="border: none;"&gt;
+&lt;caption align="bottom" style="margin-top:0.3em;"&gt;Statistical models&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 1&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(Intercept)&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;38.15&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(3.35)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x1&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-0.68&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(0.35)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x2&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.02&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(0.00)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-top: 1px solid black;"&gt;R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.55&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Adj. R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Num. obs.&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;RMSE&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;19.67&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;" colspan="3"&gt;&lt;span style="font-size:0.8em"&gt;&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;p &amp;lt; 0.001, &lt;sup style="vertical-align: 0px;"&gt;**&lt;/sup&gt;p &amp;lt; 0.01, &lt;sup style="vertical-align: 0px;"&gt;*&lt;/sup&gt;p &amp;lt; 0.05&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+Eine Regression spezifieren wir in `R` mit der `lm()` Funktion
+
+Syntax:
+
+1. Die AV, hier `y`
+2. `~` = "wird erklärt durch"
+3. Die UVs `x1 + x2`
+4. Zu guter letzt: der Datensatz: `data = example_data`
+
+Letztlich können wir uns das Modell anzeigen lassen:
+
++ `screenreg` in Rstudio
++ `htmlreg` für Webseiten 
++ `texreg` für PDF Reports
+
+]
+
+---
+
+&gt; Lineare Regression II
+
+Mit `list()` können wir auch mehrere Modelle nebeinander darstellen
+
+
+```r
+model2 &lt;- lm(y ~ x1 + x2 + x3, data = example_data)
+model3 &lt;- lm(y ~ x1 + x2 + x3 + x4, data = example_data)
+
+htmlreg(list(model1, model2, model3), single.row = T) 
+```
+
+&lt;table cellspacing="0" align="center" style="border: none;"&gt;
+&lt;caption align="bottom" style="margin-top:0.3em;"&gt;&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 1&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 2&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 3&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(Intercept)&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;40.90 (3.63)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;41.22 (3.60)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;39.11 (3.28)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x1&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-0.92 (0.33)&lt;sup style="vertical-align: 0px;"&gt;**&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-1.10 (0.35)&lt;sup style="vertical-align: 0px;"&gt;**&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-1.43 (0.32)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x2&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.02 (0.00)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.02 (0.00)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.03 (0.00)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x3&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-0.00 (0.00)&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.00 (0.00)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;x4&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;-0.00 (0.00)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-top: 1px solid black;"&gt;R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.52&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.53&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.62&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Adj. R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.51&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.52&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.61&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Num. obs.&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;100&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;100&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;RMSE&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;20.33&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;20.14&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;18.21&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;" colspan="5"&gt;&lt;span style="font-size:0.8em"&gt;&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;p &amp;lt; 0.001, &lt;sup style="vertical-align: 0px;"&gt;**&lt;/sup&gt;p &amp;lt; 0.01, &lt;sup style="vertical-align: 0px;"&gt;*&lt;/sup&gt;p &amp;lt; 0.05&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+---
+
+&gt; Lineare Regression III
+
+
+```r
+plot_model(model3, show.p = T, show.values = T)
+```
+
+![](02_folien_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+---
+
+&gt; Lineare Regression IV
+
+Mehr Anwendungsfälle für [plot_model](https://cronbach.github.io/plot_model/)
+
+![](images/more_plot.png)
+
+---
+
+class: center, middle
+
+### Jetzt können wir loslegen :)
+
+![](https://media1.tenor.com/images/7dcc0b5a2c64d741b6edd12a88738cf9/tenor.gif)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

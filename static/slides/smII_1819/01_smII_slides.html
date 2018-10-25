@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 1. Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats     favstats.eu      @FabioFavusMaxim    fabio.votta@gmail.com      2018-16-10" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 1. Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  favstats.eu</a> <br> <a href="https://twitter.com/FabioFavusMaxim"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@FabioFavusMaxim</span></a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-16-10
+
+---
+
+
+## Übersicht
+
+1. SPSS Refresher
+  + `frequencies`
+  + `compute`
+  + `Recode`
+  + `regression`
+  + etc.
+2. R Einführung
+  + Rstudio
+  + Rmarkdown
+  + Base R
+  + Tidyverse
+
+---
+
+## Aber zuerst...
+
+Für die R Leute einmal bitte folgenden Code kopieren und in R ausführen:
+
+
+```r
+install.packages("pacman")
+
+pacman::p_load(tidyverse, rmarkdown, tinytex)
+
+tinytex::install_tinytex()  # install TinyTeX
+```
+
+
+**ODER**
+
+Öffne `install_packages.R` und *Run*
+
+---
+
+class: center, middle
+
+## SPSS Refresher
+
+Einmal bitte `eurobarometer.sav` und `einfuehrung_spss.sps` öffnen.
+
+[SPSS]
+
+---
+
+class: center, middle
+
+## R Einführungsworkshop
+
+---
+
+## Was ist R? Und womit arbeiten wir?
+
+&lt;img src="images/r_logo.png" alt="" width="56" height="47"&gt;
+
+**R** ist eine Open-Source-Programmiersprache welche speziell für statistische Berechnungen und Visualisierung von Daten und Modellen entwickelt wurde. 
+
+--
+
+&lt;img src="images/rstudio_logo.png" alt="" width="120" height="40"&gt;
+
+
+
+Für die erleichterte Anwendung von R werden wir das *IDE (Integrated Development Environment)* namens **Rstudio** benutzen. 
+
+--
+
+&lt;img src="images/rmarkdown_logo.png" alt="" width="55" height="60"&gt;
+
+
+In Rstudio werden wir **Rmarkdown** benutzen. Rmarkdown ist ein spezieller Text-Editor welcher einen besonders einfachen Umgang mit Code und Text erlaubt.
+
+---
+
+class: center, middle
+
+## R Einführungsworkshop
+
+Einmal bitte `01_intro.Rmd` öffnen.
+
+[Rstudio]
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
