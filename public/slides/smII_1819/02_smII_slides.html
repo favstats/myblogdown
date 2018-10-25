@@ -415,6 +415,25 @@ Falls ihr nochmal Anwendungsbeispiele braucht, schaut doch in das `01_intro.Rmd`
 
 ---
 
+## Alles gemeinsam mit der Pipe `%&gt;%`
+
+
+
+```r
+data %&gt;% 
+  select(var1, var2, var3) %&gt;% 
+  rename(data, var1_new = var1, 
+             var2_new = var2, 
+             var3_new = var3) %&gt;% 
+  mutate(data, var1_new2 = var1_new + 5, 
+             var2_new2 = ifelse(var2_new == 1, NA, var2_new), 
+             var3_new2 = ifelse(var3_new == 1 | var3_new == 2, 1, var3_new))
+```
+
+
+
+---
+
 #### Hilfreiche Funktionen für Übungsaufgabe
 
 &gt; Variablen inspizieren
@@ -621,7 +640,7 @@ htmlreg(list(model1, model2, model3), single.row = T)
 plot_model(model3, show.p = T, show.values = T)
 ```
 
-![](02_smII_slides_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+![](02_smII_slides_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 
 ---
 
