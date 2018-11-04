@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 3. Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-28-11" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 3. Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-28-11
+
+---
+
+
+
+
+
+## Übersicht
+
+1. Übungsaufgabe - SPSS
+  + Wichtige Syntax
+2. Übungsaufgabe - R
+  + Wichtige Syntax
+  
+[Link zum Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
+  
+  
+
+---
+
+class: center, middle
+
+## Thema der Übungsaufgabe
+
+### Standardisierungen in linearen Regressionen
+
+---
+
+### Übungsaufgabe - SPSS
+
+Mit der folgenden Syntax werden z-standardisierte Variablen kreiert:
+
+
+```r
+DESCRIPTIVES VAR = var1 var2 var3
+/SAVE.
+```
+
+Die z-standardisierten Variablen befinden sich dann im Datensatz mit den folgenden Namen:
+
++ Zvar1
++ Zvar2
++ Zvar3
+
+Mit `RENAME VARIABLES` können wir die Variablen auch umbennen:
+
+
+```r
+RENAME VARIABLES (Zvar1 Zvar2 Zvar3 = var1_z var2_z var3_z).
+```
+
+
+---
+
+### Übungsaufgabe - SPSS
+
+Korrelationsmatrix mit den Variablen 1 bis 12 erstellen:
+
+
+```r
+CORRELATIONS
+  /VARIABLES = var1 var2 var3 var4 var5 var6 
+               var7 var8 var9 var10 var11 var12         
+  /PRINT=TWOTAIL NOSIG
+  /MISSING=PAIRWISE.
+```
+
+---
+
+### Übungsaufgabe - R
+
+
+
+
+Mit `scale` können wir unsere Variablen z-standardisieren, mittelwertzentrieren, oder beides:
+
+
+```r
+dataset %&gt;%
+  select(alter) %&gt;% # nur Alter auswählen als Vegleich
+  mutate(alter_z = scale(alter, center = F, scale = T)) %&gt;% 
+  mutate(alter_mw = scale(alter, center = T, scale = F)) %&gt;% 
+  mutate(alter_z_mw = scale(alter, center = T, scale = T)) %&gt;% 
+  mutate(alter_z_mw2 = scale(alter))
+```
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; alter &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; alter_z &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; alter_mw &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; alter_z_mw &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; alter_z_mw2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.1175674 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.766667 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5169698 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5169698 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4656531 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -25.233333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.3356524 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.3356524 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4842792 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -24.233333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.2827203 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.2827203 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3538963 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -31.233333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.6532448 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.6532448 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 48 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8940539 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -2.233333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.1182149 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.1182149 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.1920719 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.766667 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7286981 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7286981 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+### Übungsaufgabe - R
+
+Für die Übungsaufgabe brauchen wir allerdings nur die z-Standardisierung:
+
+
+```r
+dataset %&gt;%
+  mutate(alter_z = scale(alter, center = F, scale = T)) 
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; alter &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; einkommen &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; bildung &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; alter_z &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3029 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.1175674 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2237 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4656531 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2264 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4842792 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 523 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3538963 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 48 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2461 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8940539 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2896 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.1920719 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe - R
+
+Mit `describe()` aus dem `psych` package können wir uns deskriptive Statistiken für einen Datensatz ausgeben lassen:
+
+
+```r
+dataset %&gt;%
+  describe()
+```
+
+```
+##           vars    n    mean      sd median trimmed     mad min  max range
+## alter        1 1200   50.23   18.89   50.0   50.15   23.72  18   84    66
+## einkommen    2 1200 2741.25 1338.53 2722.5 2714.60 1365.47   2 8382  8380
+## bildung      3 1200    1.37    0.96    1.0    1.30    1.48   0    6     6
+##           skew kurtosis    se
+## alter     0.02    -1.17  0.55
+## einkommen 0.26     0.03 38.64
+## bildung   0.77     1.06  0.03
+```
+
+
+---
+
+### Übungsaufgabe - R
+
+`describe` gibt uns die folgenden Werte:
+
++ n
++ mean
++ sd
++ median
++ trimmed
++ mad
++ min
++ max
++ range
++ skew
++ kurtosis
++ se
+
+Das alles brauchen wir allerdings nicht. Daher können wir diese Werte rausfiltern
+
+---
+
+### Übungsaufgabe - R
+
+Mit `select` und minus vor einer Variable entfernen wir Variablen die wir nicht wollen:
+
+
+
+```r
+dataset %&gt;%
+  describe() %&gt;%
+  select(-vars, -range, -trimmed, -mad,  -skew, -kurtosis,  -se) 
+```
+
+```
+##              n    mean      sd median min  max
+## alter     1200   50.23   18.89   50.0  18   84
+## einkommen 1200 2741.25 1338.53 2722.5   2 8382
+## bildung   1200    1.37    0.96    1.0   0    6
+```
+
+---
+
+### Übungsaufgabe - R
+
+Mit `kable` können wir das ganze noch ein bisschen hübscher aussehen lassen:
+
+
+```r
+dataset %&gt;%
+  describe() %&gt;%
+  select(-vars, -range, -trimmed, -mad,  -skew, -kurtosis,  -se) %&gt;% 
+  kable()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; sd &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; median &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; max &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; alter &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1200 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50.233333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.8921408 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 84 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; einkommen &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1200 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2741.245833 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1338.5291308 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2722.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8382 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bildung &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1200 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.371667 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9631391 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+### Übungsaufgabe - R
+
+
+
+
+
+
+```r
+mod1 &lt;- lm(einkommen ~ alter + bildung, data = dataset)
+mod2 &lt;- lm(einkommen_z ~ alter_z + bildung_z, data = dataset)
+
+htmlreg(list(mod1, mod2), custom.model.names = c("b", "std.b"))
+```
+
+
+&lt;table cellspacing="0" align="center" style="border: none;"&gt;
+&lt;caption align="bottom" style="margin-top:0.3em;"&gt;Statistical models&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;b&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;std.b&lt;/b&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;(Intercept)&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;1357.70 (85.21)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.44 (0.03)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;alter&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.42 (1.43)&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;bildung&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;993.30 (28.10)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;alter_z&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.01 (0.03)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;bildung_z&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.55 (0.02)&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-top: 1px solid black;"&gt;R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.51&lt;/td&gt;
+&lt;td style="border-top: 1px solid black;"&gt;0.51&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Adj. R&lt;sup style="vertical-align: 0px;"&gt;2&lt;/sup&gt;&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.51&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;0.51&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;Num. obs.&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;1200&lt;/td&gt;
+&lt;td style="padding-right: 12px; border: none;"&gt;1200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;RMSE&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;936.72&lt;/td&gt;
+&lt;td style="border-bottom: 2px solid black;"&gt;0.31&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="padding-right: 12px; border: none;" colspan="4"&gt;&lt;span style="font-size:0.8em"&gt;&lt;sup style="vertical-align: 0px;"&gt;***&lt;/sup&gt;p &amp;lt; 0.001, &lt;sup style="vertical-align: 0px;"&gt;**&lt;/sup&gt;p &amp;lt; 0.01, &lt;sup style="vertical-align: 0px;"&gt;*&lt;/sup&gt;p &amp;lt; 0.05&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+
+---
+
+&lt;!-- ### Übungsaufgabe - R --&gt;
+
+&lt;!-- ```{r, results="asis", eval = F} --&gt;
+&lt;!-- mod1 &lt;- lm(einkommen ~ alter + bildung, data = dataset) --&gt;
+
+
+&lt;!-- tbl_std(mod1) --&gt;
+&lt;!-- ``` --&gt;
+
+&lt;!-- ```{r, results="asis", echo=F} --&gt;
+&lt;!-- mod1 &lt;- lm(einkommen ~ alter + bildung, data = dataset) --&gt;
+
+
+&lt;!-- tbl_std(mod1, type = "html", single.row = T,  --&gt;
+&lt;!--         keep.stat = c("n", "adj.rsq", "rsq"),  --&gt;
+&lt;!--         model.numbers = FALSE,  --&gt;
+&lt;!--         dep.var.labels.include = FALSE,  --&gt;
+&lt;!--           dep.var.caption  = "Regression Model")  --&gt;
+
+&lt;!-- ``` --&gt;
+
+
+
+
+### Übungsaufgabe - R
+
+
+```r
+cor_matrix &lt;- dataset %&gt;% 
+  select(einkommen, arbeitsstd, immigrant, ganztags, haushaltseinkommen, wirtschaftslage) %&gt;% 
+  cor()
+
+corrplot(cor_matrix, type = "lower", order = "hclust", tl.srt = 45)
+```
+
+![](03_folien_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
