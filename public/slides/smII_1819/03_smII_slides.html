@@ -3,7 +3,7 @@
   <head>
     <title>SM II: Tutorium - 3. Sitzung</title>
     <meta charset="utf-8">
-    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-28-11" />
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-08-11" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -12,9 +12,38 @@
 class: center, middle, inverse, title-slide
 
 # SM II: Tutorium - 3. Sitzung
-### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-28-11
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-08-11
 
 ---
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+&lt;/style&gt;
+
 
 
 
@@ -22,14 +51,34 @@ class: center, middle, inverse, title-slide
 
 ## Übersicht
 
-1. Übungsaufgabe - SPSS
-  + Wichtige Syntax
-2. Übungsaufgabe - R
-  + Wichtige Syntax
+1. Kurzes Feedback zur Übungsaufgabe 1
+2. Übungsaufgabe 2 in SPSS
+3. Rstudio Cloud
+4. Übungsaufgabe 2 in R
+  
   
 [Link zum Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
   
+[Link zur Übungsaufgabe 2 - SPSS](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/03_Sitzung_08.11.2018/03_spss/02ua_vorlage.sps)
   
+[Link zur Übungsaufgabe 2 - R](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/03_Sitzung_08.11.2018/03_r/02ua_vorlage.Rmd)
+  
+  
+
+---
+
+## Kurzes Feedback zur Übungsaufgabe 1
+
++ Abgaben generell gut :)
+
++ Für jede Übungsaufgabe werden fünf Abgaben ausgewählt für Feedback
+
++ Übersicht über eure Abgaben bekommt ihr jeweils im Tutorium auf Nachfrage
+
+Nur eine Sache:
+
+*Bitte darauf achten dass sowohl in eurem Dateinamen als auch innerhalb eurer Abgabe euer Name steht!*
+
 
 ---
 
@@ -38,6 +87,58 @@ class: center, middle
 ## Thema der Übungsaufgabe
 
 ### Standardisierungen in linearen Regressionen
+
+---
+
+#### Aufgabe 1
+
+.seventyfive[
+
+Wozu werden Standardisierungen durchgeführt und wie wird dabei vorgegangen? Erläutern Sie zudem exemplarisch wozu `\(b^*\)` benutzt wird und wie man diesen interpretiert!
+
+]
+
+#### Aufgabe 2
+
+.seventyfive[
+
+Führen Sie eine z-Standardisierung für die Originalaltersvariable (alter_z) und die auf Null gesetzte Altersvariable (alter_0z) sowie für "unsere" Bildungsvariable (0 bis 4). [Daten: ALLBUS 2014]
+
+]
+
+###### Aufgabe 2a
+
+.seventyfive[
+
+Vergleichen Sie die Zahlenwerte, Mean und die Standardabweichung von alter_z und alter_0z und erklären Sie Ihre "Beobachtung".
+
+]
+
+###### Aufgabe 2b
+
+.seventyfive[
+
+Führen Sie eine Regression von Einkommen auf alter_0 und bildung (Modell 1) und eine Regression von einkommen_z auf alter_0z und bildung_z (Modell 2) durch und vergleichen Sie die b-Koeffizienten.
+
+]
+
+###### Aufgabe 2c
+
+.seventyfive[
+
+Wie erklären Sie die Werte b und `\(b^*\)` in Modell 2? TIPP: Verwenden Sie bei Modell 2 das z-transformierte Einkommen als abhängige Variable.
+
+]
+
+---
+
+### Aufgabe 3 
+
+Erstellen Sie ein multivariates Regressionsmodell mit Y=Einkommen. Versuchen Sie dabei den R2-Wert so groß wie nur irgendwie möglich zu bekommen. Jeder schmutzige Trick der Sozialforschung ist erlaubt (und in diesem Fall erwünscht).
+
+- Einzige Einschränkung: Keine Regression von Y auf Y.
+
+Tipp: Die *"Giftliste"* auf den Seiten 101 - 103 in *Urban, D., &amp; Mayerl, J. (2018). Angewandte Regressionsanalyse: Theorie, Technik und Praxis. Springer VS.*
 
 ---
 
@@ -82,10 +183,53 @@ CORRELATIONS
 
 ---
 
+### Rstudio Cloud
+
++ Online Plattform
++ Alles vorinstalliert (z.B. Packages)
++ Möglichkeit euch direkt zu helfen
+
+
+[Einladelink zum SM II Workspace](https://rstudio.cloud/spaces/6153/join?access_code=mufZJ39bPJEB7lUGE4sqTOYmtJPWDK34PSg%2BRdXw)
+
+
+![](images/CpfLvmF.png)
+
+---
+
 ### Übungsaufgabe - R
 
 
 
+
+Mit `scale` können wir unsere Variablen z-standardisieren, mittelwertzentrieren, oder beides:
+
+Z-Standardisieren:
+
+
+```r
+scale(variable, center = FALSE, scale = TRUE)
+```
+
+Mittelwertzentrieren:
+
+
+```r
+scale(variable, center = TRUE, scale = FALSE)
+```
+
+Z-Standardisieren und Mittelwertzentrieren:
+
+
+```r
+scale(variable, center = TRUE, scale = TRUE)
+```
+
+Letzteres ist die Standardeinstellung!
+
+---
+
+### Übungsaufgabe - R
 
 Mit `scale` können wir unsere Variablen z-standardisieren, mittelwertzentrieren, oder beides:
 
@@ -155,7 +299,6 @@ dataset %&gt;%
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-
 
 ---
 
@@ -355,7 +498,7 @@ dataset %&gt;%
 mod1 &lt;- lm(einkommen ~ alter + bildung, data = dataset)
 mod2 &lt;- lm(einkommen_z ~ alter_z + bildung_z, data = dataset)
 
-htmlreg(list(mod1, mod2), custom.model.names = c("b", "std.b"))
+htmlreg(list(mod1, mod2))
 ```
 
 
@@ -363,8 +506,8 @@ htmlreg(list(mod1, mod2), custom.model.names = c("b", "std.b"))
 &lt;caption align="bottom" style="margin-top:0.3em;"&gt;Statistical models&lt;/caption&gt;
 &lt;tr&gt;
 &lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;&lt;/b&gt;&lt;/th&gt;
-&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;b&lt;/b&gt;&lt;/th&gt;
-&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;std.b&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 1&lt;/b&gt;&lt;/th&gt;
+&lt;th style="text-align: left; border-top: 2px solid black; border-bottom: 1px solid black; padding-right: 12px;"&gt;&lt;b&gt;Model 2&lt;/b&gt;&lt;/th&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style="padding-right: 12px; border: none;"&gt;(Intercept)&lt;/td&gt;
@@ -454,7 +597,7 @@ cor_matrix &lt;- dataset %&gt;%
 corrplot(cor_matrix, type = "lower", order = "hclust", tl.srt = 45)
 ```
 
-![](03_smII_slides_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](03_smII_slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
