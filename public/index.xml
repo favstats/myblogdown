@@ -11,6 +11,344 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?</title>
+      <link>/post/trump_endorsements/</link>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/trump_endorsements/</guid>
+      <description>
+
+&lt;p&gt;Data
+Sources:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&#34; target=&#34;_blank&#34;&gt;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767&#34; target=&#34;_blank&#34;&gt;https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;packages&#34;&gt;Packages&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;)
+# install.packages(&amp;quot;pacman&amp;quot;)
+pacman::p_load(tidyverse, rvest, qdapRegex, ggthemes, tidytemplate, rtweet)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;including-plots&#34;&gt;Including Plots&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;candidate &amp;lt;- read_html(&amp;quot;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&amp;quot;) %&amp;gt;% 
+  html_nodes(&amp;quot;#content-body- li&amp;quot;) %&amp;gt;% 
+  html_text()
+
+mcclatch &amp;lt;- tibble(candidate) %&amp;gt;% 
+    mutate(won = case_when(
+        str_detect(candidate, &amp;quot;✓&amp;quot;) ~ &amp;quot;Won&amp;quot;, 
+        str_detect(candidate, &amp;quot;✗&amp;quot;) ~ &amp;quot;Lost&amp;quot;, 
+        T~ &amp;quot;Undecided&amp;quot;)) %&amp;gt;% 
+    mutate(type = case_when(
+        str_detect(candidate, &amp;quot;House&amp;quot;) ~ &amp;quot;House&amp;quot;, 
+        str_detect(candidate, &amp;quot;Senate|senator&amp;quot;) ~ &amp;quot;Senate&amp;quot;, 
+        str_detect(candidate, &amp;quot;governor|gubernatorial&amp;quot;) ~ &amp;quot;Governor&amp;quot;)) %&amp;gt;% 
+    mutate(incumbent = ifelse(str_detect(candidate, &amp;quot;incumbent|Incumbent&amp;quot;), &amp;quot;Incumbent&amp;quot;, &amp;quot;Not Incumbent&amp;quot;)) %&amp;gt;% 
+    mutate(candidate = str_remove(candidate, &amp;quot;✓|✗&amp;quot;) %&amp;gt;% str_trim()) %&amp;gt;% 
+    mutate(candidate = str_extract(candidate, &amp;quot;.+?(?=,)&amp;quot;)) %&amp;gt;% 
+    mutate(candidate = str_remove(candidate, &amp;quot;\\(GOING TO RECOUNT\\) &amp;quot;)) %&amp;gt;% 
+    mutate(candidate = str_remove(candidate, &amp;quot;Runoff: &amp;quot;))
+
+mcclatch
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 88 x 4
+##    candidate        won       type     incumbent    
+##    &amp;lt;chr&amp;gt;            &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;        
+##  1 &amp;lt;U+2713&amp;gt; Martha Roby    Undecided House    Incumbent    
+##  2 &amp;lt;U+2713&amp;gt; Mike Dunleavy  Undecided Governor Not Incumbent
+##  3 Martha McSally   Undecided Senate   Not Incumbent
+##  4 &amp;lt;U+2713&amp;gt; Andy Biggs     Undecided House    Incumbent    
+##  5 &amp;lt;U+2713&amp;gt; Doug Ducey     Undecided Governor Incumbent    
+##  6 &amp;lt;U+2713&amp;gt; Asa Hutchinson Undecided Governor Incumbent    
+##  7 Dana Rohrabacher Undecided House    Incumbent    
+##  8 &amp;lt;U+2713&amp;gt; Devin Nunes    Undecided House    Incumbent    
+##  9 &amp;lt;U+2717&amp;gt;  Diane Harkey  Undecided House    Not Incumbent
+## 10 &amp;lt;U+2713&amp;gt; Kevin McCarthy Undecided House    Incumbent    
+## # ... with 78 more rows
+
+## # A tibble: 95 x 3
+##    candidate      won       type    
+##    &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;   
+##  1 Martha Roby    Won       House   
+##  2 Mike Dunleavy  Undecided Governor
+##  3 Martha McSally Undecided House   
+##  4 Andy Biggs     Won       House   
+##  5 Doug Ducey     Won       Governor
+##  6 Asa Hutchinson Won       Governor
+##  7 Paul Cook      Won       House   
+##  8 Diane Harkey   Undecided House   
+##  9 Devin Nunes    Won       House   
+## 10 Kevin McCarthy Won       House   
+## # ... with 85 more rows
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;checking-for-missings-errors-disagreements-between-data-sources&#34;&gt;Checking for Missings/Errors/Disagreements between Data Sources&lt;/h2&gt;
+
+&lt;p&gt;Let’s merge the datasets and see if we find any errors.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico %&amp;gt;% 
+  full_join(mcclatch, by = &amp;quot;candidate&amp;quot;) %&amp;gt;% 
+  filter(is.na(won.x) | is.na(won.y))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 169 x 6
+##    candidate      won.x     type.x   won.y type.y incumbent
+##    &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;    
+##  1 Martha Roby    Won       House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  2 Mike Dunleavy  Undecided Governor &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  3 Andy Biggs     Won       House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  4 Doug Ducey     Won       Governor &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  5 Asa Hutchinson Won       Governor &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  6 Paul Cook      Won       House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  7 Diane Harkey   Undecided House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  8 Devin Nunes    Won       House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+##  9 Kevin McCarthy Won       House    &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+## 10 John Cox       Lost      Governor &amp;lt;NA&amp;gt;  &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;     
+## # ... with 159 more rows
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Politico misspelled Patrick Morrisey.&lt;/p&gt;
+
+&lt;p&gt;Politico has more candidates but they did not include Mike Kelly.&lt;/p&gt;
+
+&lt;p&gt;Fix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico &amp;lt;- politico %&amp;gt;% 
+  mutate(candidate = ifelse(candidate == &amp;quot;Patrick Morrissey&amp;quot;, &amp;quot;Patrick Morrisey&amp;quot;, candidate))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Do the datasets disagree on whether the candidate ran for House or
+Senate?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico %&amp;gt;% 
+  left_join(mcclatch, by = &amp;quot;candidate&amp;quot;) %&amp;gt;% 
+  filter(type.x != type.y)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 6
+##   candidate      won.x     type.x won.y     type.y incumbent    
+##   &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;        
+## 1 Martha McSally Undecided House  Undecided Senate Not Incumbent
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Politico states that Martha McSally ran for the House of Representatives
+but this information seems to be wrong. She ran for Senate.&lt;/p&gt;
+
+&lt;p&gt;-&amp;gt; &lt;a href=&#34;https://mcsallyforsenate.com/&#34; target=&#34;_blank&#34;&gt;https://mcsallyforsenate.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Fix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico &amp;lt;- politico %&amp;gt;% 
+  mutate(type = ifelse(candidate ==  &amp;quot;Martha McSally&amp;quot;, &amp;quot;Senate&amp;quot;, type)) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Do the datasets disagree on whether a race was lost/won?&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico %&amp;gt;% 
+  left_join(mcclatch, by = &amp;quot;candidate&amp;quot;) %&amp;gt;% 
+  filter(won.x != won.y)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 6
+##   candidate      won.x type.x won.y     type.y incumbent
+##   &amp;lt;chr&amp;gt;          &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;    
+## 1 Claudia Tenney Lost  House  Undecided House  Incumbent
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Politico seems to not have updated Mike Dunleavy’s win yet (via The
+Associated Press).&lt;/p&gt;
+
+&lt;p&gt;Data sources disagree on Diane Harkey. She is indeed projected to lose
+(via The Associated Press).&lt;/p&gt;
+
+&lt;p&gt;Rick Scott is in the lead in the Senate Race (via The Associated Press).&lt;/p&gt;
+
+&lt;p&gt;Data sources also disagree on Claudia Tenney. Probably lost the race
+(via The Associated Press).&lt;/p&gt;
+
+&lt;p&gt;Fix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;politico &amp;lt;- politico %&amp;gt;% 
+  mutate(won = ifelse(candidate == &amp;quot;Diane Harkey&amp;quot;, &amp;quot;Lost&amp;quot;, won)) %&amp;gt;% 
+  mutate(won = ifelse(candidate == &amp;quot;Mike Dunleavy&amp;quot;, &amp;quot;Won&amp;quot;, won))  %&amp;gt;% 
+  mutate(won = ifelse(candidate == &amp;quot;Rick Scott&amp;quot;, &amp;quot;Won&amp;quot;, won))  
+
+mcclatch &amp;lt;- mcclatch %&amp;gt;% 
+  mutate(won = ifelse(candidate == &amp;quot;Claudia Tenney&amp;quot;, &amp;quot;Lost&amp;quot;, won)) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;No errors left :)&lt;/p&gt;
+
+&lt;p&gt;We can now use the Politico dataset as base, as it is the most complete
+dataset:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;trump_endorsements &amp;lt;- politico  %&amp;gt;% 
+  left_join(mcclatch, by = &amp;quot;candidate&amp;quot;) %&amp;gt;% 
+  rename(results = won.x) %&amp;gt;% 
+  rename(type = type.x) %&amp;gt;% 
+  select(candidate, results, type, incumbent) %&amp;gt;% 
+  arrange(candidate)
+
+trump_endorsements
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 95 x 4
+##    candidate       results   type     incumbent    
+##    &amp;lt;chr&amp;gt;           &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;        
+##  1 Adam Laxalt     Lost      Governor &amp;lt;NA&amp;gt;         
+##  2 Andy Barr       Won       House    &amp;lt;NA&amp;gt;         
+##  3 Andy Biggs      Won       House    &amp;lt;NA&amp;gt;         
+##  4 Asa Hutchinson  Won       Governor &amp;lt;NA&amp;gt;         
+##  5 Bill Lee        Won       Governor &amp;lt;NA&amp;gt;         
+##  6 Bill Schuette   Lost      Governor &amp;lt;NA&amp;gt;         
+##  7 Bob Hugin       Lost      Senate   &amp;lt;NA&amp;gt;         
+##  8 Bob Stefanowski Lost      Governor &amp;lt;NA&amp;gt;         
+##  9 Brian Kemp      Undecided Governor Not Incumbent
+## 10 Bruce Poliquin  Undecided House    Incumbent    
+## # ... with 85 more rows
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;gissisim-data&#34;&gt;@GissiSim Data&lt;/h2&gt;
+
+&lt;p&gt;@GissiSim on Twitter collected some Trump Endorsements as well. Let’s
+check them out:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;token &amp;lt;- readRDS(&amp;quot;.rtweet.rds&amp;quot;)
+
+tml &amp;lt;- get_timelines(&amp;quot;GissiSim&amp;quot;, n = 500, token = token)
+
+
+
+save_it(tml)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tml &amp;lt;- load_it(&amp;quot;data/tml.Rdata&amp;quot;)
+
+lastnames &amp;lt;- trump_endorsements %&amp;gt;% 
+  mutate(lastname = str_remove(candidate, &amp;quot;.+?(?= )&amp;quot;) %&amp;gt;% str_trim) %&amp;gt;% 
+  .$lastname %&amp;gt;% paste0(collapse = &amp;quot;|&amp;quot;)
+
+tml %&amp;gt;% 
+  filter(str_detect(text, &amp;quot;lost&amp;quot;)) %&amp;gt;% 
+  filter(!(str_detect(text, &amp;quot;Please let me know|That&#39;s 31|15 Trump|lost souls|democracy lost&amp;quot;))) %&amp;gt;%
+  select(screen_name, text) %&amp;gt;% 
+  mutate(lastnames = str_detect(text, lastnames)) %&amp;gt;% 
+  filter(!(lastnames))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2 x 3
+##   screen_name text                                                lastnames
+##   &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;                                               &amp;lt;lgl&amp;gt;    
+## 1 GissiSim    &amp;quot;Handel lost 51% to 50%\n\nhttps://t.co/TJZPJYGzR1&amp;quot; FALSE    
+## 2 GissiSim    Randy lost 52% to 48% https://t.co/GlmUBxdHcz       FALSE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Karen Handel is not in the dataset but did receive an endorsement in
+2017.&lt;/p&gt;
+
+&lt;p&gt;Randy is the first name of Randy Hultgren who is already in dataset.&lt;/p&gt;
+
+&lt;p&gt;Fix:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;trump_endorsements &amp;lt;- trump_endorsements %&amp;gt;% 
+  rbind(c(&amp;quot;Karen Handel&amp;quot;, &amp;quot;Lost&amp;quot;, &amp;quot;House&amp;quot;, &amp;quot;Incumbent&amp;quot;))
+
+save_it(trump_endorsements)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;plotting-the-data&#34;&gt;Plotting the Data&lt;/h2&gt;
+
+&lt;p&gt;Let’s plot the data now :)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;gg_dat &amp;lt;- trump_endorsements %&amp;gt;% 
+  group_by(results, type) %&amp;gt;% 
+  tally() %&amp;gt;% 
+  ungroup()%&amp;gt;% 
+  group_by(type) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  ungroup() 
+
+gg_text &amp;lt;- gg_dat %&amp;gt;% 
+  filter(results == &amp;quot;Won&amp;quot;) %&amp;gt;% 
+  mutate(perc = tidytemplate::get_percentage(n, total, 2)) %&amp;gt;% 
+  mutate(text = paste0(n, &amp;quot; out of &amp;quot;, total, &amp;quot; won (&amp;quot;, perc,&amp;quot;%)&amp;quot;))
+
+gg_dat %&amp;gt;% 
+  ggplot(aes(results, n, fill = results)) +
+  geom_col(alpha = 0.75) +
+  facet_wrap(~type) +
+  theme_hc() +
+  scale_fill_colorblind() +
+  guides(fill = F) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;,
+       caption = &amp;quot;Data: Politico &amp;amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&amp;quot;) +
+  geom_text(aes(label = n), nudge_y = 1) +
+  geom_text(data = gg_text, aes(x = 1.5, y = 31, label = text)) +
+  ggtitle(&amp;quot;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&amp;quot;)  +
+  theme(legend.text = element_text(size = 8),
+    axis.title = element_text(size = 10, face = &amp;quot;bold&amp;quot;),
+    plot.title = element_text(size = 14, face = &amp;quot;bold&amp;quot;, hjust = 0),
+    plot.caption = element_text(size = 10),
+    legend.position = &amp;quot;bottom&amp;quot;,
+    legend.title = element_text(size = 8), 
+    ) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(gg_freqs, width = 10, height = 6)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Plot by incumbents:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;gg_dat2 &amp;lt;- trump_endorsements %&amp;gt;% 
+  group_by(results, incumbent) %&amp;gt;% 
+  tally() %&amp;gt;% 
+  ungroup()%&amp;gt;% 
+  group_by(incumbent) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  drop_na(incumbent)
+
+gg_text2 &amp;lt;- gg_dat2 %&amp;gt;% 
+  filter(results == &amp;quot;Won&amp;quot;) %&amp;gt;% 
+  mutate(perc = tidytemplate::get_percentage(n, total, 2)) %&amp;gt;% 
+  mutate(text = paste0(n, &amp;quot; out of &amp;quot;, total, &amp;quot; won (&amp;quot;, perc,&amp;quot;%)&amp;quot;))
+
+gg_dat2 %&amp;gt;% 
+  ggplot(aes(results, n, fill = results)) +
+  geom_col(alpha = 0.75) +
+  facet_wrap(~incumbent) +
+  theme_hc() +
+  scale_fill_colorblind() +
+  guides(fill = F) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;&amp;quot;,
+       caption = &amp;quot;Data: Politico &amp;amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&amp;quot;) +
+  geom_text(aes(label = n), nudge_y = 1) +
+#  geom_text(data = gg_text2, aes(x = 1.5, y = 31, label = text)) +
+  ggtitle(&amp;quot;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&amp;quot;)  +
+  theme(legend.text = element_text(size = 8),
+    axis.title = element_text(size = 10, face = &amp;quot;bold&amp;quot;),
+    plot.title = element_text(size = 14, face = &amp;quot;bold&amp;quot;, hjust = 0),
+    plot.caption = element_text(size = 10),
+    legend.position = &amp;quot;bottom&amp;quot;,
+    legend.title = element_text(size = 8), 
+    ) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(gg_freqs2, width = 10, height = 6)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Pluckrose et al. Hoax Papers</title>
       <link>/post/hoax_papers/</link>
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
@@ -3804,15 +4142,6 @@ rt_hashtags %&amp;gt;%
       <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/project/decoding/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Fighting Fake News and Post-Truth Politics with Behavioral Science: The Pro-Truth Pledge</title>
-      <link>/publication/truthpledge_paper/</link>
-      <pubDate>Mon, 12 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/truthpledge_paper/</guid>
       <description></description>
     </item>
     
