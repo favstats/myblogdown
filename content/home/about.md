@@ -38,7 +38,7 @@ weight = 5
 
 # About Me
 
-<a href="https://docs.google.com/viewer?url=https://github.com/favstats/cv_hub/raw/master/docs/Votta_CV.pdf">Curriculum Vitae</a>
+<a href="www.favstats.eu/files/Votta_CV.pdf">Curriculum Vitae</a>
 
 I am currently completing my Master program *Empirical Political and Social Research* at the University of Stuttgart. My research interests include political polarization, political extremism and the interaction of religion and politics. I am also very quantitative focused person and very passionate about data and data visualization. I enjoy statistical modeling, computational social science and everything R related. At the University of Stuttgart I tutor graduate students in statistics, using both SPSS and R.
 
