@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 4 Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-15-11" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 4 Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-15-11
+
+---
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+&lt;/style&gt;
+
+
+
+
+
+
+## Übersicht
+
+1. Übungsaufgabe 3 in SPSS
+2. Übungsaufgabe 3 in R
+  
+  
+[Link zum Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
+  
+[Link zur Übungsaufgabe 3 - SPSS](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/03_spss/03ua_vorlage.sps)
+  
+[Link zur Übungsaufgabe 3 - R](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/03_r/03ua_vorlage.Rmd)
+  
+
+---
+
+class: center, middle
+
+## Thema der Übungsaufgabe
+
+### Regressionsdiagnostik
+
+---
+
+## Regressionsdiagnostik
+
++ **A1:** Heteroskedastizität (Streuungsungleichheit)
+
++ **A2:** 0-Mittelwert der Residuen (Kann nicht überprüft werden)
+
++ **A3:** Unkorreliertheit der Fehler
+
++ **A4:** Keine Autokorrelation (vor allem bei Zeitreihen relevant)
+
++ **A5:** Normalverteilungsannahme
+
+[Interaktive App zur Visualisierung der Annahmen einer linearen Regression](https://favstats.shinyapps.io/regdiag/#section-modelldiagnostik)
+
+---
+
+#### Aufgabe 1
+
+.seventyfive[
+
+Erstellen Sie ein Streudiagramm zwischen den Residuen der Regression von "prestige_befragter" auf "bildung_befragter". Beschreiben Sie das Diagramm. Ist A1 verletzt?
+
+Prestigeskalen: MPS, SIOPS und ISEI
+
+]
+
+#### Aufgabe 2
+
+.seventyfive[
+
+Erstellen Sie eine Regression von Einkommen auf Alter (alter_0) und speichern Sie dabei die unstandardisierten sowie die standardisierte Residuen Erstellen Sie anschließend ein Streudiagramm für die beiden unterschiedlichen Residuenarten.
+
+]
+
+###### Aufgabe 2a
+
+.seventyfive[
+
+Was ist der Unterschied zwischen den beiden Residuenarten und wie werden die standardisierten Residuen gebildet?
+]
+
+###### Aufgabe 2b
+
+.seventyfive[
+
+Beschreiben Sie die beiden Streudiagramme. Gibt es Unterschiede, falls nein, hängt dies mit der Art der Erstellung der Variablen zusammen? Beziehen Sie sich bei Ihrer Antwort auf die statistische Kenngrößen.
+
+]
+
+---
+
+#### Aufgabe 3
+
+Anhand der Scatterplots (Streudiagramme) lässt sich vermuten, dass zwischen verschiedenen Altersgruppen Varianzinhomogenität (Verletzung A1) besteht.
+
+
+###### Aufgabe 3a
+
+
+Erläutern Sie das Prinzip nach welchem der Test funktioniert, der angewendet werden muss, um zu prüfen, ob die identifizierten Gruppen Varianzhomogenität aufweisen.
+
+###### Aufgabe 3b
+
+Testen Sie die Annahme A3 und A5 (Test der Gesamtheit der Residuen) für die Residuen von Aufgabe 3. Sind die Annahmen erfüllt? Welche Einschränkungen müssen bzgl. des Tests für A5 beachtet werden?
+
+---
+
+### Übungsaufgabe - SPSS
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+[Tipps und Tricks für die Übungsaufgabe 3 (SPSS)](http://www.favstats.eu/smii_1819/03ua_spss_tippsntricks.html)
+
+
+
+
+---
+
+### Übungsaufgabe - R
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+[Tipps und Tricks für die Übungsaufgabe 3 (R)](http://www.favstats.eu/smii_1819/03ua_r_tippsntricks.html)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
