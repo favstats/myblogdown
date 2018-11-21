@@ -6,7 +6,7 @@ date = "2018-09-22"
 title = "Visualizing Gas Explosions in Lawrence, MA"
 
 # Project summary to display on homepage.
-summary = "This is a little project where I visualize the gas explosions that rocked Lawrence, MA on 13th Septembr 2018."
+summary = "This is a little project where I visualize the gas explosions that rocked Lawrence, MA on 13th September 2018."
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = "firstmap.png"
