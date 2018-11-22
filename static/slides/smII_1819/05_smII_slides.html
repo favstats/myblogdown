@@ -3,7 +3,7 @@
   <head>
     <title>SM II: Tutorium - 5. Sitzung</title>
     <meta charset="utf-8">
-    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-12-11" />
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-22-11" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
@@ -12,7 +12,7 @@
 class: center, middle, inverse, title-slide
 
 # SM II: Tutorium - 5. Sitzung
-### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-12-11
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-22-11
 
 ---
 
@@ -53,13 +53,25 @@ class: center, middle, inverse, title-slide
 
 1. Übungsaufgabe 4 in SPSS
 2. Übungsaufgabe 4 in R
+3. Bestimmung des benötigten Stichprobenumfangs
   
+&lt;br&gt;
+ 
+  
+[Tabelle A4 zum F-Test (Urban/Mayerl, S. 358-359)](http://www.favstats.eu/smii_1819/TabelleA4_FTest_Power.pdf)
+  
+  
+[Multikollinearität Blogpost](http://www.favstats.eu/post/multicol_sim/)
+
+&lt;br&gt;
   
 [Link zum Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
   
-[Link zur Übungsaufgabe 4 - SPSS](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/03_spss/03ua_vorlage.sps)
+[Link zur Übungsaufgabe 4 - SPSS](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/03_spss/04ua_vorlage.sps)
   
-[Link zur Übungsaufgabe 4 - R](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/03_r/03ua_vorlage.Rmd)
+[Link zur Übungsaufgabe 4 - R](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/04_Sitzung_15.11.2018/04_r/03ua_vorlage.Rmd)
+
+
   
 
 ---
@@ -73,11 +85,11 @@ class: center, middle, inverse, title-slide
 
 *Berechnen Sie das Konfidenzintervall für die Variablen bild_tert und Alter mittels der Koeffizienten und interpretieren Sie diese.*
 
-`$$KI_{95} = b \pm  t_{df} \times SE_b$$` 
+`$$KI_{95} = b \pm  t_{n} \times SE_b$$` 
 
-Für `\(df &gt; 120\)` und `\(95\%\)` Signifikanzniveau ist der kritische Wert `\(t = 1.96\)` 
+Für `\(n &gt; 120\)` und `\(95\%\)` Signifikanzniveau ist der kritische Wert `\(t_{krit} = 1.96\)` 
 
-Für `\(df &gt; 120\)` und `\(99\%\)` Signifikanzniveau ist der kritische Wert `\(t = 2.58\)` 
+Für `\(n &gt; 120\)` und `\(99\%\)` Signifikanzniveau ist der kritische Wert `\(t_{krit} = 2.58\)` 
 
 ###### Aufgabe 1b
 
@@ -89,11 +101,21 @@ Für `\(df &gt; 120\)` und `\(99\%\)` Signifikanzniveau ist der kritische Wert `
 
 *Was ist unter Multikollinearität zu verstehen, warum ist es ein Problem, wenn diese in einer Modellschätzung vorliegt und wie kann das Vorliegen derselben diagnostiziert werden?*
 
+.eighty[
 
+Tipp: 
+
+VIF Werte über 5 bzw. Toleranz unter 0.2 gelten als grenzwertig.
+
+VIF Werte über 10 bzw. Toleranz unter 0.1 gelten als sehr problematisch.
+
+]
 
 #### Aufgabe 3
 
 _Wie ausgeprägt ist die Multikollinearität im Regressionsmodell von Aufgabe 1? Welche Gründe (inhaltliche) lassen sich für die Multikollinearität identifizieren?_
+
+---
 
 
 #### Aufgabe 4
@@ -105,7 +127,6 @@ _Bestimmen Sie den minimalen Stichprobenumfang für eine Variablenbeziehung in d
 Tipp: siehe Urban/Mayerl 2011: 159f.
 
 `$$N = \frac{\lambda}{f^2}$$`
----
 
 #### Aufgabe 5
 
@@ -116,6 +137,458 @@ _Welche Form von Fehlschluss wird durch ein niedriges Signifikanzniveau "begüns
 #### Aufgabe 6
 
 _In welchen Fällen ist es sinnvoll das Signifikanzniveau höher anzusetzen als 95%?_
+
+---
+
+### Übungsaufgabe SPSS
+
+.eighty[Erstellen einer Interaktionsvariablen:]
+
+
+```r
+COMPUTE int_alter_gender = alter * gender.
+```
+
+
+.eighty[Testen des Gesamtmodells auf Linearität:]
+
+
+```r
+REGRESSION
+  /DEPENDENT demzufriedenheit
+  /METHOD=ENTER alter gender int_alter_gender
+  /SCATTERPLOT=(*ZRESID , *ZPRED).
+```
+
+
+.eighty[(Multi-)Kollinearitätskoeffezienten anzeigen lassen:
+
+Fügen wir zu `/STATISTICS` noch `BCOV` und `TOL` hinzu, so bekommen wir eine Korrelationstabelle für die Koeffizienten und Toleranzwerte bzw. VIF Werte aus.]
+
+
+```r
+REGRESSION
+  /STATISTICS COEFF OUTS CI(95) R BCOV TOL
+  /DEPENDENT demzufriedenheit
+  /METHOD=ENTER alter gender int_alter_gender
+```
+
+
+---
+
+### Übungsaufgabe R
+
+Ausgeben der Koeffizienten eines Modells mit `tidy`
+
+
+```r
+tidy(mod1) 
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.9660246 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8317190 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.422036 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; alter0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0848804 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0208275 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.075392 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.79e-05 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bildung_rec &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.3914253 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2165824 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.510365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe R
+
+Berechnung von 95% Konfidenzintervallen:
+
+
+```r
+tidy(mod1) %&gt;% 
+  mutate(low_se_95 = estimate - 1.96 * std.error) %&gt;% 
+  mutate(high_se_95 = estimate + 1.96 * std.error)
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; low_se_95 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; high_se_95 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.9660246 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8317190 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.422036 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25.3358553 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28.5961939 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; alter0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0848804 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0208275 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.075392 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.79e-05 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0440584 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1257024 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bildung_rec &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.3914253 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2165824 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.510365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.9669238 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.8159267 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe R
+
+Berechnung von 99% Konfidenzintervallen:
+
+
+```r
+tidy(mod1)  %&gt;% 
+  mutate(low_se_99 = estimate - 2.58 * std.error) %&gt;% 
+  mutate(high_se_99 = estimate + 2.58 * std.error)
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; estimate &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; std.error &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; statistic &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; p.value &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; low_se_99 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; high_se_99 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; (Intercept) &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 26.9660246 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8317190 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.422036 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.8201895 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.1118597 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; alter0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0848804 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0208275 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.075392 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.79e-05 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0311453 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1386154 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bildung_rec &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.3914253 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2165824 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.510365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00e+00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.8326427 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.9502078 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe R
+
+Geschätzte Werte (fitted values) und standardisierte Residuen können wir uns mit `augment` ausgeben:
+
+
+```r
+diag_mod &lt;- augment(mod1)
+```
+Nur zum angucken :)
+
+
+```r
+head(diag_mod) %&gt;% 
+  select(.fitted, .std.resid) 
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; .fitted &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; .std.resid &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 53.80493 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8218703 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 42.46505 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5886210 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 42.97433 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0515600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 43.22897 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -1.8773068 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 42.97433 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.9982687 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 53.12589 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.8649826 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe R
+
+Testen des Gesamtmodells auf Linearität:
+
+
+```r
+diag_mod %&gt;% #Datensatz 
+  plot_scatter(.fitted, .std.resid, #x und y definieren 
+               fit.line = "loess",  #zeige eine loess Kurve
+               show.ci = T,         #zeige das Konfidenzintervall
+               title = "Test auf Linearität",   #Titel der Grafik
+               axis.titles = c("Geschätzte Werte",
+                               "Standardisierte Residuen")) 
+```
+
+![](05_smII_slides_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+### Übungsaufgabe R
+
+Testen des aller UVs auf Linearität:
+
+
+```r
+plot_model(mod1, type = "slope")
+```
+
+![](05_smII_slides_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+
+
+---
+
+### Übungsaufgabe R
+
+Testen auf Multikollinearität
+
+VIF - Werte:
+
+
+```r
+vif(mod1)
+```
+
+```
+##      alter0 bildung_rec 
+##    1.006896    1.006896
+```
+
+Toleranzwerte:
+
+
+```r
+(1/vif(mod1)) 
+```
+
+```
+##      alter0 bildung_rec 
+##   0.9931517   0.9931517
+```
+
+
+---
+
+### Übungsaufgabe R
+
+Testen auf Multikollinearität
+
+Gemeinsam:
+
+
+```r
+data.frame(vif = vif(mod1),
+           toleranz = (1/vif(mod1)))
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; vif &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; toleranz &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; alter0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.006896 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9931517 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; bildung_rec &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.006896 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.9931517 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+### Übungsaufgabe R
+
+Eine (nahezu) komplette Regressionsdiagnostik mit `plot_model`:
+
+
+```r
+plot_model(mod1, type = "diag")
+```
+
+
+![](05_folien_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+
+---
+
+### Übungsaufgabe R
+
+Eine (nahezu) komplette Regressionsdiagnostik mit `plot_model`:
+
+
+```r
+plot_model(mod1, type = "diag")
+```
+
+
+![](05_folien_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+---
+
+### Übungsaufgabe R
+
+Eine (nahezu) komplette Regressionsdiagnostik mit `plot_model`:
+
+
+```r
+plot_model(mod1, type = "diag")
+```
+
+![](05_folien_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+
+---
+
+### Übungsaufgabe R
+
+Eine (nahezu) komplette Regressionsdiagnostik mit `plot_model`:
+
+
+```r
+plot_model(mod1, type = "diag")
+```
+
+
+![](05_folien_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+
+---
+
+### Bestimmung des benötigten Stichprobenumfangs
+
+Die Teststärke ist eine Funktion der drei Faktoren Signifikanzniveau, geschätzte
+Effektstärke und Stichprobenumfang. Deswegen lässt sich der notwendige Stichprobenumfang aus einer vorab festgelegten Teststärke, einem bestimmten Signifikanzniveau und einer erwarteten Effektstärke ableiten (a-priori-Analyse).
+
+Folgende Werte sind gegeben:
+
+- Variablenbeziehung: `\(f^2 = 0.1\)`
+
+- Anzahl der Kontrollvariablen: `\(20\)`
+
+- Teststärke: `\(80\%\)`
+
+- Signifikanzniveau: `\(95\%\)` (Irrtumswahrscheinlichkeit `\(\alpha = 0.05\)`)
+
+Gesucht:
+
+- N (Stichprobenumfang)
+
+---
+
+### Bestimmung des benötigten Stichprobenumfangs
+
+Nun ist in einem ersten Schritt den Nonzentralitätsparameter `\(\lambda\)` zu berechnen. 
+Ist dieser berechnet sind sämtliche Größen vorhanden um die umgeformte Gleichung zur Berechnung von *N* auflösen zu können.
+
+Der Nonzentralitätsparameter `\(\lambda\)` ergibt sich aus einer Teststärkentabelle für die Analyse mit Alpha = 0.05, gemäß dem gewählten Signifikanzniveau. Unser **u**, also die Anzahl unabhängiger Modellvariablen, beträgt 21. Somit betrachten wir in der Tetstärkentabelle die Zeile mit u = 21 bzw. 20.
+
+In der entsprechenden Zeile der Teststärkentabelle wird nun der erste Wert gesucht, bzw. der kleinste Wert, der die geforderte Teststärke von `\(80\% (=0.8)\)` erstmalig überschreitet. Ist dieser gefunden, kann die notwendige Stichprobengröße abgeleitet werden, aus der umgeformten Gleichung:
+ 
+`$$N = \frac{\lambda}{f^2}$$`
+
+
+Für den Nonzentralitätsparameter `\(\lambda\)` wird auf diese Weise ein Wert von 24 aus der 
+Teststärkentabelle ermittelt (u = 20).
+
+---
+
+### Bestimmung des benötigten Stichprobenumfangs
+
+Somit ergibt sich unter den angeführten
+Randbedingungen eine optimale Stichprobengröße von 240, um mit einer
+Wahrscheinlichkeit von 80 Prozent einen signifikanten Effekt zu entdecken.
+
+`$$N = \frac{24}{0.1} = 240$$`
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
