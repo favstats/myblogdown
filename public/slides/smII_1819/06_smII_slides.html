@@ -111,18 +111,20 @@ class: center, middle, inverse, title-slide
 
 ### Cross-Lagged Panel Design
 
-&lt;br&gt;
-
 &lt;center&gt;
 
 &lt;img src="images/lagged.jpg" width = "55%"&gt;
 
 &lt;/center&gt;
 
-&lt;br&gt;
-
 Um eine Aussage über die Stabilität tätigen zu können, betrachtet man die Stabilitätskoeffizienten (im
 skizzierten Modell die geraden Linien).
+
+T-Test zwischen Koeffizienten (für unabhängige Stichproben):
+
+`$$t_{df} = \frac{b_1 - b_2}{\sqrt{(SE_{b_1})^2 + (SE_{b_2})^2}}$$`
+
+
 
 
 ---
@@ -229,6 +231,89 @@ Im Grafikmenu können wir ein Scatterplot erstellen, der die Interaktion visuali
 
 ### Übungsaufgabe R
 
+
+```r
+lebens_mod &lt;- lm(lebensz_org.2002 ~ gesund_org.2001 + lebensz_org.2001, data = soep)
+gesund_mod &lt;- lm(gesund_org.2002 ~ gesund_org.2001 + lebensz_org.2001, data = soep)
+
+screenreg(list(lebens_mod, gesund_mod), custom.model.names = c("AV: LZF", "AV: GESUND"))
+```
+
+```
+## 
+## ==========================================
+##                   AV: LZF      AV: GESUND 
+## ------------------------------------------
+## (Intercept)          2.77 ***     0.91 ***
+##                     (0.14)       (0.07)   
+## gesund_org.2001      0.24 ***     0.63 ***
+##                     (0.03)       (0.02)   
+## lebensz_org.2001     0.49 ***     0.04 ***
+##                     (0.02)       (0.01)   
+## ------------------------------------------
+## R^2                  0.32         0.46    
+## Adj. R^2             0.32         0.46    
+## Num. obs.         2341         2336       
+## RMSE                 1.39         0.71    
+## ==========================================
+## *** p &lt; 0.001, ** p &lt; 0.01, * p &lt; 0.05
+```
+
+
+---
+
+### Übungsaufgabe R
+
+T-Test zwischen Koeffizienten:
+
+
+```r
+t_test_coefs &lt;- function(mod1, mod2, coef1 = NULL, coef2 = NULL) {
+   
+   tidy_mod1 &lt;- tidy(mod1) %&gt;% 
+      filter(term == coef1)
+   
+   tidy_mod2 &lt;- tidy(mod2) %&gt;% 
+      filter(term == coef2)
+   
+   b1 &lt;- tidy_mod1$estimate
+   b2 &lt;- tidy_mod2$estimate
+
+   se1 &lt;- tidy_mod1$std.error
+   se2 &lt;- tidy_mod2$std.error
+
+   oben &lt;- b1 - b2
+
+   unten &lt;- sqrt((se1)^2 + (se2)^2)
+
+   t_value = oben/unten
+   
+   return(list(t_value = t_value))
+}
+```
+
+---
+
+### Übungsaufgabe R
+
+T-Test zwischen Koeffizienten:
+
+
+```r
+t_test_coefs(lebens_mod, gesund_mod,
+             coef1 = "gesund_org.2001",
+             coef2 = "lebensz_org.2001")
+```
+
+```
+## $t_value
+## [1] 6.045129
+```
+
+---
+
+### Übungsaufgabe R
+
 Interaktionsplot ausgeben lassen:
 
 
@@ -236,7 +321,7 @@ Interaktionsplot ausgeben lassen:
 plot_model(mod1, type = "int")
 ```
 
-![](06_smII_slides_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](06_smII_slides_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
