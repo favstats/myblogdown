@@ -49,10 +49,17 @@ class: center, middle, inverse, title-slide
 
 
 
+# Froher Nikolaus Tag!
+
+
+&lt;img src="http://2.bp.blogspot.com/-pQ9UGPEuNM4/UMT4Sc8i0iI/AAAAAAAAAdI/jg5Z1-te0Bw/s1600/santa+Claus.png"&gt;
+
+---
+
 ## Übersicht
 
-1. Übungsaufgabe 5 in SPSS
-2. Übungsaufgabe 5 in R
+1. Übungsaufgabe 6 in SPSS
+2. Übungsaufgabe 6 in R
 
 
   
@@ -60,7 +67,6 @@ class: center, middle, inverse, title-slide
  
   
 
-[Link zum SOEP Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/SOEP_wide_lehrdaten.sav)
   
 [Link zum Allbus Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
   
@@ -70,269 +76,79 @@ class: center, middle, inverse, title-slide
   
 
 ---
-class: animated, slideInUp
+
 
 
 ##### Aufgabe 1
 
 
-.eighty[*Benutzen Sie den Datensatz „SOEP_wide_lehrdaten.sav“*]
+
+Erstellen Sie zunächst dichotome Variablen für:
+
++ SPD-Wahl bei der letzten Bundestagswahl (z. B. V810)
++ die Gewerkschaftsmitgliedschaft (z. B. V606) 
++ die ev. Konfessionszugehörigkeit (z. B. V601)
 
 
-###### Aufgabe 1a
 
-.eighty[*Berechnen Sie ein Cross-lagged-Design mit zwei Regressionen bzgl. der Variablen Subjektive Gesundheit und Lebenszufriedenheit (Jahre 2003 und 2004)*]
+###### Aufgabe `\(1a_{i}\)`
 
-.pull-left[
+Berechnen Sie (anhand eines log. Regressionsmodells) die Wahrscheinlichkeit für ein aktuelles Gewerkschaftsmitglied (Konfession evangelisch) die SPD zu wählen.
 
-.seventy[Subjektive Gesundheit
-- `gesund_org.2003`
-- `gesund_org.2004`
-]
+###### Aufgabe `\(1a_{ii}\)`
 
-]
+Berechnen Sie (anhand eines log. Regressionsmodells) die Wahrscheinlichkeit für eine Person mit katholischer Konfession (keine Gewerkschaftsmitgliedschaft) die SPD zu wählen.
 
-.pull-right[
-
-.seventy[Lebenszufriedenheit
-- `lebensz_org.2003`
-- `lebensz_org.2004`
-]
-
-]
 
 ###### Aufgabe 1b
 
-.eighty[*Welche Aussage lässt sich bzgl. der Stabilität der Variablen Lebenszufriedenheit und Subj. Gesundheit machen?*]
+Wie fallen die Odds für diese beiden Personen aus? 
+
+---
+
 
 ###### Aufgabe 1c
 
-.eighty[*Wie bewerten Sie die kausale Reihenfolge bzgl. der Effekte Subj. Gesundheit &lt;-&gt; Lebenszufriedenheit anhand der „Kreuzkoeffizienten“. Vergleichen Sie hierzu die Kreuzladungen.*]
+Wie fallen die Odds Ratios bzgl. der Variablen Gewerkschaftsmitgliedschaft und Konfessionszugehörigkeit-evangelisch aus?
+
+
+###### Aufgabe 1d
+
+Über welchen Personenkreis kann dieses Modell Aussagen treffen? Denken Sie bei Ihrer Antwort an die Null-Kategorie Ihrer Variablen.
+
 
 ---
-class: animated, slideInUp
 
-### Cross-Lagged Panel Design
+
+### Übungsaufgabe - SPSS
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
 
 &lt;center&gt;
 
-&lt;img src="images/lagged.jpg" width = "55%"&gt;
-
-&lt;/center&gt;
-
-Um eine Aussage über die Stabilität tätigen zu können, betrachtet man die Stabilitätskoeffizienten (im
-skizzierten Modell die geraden Linien).
-
-T-Test zwischen Koeffizienten (für unabhängige Stichproben):
-
-`$$t_{df} = \frac{b_1 - b_2}{\sqrt{(SE_{b_1})^2 + (SE_{b_2})^2}}$$`
-
-
-
----
-class: animated, slideInUp
-
-##### Aufgabe 2
-
-.eighty[*Benutzen Sie den Datensatz „allbus2014.sav“*
-
-*Erstellen Sie eine Interaktionsvariable zwischen Geschlecht und Alter und reduzieren Sie vor den folgenden Regressionsanalysen den Datensatz, um die Fälle, bei denen die Geburtenentscheidungen keine besondere Bedeutung mehr für die Gehaltsentwicklung haben sollten (Alter unter 46 Jahren, alter0 &lt; 28). Modell 1 enthält dann Alter und Geschlecht, in Modell 2 kommt die Interaktionsvariable hinzu.*]
-
-
-###### Aufgabe 2a
-
-.eighty[
-_Berechnen	Sie	anhand	von	Modell	1	und	Modell	2	jeweils	das	prognostizierte	Einkommen	eines	Mannes und	einer	Frau	im	Alter	von	jeweils	30 Jahren._
-]
-
-
-###### Aufgabe 2b
-
-.eighty[*Was ist dabei der Interaktionseffekt	und	wie	lässt	er	sich inhaltlich	begründen?*]
-
-
----
-class: animated, slideInUp
-
-### Interaktionen berechnen
-
-Formel zur Berechnung eines vorhergesagten Wertes:
-
-`$$Intercept + Alter_1 \times x_1 + Geschl \times x_2 + AlterGeschl \times x_3$$`
-#### Beispiel: 
-
-+ Alter = 20
-+ Geschl = 1 ("männlich")
-
-`$$Intercept + 20 \times x_1 + 1 \times x_2 + 20 \times 1 \times x_3$$`
-
-`\(x_1\)` = b-Koeffizient von Alter
-
-`\(x_2\)` = b-Koeffizient von Geschlecht
-
-`\(x_3\)` = b-Koeffizient von Alter*Geschlecht (Interaktion)
-
-
----
-class: animated, slideInUp
-
-
-### Übungsaufgabe SPSS
-
-.eighty[Erstellen eines temporären Filters:]
-
-
-```r
-TEMPORARY.
-SELECT IF bildung_rec &gt; 3.
-```
-
-.eighty[Muss immer vor jedem Befehl ausgeführt werden.]
-
-.eighty[Einen Interaktionsplot in SPSS erstellen]
-
-
-```r
-REGRESSION
-  /DEPENDENT demzufriedenheit
-  /METHOD=ENTER alter gender int_alter_gender
-  /SAVE PRED.
-```
-
-Erstellt eine Variable `PRE_1` welche die unstandardisierten vorhergesagten Werte beinhaltet.
-
-Im Grafikmenu können wir ein Scatterplot erstellen, der die Interaktion visualisiert:
-
-[Nächste Folie]
-
-
----
-class: animated, slideInUp
-
-
-
-### Übungsaufgabe SPSS
-
-&lt;center&gt;
-
-&lt;img src="images/scatter.png" width = "55%"&gt;
-
-&lt;/center&gt;
-
-
-
----
-class: animated, slideInUp
-
-
-### Übungsaufgabe SPSS
-
-&lt;center&gt;
-
-&lt;img src="images/interact.png" width = "80%"&gt;
+&lt;a href="http://www.favstats.eu/smii_1819/06ua_spss_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 6 (SPSS)&lt;/a&gt;
 
 &lt;/center&gt;
 
 
 ---
-class: animated, slideInUp
-
-### Übungsaufgabe R
 
 
-```r
-lebens_mod &lt;- lm(lebensz_org.2002 ~ gesund_org.2001 + lebensz_org.2001, data = soep)
-gesund_mod &lt;- lm(gesund_org.2002 ~ gesund_org.2001 + lebensz_org.2001, data = soep)
+### Übungsaufgabe - R
 
-screenreg(list(lebens_mod, gesund_mod), custom.model.names = c("AV: LZF", "AV: GESUND"))
-```
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
 
-```
-## 
-## ==========================================
-##                   AV: LZF      AV: GESUND 
-## ------------------------------------------
-## (Intercept)          2.77 ***     0.91 ***
-##                     (0.14)       (0.07)   
-## gesund_org.2001      0.24 ***     0.63 ***
-##                     (0.03)       (0.02)   
-## lebensz_org.2001     0.49 ***     0.04 ***
-##                     (0.02)       (0.01)   
-## ------------------------------------------
-## R^2                  0.32         0.46    
-## Adj. R^2             0.32         0.46    
-## Num. obs.         2341         2336       
-## RMSE                 1.39         0.71    
-## ==========================================
-## *** p &lt; 0.001, ** p &lt; 0.01, * p &lt; 0.05
-```
+&lt;center&gt;
 
+&lt;a href="http://www.favstats.eu/smii_1819/06ua_r_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 6 (R)&lt;/a&gt;
 
----
-class: animated, slideInUp
-
-### Übungsaufgabe R
-
-T-Test zwischen Koeffizienten:
-
-
-```r
-t_test_coefs &lt;- function(mod1, mod2, coef1 = NULL, coef2 = NULL) {
-   
-   tidy_mod1 &lt;- tidy(mod1) %&gt;% 
-      filter(term == coef1)
-   
-   tidy_mod2 &lt;- tidy(mod2) %&gt;% 
-      filter(term == coef2)
-   
-   b1 &lt;- tidy_mod1$estimate
-   b2 &lt;- tidy_mod2$estimate
-
-   se1 &lt;- tidy_mod1$std.error
-   se2 &lt;- tidy_mod2$std.error
-
-   oben &lt;- b1 - b2
-
-   unten &lt;- sqrt((se1)^2 + (se2)^2)
-
-   t_value = oben/unten
-   
-   return(list(t_value = t_value))
-}
-```
-
----
-class: animated, slideInUp
-
-### Übungsaufgabe R
-
-T-Test zwischen Koeffizienten:
-
-
-```r
-t_test_coefs(lebens_mod, gesund_mod,
-             coef1 = "gesund_org.2001",
-             coef2 = "lebensz_org.2001")
-```
-
-```
-## $t_value
-## [1] 6.045129
-```
-
----
-class: animated, slideInUp
-
-### Übungsaufgabe R
-
-Interaktionsplot ausgeben lassen:
-
-
-```r
-plot_model(mod1, type = "int")
-```
-
-![](07_smII_slides_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+&lt;/center&gt;
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
