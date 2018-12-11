@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 8. Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2018-13-12" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 8. Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2018-13-12
+
+---
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+&lt;/style&gt;
+
+
+
+
+
+
+
+## Übersicht
+
+1. Übungsaufgabe 7 in SPSS
+2. Übungsaufgabe 7 in R
+
+
+  
+&lt;br&gt;
+ 
+  
+
+  
+[Link zum Allbus Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
+  
+
+
+
+  
+
+---
+
+
+
+##### Aufgabe 1
+
+
+
+Erstellen Sie zunächst dichotome Variablen für:
+
++ SPD-Wahl bei der letzten Bundestagswahl (z. B. V810)
++ die Gewerkschaftsmitgliedschaft (z. B. V606) 
++ die ev. Konfessionszugehörigkeit (z. B. V601)
+
+
+
+###### Aufgabe 1a
+
+Berechnen Sie (anhand eines log. Regressionsmodells) die Wahrscheinlichkeit für ein aktuelles Gewerkschaftsmitglied (Konfession evangelisch) die SPD zu wählen.
+
+###### Aufgabe 1b
+
+Berechnen und interpretieren Sie die AMEs fuer beide unabhängige Variablen.
+
+
+
+###### Aufgabe 1c
+
+Berechnen Sie ein weiteres (nested) log. Regression mit zwei weiteren (frei wählbaren) unabhängigen Variablen (Modell 2)
+
+---
+
+
+###### Aufgabe 1d
+
+Erläutern Sie das Prinzip von McFaddens-R2 und des Nagelkerke-$R^2$
+
+
+###### Aufgabe 1e
+
+Interpretieren Sie diese für beide Modelle.
+
+
+##### Aufgabe 2
+
+Welches der beiden Modelle weist die bessere Passung an die empirischen Daten auf? Erläutern Sie, wie Sie zur Feststellung dieses Sachverhaltes vorgehen müssen und beziehen Sie sich dabei auf das Prinzip der Devianz (vgl. die Berechnung von Pseudo-$R^2$). Berechnen Sie einen Likelihood Ratio-$\chi^2$-Test mit Modell 2 und Modell 1.
+
+---
+
+##### Aufgabe 3
+
+Regressionsdiagnostik zu Modell 2
+
+###### Aufgabe 3a
+
+Was können Sie über die Verteilung der Fälle aussagen? Erläutern Sie das Vorgehen und Ihr Ergebnis.
+
+###### Aufgabe 3b
+
+Können Sie Verzerrungen mit Blick auf die Y-Werteverteilung, die Vollständigkeit der Information und die (vollständige) Separation identifizieren?
+
+
+---
+
+
+### Übungsaufgabe - SPSS
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;center&gt;
+
+&lt;a href="http://www.favstats.eu/smii_1819/07ua_spss_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 6 (SPSS)&lt;/a&gt;
+
+&lt;/center&gt;
+
+
+---
+
+
+### Übungsaufgabe - R
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;center&gt;
+
+&lt;a href="http://www.favstats.eu/smii_1819/07ua_r_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 6 (R)&lt;/a&gt;
+
+&lt;/center&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
