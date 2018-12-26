@@ -40,5 +40,5 @@ weight = 5
 
 <a href="docs/VottaFabio_CV.pdf">Curriculum Vitae</a>
 
-I am currently completing my Master program *Empirical Political and Social Research* at the University of Stuttgart. My research interests include political polarization, political extremism and the interaction of religion and politics. I am also very quantitative focused person and very passionate about data and data visualization. I enjoy statistical modeling, computational social science and everything R related. At the University of Stuttgart I tutor graduate students in statistics, using both SPSS and R.
+I am currently enrolled as a master's student of *Empirical Political and Social Research* at the University of Stuttgart. My research interests include political polarization, political extremism and the interaction of religion and politics. I am also a very quantitative focused person and very passionate about data and data visualization. I enjoy statistical modeling, computational social science and everything R related. At the University of Stuttgart, I tutor graduate students in statistics using both SPSS and R.
 
