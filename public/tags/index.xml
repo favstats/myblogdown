@@ -60,7 +60,7 @@
     <item>
       <title>Dataviz</title>
       <link>/tags/dataviz/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/dataviz/</guid>
       <description></description>
@@ -69,7 +69,7 @@
     <item>
       <title>Dataviz</title>
       <link>/tags/dataviz/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>/tags/dataviz/</guid>
       <description></description>
@@ -81,6 +81,15 @@
       <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/tags/elections/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Example</title>
+      <link>/tags/example/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/example/</guid>
       <description></description>
     </item>
     
@@ -193,6 +202,15 @@
     </item>
     
     <item>
+      <title>Slides</title>
+      <link>/tags/slides/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/slides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Survey</title>
       <link>/tags/survey/</link>
       <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
@@ -207,6 +225,15 @@
       <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>/tags/survey-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
       <description></description>
     </item>
     
@@ -234,6 +261,15 @@
       <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/wapor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Xaringan</title>
+      <link>/tags/xaringan/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/xaringan/</guid>
       <description></description>
     </item>
     

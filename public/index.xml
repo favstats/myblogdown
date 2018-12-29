@@ -11,6 +11,207 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Create awesome HTML slides with xaringan</title>
+      <link>/post/xaringan_tut/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/xaringan_tut/</guid>
+      <description>
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://slides.yihui.name/xaringan/&#34; target=&#34;_blank&#34;&gt;https://slides.yihui.name/xaringan/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Are you ready to become a &lt;strong&gt;presentation ninja&lt;/strong&gt;?&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;There is multiple ways to install packages in R. One safe bet is to install the xaringan package from CRAN, as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;install.packages(&amp;quot;xaringan&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Sometimes the versions on CRAN are somewhat older. If you are interested in the newest version, one option is to always look for the related (GitHub) repository. To install it from here you need to first install the devtools package in case you don&amp;rsquo;t have it and then use install_github(&amp;ldquo;yihui/xaringan&amp;rdquo;) to install the package from GitHub.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;## only install devtools if needed ##
+#install.packages(devtools)
+
+devtools::install_github(&#39;yihui/xaringan&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/rmarkdown.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next select &amp;ldquo;From Template&amp;rdquo; then Ninja Presentation, and you will see an R Markdown example.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/ninja_presentation.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Press the Knit button to compile it&lt;/p&gt;
+
+&lt;h2 id=&#34;basics&#34;&gt;Basics&lt;/h2&gt;
+
+&lt;p&gt;As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/yaml.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This gives us the following title slide:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/titleslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So how are slides created with xaringan? Easy!&lt;/p&gt;
+
+&lt;p&gt;Overall, regular R Markdown rules apply so you can use this for &lt;em&gt;italic&lt;/em&gt; and two stars for &lt;strong&gt;bold&lt;/strong&gt; for example or even your most complicated LaTeX equations.&lt;/p&gt;
+
+&lt;p&gt;The # before a line of text creates a header for the slide and the more hashtags you add the smaller is the header&lt;/p&gt;
+
+&lt;p&gt;Slides are then seperated with three lines &amp;mdash;. For the first slide you don&amp;rsquo;t need to do this because it is already implied after the yaml header.&lt;/p&gt;
+
+&lt;p&gt;If we wanted to let elements on the slides appear with a click, we seperate them with two lines &amp;ndash; like this.&lt;/p&gt;
+
+&lt;p&gt;Lastly, if we want to have more space between the elements on a slide we can use the html tag &lt;br&gt;.&lt;/p&gt;
+
+&lt;p&gt;You could start with something like this:&lt;/p&gt;
+
+&lt;h1 id=&#34;slide-1&#34;&gt;Slide 1&lt;/h1&gt;
+
+&lt;p&gt;This is slide 1&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Item 1&lt;/li&gt;
+&lt;li&gt;Item 2
+
+&lt;ul&gt;
+&lt;li&gt;Item 2a&lt;/li&gt;
+&lt;li&gt;Item 2b
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;slide-2&#34;&gt;Slide 2&lt;/h1&gt;
+
+&lt;p&gt;This is slide 2&lt;/p&gt;
+
+&lt;p&gt;Here is a complicated equation:&lt;/p&gt;
+
+&lt;p&gt;$$S (ω)=1.466\, H_s^2 \,  \frac{ω_0^5}{ω^6 }  \, e&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3-0&#34;&gt;&lt;a href=&#34;#fn:3-0&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;^2}$$&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&#34;slide-3&#34;&gt;Slide 3&lt;/h1&gt;
+
+&lt;p&gt;This is slide 3&lt;/p&gt;
+
+&lt;p&gt;&amp;ndash;&lt;/p&gt;
+
+&lt;p&gt;This will appear on click&lt;/p&gt;
+
+&lt;p&gt;&amp;ndash;&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;This will appear on click but a bit farther away&lt;/p&gt;
+
+&lt;p&gt;This is how this would look like:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/slides1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This looks awesome already!&lt;/p&gt;
+
+&lt;h2 id=&#34;formatting-slides&#34;&gt;Formatting Slides&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say we want to play around a bit with the format of our slides. There are some build in functions that lets us do exactly that.&lt;/p&gt;
+
+&lt;p&gt;We specify the following code at the beginning of a slide:&lt;/p&gt;
+
+&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+
+&lt;p&gt;This will inverse the color (here: black) center the elements horizontally (center) and vertically (middle) on that slide. This makes for some pretty cool transition slides.&lt;/p&gt;
+
+&lt;p&gt;Here is an example:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+
+&lt;h1 id=&#34;statistical-analysis&#34;&gt;Statistical Analysis&lt;/h1&gt;
+
+&lt;p&gt;Which produces the following slide:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/transitionslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Adding a GIF or an Image&lt;/p&gt;
+
+&lt;p&gt;You can also add GIFs or images to your slides. It&amp;rsquo;s done exactly in the same way as you would with a normal R Markdown document. Here is an example:&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/image.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;using-themes-and-xaringanthemer&#34;&gt;using themes and xaringanthemer&lt;/h2&gt;
+
+&lt;p&gt;We&amp;rsquo;ve already come a long way creating nice xaringan slides. If we wanted to customize the theme of the presentation, xaringan comes with some build-in color schemes that you can try out.&lt;/p&gt;
+
+&lt;p&gt;Here is one of them. Just add the following line under your moonreader: css: [default, metropolis, metropolis-fonts] and you are good to go:&lt;/p&gt;
+
+&lt;p&gt;output:
+  xaringan::moon_reader:
+    css: [metropolis]&lt;/p&gt;
+
+&lt;p&gt;This looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;images/metropolis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is a list of themes:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;metropolis&lt;/li&gt;
+&lt;li&gt;hygge&lt;/li&gt;
+&lt;li&gt;rladies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you want to create your own themes I can recommend the xaringanthemer package: &lt;a href=&#34;https://github.com/gadenbuie/xaringanthemer&#34; target=&#34;_blank&#34;&gt;https://github.com/gadenbuie/xaringanthemer&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;exporting-the-presentation-to-pdf&#34;&gt;Exporting the presentation to .pdf&lt;/h2&gt;
+
+&lt;p&gt;The output format of xaringan is html. However, if you want a .pdf file you could just simply open the slides in your favorite web browser and print them to .pdf. This seems to be the easiest version to do it.&lt;/p&gt;
+
+&lt;h2 id=&#34;what-now&#34;&gt;What Now?&lt;/h2&gt;
+
+&lt;p&gt;I hope you enjoyed this little tutorial!&lt;/p&gt;
+
+&lt;p&gt;Here are some more examples of beautiful xaringan slides that can serve as your inspiration:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/xaringan_slides/&#34; target=&#34;_blank&#34;&gt;https://github.com/favstats/xaringan_slides/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You want to add animated transitions? Well, here&amp;rsquo;s an implementation of that:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/&#34; target=&#34;_blank&#34;&gt;https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Lastly, a wiki helps to implement more advanced options. Be sure to check it out at some point:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/yihui/xaringan/wiki&#34; target=&#34;_blank&#34;&gt;https://github.com/yihui/xaringan/wiki&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:3-0&#34;&gt;-3^ { ω/(ω_0  ) &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3-0&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>538 Predictions for the 2018 Midterm Elections</title>
       <link>/post/538_midterms/</link>
       <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
@@ -4297,15 +4498,6 @@ rt_hashtags %&amp;gt;%
       <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/publication/godlygovernance_paper/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Slides: Variants of Populism</title>
-      <link>/project/populism/</link>
-      <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/project/populism/</guid>
       <description></description>
     </item>
     

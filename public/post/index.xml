@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Create awesome HTML slides with xaringan</title>
+      <link>/post/xaringan_tut/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/xaringan_tut/</guid>
+      <description>Introduction There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction:</description>
+    </item>
+    
+    <item>
       <title>538 Predictions for the 2018 Midterm Elections</title>
       <link>/post/538_midterms/</link>
       <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
