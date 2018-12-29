@@ -22,7 +22,7 @@ caption = "Xaringan Slides created for my Stats Course"
 
 ## Introduction
 
-There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It's beautiful layout and concise and tidy coding structure makes it a charm to work with. It's build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction: 
+There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It's beautiful layout and concise and tidy coding structure makes it a charm to work with. It's build on the remark.js library and if you want to learn more about it you can do this [here](https://remark.js.org/). Here are some example slides by the creator which also serves as an introduction: 
 
 https://slides.yihui.name/xaringan/
 
@@ -50,15 +50,15 @@ devtools::install_github('yihui/xaringan')
 To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:
 
 
-![](images/rmarkdown.png)
+![](http://www.favstats.eu/img/rmarkdown.png)
 
 Next select "From Template" then Ninja Presentation, and you will see an R Markdown example. 
 
 
-![](images/ninja_presentation.png)
+![](http://www.favstats.eu/img/ninja_presentation.png)
 
 
-Press the Knit button to compile it
+Press the Knit button to compile it.
 
 
 
@@ -66,11 +66,11 @@ Press the Knit button to compile it
 
 As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:
 
-![](images/yaml.png)
+![](http://www.favstats.eu/img/yaml.png)
 
 This gives us the following title slide:
 
-![](images/titleslide.png)
+![](http://www.favstats.eu/img/titleslide.png)
 
 So how are slides created with xaringan? Easy! 
 
@@ -78,14 +78,15 @@ Overall, regular R Markdown rules apply so you can use this for *italic* and two
 
 The # before a line of text creates a header for the slide and the more hashtags you add the smaller is the header 
 
-Slides are then seperated with three lines ---. For the first slide you don't need to do this because it is already implied after the yaml header. 
+Slides are then seperated with three lines `---`. For the first slide you don't need to do this because it is already implied after the yaml header. 
 
-If we wanted to let elements on the slides appear with a click, we seperate them with two lines -- like this. 
+If we wanted to let elements on the slides appear with a click, we seperate them with two lines `--` like this. 
 
-Lastly, if we want to have more space between the elements on a slide we can use the html tag <br>.
+Lastly, if we want to have more space between the elements on a slide we can use the html tag `<br>`.
 
 You could start with something like this:
 
+```{r, echo=T, eval=F}
 # Slide 1
 
 This is slide 1
@@ -106,7 +107,6 @@ Here is a complicated equation:
 
 $$S (ω)=1.466\, H_s^2 \,  \frac{ω_0^5}{ω^6 }  \, e^[-3^ { ω/(ω_0  )]^2}$$
 
-
 ---
 
 # Slide 3
@@ -123,11 +123,11 @@ This will appear on click
 <br>
 
 This will appear on click but a bit farther away
-
+```
 
 This is how this would look like:
 
-![](images/slides1.png)
+![](http://www.favstats.eu/img/slides1.png)
 
 
 This looks awesome already! 
@@ -138,35 +138,41 @@ Let's say we want to play around a bit with the format of our slides. There are 
 
 We specify the following code at the beginning of a slide: 
 
-class: inverse, center, middle
+`class: inverse, center, middle`
 
 This will inverse the color (here: black) center the elements horizontally (center) and vertically (middle) on that slide. This makes for some pretty cool transition slides.
 
 Here is an example:
 
+```{r, echo=T, eval=F}
 ---
 
 class: inverse, center, middle
 
 # Statistical Analysis
 
+```
+
+
 Which produces the following slide:
 
-![](images/transitionslide.png)
+![](http://www.favstats.eu/img/transitionslide.png)
 
 
-Adding a GIF or an Image
+## Adding a GIF or an Image
 
 You can also add GIFs or images to your slides. It's done exactly in the same way as you would with a normal R Markdown document. Here is an example:
 
+```{r, echo=T, eval=F}
 ---
 
 class: inverse, center, middle
 
 ![](https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg)
 
+```
 
-![](images/image.png)
+![](http://www.favstats.eu/img/image.png)
 
 
 
@@ -174,15 +180,20 @@ class: inverse, center, middle
 
 We've already come a long way creating nice xaringan slides. If we wanted to customize the theme of the presentation, xaringan comes with some build-in color schemes that you can try out.
 
-Here is one of them. Just add the following line under your moonreader: css: [default, metropolis, metropolis-fonts] and you are good to go:
+Here is one of them. Just add the following line in your YAML header and you are good to go:
 
+```{r, echo=T, eval=F}
 output:
   xaringan::moon_reader:
     css: [metropolis]
+
+```
+
+
     
 This looks like this:
 
-![](images/metropolis.png)
+![](http://www.favstats.eu/img/metropolis.png)
 
 
 Here is a list of themes:
@@ -191,7 +202,9 @@ Here is a list of themes:
 + hygge
 + rladies
 
-If you want to create your own themes I can recommend the xaringanthemer package: https://github.com/gadenbuie/xaringanthemer 
+If you want to create your own themes I can recommend the xaringanthemer package:
+
+https://github.com/gadenbuie/xaringanthemer 
 
 ## Exporting the presentation to .pdf
 

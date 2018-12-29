@@ -20,7 +20,7 @@
 
 &lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
-&lt;p&gt;There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction:&lt;/p&gt;
+&lt;p&gt;There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this &lt;a href=&#34;https://remark.js.org/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. Here are some example slides by the creator which also serves as an introduction:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://slides.yihui.name/xaringan/&#34; target=&#34;_blank&#34;&gt;https://slides.yihui.name/xaringan/&lt;/a&gt;&lt;/p&gt;
 
@@ -43,23 +43,23 @@ devtools::install_github(&#39;yihui/xaringan&#39;)
 
 &lt;p&gt;To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/rmarkdown.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/rmarkdown.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Next select &amp;ldquo;From Template&amp;rdquo; then Ninja Presentation, and you will see an R Markdown example.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/ninja_presentation.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/ninja_presentation.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Press the Knit button to compile it&lt;/p&gt;
+&lt;p&gt;Press the Knit button to compile it.&lt;/p&gt;
 
 &lt;h2 id=&#34;basics&#34;&gt;Basics&lt;/h2&gt;
 
 &lt;p&gt;As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/yaml.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/yaml.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This gives us the following title slide:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/titleslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/titleslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;So how are slides created with xaringan? Easy!&lt;/p&gt;
 
@@ -67,59 +67,55 @@ devtools::install_github(&#39;yihui/xaringan&#39;)
 
 &lt;p&gt;The # before a line of text creates a header for the slide and the more hashtags you add the smaller is the header&lt;/p&gt;
 
-&lt;p&gt;Slides are then seperated with three lines &amp;mdash;. For the first slide you don&amp;rsquo;t need to do this because it is already implied after the yaml header.&lt;/p&gt;
+&lt;p&gt;Slides are then seperated with three lines &lt;code&gt;---&lt;/code&gt;. For the first slide you don&amp;rsquo;t need to do this because it is already implied after the yaml header.&lt;/p&gt;
 
-&lt;p&gt;If we wanted to let elements on the slides appear with a click, we seperate them with two lines &amp;ndash; like this.&lt;/p&gt;
+&lt;p&gt;If we wanted to let elements on the slides appear with a click, we seperate them with two lines &lt;code&gt;--&lt;/code&gt; like this.&lt;/p&gt;
 
-&lt;p&gt;Lastly, if we want to have more space between the elements on a slide we can use the html tag &lt;br&gt;.&lt;/p&gt;
+&lt;p&gt;Lastly, if we want to have more space between the elements on a slide we can use the html tag &lt;code&gt;&amp;lt;br&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;You could start with something like this:&lt;/p&gt;
 
-&lt;h1 id=&#34;slide-1&#34;&gt;Slide 1&lt;/h1&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;# Slide 1
 
-&lt;p&gt;This is slide 1&lt;/p&gt;
+This is slide 1
 
-&lt;ul&gt;
-&lt;li&gt;Item 1&lt;/li&gt;
-&lt;li&gt;Item 2
+* Item 1
+* Item 2
+    + Item 2a
+    + Item 2b
+  
 
-&lt;ul&gt;
-&lt;li&gt;Item 2a&lt;/li&gt;
-&lt;li&gt;Item 2b
-&lt;br /&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
+---
 
-&lt;hr /&gt;
+# Slide 2
 
-&lt;h1 id=&#34;slide-2&#34;&gt;Slide 2&lt;/h1&gt;
+This is slide 2
 
-&lt;p&gt;This is slide 2&lt;/p&gt;
+Here is a complicated equation:
 
-&lt;p&gt;Here is a complicated equation:&lt;/p&gt;
+$$S (ω)=1.466\, H_s^2 \,  \frac{ω_0^5}{ω^6 }  \, e^[-3^ { ω/(ω_0  )]^2}$$
 
-&lt;p&gt;$$S (ω)=1.466\, H_s^2 \,  \frac{ω_0^5}{ω^6 }  \, e&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3-0&#34;&gt;&lt;a href=&#34;#fn:3-0&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;^2}$$&lt;/p&gt;
+---
 
-&lt;hr /&gt;
+# Slide 3
 
-&lt;h1 id=&#34;slide-3&#34;&gt;Slide 3&lt;/h1&gt;
+This is slide 3
 
-&lt;p&gt;This is slide 3&lt;/p&gt;
+--
 
-&lt;p&gt;&amp;ndash;&lt;/p&gt;
+This will appear on click
 
-&lt;p&gt;This will appear on click&lt;/p&gt;
+--
 
-&lt;p&gt;&amp;ndash;&lt;/p&gt;
+&amp;lt;br&amp;gt;
+&amp;lt;br&amp;gt;
 
-&lt;p&gt;&lt;br&gt;
-&lt;br&gt;&lt;/p&gt;
-
-&lt;p&gt;This will appear on click but a bit farther away&lt;/p&gt;
+This will appear on click but a bit farther away
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This is how this would look like:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/slides1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/slides1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This looks awesome already!&lt;/p&gt;
 
@@ -129,47 +125,53 @@ devtools::install_github(&#39;yihui/xaringan&#39;)
 
 &lt;p&gt;We specify the following code at the beginning of a slide:&lt;/p&gt;
 
-&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;class: inverse, center, middle&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;This will inverse the color (here: black) center the elements horizontally (center) and vertically (middle) on that slide. This makes for some pretty cool transition slides.&lt;/p&gt;
 
 &lt;p&gt;Here is an example:&lt;/p&gt;
 
-&lt;hr /&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;---
 
-&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+class: inverse, center, middle
 
-&lt;h1 id=&#34;statistical-analysis&#34;&gt;Statistical Analysis&lt;/h1&gt;
+# Statistical Analysis
+
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Which produces the following slide:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/transitionslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/transitionslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Adding a GIF or an Image&lt;/p&gt;
+&lt;h2 id=&#34;adding-a-gif-or-an-image&#34;&gt;Adding a GIF or an Image&lt;/h2&gt;
 
 &lt;p&gt;You can also add GIFs or images to your slides. It&amp;rsquo;s done exactly in the same way as you would with a normal R Markdown document. Here is an example:&lt;/p&gt;
 
-&lt;hr /&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;---
 
-&lt;p&gt;class: inverse, center, middle&lt;/p&gt;
+class: inverse, center, middle
 
-&lt;p&gt;&lt;img src=&#34;https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+![](https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg)
 
-&lt;p&gt;&lt;img src=&#34;images/image.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/image.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;using-themes-and-xaringanthemer&#34;&gt;using themes and xaringanthemer&lt;/h2&gt;
 
 &lt;p&gt;We&amp;rsquo;ve already come a long way creating nice xaringan slides. If we wanted to customize the theme of the presentation, xaringan comes with some build-in color schemes that you can try out.&lt;/p&gt;
 
-&lt;p&gt;Here is one of them. Just add the following line under your moonreader: css: [default, metropolis, metropolis-fonts] and you are good to go:&lt;/p&gt;
+&lt;p&gt;Here is one of them. Just add the following line in your YAML header and you are good to go:&lt;/p&gt;
 
-&lt;p&gt;output:
+&lt;pre&gt;&lt;code class=&#34;language-r,&#34;&gt;output:
   xaringan::moon_reader:
-    css: [metropolis]&lt;/p&gt;
+    css: [metropolis]
+
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;This looks like this:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/metropolis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/metropolis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Here is a list of themes:&lt;/p&gt;
 
@@ -179,7 +181,9 @@ devtools::install_github(&#39;yihui/xaringan&#39;)
 &lt;li&gt;rladies&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;If you want to create your own themes I can recommend the xaringanthemer package: &lt;a href=&#34;https://github.com/gadenbuie/xaringanthemer&#34; target=&#34;_blank&#34;&gt;https://github.com/gadenbuie/xaringanthemer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you want to create your own themes I can recommend the xaringanthemer package:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gadenbuie/xaringanthemer&#34; target=&#34;_blank&#34;&gt;https://github.com/gadenbuie/xaringanthemer&lt;/a&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;exporting-the-presentation-to-pdf&#34;&gt;Exporting the presentation to .pdf&lt;/h2&gt;
 
@@ -200,14 +204,6 @@ devtools::install_github(&#39;yihui/xaringan&#39;)
 &lt;p&gt;Lastly, a wiki helps to implement more advanced options. Be sure to check it out at some point:&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/yihui/xaringan/wiki&#34; target=&#34;_blank&#34;&gt;https://github.com/yihui/xaringan/wiki&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-
-&lt;hr /&gt;
-
-&lt;ol&gt;
-&lt;li id=&#34;fn:3-0&#34;&gt;-3^ { ω/(ω_0  ) &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3-0&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/div&gt;
 </description>
     </item>
     
