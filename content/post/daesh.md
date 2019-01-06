@@ -126,7 +126,7 @@ The last question I will be looking at is also very interesting. It asks about t
 
 > Who or what do you think is responsible for creating Daesh? (`q830` and `q831`)
 
-The variable (`q831`) includes the *"Other"* category. I opened it up and coded a few more categories. For example, I've summarized all Western countries mentioned into one category (however, "The United States" is the most mentioned Western country by far). I also created one category for all Arab countries that were mentioned.
+The variable (`q831`) includes the *"Other"* category. I opened it up and coded a few more categories.
 
 Here is the resulting chart:
 
@@ -160,7 +160,7 @@ Here are some other projects I am currently working on and will appear in my blo
 
 + Alt Right discourse on Mainstream media
 
-+ Who support populist parties in Europe (European Social Survey 8 Data)
++ Who supports populist parties in Europe (European Social Survey 8 Data)
 
 + Visualization of Terror Incidents in 2017
 

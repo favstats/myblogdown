@@ -40,15 +40,6 @@
     </item>
     
     <item>
-      <title>Conferences</title>
-      <link>/tags/conferences/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/conferences/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Daesh</title>
       <link>/tags/daesh/</link>
       <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
@@ -67,33 +58,6 @@
     </item>
     
     <item>
-      <title>Dataviz</title>
-      <link>/tags/dataviz/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/dataviz/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Elections</title>
-      <link>/tags/elections/</link>
-      <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/elections/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Example</title>
-      <link>/tags/example/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/example/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Extremism</title>
       <link>/tags/extremism/</link>
       <pubDate>Fri, 08 Jun 2018 00:00:00 +0000</pubDate>
@@ -103,110 +67,11 @@
     </item>
     
     <item>
-      <title>Ggmap</title>
-      <link>/tags/ggmap/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/ggmap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ggplot</title>
-      <link>/tags/ggplot/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/ggplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ggraph</title>
-      <link>/tags/ggraph/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/ggraph/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Highcharter</title>
-      <link>/tags/highcharter/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/highcharter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hoax</title>
-      <link>/tags/hoax/</link>
-      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/hoax/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>ISIS</title>
       <link>/tags/isis/</link>
       <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>/tags/isis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Maps</title>
-      <link>/tags/maps/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/maps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Politics</title>
-      <link>/tags/politics/</link>
-      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/politics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R-group</title>
-      <link>/tags/r-group/</link>
-      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r-group/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Refugees</title>
-      <link>/tags/refugees/</link>
-      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/refugees/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Simulation</title>
-      <link>/tags/simulation/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/simulation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Slides</title>
-      <link>/tags/slides/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/slides/</guid>
       <description></description>
     </item>
     
@@ -229,24 +94,6 @@
     </item>
     
     <item>
-      <title>Tutorial</title>
-      <link>/tags/tutorial/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Twitter</title>
-      <link>/tags/twitter/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/twitter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>VOX-Pol</title>
       <link>/tags/vox-pol/</link>
       <pubDate>Fri, 27 Apr 2018 00:00:00 +0000</pubDate>
@@ -265,7 +112,160 @@
     </item>
     
     <item>
-      <title>Xaringan</title>
+      <title>conferences</title>
+      <link>/tags/conferences/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/conferences/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dataviz</title>
+      <link>/tags/dataviz/</link>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/dataviz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elections</title>
+      <link>/tags/elections/</link>
+      <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/elections/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>example</title>
+      <link>/tags/example/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/example/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggmap</title>
+      <link>/tags/ggmap/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/ggmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggraph</title>
+      <link>/tags/ggraph/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/ggraph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>highcharter</title>
+      <link>/tags/highcharter/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/highcharter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hoax</title>
+      <link>/tags/hoax/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/hoax/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>maps</title>
+      <link>/tags/maps/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/maps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>politics</title>
+      <link>/tags/politics/</link>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/politics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r-group</title>
+      <link>/tags/r-group/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r-group/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>refugees</title>
+      <link>/tags/refugees/</link>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/refugees/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>simulation</title>
+      <link>/tags/simulation/</link>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/simulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>slides</title>
+      <link>/tags/slides/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/slides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>twitter</title>
+      <link>/tags/twitter/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/twitter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xaringan</title>
       <link>/tags/xaringan/</link>
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
       
