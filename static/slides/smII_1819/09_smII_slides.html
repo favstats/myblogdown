@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SM II: Tutorium - 9. Sitzung</title>
+    <meta charset="utf-8">
+    <meta name="author" content=" Kontakt:  Fabio Votta      favstats      @favstats     www.favstats.eu    fabio.votta@gmail.com      2019-10-01" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# SM II: Tutorium - 9. Sitzung
+### <br>Kontakt:<br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i>  favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i>  <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br> <a href="mailto:fabio.votta@gmail.com"><i class="fa fa-paper-plane fa-fw"></i>  fabio.votta@gmail.com</a> <br><br><br><br> 2019-10-01
+
+---
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+&lt;/style&gt;
+
+
+
+
+
+
+
+## Übersicht
+
+1. Übungsaufgabe 8 in SPSS
+2. Übungsaufgabe 8 in R
+
+
+  
+&lt;br&gt;
+ 
+  
+
+  
+[Link zum Allbus Datensatz](https://github.com/favstats/Statistische-Modellbildung-II-WS1819/blob/master/data/allbus2014.sav)
+  
+
+
+
+  
+
+---
+
+## Übungsaufgaben
+
+Benutzen Sie den esse03_mod.sav Datensatz. Benutzen Sie als Gruppierungsvariable „Länder“.
+
+
+##### Aufgabe 1
+
+*Berechnen Sie das Nullmodell (Modell0) für die AV: stflife (allgemeine Lebenszufriedenheit).*
+
+
+
+###### Aufgabe 1a
+
+*Berechnen Sie den ICC anhand des Nullmodells.* 
+
+
+###### Aufgabe 1b
+
+
+*Welche Aussage lässt sich auf Grundlage des Nullmodells treffen?* 
+
+
+
+---
+
+
+
+##### Aufgabe 2
+
+*Berechnen Sie Modell 1 mit der UV: Erwerbsstatus (0=erwerbstätig; 1=arbeitslos)*
+
+###### Aufgabe 2a
+
+*Interpretieren Sie den Koeffizienten für Erwerbsstatus inhaltlich (als Fixed-Effekt).*
+
+
+###### Aufgabe 2b
+
+
+*Führen Sie einen Likelihood-Ratio-Test (LRT) zwischen Modell0 und Modell1 durch (Achten Sie drauf, dass für den LRT die ML-Schätzung und nicht die REML gewählt werden muss).*
+
+###### Aufgabe 2c
+
+*Wie lautet Ihre Schlussfolgerung für Modell 1?*
+
+
+
+---
+
+##### Aufgabe 3
+
+*Lassen Sie in Modell 2 (zusätzlich) den Slope von Erwerbsstatus über die Länder variieren (Random setzen).*
+
+
+###### Aufgabe 3a
+
+*Führen Sie einen Likelihood-Ratio-Test zwischen Modell 1 und Modell 2 durch.*
+
+###### Aufgabe 3b
+
+*Interpretieren Sie den Random Slope von Erwerbsstatus inhaltlich (als Random Effekt).*
+
+
+---
+
+
+### Übungsaufgabe - SPSS
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;center&gt;
+
+&lt;a href="http://www.favstats.eu/smii_1819/07ua_spss_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 8 (SPSS)&lt;/a&gt;
+
+&lt;/center&gt;
+
+
+---
+
+
+### Übungsaufgabe - R
+
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+
+&lt;center&gt;
+
+&lt;a href="http://www.favstats.eu/smii_1819/07ua_r_tippsntricks.html"&gt;Tipps und Tricks für die Übungsaufgabe 8 (R)&lt;/a&gt;
+
+&lt;/center&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"highlightLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
