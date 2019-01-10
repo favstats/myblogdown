@@ -833,7 +833,7 @@ img {
 <div id="abhangige-variable-ablehnung-von-migranten-auerhalb-europas" class="section level3">
 <h3>Abhängige Variable: Ablehnung von Migranten außerhalb Europas</h3>
 <p><em>- impcntr = Allow many/few immigrants from poorer countries outside Europe</em></p>
-<p>Multilevel-Modelle lassen sich in R mit Hilfe des <code>MIXED</code> Befehl sehr einfach spezifizieren. Zunächst testen wir ein Nullmodell auf folgende Art und Weise.</p>
+<p>Multilevel-Modelle lassen sich in SPSS mit Hilfe des <code>MIXED</code> Befehl spezifizieren. Zunächst testen wir ein Nullmodell auf folgende Art und Weise.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">MIXED impcntr</a>
 <a class="sourceLine" id="cb1-2" title="2">  <span class="op">/</span>METHOD=REML</a>
 <a class="sourceLine" id="cb1-3" title="3">  <span class="op">/</span>random=intercept <span class="op">|</span><span class="st"> </span><span class="kw">subject</span>(Länder). </a></code></pre></div>
