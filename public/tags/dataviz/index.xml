@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Fabio Votta</copyright>
-    <lastBuildDate>Fri, 09 Nov 2018 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 16 Feb 2019 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Is American democracy under threat?</title>
+      <link>/post/blw_data/</link>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>/post/blw_data/</guid>
+      <description>Is American democracy under threat? Bright Line Watch regularly asks political scientists and the public questions about democratic performance.
+In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the US fulfills these standards.
+In this little exercise, I want to focus on the measures that the US does NOT perform well on. Here I visualize the results.
+Load neccesary Packages # Install these packages if you don&#39;t have them yet # if (!</description>
+    </item>
     
     <item>
       <title>538 Predictions for the 2018 Midterm Elections</title>

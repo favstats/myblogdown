@@ -11,6 +11,326 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Is American democracy under threat?</title>
+      <link>/post/blw_data/</link>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>/post/blw_data/</guid>
+      <description>
+
+&lt;p&gt;Is American democracy under threat? &lt;a href=&#34;http://brightlinewatch.org&#34; target=&#34;_blank&#34;&gt;Bright Line Watch&lt;/a&gt; regularly asks political scientists and the public questions about democratic performance.&lt;/p&gt;
+
+&lt;p&gt;In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the &lt;a href=&#34;http://brightlinewatch.org/wave7/&#34; target=&#34;_blank&#34;&gt;US fulfills these standards&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this little exercise, I want to focus on the measures that the US does &lt;em&gt;NOT&lt;/em&gt; perform well on. Here I visualize the results.&lt;/p&gt;
+
+&lt;h2 id=&#34;load-neccesary-packages&#34;&gt;Load neccesary Packages&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
+# if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
+# devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;)
+
+pacman::p_load(tidyverse, haven, tidytemplate)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;download-data&#34;&gt;Download Data&lt;/h2&gt;
+
+&lt;p&gt;Data downloaded from &lt;a href=&#34;http://brightlinewatch.org/surveys/&#34; target=&#34;_blank&#34;&gt;Bright Line Watch
+homepage&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## Download Data
+# download.file(&amp;quot;http://brightlinewatch.org/wp-content/uploads/2018/11/BLW-Wave-7.zip&amp;quot;, destfile = &amp;quot;data/blw_data7&amp;quot;)
+
+as.character(unzip(&amp;quot;data/blw_data7&amp;quot;, list = TRUE)$Name)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;BLW_Expert_Waves1234567.csv&amp;quot;         
+##  [2] &amp;quot;BLW_Expert_Waves1234567.dta&amp;quot;         
+##  [3] &amp;quot;BLW_Expert_Waves1234567_nolabels.csv&amp;quot;
+##  [4] &amp;quot;BLW_Public_Waves34567.dta&amp;quot;           
+##  [5] &amp;quot;BLW_wave34567_public.csv&amp;quot;            
+##  [6] &amp;quot;BLW_wave3456_public_nolabels.csv&amp;quot;    
+##  [7] &amp;quot;BLW_wave7_expert.csv&amp;quot;                
+##  [8] &amp;quot;BLW_wave7_expert.dta&amp;quot;                
+##  [9] &amp;quot;BLW_wave7_expert_nolabels.csv&amp;quot;       
+## [10] &amp;quot;BLW_wave7_public.csv&amp;quot;                
+## [11] &amp;quot;BLW_wave7_public.dta&amp;quot;                
+## [12] &amp;quot;BLW_wave7_public_nolabels.csv&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;blw_expert &amp;lt;- read_dta(unzip(&amp;quot;data/blw_data7&amp;quot;, files = &amp;quot;BLW_Expert_Waves1234567.dta&amp;quot;))
+
+# blw_expert %&amp;gt;% filter(wave == 6)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;expert-survey&#34;&gt;Expert Survey&lt;/h2&gt;
+
+&lt;p&gt;Before I can visualize the survey, I clean and prepare the data:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;n_experts &amp;lt;- blw_expert %&amp;gt;% 
+ filter(finished == 1) %&amp;gt;% nrow
+ 
+
+blw_expert_viz &amp;lt;- blw_expert %&amp;gt;% 
+  select(wave, perf_misconduct:perf_investigations) %&amp;gt;% 
+  gather(key, value, -wave) %&amp;gt;% 
+  drop_na(value) %&amp;gt;% 
+  mutate(standard = ifelse(value == 1, &amp;quot;Missing Standard&amp;quot;, &amp;quot;Anything Else&amp;quot;)) %&amp;gt;% 
+  count(key, wave, standard) %&amp;gt;% 
+  group_by(wave, key) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  mutate(perc = n / total) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  filter(standard == &amp;quot;Missing Standard&amp;quot;)  %&amp;gt;% 
+  mutate(statements = case_when(
+    key == &amp;quot;perf_ban_ideology&amp;quot; ~ &amp;quot;All parties allowed&amp;quot;,
+    key == &amp;quot;perf_candidates_disclose&amp;quot; ~ &amp;quot;Candidates disclose info&amp;quot;,
+    key == &amp;quot;perf_common_und&amp;quot; ~ &amp;quot;Common understanding of facts&amp;quot;,
+    key == &amp;quot;perf_compromise&amp;quot; ~ &amp;quot;Compromise sought&amp;quot;,
+    key == &amp;quot;perf_contributions&amp;quot; ~ &amp;quot;Contribs determine policy&amp;quot;,
+    key == &amp;quot;perf_districts&amp;quot; ~ &amp;quot;Districts not biased&amp;quot;,
+    key == &amp;quot;perf_election_fraud&amp;quot; ~ &amp;quot;Fraud-free elections&amp;quot;,
+    key == &amp;quot;perf_equal_rights&amp;quot; ~ &amp;quot;Equal political/legal rights&amp;quot;,
+    key == &amp;quot;perf_expand_executive&amp;quot; ~ &amp;quot;Constitution limits executive&amp;quot;,
+    key == &amp;quot;perf_foreign_influence&amp;quot; ~ &amp;quot;No foreign influence&amp;quot;,
+    key == &amp;quot;perf_funds_transparent&amp;quot; ~ &amp;quot;Campaign funds transparent&amp;quot;,
+    key == &amp;quot;perf_investigations&amp;quot; ~ &amp;quot;Investigations not compromised&amp;quot;,
+    key == &amp;quot;perf_journalists&amp;quot; ~ &amp;quot;No interference with press&amp;quot;,
+    key == &amp;quot;perf_judicial_ind&amp;quot; ~ &amp;quot;Judicial independence&amp;quot;,
+    key == &amp;quot;perf_judiciary_check&amp;quot; ~ &amp;quot;Judiciary can limit executive&amp;quot;,
+    key == &amp;quot;perf_legislature_check&amp;quot; ~ &amp;quot;Legislature can limit executive&amp;quot;,
+    key == &amp;quot;perf_misconduct&amp;quot; ~ &amp;quot;Sanctions for misconduct&amp;quot;,
+    key == &amp;quot;perf_monitor_opponents&amp;quot; ~ &amp;quot;Agencies not used against opp.&amp;quot;,
+    key == &amp;quot;perf_opinions&amp;quot; ~ &amp;quot;Opinions heard on policy&amp;quot;,
+    key == &amp;quot;perf_participation&amp;quot; ~ &amp;quot;Voter participation&amp;quot;,
+    key == &amp;quot;perf_patriotism&amp;quot; ~ &amp;quot;Patriotism not questioned&amp;quot;,
+    key == &amp;quot;perf_private_gain&amp;quot; ~ &amp;quot;No private gains from office&amp;quot;,
+    key == &amp;quot;perf_private_violence&amp;quot; ~ &amp;quot;No political violence&amp;quot;,
+    key == &amp;quot;perf_protest&amp;quot; ~ &amp;quot;Protest rights&amp;quot;,
+    key == &amp;quot;perf_votes_impact&amp;quot; ~ &amp;quot;Votes have equal impact&amp;quot;,
+    key == &amp;quot;perf_voting_rights&amp;quot; ~ &amp;quot;Equal voting rights&amp;quot;,
+    key == &amp;quot;perf_free_speech&amp;quot; ~ &amp;quot;Free speech&amp;quot;,
+    T ~ NA_character_
+  )) %&amp;gt;% 
+  mutate(statements = forcats::fct_reorder(statements, perc)) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## Warning: attributes are not identical across measure variables;
+## they will be dropped
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The data ranges from February 2017 to October 2018. For the purpose of this visualization, I took out 27 statements of democratic performance and show the percentage of experts that do not think the U.S. meets the necessary standard (a full list of statements can be found in the appendix).&lt;/p&gt;
+
+&lt;p&gt;Visualizing expert survey results now:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;survey_dates &amp;lt;- c(&amp;quot;Feb/17&amp;quot;, &amp;quot;May/17&amp;quot;, &amp;quot;Sep/17&amp;quot;, &amp;quot;Jan/18&amp;quot;, &amp;quot;Apr/18&amp;quot;, &amp;quot;Jul/18&amp;quot;, &amp;quot;Oct/18&amp;quot;)
+
+
+blw_expert_viz %&amp;gt;% 
+  # mutate(mean_perc =  ifelse(perc &amp;gt;= mean(perc), &amp;quot;Above&amp;quot;, &amp;quot;Below&amp;quot;)) %&amp;gt;% 
+  ggplot(aes(wave, statements, fill = perc)) +
+  geom_tile(alpha = 0.7) +
+  ggpubr::theme_pubclean() +
+  viridis::scale_fill_viridis(direction = -1, begin = 0.25, option = &amp;quot;B&amp;quot;) +
+  geom_text(aes(label = round(perc * 100))) +
+  scale_x_continuous(breaks = 1:7, labels = survey_dates) +
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Ratings of U.S. democratic (non-)performance - Expert perceptions&amp;quot;,
+       subtitle = &amp;quot;Percentage who answered &#39;U.S. does not meet this standard&#39;&amp;quot;,
+       caption = glue::glue(&amp;quot;Data: Bright Line Watch expert survey results Wave 1 - 7\nRespondents: {n_experts} Political Scientists at American colleges and universities&amp;quot;)) +
+  guides(fill = F) +
+  theme(strip.background = element_rect(fill = &amp;quot;gray93&amp;quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 14, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 10, face = &amp;quot;italic&amp;quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &amp;quot;cm&amp;quot;),
+    axis.title = element_text(size = 12, face = &amp;quot;bold&amp;quot;), 
+    panel.spacing = unit(1, &amp;quot;lines&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(heatmap, width = 8.7, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;At a first glance, there seems to be widespread agreement on the topic of gerrymandering. Most experts would say that U.S. democracy fails at meeting the standard of fair electoral districts (69% in Oct. 2018). Other issues that many expert respondents pointed out were low voter turnout, equal impact of votes and a common understanding of the facts (49-50% in Oct. 2018).&lt;/p&gt;
+
+&lt;p&gt;If we consider the time dimension, we can observe that many ratings stay rather consistent over time.&lt;/p&gt;
+
+&lt;p&gt;One change that stands out is from April to July 2018 on the question whether elections are free from foreign influence: a jump from 25 to 44% of experts who said that the U.S. does not meet this standard. This
+stark increase might be explained by President Trump’s Helsinki summit which happened during the survey was in the field. At the summit, &lt;a href=&#34;https://www.washingtonpost.com/politics/americans-give-trump-negative-marks-for-helsinki-performance/2018/07/22/832ec2be-8d19-11e8-a345-a1bf7847b375_story.html&#34; target=&#34;_blank&#34;&gt;Trump made statements&lt;/a&gt; that suggested he believed Putin over the assessment of the U.S. intelligence service when it comes to Russian interference in the U.S. election.&lt;/p&gt;
+
+&lt;p&gt;Another interesting jump concerncs the statement that the legislature
+can limit executive power if need be. A jump from 12% of experts in
+April to 22% in July and October 2018 say that the U.S. does not meet
+this standard.&lt;/p&gt;
+
+&lt;h2 id=&#34;public-survey&#34;&gt;Public Survey&lt;/h2&gt;
+
+&lt;p&gt;Next, I complete the same procedure for the public survey. But first,
+some data
+wrangling:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;blw_public &amp;lt;- read_dta(unzip(&amp;quot;data/blw_data7&amp;quot;, files = &amp;quot;BLW_Public_Waves34567.dta&amp;quot;))
+
+survey_dates_3 &amp;lt;- survey_dates[5:7]
+
+not_na &amp;lt;- function(x) {
+  !is.na(x)
+}
+
+n_public &amp;lt;- blw_public %&amp;gt;% 
+  select(wave, weight, perf_misconduct:perf_investigations) %&amp;gt;%  
+  mutate_all(not_na) %&amp;gt;% 
+  colSums() %&amp;gt;% 
+  as.vector() %&amp;gt;%
+  sort() %&amp;gt;% 
+  .[27]
+
+
+blw_public_viz &amp;lt;- blw_public %&amp;gt;% 
+  select(wave, weight, perf_misconduct:perf_investigations) %&amp;gt;% 
+  gather(key, value, -wave, -weight) %&amp;gt;% 
+  drop_na(value) %&amp;gt;% 
+  mutate(standard = ifelse(value == 1, &amp;quot;Missing Standard&amp;quot;, &amp;quot;Anything Else&amp;quot;)) %&amp;gt;% 
+  count(key, wave, standard, wt = weight) %&amp;gt;% 
+  group_by(wave, key) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  mutate(perc = n / total) %&amp;gt;% 
+  ungroup()  %&amp;gt;% 
+  filter(standard == &amp;quot;Missing Standard&amp;quot;)  %&amp;gt;% 
+  mutate(statements = case_when(
+    key == &amp;quot;perf_ban_ideology&amp;quot; ~ &amp;quot;All parties allowed&amp;quot;,
+    key == &amp;quot;perf_candidates_disclose&amp;quot; ~ &amp;quot;Candidates disclose info&amp;quot;,
+    key == &amp;quot;perf_common_und&amp;quot; ~ &amp;quot;Common understanding of facts&amp;quot;,
+    key == &amp;quot;perf_compromise&amp;quot; ~ &amp;quot;Compromise sought&amp;quot;,
+    key == &amp;quot;perf_contributions&amp;quot; ~ &amp;quot;Contribs determine policy&amp;quot;,
+    key == &amp;quot;perf_districts&amp;quot; ~ &amp;quot;Districts not biased&amp;quot;,
+    key == &amp;quot;perf_election_fraud&amp;quot; ~ &amp;quot;Fraud-free elections&amp;quot;,
+    key == &amp;quot;perf_equal_rights&amp;quot; ~ &amp;quot;Equal political/legal rights&amp;quot;,
+    key == &amp;quot;perf_expand_executive&amp;quot; ~ &amp;quot;Constitution limits executive&amp;quot;,
+    key == &amp;quot;perf_foreign&amp;quot; ~ &amp;quot;No foreign influence&amp;quot;,
+    key == &amp;quot;perf_funds_transparent&amp;quot; ~ &amp;quot;Campaign funds transparent&amp;quot;,
+    key == &amp;quot;perf_investigations&amp;quot; ~ &amp;quot;Investigations not compromised&amp;quot;,
+    key == &amp;quot;perf_journalists&amp;quot; ~ &amp;quot;No interference with press&amp;quot;,
+    key == &amp;quot;perf_judicial_ind&amp;quot; ~ &amp;quot;Judicial independence&amp;quot;,
+    key == &amp;quot;perf_judiciary_check&amp;quot; ~ &amp;quot;Judiciary can limit executive&amp;quot;,
+    key == &amp;quot;perf_legislature_check&amp;quot; ~ &amp;quot;Legislature can limit executive&amp;quot;,
+    key == &amp;quot;perf_misconduct&amp;quot; ~ &amp;quot;Sanctions for misconduct&amp;quot;,
+    key == &amp;quot;perf_monitor_opponents&amp;quot; ~ &amp;quot;Agencies not used against opp.&amp;quot;,
+    key == &amp;quot;perf_opinions&amp;quot; ~ &amp;quot;Opinions heard on policy&amp;quot;,
+    key == &amp;quot;perf_participation&amp;quot; ~ &amp;quot;Voter participation&amp;quot;,
+    key == &amp;quot;perf_patriotism&amp;quot; ~ &amp;quot;Patriotism not questioned&amp;quot;,
+    key == &amp;quot;perf_private_gain&amp;quot; ~ &amp;quot;No private gains from office&amp;quot;,
+    key == &amp;quot;perf_private_violence&amp;quot; ~ &amp;quot;No political violence&amp;quot;,
+    key == &amp;quot;perf_protest&amp;quot; ~ &amp;quot;Protest rights&amp;quot;,
+    key == &amp;quot;perf_votes_impact&amp;quot; ~ &amp;quot;Votes have equal impact&amp;quot;,
+    key == &amp;quot;perf_voting_rights&amp;quot; ~ &amp;quot;Equal voting rights&amp;quot;,
+    key == &amp;quot;perf_free_speech&amp;quot; ~ &amp;quot;Free speech&amp;quot;,
+    T ~ NA_character_
+  )) %&amp;gt;% 
+  mutate(statements = forcats::fct_reorder(statements, perc)) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## Warning: attributes are not identical across measure variables;
+## they will be dropped
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now let’s investigate how the public evaluates American democracy:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;blw_public_viz %&amp;gt;%  
+  ggplot(aes(wave, statements, fill = perc)) +
+  geom_tile(alpha = 0.7) +
+  ggpubr::theme_pubclean() +
+  viridis::scale_fill_viridis(direction = -1, begin = 0.35, option = &amp;quot;B&amp;quot;) +
+  geom_text(aes(label = round(perc * 100))) +
+  scale_x_continuous(breaks = 5:7, labels = survey_dates_3) +
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Ratings of U.S. democratic (non-)performance - Public perceptions&amp;quot;,
+       subtitle = &amp;quot;Percentage who answered &#39;U.S. does not meet this standard&#39;&amp;quot;,
+       caption = glue::glue(&amp;quot;Data: Bright Line Watch expert survey results Wave 5 - 7\nN: {n_public} respondents; nationally representative samples&amp;quot;)) +
+  guides(fill = F) +
+  theme(strip.background = element_rect(fill = &amp;quot;gray93&amp;quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 14, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 10, face = &amp;quot;italic&amp;quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &amp;quot;cm&amp;quot;),
+    axis.title = element_text(size = 12, face = &amp;quot;bold&amp;quot;), 
+    panel.spacing = unit(1, &amp;quot;lines&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(heatmap3, width = 8.5, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Evaluations of U.S. democratic non-performance by the public remain
+relatively stable over the three observation points in 2018.&lt;/p&gt;
+
+&lt;p&gt;More than half of respondents in the public sample said that the U.S.
+fails to meet the standard of government officials not misusing public
+office for private gain (51% in October 2018). A majority of respondents
+in the nationally representative sample also believe that political
+opponents are smeared with accusations of disloyalty and a lack of
+patriotism (53% in
+October).&lt;/p&gt;
+
+&lt;h2 id=&#34;experts-public&#34;&gt;Experts + Public&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;survey_dates &amp;lt;- c(&amp;quot;2/17&amp;quot;, &amp;quot;5/17&amp;quot;, &amp;quot;9/17&amp;quot;, &amp;quot;1/18&amp;quot;, &amp;quot;4/18&amp;quot;, &amp;quot;7/18&amp;quot;, &amp;quot;10/18&amp;quot;)
+
+
+blw_public_viz %&amp;gt;% 
+  mutate(Survey = &amp;quot;Public Sample&amp;quot;) %&amp;gt;% 
+  bind_rows(blw_expert_viz %&amp;gt;%
+              mutate(Survey = &amp;quot;Expert Sample&amp;quot;)) %&amp;gt;%  
+  ggplot(aes(wave, perc, color = Survey)) +
+  geom_line(alpha = 0.5, size = 0.5) +
+  theme_minimal() +
+  # viridis::scale_fill_viridis(direction = -1, begin = 0.25, option = &amp;quot;B&amp;quot;) +
+  ggthemes::scale_color_gdocs() +
+  geom_text(aes(label = round(perc * 100)), show.legend  = F) +
+  scale_x_continuous(breaks = 1:7, labels = survey_dates) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Ratings of U.S. democratic (non-)performance - Expert vs. Public perceptions&amp;quot;,
+       subtitle = &amp;quot;Percentage who answered &#39;U.S. does not meet this standard&#39;&amp;quot;,
+       caption = glue::glue(&amp;quot;Data: Bright Line Watch expert survey results Wave 1 - 7\nExperts: {n_experts} Political Scientists at American colleges and universities\nPublic: {n_public} respondents; nationally representative samples&amp;quot;)) +
+  guides(color = guide_legend(override.aes = list(size = 1.5))) +
+  facet_wrap(~statements, nrow = 4) +
+  theme(strip.background = element_rect(fill = &amp;quot;gray93&amp;quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 18, face = &amp;quot;bold&amp;quot;),
+    plot.subtitle = element_text(size = 14, face = &amp;quot;italic&amp;quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &amp;quot;cm&amp;quot;),
+    axis.title = element_text(size = 12, face = &amp;quot;bold&amp;quot;), 
+    panel.spacing = unit(1, &amp;quot;lines&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(lineplot, width = 16, height = 7)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When we directly compare public and expert evaluations, we can see that
+the public seems to be somewhat more or at least as skeptical than
+experts except for questions on adequate voter turnout, equal impact of
+votes and fair electoral districts. On such issues, experts are more
+likely to say that the U.S. does not meet this standard than the general
+public.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Create awesome HTML slides with xaringan</title>
       <link>/post/xaringan_tut/</link>
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
@@ -4485,15 +4805,6 @@ rt_hashtags %&amp;gt;%
       <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/publication/deliberation_paper/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Godly Governance - Support for Religious Governance in Arab Muslim-Majority Countries</title>
-      <link>/publication/godlygovernance_paper/</link>
-      <pubDate>Fri, 29 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/godlygovernance_paper/</guid>
       <description></description>
     </item>
     
