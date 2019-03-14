@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bayesian Spring Seminar</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Gijs, Brayton &amp; Fabio" />
+    <meta name="date" content="2019-03-15" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Bayesian Spring Seminar
+## ⚔<br/>with xaringan
+### Gijs, Brayton &amp; Fabio
+### 2019-03-15
+
+---
+
+
+
+
+
+
+
+## Flat Prior Model
+
+
+
++ Chains: 4
++ Iterations: 10.000
++ Thin: 5
++ Uses Flat Priors (duh)
+
+
+```r
+  alpha ~ dnorm(0, 0.0001)
+  beta1 ~ dnorm(0, 0.0001)
+  beta2 ~ dnorm(0, 0.0001)
+  beta3 ~ dnorm(0, 0.0001)
+  beta4 ~ dnorm(0, 0.0001)
+  beta5 ~ dnorm(0, 0.0001)
+  beta6 ~ dnorm(0, 0.0001)
+  beta7 ~ dnorm(0, 0.0001)
+```
+
+---
+
+class: inverse, center, middle
+
+## Flat Prior Model 
+
+Diagnostic Plots
+
+---
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+&lt;br&gt;
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+class: inverse, center, middle
+
+## Flat Prior Model 
+
+Results
+
+---
+
+## Flat Prior Model - Results
+
+
+```
+## 
+## Iterations = 1005:11000
+## Thinning interval = 5 
+## Number of chains = 4 
+## Sample size per chain = 2000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##           Mean     SD Naive SE Time-series SE
+## alpha -1.11746 0.2371 0.002650       0.004577
+## beta1 -0.21089 0.4967 0.005553       0.006513
+## beta2 -0.23413 0.3505 0.003918       0.005778
+## beta3  0.21298 0.4234 0.004734       0.006051
+## beta4  0.23637 0.3778 0.004224       0.005986
+## beta5 -0.76767 0.4898 0.005476       0.006957
+## beta6  0.01507 0.4029 0.004504       0.006117
+## beta7  0.65212 0.3495 0.003907       0.005748
+## 
+## 2. Quantiles for each variable:
+## 
+##    alpha    beta1    beta2    beta3    beta4    beta5    beta6    beta7 
+## -1.11679 -0.20165 -0.23178  0.21751  0.23739 -0.75295  0.02327  0.65255
+```
+
+---
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+
+---
+
+class: inverse, center, middle
+
+#### But how do the results compare to Gezellig et al.?
+
+---
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+---
+
+## Informative Prior Model
+
++ Chains: 4
++ Iterations: 10.000
++ Thin: 5
++ Uses Informative Priors from Gezellig et al. 2019 (yay)
+
+
+```r
+  alpha ~ dnorm(mu_alpha, var_alpha)
+  beta1 ~ dnorm(mu_beta1, var_beta1)
+  beta2 ~ dnorm(mu_beta2, var_beta2)
+  beta3 ~ dnorm(mu_beta3, var_beta3)
+  beta4 ~ dnorm(mu_beta4, var_beta4)
+  beta5 ~ dnorm(mu_beta5, var_beta5)
+  beta6 ~ dnorm(mu_beta6, var_beta6)
+  beta7 ~ dnorm(mu_beta7, var_beta7) 
+```
+
+
+---
+
+class: inverse, center, middle
+
+## Informative Prior Model 
+
+Diagnostic Plots
+
+
+---
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+
+---
+
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+&lt;br&gt;
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+
+---
+
+class: inverse, center, middle
+
+## Informative Prior Model 
+
+Results
+
+---
+
+## Informative Prior Model - Results
+
+
+```
+## 
+## Iterations = 1005:11000
+## Thinning interval = 5 
+## Number of chains = 4 
+## Sample size per chain = 2000 
+## 
+## 1. Empirical mean and standard deviation for each variable,
+##    plus standard error of the mean:
+## 
+##           Mean     SD Naive SE Time-series SE
+## alpha -1.12737 0.2386 0.002668       0.004583
+## beta1 -0.20117 0.5017 0.005609       0.006699
+## beta2 -0.22714 0.3469 0.003878       0.005657
+## beta3  0.21083 0.4224 0.004722       0.006045
+## beta4  0.25629 0.3730 0.004170       0.005651
+## beta5 -0.74784 0.4824 0.005394       0.006593
+## beta6  0.02787 0.4046 0.004524       0.005970
+## beta7  0.66245 0.3475 0.003885       0.005644
+## 
+## 2. Quantiles for each variable:
+## 
+##    alpha    beta1    beta2    beta3    beta4    beta5    beta6    beta7 
+## -1.12108 -0.18466 -0.22773  0.21643  0.25360 -0.73130  0.02464  0.65606
+```
+
+
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+
+---
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
