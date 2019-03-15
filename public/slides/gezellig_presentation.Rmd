@@ -570,18 +570,21 @@ compare_dat_mean <- bind_rows(
 compare_dat %>%
   ggplot(aes(x = value, y = key, fill = type), alpha = 0.02) +
   # geom_density(alpha = 0.5) +
-  geom_halfeyeh() +
+  geom_halfeyeh(aes(group = type)) +
   # facet_wrap(~key, nrow = 2) +
   # stat_intervalh(aes(x = value), .width = c(.5, .8, .95)) +
   scale_fill_gdocs("Model"
                    #, start = 0.5, end = 0.1
                    ) +
+  scale_color_gdocs("Model"
+                   #, start = 0.5, end = 0.1
+                   ) +
   theme_hc() +
   ggrepel::geom_text_repel(data = compare_dat_mean,
             aes(x = value, label = round(value, 3), group = key),
-            nudge_y = 0.2) +
-  geom_point(data = compare_dat_mean, aes(x = value, group = key),
-             color = "white",  show.legend = F) +
+            nudge_y = 0.2,  color = "black") +
+  # geom_point(data = compare_dat_mean, aes(x = value, group = key),
+             # color = "white",  show.legend = F) +
   labs(title = "Predicted Probablities for each Class - Informative Prior",
        x = "Predicted Probabilities",
        y = "") +
@@ -601,7 +604,7 @@ compare_dat %>%
              position = position_nudge(y = 0.4), color = "darkgreen")  +
   geom_text(data = glm_dat,
                  aes(x = predicted, y = x, label = round(predicted, 2)), 
-                   inherit.aes = F, 
+                   inherit.aes = F,
              position = position_nudge(y = 0.55, x = 0.01), color = "darkgreen") 
 
 ```
