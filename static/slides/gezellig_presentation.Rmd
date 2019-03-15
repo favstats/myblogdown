@@ -31,7 +31,11 @@ class: inverse, center, middle
 + Theory
 + Gezellig et al. 2019
 + Flat Prior Model
+  + Model Diagnostics
+  + Model Results
 + Informative Prior Model
+  + Model Diagnostics
+  + Model Results
 
 ---
 
@@ -601,6 +605,28 @@ compare_dat %>%
              position = position_nudge(y = 0.55, x = 0.01), color = "darkgreen") 
 
 ```
+
+---
+
+## Some Packages used for this analysis
+
+
+For data wrangling
++ [`tidyverse`](https://www.tidyverse.org/packages/) (mostly `dplyr`)
+
+For beautiful graphs of bayesian models
++ [`tidybayes`](https://github.com/mjskay/tidybayes)
++ [`ggmcmc`](https://github.com/xfim/ggmcmc)
+
+Plots for statistical analysis (support for Bayesian models too)
++ [`sjPlot`](https://strengejacke.wordpress.com/tag/sjplot/)
+
+Slides were made with:
++ [`xaringan`](https://github.com/yihui/xaringan) 
+
+and some more..
+
+Check [here](http://www.favstats.eu/docs/bayesian_group_project) for the entire script!
 
 ---
 
