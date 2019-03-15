@@ -12,11 +12,23 @@
 class: center, middle, inverse, title-slide
 
 # Bayesian Spring Seminar 2019
-## ⚔<br/>Group Project
+## Group Project
 ### Gijs, Brayton &amp; Fabio
 ### <p>2019-03-15</p>
 <p>Slides available here:</p>
-<a href="www.favstats.eu/slides/gezellig_presentation">www.favstats.eu/slides/gezellig_presentation</a>
+<p><a href="www.favstats.eu/slides/gezellig_presentation">favstats.eu/slides/gezellig_presentation</a></p>
+<p>Code available here:</p>
+<a href="www.favstats.eu/docs/bayesian_group_project">favstats.eu/docs/bayesian_group_project</a>
+
+---
+
+
+## Overview
+
++ Theory
++ Gezellig et al. 2019
++ Flat Prior Model
++ Informative Prior Model
 
 ---
 
@@ -25,6 +37,37 @@ class: center, middle, inverse, title-slide
 
 
 
+## Theory
+
+.pull-left[
+&lt;img src="images/table.png" alt="Smiley face"&gt;
+] 
+
+
+.pull-right[ 
+&lt;img src="images/dude.jpg" alt="Smiley face"&gt;
+] 
+
+--- 
+
+&lt;br&gt;
+&lt;br&gt;
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+## Gezellig et al. 2019
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+## Gezellig et al. 2019
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
 
 ## Goals
 
@@ -34,15 +77,18 @@ class: center, middle, inverse, title-slide
 
 **Data:**
 
-+ Gezellig et al. 2019 have a sample of 14k individuals in Rotterdam
++ Gezellig et al. 2019 have a sample of ~13500 individuals in Rotterdam
 + Our sample has 500 respondents
 
 
-Analysis:
+**Analysis:**
 
 + IV: 8 social classes (nominal scale)
 + DV: Volunteering (0/1)
-+ Model the probabilities of each social class to volunteer
+
+**Status:**
+
++ Modeled probabilities of each social class to volunteer
 
 ---
 
@@ -77,18 +123,18 @@ Diagnostic Plots
 
 ---
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 ---
 
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
 
 ---
 
 &lt;br&gt;
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -113,25 +159,26 @@ Results
 ## 1. Empirical mean and standard deviation for each variable,
 ##    plus standard error of the mean:
 ## 
-##           Mean     SD Naive SE Time-series SE
-## alpha -1.11746 0.2371 0.002650       0.004577
-## beta1 -0.21089 0.4967 0.005553       0.006513
-## beta2 -0.23413 0.3505 0.003918       0.005778
-## beta3  0.21298 0.4234 0.004734       0.006051
-## beta4  0.23637 0.3778 0.004224       0.005986
-## beta5 -0.76767 0.4898 0.005476       0.006957
-## beta6  0.01507 0.4029 0.004504       0.006117
-## beta7  0.65212 0.3495 0.003907       0.005748
+##          Mean     SD Naive SE Time-series SE
+## alpha -1.1279 0.2381 0.002662       0.004607
+## beta1 -0.1924 0.4944 0.005528       0.006986
+## beta2 -0.2291 0.3483 0.003894       0.005733
+## beta3  0.2189 0.4180 0.004673       0.006272
+## beta4  0.2553 0.3743 0.004185       0.005863
+## beta5 -0.7502 0.4898 0.005476       0.006693
+## beta6  0.0267 0.4059 0.004539       0.006251
+## beta7  0.6687 0.3463 0.003872       0.005718
 ## 
 ## 2. Quantiles for each variable:
 ## 
 ##    alpha    beta1    beta2    beta3    beta4    beta5    beta6    beta7 
-## -1.11679 -0.20165 -0.23178  0.21751  0.23739 -0.75295  0.02327  0.65255
+## -1.12183 -0.18014 -0.23289  0.21861  0.25991 -0.73236  0.03077  0.67261
 ```
 
 ---
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+![](gezellig_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -142,7 +189,7 @@ class: inverse, center, middle
 
 ---
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -178,20 +225,20 @@ Diagnostic Plots
 
 ---
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
 
 
 
 ---
 
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
 
 &lt;br&gt;
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
 
 
 ---
@@ -217,30 +264,30 @@ Results
 ## 1. Empirical mean and standard deviation for each variable,
 ##    plus standard error of the mean:
 ## 
-##           Mean     SD Naive SE Time-series SE
-## alpha -1.12737 0.2386 0.002668       0.004583
-## beta1 -0.20117 0.5017 0.005609       0.006699
-## beta2 -0.22714 0.3469 0.003878       0.005657
-## beta3  0.21083 0.4224 0.004722       0.006045
-## beta4  0.25629 0.3730 0.004170       0.005651
-## beta5 -0.74784 0.4824 0.005394       0.006593
-## beta6  0.02787 0.4046 0.004524       0.005970
-## beta7  0.66245 0.3475 0.003885       0.005644
+##          Mean      SD  Naive SE Time-series SE
+## alpha -1.1344 0.04405 0.0004925      0.0004987
+## beta1 -0.4906 0.09154 0.0010235      0.0010514
+## beta2 -0.2954 0.06876 0.0007688      0.0007864
+## beta3 -0.1177 0.07959 0.0008898      0.0008927
+## beta4  0.1720 0.07051 0.0007884      0.0007712
+## beta5 -0.2501 0.08858 0.0009903      0.0009761
+## beta6  0.3127 0.07088 0.0007924      0.0008126
+## beta7  0.5919 0.06627 0.0007409      0.0007409
 ## 
 ## 2. Quantiles for each variable:
 ## 
-##    alpha    beta1    beta2    beta3    beta4    beta5    beta6    beta7 
-## -1.12108 -0.18466 -0.22773  0.21643  0.25360 -0.73130  0.02464  0.65606
+##   alpha   beta1   beta2   beta3   beta4   beta5   beta6   beta7 
+## -1.1347 -0.4898 -0.2955 -0.1186  0.1717 -0.2486  0.3116  0.5919
 ```
 
 
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
 
 
 ---
 
-![](gezellig_presentation_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+![](gezellig_presentation_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 
 ---
 
