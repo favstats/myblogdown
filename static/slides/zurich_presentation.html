@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Political Extremism and Filter Bubbles</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Fabio Votta" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Political Extremism and Filter Bubbles
+## Research Proposal
+### Fabio Votta
+### <p>2nd April 2019</p>
+<p>Slides available here:</p>
+<a href="http://www.favstats.eu/slides/zurich_presentation">favstats.eu/slides/zurich_presentation</a>
+
+---
+
+
+
+
+## Overview
+
++ Theory
++ Example
+
+
+---
+
+## What are Filter bubbles? 
+
+### And what's wrong with them?
+
+
+![](images/filter upset.png)
+
+---
+
+
+### What are Filter bubbles? And what's wrong with them?
+
+.pull-left[
+![](images/pariser.jpg)
+&lt;br&gt;Pariser 2011
+]
+
+
++ Algorithms are responsible for content that users see in their feeds 
+
++ Eli Pariser suggests that they can create a “filter bubble” effect or “autopropaganda”
+
++ by controlling what users do and do not see it can – and is in fact, designed to – dramatically amplify confirmation bias
+
++ The pre-filtering of content leads to bubbles in which people never view or read about opposing viewpoints
+
++ Creates seperated spaces that make communication between opposing viewpoints harder: undermines democracy itself
+
+
+---
+
+class: middle
+
+
+The EU Group on Media Freedom and Pluralism notes that: 
+
+&gt; Increasing filtering mechanisms makes it more likely for people to only get news on subjects they are interested in, and with the perspective they identify with. It will also tend to create more insulated communities as isolated subsets within the overall public sphere. [...] Such developments undoubtedly have a potentially negative impact on democracy.
+
+*Vīķe-Freiberga, Däubler-Gmelin, Hammersley, &amp; Pessoa Maduro, 2013, p. 27*
+
+&lt;br&gt;
+
+**Filter bubbles are considered a concern at the highest level.**
+
+---
+
+
+## Facebook adds "Why am I seeing this" to posts
+
+![](images/why.png)
+
+[Source: Facebook Newsroom, 31st March 2019](https://newsroom.fb.com/news/2019/03/why-am-i-seeing-this/)
+
+---
+
+### Research So Far
+
+The empirical evidence of such an effect, however, is far less clear and decidedly less pessimistic. 
+
+
++ Echo chamber about echo chambers (Guess et al. 2018)
+
+
++ Findings from a study on Facebook suggest that although personalisation effects do occur and have a filtering effect, it is smaller than users’ own personal choices (Bakshy, Iyengar and Adamic, 2015). 
+
++ Similarly, in a laboratory experiment, it was found that customisability on news sites does increase political polarisation, but when both user-driven and system-driven customisability are present, users’ choice mitigates the effect of the latter (Dylko et al., 2018). 
+
++ Similarly, research analysing news recommendation plays down the importance of the “filter bubble” effect, suggesting that it does not blind out essential information (Haim, Graefe and Brosius, 2018) 
+
++ personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
+
++ Finally, research on Google search results also downplays such an effect and that factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
+
+---
+
+
+
+### Filter Bubbles and Extremism
+
+There is a paucity of research studying the effects of personalisation algorithms on extremist content.
+
+.pull-left[
+![](images/alternativeinfluence.png)
+]
+
++ Research on YouTube found that the recommender system could propel users into an immersive bubble of right-wing extremism within a few clicks (O’Callaghan et al., 2015)
+
++ Twitter’s “Who to Follow” recommendation was found to suggest violent extremist Islamist groups if the user followed al-Qaeda affiliate Jabhat al Nusra (Berger, 2013)
+
++ Facebook’s “Recommended Friends” function had likely actively connected at least two Islamic State supporters in South East Asia (Waters and Postings, 2018)
+
+The architecture of the platforms may facilitate closer interactions than would otherwise exist.
+
+
+---
+
+&lt;img src="images/datasociety.jpg" width="1440" /&gt;
+&lt;br&gt;Becca Lewis 2018
+
+
+---
+
+## Research Questions 
+
+&gt; Do algorithms promote extremist material once a user begins to interact with such content?
+
+**Hypotheses:**
+
+1) Frequency of extreme content increases after interacting with extreme content
+
+2) Extreme content is better ranked by the algorithm when interacting with extreme content
+
+**Methods**
+
+1) Test for count data with the help of poisson or negative binomial models
+
+2) Use ranked logit regression
+
+
+---
+
+
+### Implemented example
+
++ Research Grant by the Global Internet Forum to Counter Terrorism (GIFCT)
+
++ Investigating filter bubble effects specifically in the context of right-wing extremism
+
+**Research Design:**
+
++ We collected timelines two times a day over a period of two weeks. 
+
++ This leaves us with a total of 28 sessions (a session is each time an account pulled a timeline during a visit), or 14 days in total for data collection. 
+
++ Every account subscribed to the same 20 YouTube channels, 10 of which were identified as producing extremist content to some degree with the remaining partaining to mainstream media outlets and non-political content like Sports or the Weather.  20 videos were chosen, each from one channel, that all accounts watched one in order to kickstart the recommendation algorithm. 
+
++ As already described, all accounts would not interact with the website for a week other than getting recommendations twice a day. After a week had passed, one account started to interact with the previously identified channels that produce extremist content (EIA) and one account did the same for neutral conent (NIA).
+
+---
+
+### Research Design
+
++ Each time an account visited the YouTube frontpage, ten videos were randomly chosen from the recommendation tab. For the NIA, 7 videos that were consumed stem from the ten already identified neutral channels and three would come from the channels that produce extremist content. 
+
++ The same treatment in reverse was applied to the EIA, were 7 videos came from the identified extremist channels and three from neutral content providers. 
+
+0: Before (1st week)
+1: After Interaction (2nd week)
+
+This treatment will be administered through two accounts:**
+
+1. *Neutral Interaction Account* (or NIA) interacts with neutral content after first week
+2. *Extreme Interaction Account* (or EIA) interacts with extreme content after first week
+3. *Baseline Account* (or BA) does nothing for two weeks
+
+Every piece of content gets a unique rank per session and an Extremism Media Index (EMI) Score.
+
+---
+
+
+### Implemented example
+
+Of the 1443 videos coded on YouTube, 949 (65.77%) are rated as moderate according to the EMI, while 409 (28.34%) were judged to be fringe and 85 (5.89%) were deemed to be extremist. Figure 1 shows the distribution of the EMI scores for each session with a rank from one to eighteen, depending on where the video appears on the “Recommended Videos” section as well as the percentage distribution of the three categories of content before and after each treatment.
+
+
+---
+
+### Implemented example
+
+
+&lt;img src="zurich_presentation_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Implemented Example II
+
+&lt;img src="zurich_presentation_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+### Implemented Example III
+
+&lt;img src="images/yt_firstrank.png" width="3600" /&gt;
+
+
+---
+
+### Future Research
+
+The psychological aspects of how long it takes people to be influenced by content, or what type of content is the most influential would be a cool opportunity to supplement the research in a case study if you can get grant funding to study a test group. 
+
+More accounts
+
+Longer period
+
+Control for likes, shares, views etc.
+
+---
+
+## Literature
+
+Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://kf-site-production.s3.amazonaws.com/media_elements/files/000/000/133/original/Topos_KF_White-Paper_Nyhan_V1.pdf
+
+Vaidhyanathan, S. (2018). Antisocial media: How Facebook disconnects us and undermines democracy. Oxford University Press.
+
+Vīķe-Freiberga, V., Däubler-Gmelin, H., Hammersley, B., Pessoa Maduro, L.M.P. (2013). A free and pluralistic media to sustain European democracy. Retrieved from http://ec.europa.eu/digital-agenda/sites/digital-agenda/files/HLG%20Final%20Report.pdf
+
+
+---
+
+
+### Selective Exposure
+
+This means that people tend to 
+
++ select content (selective exposure),
++ interpret it (selective perception) and 
++ later better remember the information (selective retention) 
+
+that is in line with their already existing ideas (cf. Zillmann and Bryant 1985)
+
+
+---
+
+
+## Personalization algorithms
+
+Social media platforms, and the algorithms that drive them, are now an inescapable part of contemporary life. In many ways, they are the hallmark of the “Web 2.0” era, differentiating dynamic smart platforms from the static websites and fora of its previous incarnation. These algorithms are responsible for the content that users see in their feeds; the content they are recommended; and the products that they are advertised. Despite this, little is known about their operational workings or their effects on users because they are central to platforms’ business model (DeVito, 2016). This is even more the case with regards to extremist content and their role in trajectories towards terrorism. 
+
+---
+
+
+## Personalization algorithms
+
+Personalisation algorithms started as their current incarnation around 2009 when Google started implementing personalised search results for all searches. The basic idea is that social media platforms filter information that they believe will be of interest to you. 
+
+We don’t know exactly what any of these algorithms are or how they work – social media platforms keep it very secret as it’s central to their business model. As such conducting robust research on it is a big problem. However, factors such as your previous interactions, location, user interests, relationships, and age all play a part. 
+
+In 2019, almost all of the algorithms for the larger social media platforms are driven by machine learning tools so rather a simple formula it’s an ever evolving piece of code that’s different for each user.
+
+Many people have warned about the effects of such algorithms on users and groups. This was done most famously by Eli Pariser in his 2011 book “The Filter Bubble” in which he claimed that such algorithms control what we do and do not see, upsetting the delicate cognitive balance and dramatically amplifies confirmation bias.
+
+---
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
