@@ -25,16 +25,34 @@ class: center, middle, inverse, title-slide
 
 ## Overview
 
-+ Theory
-+ Example
++ Filter Bubbles
+
++ Research so far
+
++ Filter Bubbles and Extremism
+
++ Research question and esign
+
++ Research example
+
++ Future research
+
++ Literature
 
 
 ---
+
+class: center, middle, inverse
 
 ## What are Filter bubbles? 
 
 ### And what's wrong with them?
 
+---
+
+### What are Filter bubbles? And what's wrong with them?
+
+&lt;br&gt;
 
 ![](images/filter upset.png)
 
@@ -62,7 +80,8 @@ class: center, middle, inverse, title-slide
 
 ---
 
-class: middle
+
+### What are Filter bubbles? And what's wrong with them?
 
 
 The EU Group on Media Freedom and Pluralism notes that: 
@@ -78,7 +97,7 @@ The EU Group on Media Freedom and Pluralism notes that:
 ---
 
 
-## Facebook adds "Why am I seeing this" to posts
+### Facebook adds "Why am I seeing this" to posts
 
 ![](images/why.png)
 
@@ -86,23 +105,30 @@ The EU Group on Media Freedom and Pluralism notes that:
 
 ---
 
-### Research So Far
+class: center, middle, inverse
 
-The empirical evidence of such an effect, however, is far less clear and decidedly less pessimistic. 
+## Research so far
+
+### and linking filter bubbles to extremism
+
+---
+
+### Research so far
+
+The empirical evidence of a "filter bubble" effect is less clear and decidedly less pessimistic. 
 
 
 + Echo chamber about echo chambers (Guess et al. 2018)
 
++ Findings from a study on Facebook suggest filter bubbles are generated less by algorithms than by individual user decisions (Bakshy, Iyengar and Adamic, 2015). 
 
-+ Findings from a study on Facebook suggest that although personalisation effects do occur and have a filtering effect, it is smaller than users’ own personal choices (Bakshy, Iyengar and Adamic, 2015). 
++ Customisability increases political polarisation, choice mitigates the effect of system-driven customization (Dylko et al., 2018). 
 
-+ Similarly, in a laboratory experiment, it was found that customisability on news sites does increase political polarisation, but when both user-driven and system-driven customisability are present, users’ choice mitigates the effect of the latter (Dylko et al., 2018). 
++ Research analysing news recommendation suggests essential information is not omitted (Haim, Graefe and Brosius, 2018) 
 
-+ Similarly, research analysing news recommendation plays down the importance of the “filter bubble” effect, suggesting that it does not blind out essential information (Haim, Graefe and Brosius, 2018) 
++ Personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
 
-+ personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
-
-+ Finally, research on Google search results also downplays such an effect and that factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
++ Finally, research on Google search results also finds factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
 
 ---
 
@@ -133,108 +159,131 @@ The architecture of the platforms may facilitate closer interactions than would 
 
 ---
 
+
+class: center, middle, inverse
+
+## Research Question and Design
+
+### + an example
+
+---
+
 ## Research Questions 
 
 &gt; Do algorithms promote extremist material once a user begins to interact with such content?
 
-**Hypotheses:**
+&gt; Does changing online behavior successfully change the content that algorithm recommendations prioritize or do they inhibit change?
 
-1) Frequency of extreme content increases after interacting with extreme content
+**Research Design:**
 
-2) Extreme content is better ranked by the algorithm when interacting with extreme content
++ Experimental design with social bots on various platforms. 
+
++ Let them interact with different kinds of content as treatment.
+
++ Establish a baseline for each bot where each account does nothing for a while.
+
+The following user types are suggested:
+
+1. *Neutral Interaction Bots* interact with neutral content 
+2. *Extreme Interaction Bots* interact with extreme content 
+3. *Baseline Bots* do nothing to establish a baseline
+
+Pull timelines of each bot multiple times a day.
+
+---
+
+### Expected Relationships
+
++ Frequency of extreme content increases after interacting with extreme content
+
++ Extreme content is prioritized by the algorithm when interacting with extreme content
+
++ Bots that receive treatments will react more slowly to behaviour change than baseline bots
 
 **Methods**
 
-1) Test for count data with the help of poisson or negative binomial models
+1) Test for count data with the help of poisson models
 
-2) Use ranked logit regression
+2) Use ranked logit regression to estimate ranking of content
 
 
 ---
 
 
-### Implemented example
+### Research Example
 
 + Research Grant by the Global Internet Forum to Counter Terrorism (GIFCT)
 
 + Investigating filter bubble effects specifically in the context of right-wing extremism
 
-**Research Design:**
++ We collected timelines two times a day over a period of two weeks
 
-+ We collected timelines two times a day over a period of two weeks. 
++ Every bot subscribed to the same 20 YouTube channels
 
-+ This leaves us with a total of 28 sessions (a session is each time an account pulled a timeline during a visit), or 14 days in total for data collection. 
++ All bots do nothing for a week, then one account interacts with extreme, another with neutral content
 
-+ Every account subscribed to the same 20 YouTube channels, 10 of which were identified as producing extremist content to some degree with the remaining partaining to mainstream media outlets and non-political content like Sports or the Weather.  20 videos were chosen, each from one channel, that all accounts watched one in order to kickstart the recommendation algorithm. 
-
-+ As already described, all accounts would not interact with the website for a week other than getting recommendations twice a day. After a week had passed, one account started to interact with the previously identified channels that produce extremist content (EIA) and one account did the same for neutral conent (NIA).
-
----
-
-### Research Design
-
-+ Each time an account visited the YouTube frontpage, ten videos were randomly chosen from the recommendation tab. For the NIA, 7 videos that were consumed stem from the ten already identified neutral channels and three would come from the channels that produce extremist content. 
-
-+ The same treatment in reverse was applied to the EIA, were 7 videos came from the identified extremist channels and three from neutral content providers. 
-
-0: Before (1st week)
-1: After Interaction (2nd week)
-
-This treatment will be administered through two accounts:**
-
-1. *Neutral Interaction Account* (or NIA) interacts with neutral content after first week
-2. *Extreme Interaction Account* (or EIA) interacts with extreme content after first week
-3. *Baseline Account* (or BA) does nothing for two weeks
-
-Every piece of content gets a unique rank per session and an Extremism Media Index (EMI) Score.
++ Every piece of content gets a unique rank per session and an Extremism Media Index (EMI) Score (Holbrook, 2015)
 
 ---
 
 
-### Implemented example
+### Research Example
 
-Of the 1443 videos coded on YouTube, 949 (65.77%) are rated as moderate according to the EMI, while 409 (28.34%) were judged to be fringe and 85 (5.89%) were deemed to be extremist. Figure 1 shows the distribution of the EMI scores for each session with a rank from one to eighteen, depending on where the video appears on the “Recommended Videos” section as well as the percentage distribution of the three categories of content before and after each treatment.
+Of the 1443 videos coded on YouTube, 949 (65.77%) are rated as moderate according to the EMI, while 409 (28.34%) were judged to be fringe and 85 (5.89%) were deemed to be extremist. 
+
+The figures on the next two slide shows the distribution of the EMI scores for each session with a rank from one to eighteen, depending on where the video appears on the “Recommended Videos” section as well as the percentage distribution of the three categories of content before and after each treatment.
 
 
 ---
 
-### Implemented example
+### Research Example
 
 
 &lt;img src="zurich_presentation_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Implemented Example II
+### Research Example
 
 &lt;img src="zurich_presentation_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
-### Implemented Example III
+### Research Example
 
 &lt;img src="images/yt_firstrank.png" width="3600" /&gt;
 
 
 ---
 
+class: center, middle, inverse
+
+## Conclusions and Future Research
+
+---
+
 ### Future Research
 
-The psychological aspects of how long it takes people to be influenced by content, or what type of content is the most influential would be a cool opportunity to supplement the research in a case study if you can get grant funding to study a test group. 
++ More accounts
 
-More accounts
++ Longer period
 
-Longer period
++ Control for likes, shares, views etc.
 
-Control for likes, shares, views etc.
+**Linking research to real-life implications:**
+
++ The psychological aspects of how long it takes people to be influenced by content, or what type of content is the most influential would be a opportunity to supplement the research in a case study
+
+
 
 ---
 
 ## Literature
 
-Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://kf-site-production.s3.amazonaws.com/media_elements/files/000/000/133/original/Topos_KF_White-Paper_Nyhan_V1.pdf
+Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://www.researchgate.net/publication/330144926_Avoiding_the_echo_chamber_about_echo_chambers_Why_selective_exposure_to_like-minded_political_news_is_less_prevalent_than_you_think
 
-Vaidhyanathan, S. (2018). Antisocial media: How Facebook disconnects us and undermines democracy. Oxford University Press.
+Holbrook, D. (2015). Designing and Applying an ‘Extremist Media Index’. Perspectives On Terrorism, 9(5). Retrieved from http://www.terrorismanalysts.com/pt/index.php/pot/article/view/461
+
 
 Vīķe-Freiberga, V., Däubler-Gmelin, H., Hammersley, B., Pessoa Maduro, L.M.P. (2013). A free and pluralistic media to sustain European democracy. Retrieved from http://ec.europa.eu/digital-agenda/sites/digital-agenda/files/HLG%20Final%20Report.pdf
 
