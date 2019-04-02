@@ -31,11 +31,11 @@ class: center, middle, inverse, title-slide
 
 + Filter Bubbles and Extremism
 
-+ Research question and design
++ Research Question &amp; Design
 
 + Research example
 
-+ Future research
++ Conclusions &amp; Future Research
 
 + Literature
 
@@ -46,11 +46,11 @@ class: center, middle, inverse
 
 ## What are Filter bubbles? 
 
-### And what's wrong with them?
+### And what's the problem?
 
 ---
 
-### What are Filter bubbles? And what's wrong with them?
+### What are Filter bubbles? And what's the problem?
 
 &lt;br&gt;
 
@@ -59,7 +59,7 @@ class: center, middle, inverse
 ---
 
 
-### What are Filter bubbles? And what's wrong with them?
+### What are Filter bubbles? And what's the problem?
 
 .pull-left[
 ![](images/pariser.jpg)
@@ -81,7 +81,7 @@ class: center, middle, inverse
 ---
 
 
-### What are Filter bubbles? And what's wrong with them?
+### What are Filter bubbles? And what's the problem?
 
 &lt;br&gt;
 
@@ -97,15 +97,6 @@ The EU Group on Media Freedom and Pluralism notes that:
 
 ---
 
-
-### Facebook adds "Why am I seeing this" to posts
-
-![](images/why.png)
-
-[Source: Facebook Newsroom, 31st March 2019](https://newsroom.fb.com/news/2019/03/why-am-i-seeing-this/)
-
----
-
 class: center, middle, inverse
 
 ## Research so far
@@ -118,18 +109,17 @@ class: center, middle, inverse
 
 The empirical evidence of a "filter bubble" effect is less clear and decidedly less pessimistic. 
 
++ Findings from a study on Facebook suggest filter bubbles are generated less by algorithms than by individual user decisions (Bakshy, Messing and Adamic, 2015). 
 
-+ Echo chamber about echo chambers (Guess et al. 2018)
-
-+ Findings from a study on Facebook suggest filter bubbles are generated less by algorithms than by individual user decisions (Bakshy, Iyengar and Adamic, 2015). 
-
-+ Customisability increases political polarisation, choice mitigates the effect of system-driven customization (Dylko et al., 2018). 
-
-+ Research analysing news recommendation suggests essential information is not omitted (Haim, Graefe and Brosius, 2018) 
++ Research analysing Google news recommendation suggests essential information is not omitted (Haim, Graefe and Brosius, 2018) 
 
 + Personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
 
 + Finally, research on Google search results also finds factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
+
+Why the discrepancy?
+
++ "Echo chamber about echo chambers" (Guess et al. 2018)
 
 ---
 
@@ -169,7 +159,7 @@ class: center, middle, inverse
 
 ---
 
-## Research Questions 
+### Research Questions 
 
 &gt; Do algorithms promote extremist material once a user begins to interact with such content?
 
@@ -181,32 +171,49 @@ class: center, middle, inverse
 
 + Let them interact with different kinds of content as treatment.
 
-+ Establish a baseline for each bot where each account does nothing for a while.
-
 The following user types are suggested:
 
 1. *Neutral Interaction Bots* interact with neutral content 
 2. *Extreme Interaction Bots* interact with extreme content 
 3. *Baseline Bots* do nothing to establish a baseline
 
-Pull timelines of each bot multiple times a day.
++ Pull timelines of each bot multiple times a day.
 
 ---
 
 ### Expected Relationships
 
-+ Frequency of extreme content increases after interacting with extreme content
++ Frequency of extreme material increases after interacting with extreme content
 
-+ Extreme content is prioritized by the algorithm when interacting with extreme content
++ Extreme content is prioritized by the algorithm when interacting with extreme material
 
 + Bots that receive treatments will react more slowly to behaviour change than baseline bots
 
 **Methods**
 
-1) Test for count data with the help of poisson models
++ Difference-in-Difference Estimation for treatment effects
 
-2) Use ranked logit regression to estimate ranking of content
++ Count data modeled with the help of poisson regression
 
++ Ranked logit regression to estimate ranking of content
+
++ Logistic regression (binary: did extreme content appear vs. not appear)
+
+---
+
+### How to measure extremist content?
+
+Multiple pathways:
+
++ Sentiment analysis can be used to identify extremist authors (Scrivens et al., 2018)
+
++ Topic models to identify (far-right) extremist content (O’Callaghan et al., 2015)
+
++ Hand-coding content for example with Holbrook's Extremist Media Index (Holbrook, 2015)
+
++ Manually labelled data can also be used as training dataset for machine learning models
+
+&gt; Already conducted research with manually labeled extreme content
 
 ---
 
@@ -215,15 +222,17 @@ Pull timelines of each bot multiple times a day.
 
 + Research Grant by the Global Internet Forum to Counter Terrorism (GIFCT)
 
-+ Investigating filter bubble effects specifically in the context of right-wing extremism
++ Investigating algorithmic filter bubble effects specifically in the context of right-wing extremism
 
-+ We collected timelines two times a day over a period of two weeks on YouTube
++ We collected timelines two times a day over a period of two weeks on **YouTube**
 
 + Every bot subscribed to the same 20 YouTube channels
 
 + All bots do nothing for a week, then one account interacts with extreme, another with neutral content
 
-+ Every piece of content gets a unique rank per session and an Extremism Media Index (EMI) Score (Holbrook, 2015)
++ Every piece of content gets a unique rank per session and an Extremist Media Index (EMI) Score (Holbrook, 2015)
+
++ Two individuals rated the content with a Krippendorff's alpha of 0.77
 
 ---
 
@@ -263,17 +272,26 @@ The figures on the next two slide shows the distribution of the EMI scores for e
 
 class: center, middle, inverse
 
-## Conclusions and Future Research
+## Conclusions &amp; Future Research
 
 ---
 
-### Future Research
+### Conclusions &amp; Future Research
 
-+ More accounts
 
-+ Longer period
+**Filling the research gap in terms of filter bubbles and extremism**
+
++ Research so far was mostly focused on news filter bubbles and only implicitly mentioned extremism or pathways into extremism
+
++ Evidence suggests that interaction with extremist content might lead you down a path of seeing more and more extreme content
+
+**Improvements to already conducted study**
+
++ More accounts, Longer period
 
 + Control for likes, shares, views etc.
+
++ Use computational methods to measure extremism
 
 **Linking research to real-life implications:**
 
@@ -283,14 +301,18 @@ class: center, middle, inverse
 
 ---
 
+class: center, middle, inverse
+
+### Thank you for listening!
+
+
+---
+
 ## Literature
 
 Bakshy, E., Messing, S., &amp; Adamic, L. A. (2015). Exposure to ideologically diverse news and opinion on Facebook. Science, 348(6239), 1130-1132.
 
 Courtois, C., Slechten, L., &amp; Coenen, L. (2018). Challenging Google Search filter bubbles in social and political information: Disconforming evidence from a digital methods case study. Telematics and Informatics, 35(7), 2006-2015.
-
-
-Dylko, I., Dolgov, I., Hoffman, W., Eckhart, N., Molina, M., &amp; Aaziz, O. (2018). Impact of customizability technology on political polarization. Journal of Information Technology &amp; Politics, 15(1), 19-33.
 
 Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://www.researchgate.net/publication/330144926_Avoiding_the_echo_chamber_about_echo_chambers_Why_selective_exposure_to_like-minded_political_news_is_less_prevalent_than_you_think
 
@@ -316,6 +338,15 @@ Vīķe-Freiberga, V., Däubler-Gmelin, H., Hammersley, B., Pessoa Maduro, L.M.P.
 ---
 
 
+
+### Facebook adds "Why am I seeing this" to posts
+
+![](images/why.png)
+
+[Source: Facebook Newsroom, 31st March 2019](https://newsroom.fb.com/news/2019/03/why-am-i-seeing-this/)
+
+---
+
 ### Selective Exposure
 
 This means that people tend to 
@@ -325,29 +356,6 @@ This means that people tend to
 + later better remember the information (selective retention) 
 
 that is in line with their already existing ideas (cf. Zillmann and Bryant 1985)
-
-
----
-
-
-## Personalization algorithms
-
-Social media platforms, and the algorithms that drive them, are now an inescapable part of contemporary life. In many ways, they are the hallmark of the “Web 2.0” era, differentiating dynamic smart platforms from the static websites and fora of its previous incarnation. These algorithms are responsible for the content that users see in their feeds; the content they are recommended; and the products that they are advertised. Despite this, little is known about their operational workings or their effects on users because they are central to platforms’ business model (DeVito, 2016). This is even more the case with regards to extremist content and their role in trajectories towards terrorism. 
-
----
-
-
-## Personalization algorithms
-
-Personalisation algorithms started as their current incarnation around 2009 when Google started implementing personalised search results for all searches. The basic idea is that social media platforms filter information that they believe will be of interest to you. 
-
-We don’t know exactly what any of these algorithms are or how they work – social media platforms keep it very secret as it’s central to their business model. As such conducting robust research on it is a big problem. However, factors such as your previous interactions, location, user interests, relationships, and age all play a part. 
-
-In 2019, almost all of the algorithms for the larger social media platforms are driven by machine learning tools so rather a simple formula it’s an ever evolving piece of code that’s different for each user.
-
-Many people have warned about the effects of such algorithms on users and groups. This was done most famously by Eli Pariser in his 2011 book “The Filter Bubble” in which he claimed that such algorithms control what we do and do not see, upsetting the delicate cognitive balance and dramatically amplifies confirmation bias.
-
----
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
