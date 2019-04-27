@@ -13,6 +13,16 @@
     
     
     <item>
+      <title>Exploring U.S. Refugee Data</title>
+      <link>/post/exploring_us_refugee_data/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/post/exploring_us_refugee_data/</guid>
+      <description>================
+A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
+    </item>
+    
+    <item>
       <title>Is American democracy under threat?</title>
       <link>/post/blw_data/</link>
       <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
@@ -166,6 +176,15 @@ First I need my geolocation data. If you use Google and own an Android cell phon
       
       <guid>/post/daesh/</guid>
       <description>Welcome to my very first blogpost. Here I want to dive a little bit into how Arab Muslims see Daesh (a term for ISIS often used by Arab speakers). The data I will be using is from the Arab Barometer Wave 4, released just a few weeks ago. I will also be using the Arab Barometer in the future because it has a lot of interesting questions asked, including a small sample size of Syrian refugees.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>/post/impakter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/post/impakter/</guid>
+      <description>Exploring U.S. Refugee Data A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
     </item>
     
   </channel>

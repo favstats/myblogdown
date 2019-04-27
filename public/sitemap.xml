@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/exploring_us_refugee_data/</loc>
+      <lastmod>2019-04-27T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/blw_data/</loc>
       <lastmod>2019-02-16T00:00:00+01:00</lastmod>
     </url>
@@ -239,6 +248,14 @@
     
     <url>
     
+      <loc>/post/impakter/</loc>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/publication_types/2/</loc>
       <lastmod>2018-03-12T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -409,7 +426,7 @@
     <url>
     
       <loc>/tags/dataviz/</loc>
-      <lastmod>2019-02-16T00:00:00+01:00</lastmod>
+      <lastmod>2019-04-27T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -529,7 +546,7 @@
     <url>
     
       <loc>/tags/refugees/</loc>
-      <lastmod>2018-10-01T00:00:00+02:00</lastmod>
+      <lastmod>2019-04-27T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     
