@@ -18,8 +18,6 @@
       <guid>/post/exploring_us_refugee_data/</guid>
       <description>
 
-&lt;p&gt;================&lt;/p&gt;
-
 &lt;h3 id=&#34;a-short-history-of-refugees-in-the-u-s&#34;&gt;A Short History of Refugees in the U.S.&lt;/h3&gt;
 
 &lt;p&gt;The United States has a long history of accepting refugees fleeing war,
@@ -39,7 +37,7 @@ day. The year the law passed, refugee admissions peaked at an all-time
 historic high with more than 200,000 individuals being admitted to the
 U.S., largely from Southeast Asia.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/refugee75.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/images/refugee75.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;With the fall of the Soviet Union and the collapse of the Eastern bloc,
 refugee numbers peaked again in the early to mid-1990s with a total of
@@ -50,7 +48,7 @@ Europe (37%) due to the wars in former Yugoslavia. Since then, refugee
 admissions from Europe have decreased significantly – only 8% of all
 refugees resettled in the U.S. between 2001 and 2018 came from Europe.&lt;/p&gt;
 
-&lt;p&gt;After the &lt;sup&gt;9&lt;/sup&gt;&amp;frasl;&lt;sub&gt;11&lt;/sub&gt; attacks, refugee numbers experienced a significant drop
+&lt;p&gt;After the 911 attacks, refugee numbers experienced a significant drop
 as President George W. Bush halted admission processes for several
 months. In 2002 and 2003, the U.S. took in fewer than 29.000 refugees
 each year, down from 70.000 admissions in 2001.&lt;/p&gt;
@@ -83,7 +81,7 @@ the refugees from 2002 onwards. Except for three years (2005, 2006 and
 too, we can see a sharp decline once the Trump administration lowered
 the cap in 2017 and 2018.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/gg_relig.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/images/gg_relig.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;While the ratio of accepted Muslim (46%) and Christian refugees (44%) in
 2016 was almost equal, Muslim refugee admissions dropped to 35% in 2017
@@ -96,7 +94,7 @@ campaign that killed thousands. The next largest groups of Muslims in
 Republic Congo (422 or
 12%).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;impakter_files/figure-gfm/unnamed-chunk-2-1.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/impakter_files/figure-gfm/unnamed-chunk-2-1.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;But the Trump administration did not only cut back on Muslim refugees.
 Despite vows to protect persecuted Christians all around the world and
@@ -111,7 +109,7 @@ refugees admitted between 2002 and 2018 is below 14 (30%) and roughly
 half of all refugees are 20 years old or
 younger.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;impakter_files/figure-gfm/unnamed-chunk-3-1.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/impakter_files/figure-gfm/unnamed-chunk-3-1.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The U.S. department of state also provides us with data concerning
 education levels of admitted refugees. The largest group has completed
@@ -131,7 +129,7 @@ refugee is defined as as any person that “has a well-founded fear of
 persecution on account of race, religion, nationality, membership in a
 particular social group, or political opinion.”&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/refugee_total_map.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/images/refugee_total_map.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Refugees are typically admitted through the UNHCR’s Resettlement Program
 after their refugee status has been assessed and they have been vetted
@@ -144,7 +142,7 @@ to a different process).&lt;/p&gt;
 
 &lt;h3 id=&#34;where-do-refugees-go&#34;&gt;Where do Refugees go?&lt;/h3&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/state_total.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/images/state_total.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Finally, one can ask where the admitted refugees will go. Most refugees
 from 2002 to 2018 were admitted in California. 11% of all refugees or
@@ -156,7 +154,7 @@ were taken in by the state of Hawaii with 127 refugees, Mississippi with
 121 refugees and Wyoming with 6 individuals resettled between 2002 and
 2018.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;images/city_stats.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/usa_refugee_data/raw/master/images/city_stats.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     
