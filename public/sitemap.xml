@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/do_if/</loc>
+      <lastmod>2019-05-14T00:00:00+02:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/exploring_us_refugee_data/</loc>
       <lastmod>2019-04-27T00:00:00+02:00</lastmod>
     </url>
@@ -465,6 +474,16 @@
     
     <url>
     
+      <loc>/tags/functions/</loc>
+      <lastmod>2019-05-14T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/ggmap/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
       <priority>0</priority>
@@ -547,6 +566,16 @@
     
       <loc>/tags/refugees/</loc>
       <lastmod>2019-04-27T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/rstats/</loc>
+      <lastmod>2019-05-14T00:00:00+02:00</lastmod>
       <priority>0</priority>
     </url>
     

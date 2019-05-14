@@ -11,6 +11,262 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>do_if</title>
+      <link>/post/do_if/</link>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/post/do_if/</guid>
+      <description>&lt;p&gt;================&lt;/p&gt;
+
+&lt;p&gt;So recently I was writing functions with many if statements and pipes. Given that
+I am a huge fan of the &lt;code&gt;%&amp;gt;%&lt;/code&gt; pipe workflow, I was thinking about
+creating a pipable if environment. Here is my attempt to implement
+exactly that. With a lot help from my good friend &lt;a href=&#34;https://twitter.com/Ben_Guinaudeau&#34; target=&#34;_blank&#34;&gt;Ben&lt;/a&gt;. If you are reading this, thank you! You made this possible.&lt;/p&gt;
+
+&lt;p&gt;Import gist from here:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(dplyr)
+source(&amp;quot;https://gist.githubusercontent.com/favstats/3e1d8b65a019b24344b7b3dea6002a0b/raw/6919b22f01db6d672d64ebcac5798b8495c89ad2/do_if.R&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So let’s say you want to create a function that has multiple if
+specifications but you also want to always create two columns regardless
+of the input. You might create something like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mock_function &amp;lt;- function(.data, argument = &amp;quot;&amp;quot;) {
+  
+  if (argument == &amp;quot;do_this1&amp;quot;) {
+    .data &amp;lt;-.data %&amp;gt;%
+          dplyr::filter(am == 1) %&amp;gt;%
+          dplyr::filter(cyl == 6) %&amp;gt;%
+          dplyr::mutate(x = disp &amp;gt;= 100)
+  } else if (argument == &amp;quot;do_this2&amp;quot;) {
+    .data &amp;lt;-.data %&amp;gt;%
+          dplyr::filter(am == 0) %&amp;gt;%
+          dplyr::filter(cyl == 4) %&amp;gt;%
+          dplyr::mutate(x = disp &amp;lt; 100)
+  }
+  
+  final &amp;lt;- .data %&amp;gt;% 
+    mutate(new_column = &amp;quot;Say What&amp;quot;) %&amp;gt;% 
+    mutate(other_column = &amp;quot;Say That&amp;quot;)
+  
+  return(final)
+  
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So if you leave the argument blank you will receive the entire dataset
+with two new columns:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function() %&amp;gt;% 
+  select(vs:other_column) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 32 x 6
+##       vs    am  gear  carb new_column other_column
+##    &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;       
+##  1     0     1     4     4 Say What   Say That    
+##  2     0     1     4     4 Say What   Say That    
+##  3     1     1     4     1 Say What   Say That    
+##  4     1     0     3     1 Say What   Say That    
+##  5     0     0     3     2 Say What   Say That    
+##  6     1     0     3     1 Say What   Say That    
+##  7     0     0     3     4 Say What   Say That    
+##  8     1     0     4     2 Say What   Say That    
+##  9     1     0     4     2 Say What   Say That    
+## 10     1     0     4     4 Say What   Say That    
+## # ... with 22 more rows
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you add &lt;code&gt;&amp;quot;do_this1&lt;/code&gt; to the argument you will receive a filtered
+dataset:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function(&amp;quot;do_this1&amp;quot;) %&amp;gt;% 
+  select(vs:other_column) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 7
+##      vs    am  gear  carb x     new_column other_column
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt; &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;       
+## 1     0     1     4     4 TRUE  Say What   Say That    
+## 2     0     1     4     4 TRUE  Say What   Say That    
+## 3     0     1     5     6 TRUE  Say What   Say That
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And if you specify &lt;code&gt;&amp;quot;do_this2&lt;/code&gt; it will create a different subset.. but
+always with the &lt;code&gt;new_column&lt;/code&gt; and &lt;code&gt;other_column&lt;/code&gt; intact.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function(&amp;quot;do_this2&amp;quot;) %&amp;gt;% 
+  select(vs:other_column) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 7
+##      vs    am  gear  carb x     new_column other_column
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt; &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt;       
+## 1     1     0     4     2 FALSE Say What   Say That    
+## 2     1     0     4     2 FALSE Say What   Say That    
+## 3     1     0     3     1 FALSE Say What   Say That
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now this would work just fine. But what if you have multiple if
+statements along your pipe chain and you don’t want to split into so
+many different if statements? Well this is where &lt;code&gt;do_if&lt;/code&gt; comes in!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#&#39; A pipable if statement
+#&#39;
+#&#39; This function allows to create an if statement that can be used within a pipable workflow
+#&#39;
+#&#39; @importFrom magrittr %&amp;gt;%
+#&#39; @importFrom rlang parse_expr
+#&#39; @param .data tibble
+#&#39; @param condition logical test
+#&#39; @param call a formula descibing a pipe to be evaluated if condition is \code{code}
+#&#39; @examples
+#&#39; any_condition &amp;lt;- T
+#&#39;
+#&#39; mtcars %&amp;gt;%
+#&#39; do_if(any_condition, ~{
+#&#39; .x %&amp;gt;%
+#&#39;  dplyr::filter(cyl == 6) %&amp;gt;%
+#&#39;  dplyr::mutate(x = disp &amp;gt; 170)
+#&#39; })
+#&#39; @export
+do_if &amp;lt;- function(.data, condition, call){
+
+  if(condition){
+    .x &amp;lt;- .data
+
+    call_str &amp;lt;- call %&amp;gt;%
+      as.character %&amp;gt;%
+      .[2]
+
+    out &amp;lt;- eval(rlang::parse_expr(call_str))
+
+    return(out)
+  } else {
+    return(.data)
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;With &lt;code&gt;do_if&lt;/code&gt; you can specify an if statement &lt;em&gt;within&lt;/em&gt; a pipable
+workflow!&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;any_condition &amp;lt;- T
+
+mtcars %&amp;gt;%
+  do_if(any_condition, ~{
+    .x %&amp;gt;%
+      dplyr::filter(cyl == 6) %&amp;gt;%
+      dplyr::mutate(x = disp &amp;gt; 170)
+    }) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 7 x 12
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt;
+## 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4 FALSE
+## 2  21       6  160    110  3.9   2.88  17.0     0     1     4     4 FALSE
+## 3  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1 TRUE 
+## 4  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1 TRUE 
+## 5  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4 FALSE
+## 6  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4 FALSE
+## 7  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6 FALSE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This can come in really handy if you are not a big fan of seperating
+your pipe workflow all too often. Let’s recreate the mock_function with
+the help of &lt;code&gt;do_if&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mock_function &amp;lt;- function(.data, argument = &amp;quot;&amp;quot;) {
+  .data %&amp;gt;% 
+    do_if(
+      argument == &amp;quot;do_this1&amp;quot;,
+      ~{.x %&amp;gt;%
+          dplyr::filter(am == 1) %&amp;gt;%
+          dplyr::filter(cyl == 6) %&amp;gt;%
+          dplyr::mutate(x = disp &amp;gt;= 100)
+        }
+    ) %&amp;gt;% 
+    do_if(
+      argument == &amp;quot;do_this2&amp;quot;,
+      ~{.x %&amp;gt;%
+          dplyr::filter(am == 0) %&amp;gt;%
+          dplyr::filter(cyl == 4) %&amp;gt;%
+          dplyr::mutate(x = disp &amp;lt; 100)
+        }
+    ) %&amp;gt;% 
+    mutate(other_column = &amp;quot;Say That&amp;quot;) %&amp;gt;% 
+    mutate(new_column = &amp;quot;Say What&amp;quot;) 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And again we can get the same results, only with a slighly less
+troublesome workflow within a function!&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function() %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 32 x 13
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##    &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+## # ... with 22 more rows, and 2 more variables: other_column &amp;lt;chr&amp;gt;,
+## #   new_column &amp;lt;chr&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function(argument = &amp;quot;do_this1&amp;quot;) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 14
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt;
+## 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4 TRUE 
+## 2  21       6   160   110  3.9   2.88  17.0     0     1     4     4 TRUE 
+## 3  19.7     6   145   175  3.62  2.77  15.5     0     1     5     6 TRUE 
+## # ... with 2 more variables: other_column &amp;lt;chr&amp;gt;, new_column &amp;lt;chr&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mtcars %&amp;gt;% 
+  mock_function(argument = &amp;quot;do_this2&amp;quot;) %&amp;gt;% 
+  as_tibble()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 14
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
+##   &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt;
+## 1  24.4     4  147.    62  3.69  3.19  20       1     0     4     2 FALSE
+## 2  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2 FALSE
+## 3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1 FALSE
+## # ... with 2 more variables: other_column &amp;lt;chr&amp;gt;, new_column &amp;lt;chr&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Exploring U.S. Refugee Data</title>
       <link>/post/exploring_us_refugee_data/</link>
       <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
@@ -4935,15 +5191,6 @@ rt_hashtags %&amp;gt;%
       <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/project/deliberation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Slides: Godly Governance</title>
-      <link>/project/godly/</link>
-      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/project/godly/</guid>
       <description></description>
     </item>
     
