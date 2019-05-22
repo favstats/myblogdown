@@ -11,6 +11,302 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Game of Thrones ratings</title>
+      <link>/post/got_ratings/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/post/got_ratings/</guid>
+      <description>
+
+&lt;p&gt;================&lt;/p&gt;
+
+&lt;h2 id=&#34;packages-and-folders&#34;&gt;Packages and Folders&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
+# if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
+# devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;)
+
+pacman::p_load(tidyverse, tidytemplate, htmltab, 
+               janitor, gameofthrones, extrafont, 
+               scales, ggthemes)
+
+# Creates folders
+# tidytemplate::data_dir()
+# tidytemplate::images_dir()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;scraping-views-from-wikipedia&#34;&gt;Scraping Views from Wikipedia&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;got_tables &amp;lt;- &amp;quot;https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_episodes&amp;quot;
+
+
+episode_list &amp;lt;- 2:9 %&amp;gt;% 
+  map_dfr(~htmltab(got_tables, .x) %&amp;gt;% mutate(season = .x - 1)) %&amp;gt;% 
+  clean_names() %&amp;gt;% 
+  mutate_at(vars(no_overall, no_inseason, u_s_viewers_millions), as.numeric) %&amp;gt;% 
+  mutate(season = str_glue(&amp;quot;Season {season}&amp;quot;)) %&amp;gt;% 
+  mutate(written_by = ifelse(str_detect(written_by, &amp;quot;David Benioff &amp;amp; D. B. Weiss&amp;quot;), &amp;quot;David Benioff &amp;amp; D. B. Weiss&amp;quot;, written_by))  %&amp;gt;% 
+  mutate(title = str_remove_all(title, &#39;\\&amp;quot;&#39;))
+
+# ## save data after scraping
+save(episode_list, file = &amp;quot;data/episode_list.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;views-over-time&#34;&gt;Views over time&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_list %&amp;gt;% 
+  ggplot(aes(no_overall, u_s_viewers_millions, fill = season)) +
+  geom_col(alpha = 0.9, position = position_dodge(width = 0.1)) +
+  ggthemes::theme_hc() +
+  scale_fill_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Targaryen&amp;quot;) +
+  scale_x_continuous(breaks = seq(0, 70, 10)) +
+  labs(y = &amp;quot;US Viewers in Millions&amp;quot;, 
+       x = &amp;quot;Episode Number&amp;quot;, 
+       title = &amp;quot;Game of Thrones&amp;quot;, 
+       subtitle =  &amp;quot;US viewers  per episode&amp;quot;, 
+       caption = &amp;quot;Source: Nielsen Media Research&amp;quot;) +
+  guides(fill = guide_legend(nrow = 1)) +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.caption = element_text(size = 8))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(season_views, width = 9, height = 5)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-many-episodes-were-written-by-which-writer&#34;&gt;How many episodes were written by which writer?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_list %&amp;gt;% 
+  count(written_by, sort = T)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 2
+##   written_by                      n
+##   &amp;lt;chr&amp;gt;                       &amp;lt;int&amp;gt;
+## 1 David Benioff &amp;amp; D. B. Weiss    51
+## 2 Bryan Cogman                   11
+## 3 Dave Hill                       4
+## 4 George R. R. Martin             4
+## 5 Vanessa Taylor                  3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;how-many-episodes-were-directed-by-which-director&#34;&gt;How many episodes were directed by which director?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_list %&amp;gt;% 
+  count(directed_by, sort = T)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## # A tibble: 20 x 2
+##    directed_by                     n
+##    &amp;lt;chr&amp;gt;                       &amp;lt;int&amp;gt;
+##  1 David Nutter                    9
+##  2 Alan Taylor                     7
+##  3 Alex Graves                     6
+##  4 Jeremy Podeswa                  6
+##  5 Mark Mylod                      6
+##  6 Miguel Sapochnik                6
+##  7 Daniel Minahan                  5
+##  8 Alik Sakharov                   4
+##  9 Michelle MacLaren               4
+## 10 Brian Kirk                      3
+## 11 Daniel Sackheim                 2
+## 12 David Petrarca                  2
+## 13 Jack Bender                     2
+## 14 Matt Shakman                    2
+## 15 Michael Slovis                  2
+## 16 Neil Marshall                   2
+## 17 Tim Van Patten                  2
+## 18 D. B. Weiss                     1
+## 19 David Benioff                   1
+## 20 David Benioff &amp;amp; D. B. Weiss     1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;scraping-rotten-tomatoes-ratings&#34;&gt;Scraping Rotten Tomatoes Ratings&lt;/h2&gt;
+
+&lt;p&gt;Creating a function to get the ratings&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;get_rotten_ratings &amp;lt;- function(link) {
+  
+  raw_html &amp;lt;- read_html(link)
+  
+  rotten_rating &amp;lt;- raw_html %&amp;gt;% 
+    html_nodes(&amp;quot;#scoreStats div:nth-child(1)&amp;quot;) %&amp;gt;% 
+    html_text() %&amp;gt;% 
+    parse_number()
+  
+  rotten_score &amp;lt;-  raw_html %&amp;gt;% 
+    html_nodes(&amp;quot;#tomato_meter_link &amp;gt; span.meter-value.superPageFontColor&amp;quot;) %&amp;gt;% 
+    html_text() %&amp;gt;% 
+    parse_number()
+    
+  final_data &amp;lt;- tibble(rotten_rating, rotten_score)
+  
+  return(final_data)
+  
+}
+
+
+episode_ratings &amp;lt;- episode_list %&amp;gt;% 
+  mutate(season = str_replace(season, &amp;quot;Season &amp;quot;, &amp;quot;s0&amp;quot;)) %&amp;gt;% 
+  mutate(episode = ifelse(nchar(no_inseason) == 1, paste0(&amp;quot;e0&amp;quot;, no_inseason), paste0(&amp;quot;e&amp;quot;, no_inseason))) %&amp;gt;% 
+  mutate(rottenlink = str_glue(&amp;quot;https://www.rottentomatoes.com/tv/game_of_thrones/{season}/{episode}&amp;quot;)) %&amp;gt;% 
+  pull(rottenlink) %&amp;gt;% 
+  map_dfr(get_rotten_ratings) %&amp;gt;% 
+  bind_cols(episode_list, .) 
+
+# ## save data after scraping
+save(episode_ratings, file = &amp;quot;data/episode_ratings.Rdata&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ratings-by-writer&#34;&gt;Ratings by Writer&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_ratings %&amp;gt;% 
+  mutate(written_by = fct_reorder(written_by, rotten_rating)) %&amp;gt;% 
+  ggplot(aes(written_by, rotten_rating)) +
+  geom_jitter(width = 0.3) +
+  geom_violin(alpha = 0.75, aes(fill = written_by)) +
+  geom_boxplot(width = 0.05) +
+  guides(fill = F) +
+  ggthemes::theme_hc() +
+  scale_fill_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Margaery&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Rating&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Ratings  by Writer&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(writer_ratings, width = 9, height = 5)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;scores-by-writer&#34;&gt;Scores by Writer&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_ratings %&amp;gt;% 
+  mutate(written_by = fct_reorder(written_by, rotten_score)) %&amp;gt;% 
+  ggplot(aes(written_by, rotten_score)) +
+  geom_jitter(width = 0.3) +
+  geom_violin(alpha = 0.75, aes(fill = written_by)) +
+  geom_boxplot(width = 0.05) +
+  guides(fill = F) +
+  ggthemes::theme_hc() +
+  scale_fill_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Margaery&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Scores&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Episode  Scores  by Writer&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(writer_scores, width = 9, height = 5)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;rating-by-director&#34;&gt;Rating by Director&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_ratings %&amp;gt;% 
+  mutate(directed_by = fct_reorder(directed_by, rotten_rating)) %&amp;gt;% 
+  ggplot(aes(directed_by, rotten_rating)) +
+  geom_jitter(width = 0.3) +
+  geom_violin(alpha = 0.75, aes(fill = directed_by)) +
+  geom_boxplot(width = 0.05) +
+  guides(fill = F) +
+  ggthemes::theme_hc() +
+  scale_fill_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Stark2&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Rating&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Ratings  by Director&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;)) +
+  coord_flip()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(director_ratings, width = 6, height = 12)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;scores-by-director&#34;&gt;Scores by Director&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_ratings %&amp;gt;% 
+  mutate(directed_by = fct_reorder(directed_by, rotten_score)) %&amp;gt;% 
+  ggplot(aes(directed_by, rotten_score)) +
+  geom_jitter(width = 0.3) +
+  geom_violin(alpha = 0.75, aes(fill = directed_by)) +
+  geom_boxplot(width = 0.05) +
+  guides(fill = F) +
+  ggthemes::theme_hc() +
+  scale_fill_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Stark2&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Rating&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Scores  by Director&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;)) +
+  coord_flip()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(director_scores, width = 6, height = 12)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;rating-by-episode&#34;&gt;Rating by Episode&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_titles &amp;lt;- episode_ratings %&amp;gt;%
+  filter(rotten_rating &amp;gt; 9.4 | rotten_rating &amp;lt; 7.5) %&amp;gt;% 
+  filter(title != &amp;quot;The Lion and the Rose&amp;quot;) %&amp;gt;% 
+  filter(title != &amp;quot;The Bells&amp;quot;)
+
+episode_ratings %&amp;gt;% 
+  ggplot(aes(no_overall, rotten_rating, color = season)) +
+  geom_point() +
+  geom_line(alpha = 0.75) +
+  ggrepel::geom_text_repel(data = episode_titles, aes(label = title), 
+                           size = 2.5, nudge_y = 0.15, nudge_x = 3, seed = 200, color = &amp;quot;black&amp;quot;) + 
+  facet_wrap(~season, scales = &amp;quot;free_x&amp;quot;, nrow = 1)  +
+  ggthemes::theme_hc() +
+  scale_color_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Targaryen2&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Rating&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Ratings  by Episode&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;)) +
+  guides(color = F)  +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(episode_ratings, width = 12, height = 6)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;score-by-episode&#34;&gt;Score by Episode&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;episode_titles &amp;lt;- episode_ratings %&amp;gt;%
+  filter(rotten_score &amp;lt; 80) %&amp;gt;%
+  filter(title != &amp;quot;The Lion and the Rose&amp;quot;) %&amp;gt;%
+  filter(title != &amp;quot;The Bells&amp;quot;)
+
+episode_ratings %&amp;gt;% 
+  ggplot(aes(no_overall, rotten_score, color = season)) +
+  geom_point() +
+  geom_line(alpha = 0.75) +
+  ggrepel::geom_text_repel(data = episode_titles, aes(label = title),
+                           size = 2.5, nudge_y = 2, nudge_x = 5, seed = 200, color = &amp;quot;black&amp;quot;) +
+  facet_wrap(~season, scales = &amp;quot;free_x&amp;quot;, nrow = 1)  +
+  ggthemes::theme_hc() +
+  scale_color_got(&amp;quot;&amp;quot;, discrete = T, option = &amp;quot;Greyjoy&amp;quot;) +
+  labs(y = &amp;quot;Rotten Tomatoes Score&amp;quot;, x = &amp;quot;&amp;quot;, title = &amp;quot;Game of Thrones&amp;quot;, subtitle = &amp;quot;Scores  by Episode&amp;quot;)  +
+  theme(plot.title = element_text(size = 20, face = &amp;quot;bold&amp;quot;, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;),
+        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;)) +
+  guides(color = F)  +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(rotten_score, width = 12, height = 6)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>do_if</title>
       <link>/post/do_if/</link>
       <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
@@ -5183,15 +5479,6 @@ rt_hashtags %&amp;gt;%
 ## [67] haven_1.1.2
 &lt;/code&gt;&lt;/pre&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Slides: Deliberation Across the World</title>
-      <link>/project/deliberation/</link>
-      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/project/deliberation/</guid>
-      <description></description>
     </item>
     
   </channel>
