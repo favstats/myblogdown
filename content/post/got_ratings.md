@@ -16,8 +16,6 @@ caption = "Episode Views over Time"
 +++
 
 
-================
-
 ## Packages and Folders
 
 ``` r

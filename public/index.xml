@@ -18,8 +18,6 @@
       <guid>/post/got_ratings/</guid>
       <description>
 
-&lt;p&gt;================&lt;/p&gt;
-
 &lt;h2 id=&#34;packages-and-folders&#34;&gt;Packages and Folders&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
@@ -71,7 +69,7 @@ save(episode_list, file = &amp;quot;data/episode_list.Rdata&amp;quot;)
         plot.caption = element_text(size = 8))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(season_views, width = 9, height = 5)
 &lt;/code&gt;&lt;/pre&gt;
@@ -176,7 +174,7 @@ save(episode_ratings, file = &amp;quot;data/episode_ratings.Rdata&amp;quot;)
         plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(writer_ratings, width = 9, height = 5)
 &lt;/code&gt;&lt;/pre&gt;
@@ -197,7 +195,7 @@ save(episode_ratings, file = &amp;quot;data/episode_ratings.Rdata&amp;quot;)
         plot.subtitle = element_text(size = 10, hjust = 0.5, family = &amp;quot;Game of Thrones&amp;quot;))
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(writer_scores, width = 9, height = 5)
 &lt;/code&gt;&lt;/pre&gt;
@@ -219,7 +217,7 @@ save(episode_ratings, file = &amp;quot;data/episode_ratings.Rdata&amp;quot;)
   coord_flip()
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(director_ratings, width = 6, height = 12)
 &lt;/code&gt;&lt;/pre&gt;
@@ -241,7 +239,7 @@ save(episode_ratings, file = &amp;quot;data/episode_ratings.Rdata&amp;quot;)
   coord_flip()
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(director_scores, width = 6, height = 12)
 &lt;/code&gt;&lt;/pre&gt;
@@ -270,7 +268,7 @@ episode_ratings %&amp;gt;%
         axis.ticks.x = element_blank())
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(episode_ratings, width = 12, height = 6)
 &lt;/code&gt;&lt;/pre&gt;
@@ -299,7 +297,7 @@ episode_ratings %&amp;gt;%
         axis.ticks.x = element_blank())
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;ggsave_it(rotten_score, width = 12, height = 6)
 &lt;/code&gt;&lt;/pre&gt;
