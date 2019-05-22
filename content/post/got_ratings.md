@@ -72,7 +72,7 @@ episode_list %>%
         plot.caption = element_text(size = 8))
 ```
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true) 
 
 
 
@@ -182,7 +182,7 @@ episode_ratings %>%
         plot.subtitle = element_text(size = 10, hjust = 0.5, family = "Game of Thrones"))
 ```
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true) 
 
 
 ``` r
@@ -207,7 +207,7 @@ episode_ratings %>%
 ```
 
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true) 
 
 
 ``` r
@@ -233,7 +233,7 @@ episode_ratings %>%
 ```
 
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true) 
 
 
 ``` r
@@ -259,7 +259,7 @@ episode_ratings %>%
 ```
 
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true) 
 
 
 ``` r
@@ -292,7 +292,7 @@ episode_ratings %>%
 ```
 
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true) 
 
 
 ``` r
@@ -325,7 +325,7 @@ episode_ratings %>%
 ```
 
 
-[![](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true)](https://github.com/favstats/got_scores/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true) 
+[![](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true)](https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true) 
 
 
 ``` r
