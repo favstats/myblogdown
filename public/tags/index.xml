@@ -40,6 +40,15 @@
     </item>
     
     <item>
+      <title>Blog</title>
+      <link>/tags/blog/</link>
+      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Daesh</title>
       <link>/tags/daesh/</link>
       <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
@@ -51,7 +60,7 @@
     <item>
       <title>Dataviz</title>
       <link>/tags/dataviz/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/dataviz/</guid>
       <description></description>
