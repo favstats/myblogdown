@@ -24,7 +24,7 @@ weight = 3
 #  label = '<i class="fa fa-download"></i> Install Now'
 +++
 
-Political Data Scientist | Statistical Analysis | Political Extremism
+Political Data Scientist | Statistical Analysis | Political Polarization
 <br>
 <br>
 <br>
