@@ -337,9 +337,7 @@ episode_ratings %&amp;gt;%
       <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/do_if/</guid>
-      <description>&lt;p&gt;================&lt;/p&gt;
-
-&lt;p&gt;So recently I was writing functions with many if statements and pipes. Given that
+      <description>&lt;p&gt;So recently I was writing functions with many if statements and pipes. Given that
 I am a huge fan of the &lt;code&gt;%&amp;gt;%&lt;/code&gt; pipe workflow, I was thinking about
 creating a pipable if environment. Here is my attempt to implement
 exactly that. With a lot help from my good friend &lt;a href=&#34;https://twitter.com/Ben_Guinaudeau&#34; target=&#34;_blank&#34;&gt;Ben&lt;/a&gt;. If you are reading this, thank you! You made this possible.&lt;/p&gt;
@@ -584,6 +582,36 @@ troublesome workflow within a function!&lt;/p&gt;
 ## 3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1 FALSE
 ## # ... with 2 more variables: other_column &amp;lt;chr&amp;gt;, new_column &amp;lt;chr&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;UPDATE:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://twitter.com/kearneymw&#34; target=&#34;_blank&#34;&gt;Mike Kearney&lt;/a&gt; created a much smoother version with the ability to create an else statement as well.&lt;/p&gt;
+
+&lt;p&gt;Check it out &lt;a href=&#34;https://gist.github.com/mkearney/bb2ce47eb635c14d5f99151636e26b21&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;
+#&#39; Conditionally apply expressions on a data object
+#&#39; 
+#&#39; @param .data Input data
+#&#39; @param condition A logical value to determine whether to use .if or .else
+#&#39; @param .if Formula or function to apply to intput data when condition is TRUE
+#&#39; @param .else Formula or function to apply to intput data when condition is FALSE
+#&#39; @return Output of appropriate .if/.else call
+#&#39; @export
+#&#39; @importFrom rlang as_closure
+do_if_else &amp;lt;- function(.data, condition, .if, .else = identity) {
+  if (condition) {
+    call &amp;lt;- rlang::as_closure(.if)
+  } else {
+    call &amp;lt;- rlang::as_closure(.else)
+  }
+  do.call(call, list(.data))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Usage Example:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/D6i5BJ2X4AAcnVx.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     

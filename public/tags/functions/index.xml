@@ -18,8 +18,7 @@
       <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/do_if/</guid>
-      <description>================
-So recently I was writing functions with many if statements and pipes. Given that I am a huge fan of the %&amp;gt;% pipe workflow, I was thinking about creating a pipable if environment. Here is my attempt to implement exactly that. With a lot help from my good friend Ben. If you are reading this, thank you! You made this possible.
+      <description>So recently I was writing functions with many if statements and pipes. Given that I am a huge fan of the %&amp;gt;% pipe workflow, I was thinking about creating a pipable if environment. Here is my attempt to implement exactly that. With a lot help from my good friend Ben. If you are reading this, thank you! You made this possible.
 Import gist from here:
 library(dplyr) source(&amp;quot;https://gist.githubusercontent.com/favstats/3e1d8b65a019b24344b7b3dea6002a0b/raw/6919b22f01db6d672d64ebcac5798b8495c89ad2/do_if.R&amp;quot;)  So let’s say you want to create a function that has multiple if specifications but you also want to always create two columns regardless of the input.</description>
     </item>

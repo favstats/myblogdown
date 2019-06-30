@@ -274,7 +274,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
   </span>
   
 
@@ -334,9 +334,7 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>================</p>
-
-<p>So recently I was writing functions with many if statements and pipes. Given that
+        <p>So recently I was writing functions with many if statements and pipes. Given that
 I am a huge fan of the <code>%&gt;%</code> pipe workflow, I was thinking about
 creating a pipable if environment. Here is my attempt to implement
 exactly that. With a lot help from my good friend <a href="https://twitter.com/Ben_Guinaudeau" target="_blank">Ben</a>. If you are reading this, thank you! You made this possible.</p>
@@ -581,6 +579,36 @@ troublesome workflow within a function!</p>
 ## 3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1 FALSE
 ## # ... with 2 more variables: other_column &lt;chr&gt;, new_column &lt;chr&gt;
 </code></pre>
+
+<p>UPDATE:</p>
+
+<p><a href="https://twitter.com/kearneymw" target="_blank">Mike Kearney</a> created a much smoother version with the ability to create an else statement as well.</p>
+
+<p>Check it out <a href="https://gist.github.com/mkearney/bb2ce47eb635c14d5f99151636e26b21" target="_blank">here</a>:</p>
+
+<pre><code class="language-r">
+#' Conditionally apply expressions on a data object
+#' 
+#' @param .data Input data
+#' @param condition A logical value to determine whether to use .if or .else
+#' @param .if Formula or function to apply to intput data when condition is TRUE
+#' @param .else Formula or function to apply to intput data when condition is FALSE
+#' @return Output of appropriate .if/.else call
+#' @export
+#' @importFrom rlang as_closure
+do_if_else &lt;- function(.data, condition, .if, .else = identity) {
+  if (condition) {
+    call &lt;- rlang::as_closure(.if)
+  } else {
+    call &lt;- rlang::as_closure(.else)
+  }
+  do.call(call, list(.data))
+}
+</code></pre>
+
+<p>Usage Example:</p>
+
+<p><img src="https://pbs.twimg.com/media/D6i5BJ2X4AAcnVx.jpg" alt="" /></p>
 
       </div>
 

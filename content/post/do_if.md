@@ -16,7 +16,6 @@ caption = "Pipable if statement"
 +++
 
 
-================
 
 So recently I was writing functions with many if statements and pipes. Given that
 I am a huge fan of the `%>%` pipe workflow, I was thinking about
@@ -267,3 +266,42 @@ mtcars %>%
     ## 2  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2 FALSE
     ## 3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1 FALSE
     ## # ... with 2 more variables: other_column <chr>, new_column <chr>
+
+
+UPDATE:
+
+
+ 
+[Mike Kearney](https://twitter.com/kearneymw) created a much smoother version with the ability to create an else statement as well.
+
+Check it out [here](https://gist.github.com/mkearney/bb2ce47eb635c14d5f99151636e26b21):
+
+
+
+``` r
+
+#' Conditionally apply expressions on a data object
+#' 
+#' @param .data Input data
+#' @param condition A logical value to determine whether to use .if or .else
+#' @param .if Formula or function to apply to intput data when condition is TRUE
+#' @param .else Formula or function to apply to intput data when condition is FALSE
+#' @return Output of appropriate .if/.else call
+#' @export
+#' @importFrom rlang as_closure
+do_if_else <- function(.data, condition, .if, .else = identity) {
+  if (condition) {
+    call <- rlang::as_closure(.if)
+  } else {
+    call <- rlang::as_closure(.else)
+  }
+  do.call(call, list(.data))
+}
+```
+
+
+
+
+Usage Example:
+
+![](https://pbs.twimg.com/media/D6i5BJ2X4AAcnVx.jpg)
