@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Echo chambers, affective polarization, and democracy</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, center, title-slide
+
+# Echo chambers, affective polarization, and democracy
+## <br><br>Fabio Votta <br><br> <a href="http://github.com/favstats"><i class="fa fa-github fa-fw"></i> favstats</a> <br> <a href="https://twitter.com/favstats"> <i class="fa fa-twitter fa-fw"></i> <span class="citation">@favstats</span></a> <br> <a href="http://www.favstats.eu/"><i class="fa fa-address-card"></i>  www.favstats.eu</a><br>
+### <br>26th June 2019<br>Slides available here:<br><a href="https://xrw-and-algorithms.netlify.com/">xrw-and-algorithms.netlify.com</a>
+
+---
+
+
+class: center, middle, inverse
+
+
+## Introduction
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+   
+.eightyseven {
+  font-size: 87%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+   
+.twentyfive {
+  font-size: 25%;
+   }
+&lt;/style&gt;
+
+
+
+
+---
+
+## Introduction
+
+Some facts about me:
+
++ Empirical Political- and Social Research M.A. at the University of Stuttgart
+     + Quantitative &amp; Statistical Methods
+     + Focus on analyzing far-right extremism and misinformation online
+     + Finishing my M.A. thesis and plan to turn in end of August
+     
+
+**M.A. thesis topic:**
+
+--
+
+Twitter ban of conspiracy theorist Alex Jones &amp; Infowars in September 2018
+
+
+![](images/jones_banner.jpg)
+
+
+
+---
+
+class: center, middle
+
+![](images/jones_ban.png)
+
+
+&lt;!-- During the post-intervention period, toxicity had an average value of approx. 0.080. By contrast, in the absence of an intervention, we would have expected an average toxicity of 0.15. The 95% interval of this counterfactual prediction is [0.13, 0.17]. Subtracting this prediction from the observed toxicity yields an estimate of the causal effect the intervention had on the response variable. This effect is -0.069 with a 95% interval of [-0.090, -0.046]. --&gt;
+
+---
+
+
+#### Presented research on far-right online at VOX-Pol Conference 2018
+
+&lt;br&gt;
+
+![](images/flow_toxicity.jpg)
+   
+   
+---
+
+#### Radical Filter Bubbles on YouTube 
+
+![](images/frq_plot.png)
+
+---
+
+
+
+## Introduction
+
++ Passion for Computational Social Science
+   + Mostly self-taught in programming
+   + Focus on quantitative text analysis methods 
+   + Very active in the R community
+   + Created my own R package for Google's Perspective API
+
+&lt;br&gt;
+
+--
+
++ Work part-time as research analyst for non-profit organization OpenMind 
+   + Goal of OpenMind is to reduce affective polarization &amp; foster intellectual humility
+
+--
+
+
+&lt;br&gt;
+
+-&gt; I have the necessary motivations, skills and background to conduct cutting-edge research on affective polarization in Europe.
+
+
+---
+
+class: center, middle, inverse
+
+
+## Research Design
+
+
+---
+
+### Echo Chambers 
+
+&lt;br&gt;
+
+![](images/filter upset.png)
+
+&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&lt;/span&gt;&lt;/div&gt; 
+
+---
+
+class: center, middle, inverse
+
+## Research so far
+
+---
+
+### Research so far
+
+The empirical evidence of a "filter bubble" effect is less clear and decidedly less pessimistic. 
+
++ Study on Facebook suggests filter bubbles are generated less by algorithms than by individual user decisions (Bakshy, Messing and Adamic, 2015). 
+
++ Research analysing Google news recommendation suggests essential information is not omitted (Haim, Graefe and Brosius, 2018) 
+
++ Personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
+
++ Research on Google search results also finds factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
+
+Why the discrepancy?
+
++ "Echo chamber about echo chambers" (Guess et al. 2018)
+
+&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&lt;/span&gt;&lt;/div&gt; 
+
+ 
+
+
+---
+
+## Research Design
+
++ Studies of Affective Polarization have focused mostly on the US
+
++ Gap in the Literature
+
++ Echo chambers are important both on- and offline
+
+
+
+---
+
+## Hypothesis
+
+&gt; Individuals in online echo chambers (who interact mostly with their own ideological side) are more affectively polarized than individuals who are exposed to different political views. 
+
+
+---
+
+
+## Methodology
+
+
+1. Identify relevant political accounts in each country
+
+2. Collect data on Twitter from individuals who follow said accounts. 
+
+3. Estimate political ideology of Twitter users
+
+4. Identify individuals who mostly interact with similar others (i.e. individuals in echo chambers) and those who interact with a variety of ideological dispositions.
+
+5. Use machine learning models to estimate 'toxic' language targeted at ideological opponents in order to assess affective polarization 
+
+6. Compare affective polarization of users within and outside of echo chambers
+
+---
+
+### Identify Relevant Political Accounts on Twitter
+
+![](images/legislatoR.png)
+
+I will identify (official) Twitter accounts of politicians, parties, think tanks as well as political commentators and newspapers from various European countries. As a starting point, I will consider the R package \href{https://github.com/saschagobel/legislatoR}{\textsc{legislatoR}}, which tracks publically available data for 32,533 current and former elected politicians from nine countries' legislatures (Göbel et al. 2019). This database also includes social media handles and will serve as a main source for identifying politician accounts on Twitter (although one can reveal more accounts with additional research, especially on the local and regional levels)
+
+---
+
+
+### Collect Twitter data
+
+![](images/rtweet.png)
+
+
+
+Next, I will collect a list of Twitter IDs for all followers of the previously identified political actors via the Twitter REST API. From each of these users I will retrieve their last 3200 tweets (as per Twitter API limit) and number of likes, retweets and replies of the collected tweets. However, as Pablo Barberá who conducted a similar study points out, we can expect that a large proportion of collected Twitter users who follow our target population will be bots, inactive or residents of a different country (Barberá 2015). To overcome this problem, I follow Barberá in only including users that: 1) have sent more than 100 tweets, 2) have tweeted at least once in the past six months, 3) have more than 25 followers, 4) are tweeting from within the country of interest, and 5) follow at least three political Twitter accounts within their country. 
+
+---
+
+### Estimate Political Ideology
+
+.center[
+
+![](images/twitter_estimates.png)
+
+]
+
+
+
+---
+
+### Echo Chambers
+
+3. Identify individuals who mostly interact with similar others (i.e. individuals in echo chambers) and those who interact with a variety of ideological dispositions.
+
+For this to work I will look at 3200 latest tweets collected from the users and look at their interaction with content produced by users with similar and dissimilar political ideology. The right classification scheme will depend somewhat on the data but I propose the three following groups: 
+
+1. *Echo chamber condition* in which users mostly interact with individuals who are ideologically similar to them
+2. *mixed networks* in which users interact with individuals across the spectrum
+3. *neutral networks* where users mostly interact with non-political content.
+
+
+---
+
+### Affective Polarization
+
+![](images/perspective.png)
+
+
+To do that, I will use a machine learning classifier to identify toxic content produced or shared by the users which is targeted at the opposing ideological side. One avenue to explore is the Perspective API from Google which provides a machine learning model to score toxicity of a given text (via the R package \href{https://github.com/favstats/peRspective}{\textsc{peRspective}} (Votta 2019)). Here, affective polarization can be measured as the toxicity of user content when it mentions an ideological opponent. For this, I would generate a list of terms and names associated with political actors for any given country context. However, the Perspective API so far only allows to score comments in English, French, Spanish and German which would limit the countries that could be studied this way.
+
+4. Use machine learning models to estimate 'toxic' language targeted at ideological opponents in order to assess affective polarization 
+
+5. Compare affective polarization of users within and outside of echo chambers
+
+---
+
+### Limitations
+
++ Current methodology does not account for users that do not follow political accounts
+
++ Given that I plan to collect followers of all the most important political actors in a given country, I hope to collect enough of a given country's political sphere to meaningfully cover all political input they might get on Twitter. 
+
++ A different limitation is that my methodology only looks at content that users interacted with which means I will not be able to assess what people \textit{actually} see on their timeline and thus whether their experience on Twitter really resembles an echo chamber or not. 
+
++ Finally, using social media data has its up- and downsides. 
+
++ The upside of using social media data is that we would study people as they behave in the online environment without potentially priming them with our survey measures. 
+
++ However, self-report measures have their value as well as they are more controlled, especially compared to the computational methods to estimate ideological leaning and affective polarization proposed in this study which would need to be validated first. 
+
+---
+
+### Possible Extension
+
++ In order to alleviate this issue, I propose to combine this study of social media data with a survey of Twitter users, in a research desgin similar to Vaccari et al. (2016). 
+
+
++ Draw a random sample of users that will be sent messages on Twitter to participate in an online survey. 
+
++ The survey would include questions on exposure to differing views, both online and offline, perceptions of democratic performance, as well as affective polarization towards ideological oppponents. 
+
++ I could then compare results of this survey with behavioural measures proposed in this study to test their validity and robustness. 
+
+---
+
+
+## Literature
+
+Bakshy, E., Messing, S., &amp; Adamic, L. A. (2015). Exposure to ideologically diverse news and opinion on Facebook. Science, 348(6239), 1130-1132.
+
+Berger, J. M. (2013) ‘Zero Degrees of al Qaeda’, Foreign Policy, (August 14). Available at: http://foreignpolicy.com/2013/08/14/zero-degrees-of-al-qaeda/.
+
+Courtois, C., Slechten, L., &amp; Coenen, L. (2018). Challenging Google Search filter bubbles in social and political information: Disconforming evidence from a digital methods case study. Telematics and Informatics, 35(7), 2006-2015.
+
+Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://www.researchgate.net/publication/330144926_Avoiding_the_echo_chamber_about_echo_chambers_Why_selective_exposure_to_like-minded_political_news_is_less_prevalent_than_you_think
+
+Haim, M., Graefe, A., &amp; Brosius, H. B. (2018). Burst of the filter bubble? Effects of personalization on the diversity of Google News. Digital Journalism, 6(3), 330-343.
+
+&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&lt;/span&gt;&lt;/div&gt; 
+
+---
+
+## Literature
+
+
+Holbrook, D. (2015). Designing and Applying an ‘Extremist Media Index’. Perspectives On Terrorism, 9(5). Retrieved from http://www.terrorismanalysts.com/pt/index.php/pot/article/view/461
+
+Möller, J., Trilling, D., Helberger, N., &amp; van Es, B. (2018). Do not blame it on the algorithm: an empirical assessment of multiple recommender systems and their impact on content diversity. Information, Communication &amp; Society, 21(7), 959-977.
+
+O’Callaghan, Derek, et al. "Down the (white) rabbit hole: The extreme right and online recommender systems." Social Science Computer Review 33.4 (2015): 459-478.
+
+Vīķe-Freiberga, V., Däubler-Gmelin, H., Hammersley, B., Pessoa Maduro, L.M.P. (2013). A free and pluralistic media to sustain European democracy. Retrieved from http://ec.europa.eu/digital-agenda/sites/digital-agenda/files/HLG%20Final%20Report.pdf
+
+Waters, G. and Postings, R. (2018) Spiders of the Caliphate: Mapping the Islamic State’s Global Support Network on Facebook, Counter-Extremism Project.
+
+&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&lt;/span&gt;&lt;/div&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%<br>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
