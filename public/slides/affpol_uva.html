@@ -17,10 +17,21 @@ class: top, center, title-slide
 ---
 
 
+
+
+
 class: center, middle, inverse
 
 
 ## Introduction
+
+
+TODO: Why Amsterdam? Read up on the people!
+
+TODO: How do I fit in?
+
+TODO: Fix Literature
+
 
 &lt;style&gt;
 .onehundredtwenty {
@@ -72,9 +83,23 @@ Some facts about me:
      + Finishing my M.A. thesis and plan to turn in end of August
      
 
-**M.A. thesis topic:**
++ Passion for Computational Social Science
+   + Mostly self-taught in programming
+   + Focus on quantitative text analysis methods 
+   + Very active in the R community
+   + Created my own R package for Google's Perspective API
 
---
++ Work part-time as research analyst for non-profit organization *OpenMind* 
+   + Goal of OpenMind is to reduce affective polarization &amp; foster intellectual humility
+   
++ I have the necessary motivations, skills and background to conduct cutting-edge research on affective polarization in Europe.
+
+   
+---
+
+class: center, middle
+
+## M.A. thesis topic:
 
 Twitter ban of conspiracy theorist Alex Jones &amp; Infowars in September 2018
 
@@ -94,6 +119,16 @@ class: center, middle
 
 ---
 
+class: center, middle, inverse
+
+## Other Relevant Research
+
+1) Alt-Right interaction with Media
+
+2) Radical Filter Bubbles on YouTube
+
+---
+
 
 #### Presented research on far-right online at VOX-Pol Conference 2018
 
@@ -106,33 +141,18 @@ class: center, middle
 
 #### Radical Filter Bubbles on YouTube 
 
-![](images/frq_plot.png)
 
----
+&lt;img src="images/irr_plot.png" width="600" height="400" style="display: block; margin: auto;" /&gt;
 
+.seventyfive[
 
+After **extreme interaction** treatment:
 
-### Introduction
++ The incident rate for *fringe content* is 1.72 times the incident rate for the reference group
++ The incident rate for *extreme content* is 2.47 times the incident rate for the reference group
 
-+ Passion for Computational Social Science
-   + Mostly self-taught in programming
-   + Focus on quantitative text analysis methods 
-   + Very active in the R community
-   + Created my own R package for Google's Perspective API
+]
 
-&lt;br&gt;
-
---
-
-+ Work part-time as research analyst for non-profit organization OpenMind 
-   + Goal of OpenMind is to reduce affective polarization &amp; foster intellectual humility
-
---
-
-
-&lt;br&gt;
-
--&gt; I have the necessary motivations, skills and background to conduct cutting-edge research on affective polarization in Europe.
 
 
 ---
@@ -140,13 +160,12 @@ class: center, middle
 class: center, middle, inverse
 
 
-## Research Design
+## Research Outline
 
 
 ---
 
-### Echo Chambers 
-
+&lt;br&gt;
 &lt;br&gt;
 
 ![](images/filter upset.png)
@@ -156,51 +175,29 @@ class: center, middle, inverse
 &amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
 &lt;/span&gt;&lt;/div&gt; 
 
----
-
-class: center, middle, inverse
-
-## Research so far
-
----
-
-### Research so far
-
-The empirical evidence of a "filter bubble" effect is less clear and decidedly less pessimistic. 
-
-+ Study on Facebook suggests filter bubbles are generated less by algorithms than by individual user decisions (Bakshy, Messing and Adamic, 2015). 
-
-+ Research analysing Google news recommendation suggests essential information is not omitted (Haim, Graefe and Brosius, 2018) 
-
-+ Personalised recommendations show no reduction in diversity over human editors (Möller et al., 2018). 
-
-+ Research on Google search results also finds factors such as time of search were more explanatory than prior behaviour and preferences (Courtois, Slechten and Coenen, 2018).
-
-Why the discrepancy?
-
-+ "Echo chamber about echo chambers" (Guess et al. 2018)
-
-&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&lt;/span&gt;&lt;/div&gt; 
 
  
+---
 
+### Research Outline
+
++ "Filter Bubbles" (Pariser 2011) vs. “Echo Chambers” (Sunstein 2001). 
+
++ On social media, users are given the ability to browse, follow or otherwise make decisions on the content that they want to consume in ‘high choice media environments’ (Lelkes et al. 2017).
+
++ Given the psychological tendency to reduce exposure to incongruent viewpoints (Tsang 2017; Frimer et al., 2017), users might self-select into online echo chambers while being aided by algorithms that prioritize what the user wants to see. 
+
++ In a study that measures the effects of exposure to congruent partisan content in the US and Israel, evidence suggests that exposure to supportive information increases affective polarization (Garett et al. 2014).
 
 ---
 
-### Research Design
 
-+ Studies of Affective Polarization have focused mostly on the US
-
-+ Gap in the Literature
-
-+ Echo chambers are important both on- and offline
+class: center, middle
 
 
+### Research Question
 
----
+How do homogenous digital environments affect people's evaluation of ideological opponents that they have little or no contact with? 
 
 ### Hypothesis
 
@@ -213,36 +210,55 @@ Why the discrepancy?
 ### Methodology
 
 
-1. Identify relevant political accounts in each country
+1. Identify relevant political accounts for each (European) country.
 
 2. Collect data on Twitter from individuals who follow said accounts. 
 
-3. Estimate political ideology of Twitter users
+3. Estimate political ideology of Twitter users.
 
 4. Identify individuals who mostly interact with similar others (i.e. individuals in echo chambers) and those who interact with a variety of ideological dispositions.
 
-5. Use machine learning models to estimate 'toxic' language targeted at ideological opponents in order to assess affective polarization 
+5. Use machine learning models to estimate 'toxic' language targeted at ideological opponents in order to assess affective polarization.
 
-6. Compare affective polarization of users within and outside of echo chambers
+6. Compare affective polarization of users within and outside of echo chambers&lt;
 
 ---
 
-### Identify Relevant Political Accounts on Twitter
 
-![](images/legislatoR.png)
+### Political Accounts on Twitter
 
-I will identify (official) Twitter accounts of politicians, parties, think tanks as well as political commentators and newspapers from various European countries. As a starting point, I will consider the R package \href{https://github.com/saschagobel/legislatoR}{\textsc{legislatoR}}, which tracks publically available data for 32,533 current and former elected politicians from nine countries' legislatures (Göbel et al. 2019). This database also includes social media handles and will serve as a main source for identifying politician accounts on Twitter (although one can reveal more accounts with additional research, especially on the local and regional levels)
+
+
+
++ Identify (official) Twitter accounts of politicians, parties, think tanks as well as political commentators and newspapers from various European countries.
+
++ [`legislatoR`](https://github.com/saschagobel/legislatoR) tracks publically available data for 32,533 current and former elected politicians from nine countries' legislatures including social media handles. 
+
++ More accounts with additional research, especially on the local and regional levels
+
++ Additional accounts can be webscraped from various sources
+
+&lt;br&gt;
+
+&lt;img src="images/legislatoR.png" width="150" height="170" style="display: block; margin: auto 0 auto auto;" /&gt;
+
+
+
 
 ---
 
 
 ### Collect Twitter data
 
-![](images/rtweet.png)
++ Collect a list of Twitter IDs for all followers identified political actors via the Twitter REST API. 
 
++ From each of these users I will retrieve their last 3200 tweets (as per Twitter API limit) and number of likes, retweets and replies of the collected tweets. 
 
++ We can expect that a large proportion of collected Twitter users who follow our target population will be bots, inactive or residents of a different country 
 
-Next, I will collect a list of Twitter IDs for all followers of the previously identified political actors via the Twitter REST API. From each of these users I will retrieve their last 3200 tweets (as per Twitter API limit) and number of likes, retweets and replies of the collected tweets. However, as Pablo Barberá who conducted a similar study points out, we can expect that a large proportion of collected Twitter users who follow our target population will be bots, inactive or residents of a different country (Barberá 2015). To overcome this problem, I follow Barberá in only including users that: 1) have sent more than 100 tweets, 2) have tweeted at least once in the past six months, 3) have more than 25 followers, 4) are tweeting from within the country of interest, and 5) follow at least three political Twitter accounts within their country. 
++ Exclude inactive Twitter users or those that could be bots
+
+&lt;img src="images/rtweet.png" width="170" height="190" style="display: block; margin: auto 0 auto auto;" /&gt;
 
 ---
 
@@ -260,9 +276,15 @@ Next, I will collect a list of Twitter IDs for all followers of the previously i
 
 ### Echo Chambers
 
-3. Identify individuals who mostly interact with similar others (i.e. individuals in echo chambers) and those who interact with a variety of ideological dispositions.
+Identify individuals who mostly interact with similar others (i.e. individuals in echo chambers) and those who interact with a variety of ideological dispositions.
 
-For this to work I will look at 3200 latest tweets collected from the users and look at their interaction with content produced by users with similar and dissimilar political ideology. The right classification scheme will depend somewhat on the data but I propose the three following groups: 
++ Based on 3200 latest tweets collected from the users
+   + This can be done at a later time to estimate trends over time
+ 
++ Look at their interaction with content produced by users with similar and dissimilar political ideology.
+
+
+I propose the three following groups: 
 
 1. *Echo chamber condition* in which users mostly interact with individuals who are ideologically similar to them
 2. *mixed networks* in which users interact with individuals across the spectrum
@@ -273,14 +295,23 @@ For this to work I will look at 3200 latest tweets collected from the users and 
 
 ### Affective Polarization
 
-![](images/perspective.png)
++ Apply machine learning classifier to identify toxic content produced or shared by the users which is targeted at the opposing ideological side.
+
++ Here, affective polarization can be measured as the toxicity of user content when it mentions an ideological opponent. 
+
++ For this, I would generate a list of terms and names associated with political actors for any given country context.
+
++  One avenue to explore is the Perspective API from Google which provides a machine learning model to score toxicity of a given text 
+
++ However, the Perspective API so far only allows to score comments in English, French, Spanish and German which would limit the countries that could be studied this way.
 
 
-To do that, I will use a machine learning classifier to identify toxic content produced or shared by the users which is targeted at the opposing ideological side. One avenue to explore is the Perspective API from Google which provides a machine learning model to score toxicity of a given text (via the R package \href{https://github.com/favstats/peRspective}{\textsc{peRspective}} (Votta 2019)). Here, affective polarization can be measured as the toxicity of user content when it mentions an ideological opponent. For this, I would generate a list of terms and names associated with political actors for any given country context. However, the Perspective API so far only allows to score comments in English, French, Spanish and German which would limit the countries that could be studied this way.
 
-4. Use machine learning models to estimate 'toxic' language targeted at ideological opponents in order to assess affective polarization 
+&lt;img src="images/perspective.png" width="170" height="190" style="display: block; margin: auto 0 auto auto;" /&gt;
 
-5. Compare affective polarization of users within and outside of echo chambers
+---
+
+![](images/bigrams_muslims.jpg)
 
 ---
 
@@ -288,9 +319,11 @@ To do that, I will use a machine learning classifier to identify toxic content p
 
 + Current methodology does not account for users that do not follow political accounts
 
-+ Given that I plan to collect followers of all the most important political actors in a given country, I hope to collect enough of a given country's political sphere to meaningfully cover all political input they might get on Twitter. 
++ Hope to collect enough of a given country's political sphere to meaningfully cover most potentially political input 
 
-+ A different limitation is that my methodology only looks at content that users interacted with which means I will not be able to assess what people \textit{actually} see on their timeline and thus whether their experience on Twitter really resembles an echo chamber or not. 
++ Methodology only looks at content that users interacted with
+ + unable to assess what people *actually* see on their timeline
+ + really resembles an echo chamber?
 
 + Finally, using social media data has its up- and downsides. 
 
@@ -302,7 +335,7 @@ To do that, I will use a machine learning classifier to identify toxic content p
 
 ### Possible Extension
 
-+ In order to alleviate this issue, I propose to combine this study of social media data with a survey of Twitter users, in a research desgin similar to Vaccari et al. (2016). 
++ I propose to combine this study of social media data with a survey of Twitter users, in a research desgin similar to Vaccari et al. (2016). 
 
 
 + Draw a random sample of users that will be sent messages on Twitter to participate in an online survey. 
@@ -310,6 +343,15 @@ To do that, I will use a machine learning classifier to identify toxic content p
 + The survey would include questions on exposure to differing views, both online and offline, perceptions of democratic performance, as well as affective polarization towards ideological oppponents. 
 
 + I could then compare results of this survey with behavioural measures proposed in this study to test their validity and robustness. 
+
++ In my research outline I mentioned a few other ideas and I am open to pursuing them as well.
+
+---
+
+class: center, middle, inverse
+
+
+## Thank you for Listening!
 
 ---
 
