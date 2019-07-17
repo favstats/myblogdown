@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Echo chambers, affective polarization, and democracy</title>
+    <title>PhD Project: Echo chambers, affective polarization, and democracy</title>
     <meta charset="utf-8" />
     <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
@@ -10,7 +10,7 @@
     <textarea id="source">
 class: top, center, title-slide
 
-# Echo chambers, affective polarization, and democracy
+# PhD Project: Echo chambers, affective polarization, and democracy
 ## <br>Fabio Votta<br><br><i class="fab  fa-github "></i> <a href="https://www.github.com/favstats">favstats</a><br><i class="fab  fa-twitter "></i> <a href="https://www.twitter.com/favstats">favstats</a><br><i class="fas  fa-address-card "></i> <a href="https://www.favstats.eu">favstats.eu</a><br>
 ### <br>18 July 2019<br>Slides available here:<br><a href="http://www.favstats.eu/slides/affpol_uva">favstats.eu/slides/affpol_uva</a>
 
@@ -25,14 +25,15 @@ class: center, middle, inverse
 
 ## Introduction
 
+&lt;!-- TODO: Write up what you want to say? --&gt;
 
-TODO: Why Amsterdam? Read up on the people!
+&lt;!-- TODO: READ OPENMIND QUESTIONS --&gt;
 
-TODO: How do I fit in?
+&lt;!-- TODO: BAYESIAN MODEL READUP --&gt;
 
-TODO: Fix Literature
+&lt;!-- TODO: Reduce Text --&gt;
 
-TODO: Reduce Text
+&lt;!-- How good is populist vs. anti-populist as meaningful conflict line if conflict is not against populists but actually against right-wing (or extremist) views? --&gt;
 
 
 &lt;style&gt;
@@ -73,6 +74,7 @@ TODO: Reduce Text
 
 
 
+
 ---
 
 ### Introduction
@@ -92,8 +94,15 @@ Some facts about me:
    + Open Science + Reproducibility advocate
 
 + Work part-time as research analyst for non-profit organization *OpenMind* 
-   + Goal of OpenMind is to reduce affective polarization &amp; foster intellectual humility
+   + Goal is to reduce affective polarization &amp; foster intellectual humility
+   + Potential Collaboration with OpenMind?
    
+.pull-right[
+
+![](images/openmind_logo.png)
+
+]
+
 
 
    
@@ -129,6 +138,16 @@ class: center, middle, inverse
 
 2) Radical Filter Bubbles on YouTube (forthcoming)
 
+???
+
+Wanted to know how far-right individuals interact with each other and the media. 
+
+Collected data on Alt-Right individuals on YouTube, Facebook and Twitter for the entire year 2017.
+
+Found out: people who comment under Alt-Right pages mostly do so with each other only at specific events to people comment under media pages, for example for Charlottesville
+
+Radical Filter Bubbles is a paper that studies an experimental design, bots that interact with neutral content and extreme content and see how the algorithm reacts.. I found that the algorithm produces more extreme content and ranks it higher after interaction.
+
 ---
 
 class: center, middle, inverse
@@ -142,12 +161,6 @@ class: center, middle, inverse
 &lt;br&gt;
 
 ![](images/filter upset.png)
-
-&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&lt;/span&gt;&lt;/div&gt; 
-
 
  
 ---
@@ -196,6 +209,12 @@ class: center, middle
 
 ---
 
+class: center, middle, inverse
+
+## Data Collection
+
+---
+
 
 ### Political Accounts on Twitter
 
@@ -222,19 +241,25 @@ class: center, middle
 
 + Collect a list of Twitter IDs for all followers of political actors 
 
-+ Retrieve their last 3200 tweets.  
++ Retrieve their last 3200 tweets
 
-+ We can expect that a large proportion of collected Twitter users who follow our target population will be bots, inactive or residents of a different country.
++ During election time for increased salience
 
-Proposed solution:
++ Idea: Before and after election time is opportunity to measure affective polarization of winners and losers
 
-+ Exclude inactive Twitter users or those that could be bots
++ Set up database and distributed services (MongoDB, Hadoop, Google Cloud,  etc.)
 
 &lt;img src="images/rtweet.png" width="170" height="190" style="display: block; margin: auto 0 auto auto;" /&gt;
 
 ---
 
-### Estimate Political Ideology with Bayesian Spatial Following models
+class: center, middle, inverse
+
+## How to measure Political Ideology of Twitter users?
+
+---
+
+### Bayesian Spatial Following models
 
 .center[
 
@@ -246,12 +271,19 @@ Proposed solution:
 
 ---
 
+class: center, middle, inverse
+
+## Next: Classify condition of Users 
+
+Echo Chamber vs. Mixed Environment
+
+---
+
 ### Echo Chambers
 
 Goal: Classify users into different conditions.
 
 + Based on 3200 latest tweets collected from the users
-   + This can be done at a later time to estimate trends over time
  
 + Look at their interaction with content produced by users with similar and dissimilar political ideology.
 
@@ -259,10 +291,18 @@ Goal: Classify users into different conditions.
 
 **I propose the three following conditions:**
 
-1. *Echo chamber condition* in which users mostly interact with individuals who are ideologically similar to them
-2. *mixed networks* in which users interact with individuals across the spectrum
-3. *neutral networks* where users mostly interact with non-political content.
+1. *Echo Chambers* 
 
+2. *Mixed Networks* 
+
+3. *Neutral Networks* 
+
+
+---
+
+class: center, middle, inverse
+
+## Measure Affective Polarization
 
 ---
 
@@ -274,7 +314,7 @@ Goal: Classify users into different conditions.
 
 +  Perspective API from Google which provides a machine learning model to score toxicity of a given text.
 
-+ Affective polarization can be measured as the toxicity of user content when it mentions an ideological opponent. 
++ Affective polarization can be measured as the toxicity of user content when it mentions an ideological opponent subtracted from the toxicity when it mentions ingroup actors
 
 + Generate a list of terms associated with political actors for any given country context.
 
@@ -297,11 +337,11 @@ Goal: Classify users into different conditions.
  + unable to assess what people *actually* see on their timeline
  + really resembles an echo chamber?
 
-+ Finally, using social media data has its up- and downsides. 
++ Finally, using social media data in the proposed way has its up- and downsides. 
 
-+ Plus: Behave in the online environment without potentially priming them with our survey measures. 
++ **&lt;font color="green"&gt;Plus:&lt;/font&gt;** Behavior in the online environment without potentially priming them with survey measures. 
 
-+ Minus: computational methods to estimate ideological leaning and affective polarization need to be validated first. 
++ **&lt;font color="red"&gt;Minus:&lt;/font&gt;** Computational methods to estimate ideological leaning and affective polarization need to be validated first. 
 
 ---
 
@@ -318,7 +358,12 @@ Goal: Classify users into different conditions.
 
 + Compare results of this survey with behavioural measures proposed in this study to test their validity and robustness. 
 
-+ In my research outline I mentioned a few other ideas and I am open to pursuing them as well.
+&lt;br&gt;
+&lt;br&gt;
+
+**In my research outline I mentioned a few other ideas and I am open to pursuing them as well.**
+
+
 
 ---
 
@@ -327,45 +372,25 @@ class: center, middle, inverse
 
 ## Thank you for Listening!
 
+Slides available here:&lt;br&gt;[favstats.eu/slides/affpol_uva](http://www.favstats.eu/slides/affpol_uva)
+
 ---
 
 
 ### Literature
 
-Bakshy, E., Messing, S., &amp; Adamic, L. A. (2015). Exposure to ideologically diverse news and opinion on Facebook. Science, 348(6239), 1130-1132.
+Barberá, P. (2015). Birds of the same feather tweet together: Bayesian ideal point estimation using Twitter data. Political Analysis, 23(1), 76-91.
 
-Berger, J. M. (2013) ‘Zero Degrees of al Qaeda’, Foreign Policy, (August 14). Available at: http://foreignpolicy.com/2013/08/14/zero-degrees-of-al-qaeda/.
-
-Courtois, C., Slechten, L., &amp; Coenen, L. (2018). Challenging Google Search filter bubbles in social and political information: Disconforming evidence from a digital methods case study. Telematics and Informatics, 35(7), 2006-2015.
-
-Guess, A., Lyons, B., Nyhan, B., &amp; Reifler, J. (2018). Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think. Document of the Knight Foundation. Retrieved from: https://www.researchgate.net/publication/330144926_Avoiding_the_echo_chamber_about_echo_chambers_Why_selective_exposure_to_like-minded_political_news_is_less_prevalent_than_you_think
-
-Haim, M., Graefe, A., &amp; Brosius, H. B. (2018). Burst of the filter bubble? Effects of personalization on the diversity of Google News. Digital Journalism, 6(3), 330-343.
-
-&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&lt;/span&gt;&lt;/div&gt; 
-
----
-
-### Literature
+Garrett, R. K., Gvirsman, S. D., Johnson, B. K., Tsfati, Y., Neo, R., \&amp; Dal, A. (2014). Implications of pro-and counterattitudinal information exposure for affective polarization. Human Communication Research, 40(3), 309-332.
 
 
-Holbrook, D. (2015). Designing and Applying an ‘Extremist Media Index’. Perspectives On Terrorism, 9(5). Retrieved from http://www.terrorismanalysts.com/pt/index.php/pot/article/view/461
+Lee, E. J. (2006). Deindividuation effects on group polarization in computer-mediated communication: The role of group identification, public-self-awareness, and perceived argument quality. Journal of communication, 57(2), 385-403.
 
-Möller, J., Trilling, D., Helberger, N., &amp; van Es, B. (2018). Do not blame it on the algorithm: an empirical assessment of multiple recommender systems and their impact on content diversity. Information, Communication &amp; Society, 21(7), 959-977.
 
-O’Callaghan, Derek, et al. "Down the (white) rabbit hole: The extreme right and online recommender systems." Social Science Computer Review 33.4 (2015): 459-478.
+Lelkes, Y., Sood, G., &amp; Iyengar, S. (2017). The hostile audience: The effect of access to broadband internet on partisan affect. American Journal of Political Science, 61(1), 5-20.
 
-Vīķe-Freiberga, V., Däubler-Gmelin, H., Hammersley, B., Pessoa Maduro, L.M.P. (2013). A free and pluralistic media to sustain European democracy. Retrieved from http://ec.europa.eu/digital-agenda/sites/digital-agenda/files/HLG%20Final%20Report.pdf
 
-Waters, G. and Postings, R. (2018) Spiders of the Caliphate: Mapping the Islamic State’s Global Support Network on Facebook, Counter-Extremism Project.
-
-&lt;div class="my-footer"&gt;&lt;span&gt;Personalisation Algorithms &amp; Extremist Content Online   
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
-&lt;/span&gt;&lt;/div&gt;
+Pariser, Eli. (2011). The Filter Bubble: What the Internet Is Hiding from You. The Penguin Group.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
