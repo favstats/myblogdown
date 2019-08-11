@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Mon, 12 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/publication_types/2/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Radical Filter Bubbles: Social Media Personalisation Algorithms and Extremist Content</title>
+      <link>/publication/radical_filter_bubbles/</link>
+      <pubDate>Fri, 26 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/radical_filter_bubbles/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Fighting Fake News and Post-Truth Politics with Behavioral Science: The Pro-Truth Pledge</title>
