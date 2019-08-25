@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0200</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
@@ -49,7 +49,7 @@
     <item>
       <title>Game of Thrones ratings</title>
       <link>/post/got_ratings/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0300</pubDate>
       
       <guid>/post/got_ratings/</guid>
       <description>
@@ -343,7 +343,7 @@ episode_ratings %&amp;gt;%
     <item>
       <title>do_if</title>
       <link>/post/do_if/</link>
-      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0300</pubDate>
       
       <guid>/post/do_if/</guid>
       <description>&lt;p&gt;So recently I was writing functions with many if statements and pipes. Given that
@@ -627,7 +627,7 @@ do_if_else &amp;lt;- function(.data, condition, .if, .else = identity) {
     <item>
       <title>Exploring U.S. Refugee Data</title>
       <link>/post/exploring_us_refugee_data/</link>
-      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0300</pubDate>
       
       <guid>/post/exploring_us_refugee_data/</guid>
       <description>
@@ -775,7 +775,7 @@ were taken in by the state of Hawaii with 127 refugees, Mississippi with
     <item>
       <title>Is American democracy under threat?</title>
       <link>/post/blw_data/</link>
-      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/blw_data/</guid>
       <description>
@@ -1095,7 +1095,7 @@ public.&lt;/p&gt;
     <item>
       <title>Create awesome HTML slides with xaringan</title>
       <link>/post/xaringan_tut/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/xaringan_tut/</guid>
       <description>
@@ -1292,7 +1292,7 @@ class: inverse, center, middle
     <item>
       <title>538 Predictions for the 2018 Midterm Elections</title>
       <link>/post/538_midterms/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/538_midterms/</guid>
       <description>
@@ -1465,7 +1465,7 @@ hist_dat %&amp;gt;%
     <item>
       <title>How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?</title>
       <link>/post/trump_endorsements/</link>
-      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/trump_endorsements/</guid>
       <description>
@@ -1803,7 +1803,7 @@ gg_dat2 %&amp;gt;%
     <item>
       <title>Pluckrose et al. Hoax Papers</title>
       <link>/post/hoax_papers/</link>
-      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0300</pubDate>
       
       <guid>/post/hoax_papers/</guid>
       <description>
@@ -2371,7 +2371,7 @@ related fields.&lt;/p&gt;
     <item>
       <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
       <link>/post/de_refugee_dat/</link>
-      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0300</pubDate>
       
       <guid>/post/de_refugee_dat/</guid>
       <description>
@@ -2596,7 +2596,7 @@ anim_save(&amp;quot;images/asyl_anim.gif&amp;quot;)
     <item>
       <title>Number of Refugees accepted by the US (2002 - 2018)</title>
       <link>/post/refugee_dat/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0300</pubDate>
       
       <guid>/post/refugee_dat/</guid>
       <description>

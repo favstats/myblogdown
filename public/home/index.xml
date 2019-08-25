@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Fabio Votta</title>
       <link>/home/hero/</link>
-      <pubDate>Mon, 25 Dec 2017 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0200</pubDate>
       
       <guid>/home/hero/</guid>
       <description>Political Data Scientist | Statistical Analysis Follow @favstats</description>
@@ -34,7 +34,7 @@ I am currently enrolled as a master&amp;rsquo;s student of Empirical Political a
     <item>
       <title>Recent Publications</title>
       <link>/home/publications/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0300</pubDate>
       
       <guid>/home/publications/</guid>
       <description></description>
@@ -81,7 +81,7 @@ I am currently enrolled as a master&amp;rsquo;s student of Empirical Political a
     <item>
       <title>Tags</title>
       <link>/home/tags/</link>
-      <pubDate>Wed, 20 Sep 2017 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 20 Sep 2017 00:00:00 +0300</pubDate>
       
       <guid>/home/tags/</guid>
       <description></description>

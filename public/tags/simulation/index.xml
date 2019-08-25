@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Tue, 28 Aug 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 28 Aug 2018 00:00:00 +0300</lastBuildDate>
     
 	<atom:link href="/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>How does Collinearity Influence Linear Regressions?</title>
       <link>/post/multicol_sim/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0300</pubDate>
       
       <guid>/post/multicol_sim/</guid>
       <description>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.

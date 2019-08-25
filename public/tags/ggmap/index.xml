@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/ggmap/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Mapping your 2017 Geolocations: The Tidy Way</title>
       <link>/post/tidylocations/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/tidylocations/</guid>
       <description>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code here. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?

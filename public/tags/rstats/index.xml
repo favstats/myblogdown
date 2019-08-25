@@ -24,7 +24,7 @@
     <item>
       <title>do_if</title>
       <link>/post/do_if/</link>
-      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0300</pubDate>
       
       <guid>/post/do_if/</guid>
       <description>So recently I was writing functions with many if statements and pipes. Given that I am a huge fan of the %&amp;gt;% pipe workflow, I was thinking about creating a pipable if environment. Here is my attempt to implement exactly that. With a lot help from my good friend Ben. If you are reading this, thank you! You made this possible.
