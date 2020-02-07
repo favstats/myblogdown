@@ -7,15 +7,26 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>The &#39;Greatest Deliberative Body in the World&#39;?</title>
+      <link>/post/greatest_body/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
+      
+      <guid>/post/greatest_body/</guid>
+      <description>The U.S. Senate is the &amp;ldquo;greatest deliberative body in the world&amp;rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?
+I am not aware of a measure that looks at individual parliamentary bodies but (V-Dem)[https://www.v-dem.net/en/] has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.
+Packages First, let&amp;rsquo;s load some necessary packages.</description>
+    </item>
+    
+    <item>
       <title>Game of Thrones ratings</title>
       <link>/post/got_ratings/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 +0300</pubDate>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/got_ratings/</guid>
       <description>Packages and Folders # Install these packages if you don&#39;t have them yet # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;) # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) pacman::p_load(tidyverse, tidytemplate, htmltab, janitor, gameofthrones, extrafont, scales, ggthemes) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Scraping Views from Wikipedia got_tables &amp;lt;- &amp;quot;https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_episodes&amp;quot; episode_list &amp;lt;- 2:9 %&amp;gt;% map_dfr(~htmltab(got_tables, .x) %&amp;gt;% mutate(season = .x - 1)) %&amp;gt;% clean_names() %&amp;gt;% mutate_at(vars(no_overall, no_inseason, u_s_viewers_millions), as.numeric) %&amp;gt;% mutate(season = str_glue(&amp;quot;Season {season}&amp;quot;)) %&amp;gt;% mutate(written_by = ifelse(str_detect(written_by, &amp;quot;David Benioff &amp;amp; D.</description>
@@ -24,7 +35,7 @@
     <item>
       <title>do_if</title>
       <link>/post/do_if/</link>
-      <pubDate>Tue, 14 May 2019 00:00:00 +0300</pubDate>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/do_if/</guid>
       <description>So recently I was writing functions with many if statements and pipes. Given that I am a huge fan of the %&amp;gt;% pipe workflow, I was thinking about creating a pipable if environment. Here is my attempt to implement exactly that. With a lot help from my good friend Ben. If you are reading this, thank you! You made this possible.
@@ -35,7 +46,7 @@ library(dplyr) source(&amp;quot;https://gist.githubusercontent.com/favstats/3e1d
     <item>
       <title>Exploring U.S. Refugee Data</title>
       <link>/post/exploring_us_refugee_data/</link>
-      <pubDate>Sat, 27 Apr 2019 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/exploring_us_refugee_data/</guid>
       <description>A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
@@ -44,7 +55,7 @@ library(dplyr) source(&amp;quot;https://gist.githubusercontent.com/favstats/3e1d
     <item>
       <title>Is American democracy under threat?</title>
       <link>/post/blw_data/</link>
-      <pubDate>Sat, 16 Feb 2019 00:00:00 +0200</pubDate>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>/post/blw_data/</guid>
       <description>Is American democracy under threat? Bright Line Watch regularly asks political scientists and the public questions about democratic performance.
@@ -56,7 +67,7 @@ Load neccesary Packages # Install these packages if you don&#39;t have them yet 
     <item>
       <title>Create awesome HTML slides with xaringan</title>
       <link>/post/xaringan_tut/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0200</pubDate>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/xaringan_tut/</guid>
       <description>Introduction There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction:</description>
@@ -65,7 +76,7 @@ Load neccesary Packages # Install these packages if you don&#39;t have them yet 
     <item>
       <title>538 Predictions for the 2018 Midterm Elections</title>
       <link>/post/538_midterms/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0200</pubDate>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/538_midterms/</guid>
       <description>Packages # Install these packages if you don&#39;t have them yet # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;) # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) pacman::p_load(tidyverse, tidytemplate, janitor, ggthemes, ggpubr, rvest, ggrepel)  Load Data csv_link &amp;lt;- &amp;quot;https://blogs.sciencemag.org/sciencehound/wp-content/uploads/sites/5/2018/11/Congressional-election-results-and-forecasts.csv&amp;quot; pred_dat &amp;lt;- read_csv(csv_link) %&amp;gt;% clean_names() %&amp;gt;% mutate(close = ifelse(election_results &amp;lt;= 55 &amp;amp; election_results &amp;gt;= 45, &amp;quot;Close&amp;quot;, &amp;quot;Safe&amp;quot;)) %&amp;gt;% left_join(tibble(state = state.name, abbr =state.abb)) %&amp;gt;% mutate(distr_abbr = paste0(abbr, district))  pred_dat  ## # A tibble: 435 x 14 ## state district democratic_cand~ republican_cand~ election_results ## &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; ## 1 Alab~ 1 Kennedy Byrne 36.</description>
@@ -74,7 +85,7 @@ Load neccesary Packages # Install these packages if you don&#39;t have them yet 
     <item>
       <title>How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?</title>
       <link>/post/trump_endorsements/</link>
-      <pubDate>Thu, 08 Nov 2018 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/trump_endorsements/</guid>
       <description>Data Sources:
@@ -86,7 +97,7 @@ Packages # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) #
     <item>
       <title>Pluckrose et al. Hoax Papers</title>
       <link>/post/hoax_papers/</link>
-      <pubDate>Thu, 04 Oct 2018 00:00:00 +0300</pubDate>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/hoax_papers/</guid>
       <description>Here I want to analyze the Rankings of Journals that received hoax papers by Boghossian, Lindsay and Pluckrose. You can read about the story here and here in their own words.
@@ -97,7 +108,7 @@ Packages Loading in some packages.
     <item>
       <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
       <link>/post/de_refugee_dat/</link>
-      <pubDate>Mon, 01 Oct 2018 00:00:00 +0300</pubDate>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/de_refugee_dat/</guid>
       <description>Data Sources:
@@ -109,7 +120,7 @@ Packages Loading in some packages.
     <item>
       <title>Number of Refugees accepted by the US (2002 - 2018)</title>
       <link>/post/refugee_dat/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/refugee_dat/</guid>
       <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
@@ -119,7 +130,7 @@ Packages and Folders # Install these packages if you don&#39;t have theme yet # 
     <item>
       <title>Visualizing Results of German Elections (2013 and 2017)</title>
       <link>/post/btw_map/</link>
-      <pubDate>Wed, 19 Sep 2018 00:00:00 +0300</pubDate>
+      <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/btw_map/</guid>
       <description>Data Sources:
@@ -131,7 +142,7 @@ Settings, Packages and Folders options(scipen = 999) knitr::opts_chunk$set(messa
     <item>
       <title>Visualizing Temperature Rise in Stuttgart, Germany over Time</title>
       <link>/post/temperature_viz/</link>
-      <pubDate>Sat, 01 Sep 2018 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/temperature_viz/</guid>
       <description>This is a quick use-case of gganimate to visualize the rise of average temperature in my home town, Stuttgart, Germany.
@@ -142,7 +153,7 @@ Get Packages pacman::p_load(tidyverse, rvest, gganimate)  Get and Save Data You 
     <item>
       <title>How does Collinearity Influence Linear Regressions?</title>
       <link>/post/multicol_sim/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0300</pubDate>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/multicol_sim/</guid>
       <description>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.
@@ -154,7 +165,7 @@ Overview:
     <item>
       <title>Analyzing Tweets of the ECPR General Conference 2018</title>
       <link>/post/ecprconf18/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/ecprconf18/</guid>
       <description>This is a short notebook outlining the code used to scrape tweets related to the ECPR Conference 2018 in Hamburg.
@@ -165,7 +176,7 @@ Packages Load the necessary packages
     <item>
       <title>Mapping Terror Attacks with Highcharter</title>
       <link>/post/terror_map/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/terror_map/</guid>
       <description>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.
@@ -179,7 +190,7 @@ pacman::p_load(tidyverse, magrittr, readxl, highcharter)  After I put the downlo
     <item>
       <title>Mapping your 2017 Geolocations: The Tidy Way</title>
       <link>/post/tidylocations/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/tidylocations/</guid>
       <description>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code here. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?
@@ -191,7 +202,7 @@ First I need my geolocation data. If you use Google and own an Android cell phon
     <item>
       <title>What do Arab Muslims think about ISIS (Daesh)?</title>
       <link>/post/daesh/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0200</pubDate>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>/post/daesh/</guid>
       <description>Welcome to my very first blogpost. Here I want to dive a little bit into how Arab Muslims see Daesh (a term for ISIS often used by Arab speakers). The data I will be using is from the Arab Barometer Wave 4, released just a few weeks ago. I will also be using the Arab Barometer in the future because it has a lot of interesting questions asked, including a small sample size of Syrian refugees.</description>

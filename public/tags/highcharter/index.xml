@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2018 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/highcharter/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Mapping Terror Attacks with Highcharter</title>
       <link>/post/terror_map/</link>
-      <pubDate>Wed, 03 Jan 2018 00:00:00 +0200</pubDate>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/terror_map/</guid>
       <description>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.

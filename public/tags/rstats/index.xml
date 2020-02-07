@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Sat, 29 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/rstats/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Slides: Hacking Germany’s Official Statistics with datenguideR</title>
+      <link>/project/dg_slides/</link>
+      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/dg_slides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The &#39;Greatest Deliberative Body in the World&#39;?</title>
+      <link>/post/greatest_body/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
+      
+      <guid>/post/greatest_body/</guid>
+      <description>The U.S. Senate is the &amp;ldquo;greatest deliberative body in the world&amp;rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?
+I am not aware of a measure that looks at individual parliamentary bodies but (V-Dem)[https://www.v-dem.net/en/] has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.
+Packages First, let&amp;rsquo;s load some necessary packages.</description>
+    </item>
     
     <item>
       <title>Slides: Package Development in R</title>
@@ -24,7 +44,7 @@
     <item>
       <title>do_if</title>
       <link>/post/do_if/</link>
-      <pubDate>Tue, 14 May 2019 00:00:00 +0300</pubDate>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/do_if/</guid>
       <description>So recently I was writing functions with many if statements and pipes. Given that I am a huge fan of the %&amp;gt;% pipe workflow, I was thinking about creating a pipable if environment. Here is my attempt to implement exactly that. With a lot help from my good friend Ben. If you are reading this, thank you! You made this possible.

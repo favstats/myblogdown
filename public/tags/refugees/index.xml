@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Sat, 27 Apr 2019 00:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/refugees/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Exploring U.S. Refugee Data</title>
       <link>/post/exploring_us_refugee_data/</link>
-      <pubDate>Sat, 27 Apr 2019 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/exploring_us_refugee_data/</guid>
       <description>A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
@@ -24,7 +24,7 @@
     <item>
       <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
       <link>/post/de_refugee_dat/</link>
-      <pubDate>Mon, 01 Oct 2018 00:00:00 +0300</pubDate>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/de_refugee_dat/</guid>
       <description>Data Sources:
@@ -36,7 +36,7 @@
     <item>
       <title>Number of Refugees accepted by the US (2002 - 2018)</title>
       <link>/post/refugee_dat/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0300</pubDate>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/refugee_dat/</guid>
       <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
