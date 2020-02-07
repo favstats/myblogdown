@@ -17,7 +17,7 @@ caption = "Map of Respecting Counter Arguments"
 
 The U.S. Senate is the "greatest deliberative body in the world". A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?
 
-I am not aware of a measure that looks at individual parliamentary bodies but (V-Dem)[https://www.v-dem.net/en/] has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.
+I am not aware of a measure that looks at individual parliamentary bodies but [V-Dem](https://www.v-dem.net/en/) has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.
 
 
 
