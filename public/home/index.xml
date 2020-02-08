@@ -41,6 +41,28 @@ I am currently enrolled as a master&amp;rsquo;s student of Empirical Political a
     </item>
     
     <item>
+      <title>R Packages</title>
+      <link>/home/r_packages/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/r_packages/</guid>
+      <description> peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
+ datenguideR - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
+ rstatsmemes - Plots Memes from the Meme website [R Memes for Statistical Fiends] on Facebook.
+  </description>
+    </item>
+    
+    <item>
+      <title>Awards</title>
+      <link>/home/awards/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/awards/</guid>
+      <description>Naomi C. Turner Prize 2018
+ This prize is awarded for the best paper presented by a graduate student at the World Association for Public Opinion (WAPOR) annual conference.  </description>
+    </item>
+    
+    <item>
       <title>Recent Posts</title>
       <link>/home/posts/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
@@ -56,16 +78,6 @@ I am currently enrolled as a master&amp;rsquo;s student of Empirical Political a
       
       <guid>/home/projects/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Awards</title>
-      <link>/home/awards/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/home/awards/</guid>
-      <description>Naomi C. Turner Prize 2018
- This prize is awarded for the best paper presented by a graduate student at the World Association for Public Opinion (WAPOR) annual conference.  </description>
     </item>
     
     <item>
