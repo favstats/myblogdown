@@ -19,4 +19,3 @@ weight = 30
 
 + [`datenguideR`](https://github.com/CorrelAid/datenguideR) - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
 
-+ [`rstatsmemes`](https://github.com/favstats/rstatsmemes) - Plots Memes from the Meme website [R Memes for Statistical Fiends] on Facebook.

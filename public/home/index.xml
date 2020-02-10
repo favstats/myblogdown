@@ -48,7 +48,6 @@ I am currently enrolled as a master&amp;rsquo;s student of Empirical Political a
       <guid>/home/r_packages/</guid>
       <description> peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
  datenguideR - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
- rstatsmemes - Plots Memes from the Meme website [R Memes for Statistical Fiends] on Facebook.
   </description>
     </item>
     
