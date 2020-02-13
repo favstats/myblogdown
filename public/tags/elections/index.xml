@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Wed, 19 Sep 2018 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/elections/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>2020 Democratic Debates dataset</title>
+      <link>/post/demdebates/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
+      
+      <guid>/post/demdebates/</guid>
+      <description>For anyone who is interested in exploring the Democratic primary debates of the U.S. Presidential Election, I compiled a dataset with all debates so far (i.e.: 8).
+In the following blog post I will introduce the R package demdebates2020 which will be updated to include data from all Democratic debates as they are held. Further, I will present some possible use-cases and an exploratory analysis of the debates.
+Start First, I load in some packages.</description>
+    </item>
     
     <item>
       <title>Visualizing Results of German Elections (2013 and 2017)</title>

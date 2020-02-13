@@ -11,6 +11,821 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>2020 Democratic Debates dataset</title>
+      <link>/post/demdebates/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
+      
+      <guid>/post/demdebates/</guid>
+      <description>
+
+&lt;p&gt;For anyone who is interested in exploring the Democratic primary debates
+of the U.S. Presidential Election, I compiled a dataset with all debates
+so far (i.e.: 8).&lt;/p&gt;
+
+&lt;p&gt;In the following blog post I will introduce the R package
+&lt;code&gt;demdebates2020&lt;/code&gt; which will be updated to include data from all
+Democratic debates as they are held. Further, I will present some
+possible use-cases and an exploratory analysis of the debates.&lt;/p&gt;
+
+&lt;h2 id=&#34;start&#34;&gt;Start&lt;/h2&gt;
+
+&lt;p&gt;First, I load in some packages.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
+# if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
+# devtools::install_github(&amp;quot;favstats/demdebates2020&amp;quot;)
+
+pacman::p_load(tidyverse,       # powerful data wrangling
+               knitr,           # for tables
+               extrafont,       # extra fonts
+               ggtext,          # markdown in ggplot!
+               rvest,           # for emoji scraping 
+               tidytext,        # text processing
+               demdebates2020,  # democratic debates datasets
+               ggthemes,        # custom themes
+               scales)          # for prettying up plot labels
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To liven things up (and as a personal learning experience) I will use
+the great &lt;a href=&#34;https://github.com/wilkelab/ggtext&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;ggtext&lt;/code&gt;&lt;/a&gt; package and
+include some emojis in the graphs to come.&lt;/p&gt;
+
+&lt;p&gt;I will now present the main dataset: &lt;code&gt;debates&lt;/code&gt;. This dataset represents
+the spoken words of all Democratic candidates for US president at eight
+Democratic debates. The following
+&lt;a href=&#34;https://github.com/favstats/demdebates2020#sources&#34; target=&#34;_blank&#34;&gt;sources&lt;/a&gt; have been
+used to compile the data: Washington Post, Des Moines Register and
+rev.com. The dataset has the following eight columns:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;speaker&lt;/code&gt;: Who is speaking&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;background&lt;/code&gt;: Reactions from the audience, includes &lt;code&gt;(APPLAUSE)&lt;/code&gt; or
+&lt;code&gt;(LAUGHTER)&lt;/code&gt;
+
+&lt;ul&gt;
+&lt;li&gt;only availabe for the first seven debates&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;speech&lt;/code&gt;: Transcribed speech&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;type&lt;/code&gt;: Candidate, Moderator or Protester&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gender&lt;/code&gt;: The gender of the person speaking&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;debate&lt;/code&gt;: Which debate&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;day&lt;/code&gt;: Which day of the debate
+
+&lt;ul&gt;
+&lt;li&gt;first and second debate were held on two separate days&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;order&lt;/code&gt;: The order in which the speech acts were delivered&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are two ways in which you can access the dataset.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Read .csv file directly from GitHub&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- end list --&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates_url &amp;lt;- &amp;quot;https://raw.githubusercontent.com/favstats/demdebates2020/master/data/debates.csv&amp;quot;
+
+debates &amp;lt;- readr::read_csv(debates_url)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Install and load the R package like this:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- end list --&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_github(&amp;quot;favstats/demdebates2020&amp;quot;)
+
+library(demdebates2020)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is how the dataset looks like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;demdebates2020::debates %&amp;gt;% 
+  dplyr::slice(1502:1510) %&amp;gt;% 
+  knitr::kable()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;speaker&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;background&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;speech&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;type&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;gender&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;debate&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;day&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;order&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;I also think we should not have combat troops in Afghanistan. It’s long overdue. It should end.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;753&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;754&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;And, thirdly, I believe that you’re not going to find anybody who has pulled together more of our alliances to deal with what is the real stateless threat out there. We cannot go it alone in terms of dealing with terrorism.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;755&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;So I would eliminate the act that allowed us to go into war, and not - the AUMF, and make sure that it could only be used for what its intent was, and that is to go after terrorists, but never do it alone. That’s why we have to repair our alliances. We put together 65 countries to make sure we dealt with ISIS in Iraq and other places. That’s what I would do. That’s what I have done. And I know how to do it.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;756&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Rachel Maddow&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Senator Sanders, 30 seconds.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Moderator&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;female&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;757&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Rachel Maddow&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Moderator&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;female&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;758&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;One of the differences - one of the differences that Joe and I have in our record is Joe voted for that war, I helped lead the opposition to that war, which was a total disaster.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;759&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;760&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Second of all, I helped lead the effort for the first time to utilize the War Powers Act to get the United States out of the Saudi-led intervention in Yemen, which is the most horrific humanitarian disaster on Earth.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;761&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;If you want to explore applause or laughter that candidates received,
+then you can take a look at the &lt;code&gt;background&lt;/code&gt; variable.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; as of now, &lt;code&gt;backgound&lt;/code&gt; is only available for Democratic
+debates 1 through 7. I couldn’t find a transcript source that recorded
+applause or laughter for the 8th debate. If you have a source, please
+feel free to contact me and I am happy to add it!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;who-received-the-most-applause&#34;&gt;Who received the most applause?&lt;/h2&gt;
+
+&lt;p&gt;We can use the &lt;code&gt;background&lt;/code&gt; variable to see who received the most
+applause.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## check out who received Applause
+debates %&amp;gt;% 
+  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
+  dplyr::count(speaker, sort = T) %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  knitr::kable()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;speaker&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;73&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Elizabeth Warren&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;65&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;48&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Pete Buttigieg&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;47&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Kamala Harris&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;44&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Andrew Yang&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;39&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Cory Booker&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;36&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Julian Castro&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;36&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Amy Klobuchar&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Beto O’Rourke&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;22&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Looks like Bernie Sanders received the most applause.&lt;/p&gt;
+
+&lt;p&gt;We can also create a data visualization to better emphasize the
+differences.&lt;/p&gt;
+
+&lt;p&gt;As mentioned before I will use emojis in the graphs to liven things up.
+In order to so, I use two functions from the great blogpost &lt;a href=&#34;https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/&#34; target=&#34;_blank&#34;&gt;Real emojis
+in ggplot2&lt;/a&gt; by
+Emil Hvitfeldt.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;emoji_to_link &amp;lt;- function(x) {
+  paste0(&amp;quot;https://emojipedia.org/emoji/&amp;quot;,x) %&amp;gt;%
+    read_html() %&amp;gt;%
+    html_nodes(&amp;quot;tr td a&amp;quot;) %&amp;gt;%
+    .[1] %&amp;gt;%
+    html_attr(&amp;quot;href&amp;quot;) %&amp;gt;%
+    paste0(&amp;quot;https://emojipedia.org/&amp;quot;, .) %&amp;gt;%
+    read_html() %&amp;gt;%
+    html_node(&#39;div[class=&amp;quot;vendor-image&amp;quot;] img&#39;) %&amp;gt;%
+    html_attr(&amp;quot;src&amp;quot;)
+}
+
+link_to_img &amp;lt;- function(x, size = 20) {
+  paste0(&amp;quot;&amp;lt;img src=&#39;&amp;quot;, x, &amp;quot;&#39; width=&#39;&amp;quot;, size, &amp;quot;&#39;/&amp;gt;&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, I get the emoji link for 👏&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;clap_emoji &amp;lt;- emoji_to_link(&amp;quot;👏&amp;quot;) %&amp;gt;% link_to_img()
+
+clap_emoji
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And I can include that in a graph:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## load fonts
+loadfonts(device = &amp;quot;win&amp;quot;)
+
+debates %&amp;gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
+  mutate(type = paste0(type, &amp;quot;s&amp;quot;)) %&amp;gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  facet_wrap(~type, scales = &amp;quot;free&amp;quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    legend.position = &amp;quot;none&amp;quot;, 
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Applause&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Applause&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;p&gt;We can also plot the same data as a heatmap across debates:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
+  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
+  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
+  mutate(debate = as.factor(debate)) %&amp;gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&amp;quot;Applause&amp;quot;, low = &amp;quot;white&amp;quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Applause&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause_heat.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;who-was-the-greatest-jokester-at-democratic-debates&#34;&gt;Who was the greatest jokester at democratic debates?&lt;/h2&gt;
+
+&lt;p&gt;We can also take a look at who received the most laughs during the
+debates. Just filter &lt;code&gt;background&lt;/code&gt; by &lt;code&gt;(LAUGHTER)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
+  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
+  dplyr::count(speaker, sort = T) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  knitr::kable()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;speaker&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Amy Klobuchar&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Andrew Yang&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Elizabeth Warren&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Cory Booker&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Pete Buttigieg&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Kamala Harris&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Chuck Todd&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Jay Inslee&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Again, Bernie Sanders leads the field, closely followed by Andrew Yang
+(now dropped out) and Amy Klobuchar.&lt;/p&gt;
+
+&lt;p&gt;We can visualize the data to get a better understanding. With the same process as before, I get the emoji link for 😂&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;laugh_emoji &amp;lt;- emoji_to_link(&amp;quot;😂&amp;quot;) %&amp;gt;% link_to_img()
+
+laugh_emoji
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And I can include that in a graph:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
+  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  # geom_point(aes(fill = type), size = 9) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  # facet_grid(~type, scales = &amp;quot;free_x&amp;quot;, space = &amp;quot;free&amp;quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    legend.position = &amp;quot;none&amp;quot;, 
+    plot.title = element_markdown(size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Laughs&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Laughs&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tidytemplate::ggsave_it(laughs, width = 8, height = 8)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can also plot the same data as a heatmap across debates:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
+  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
+  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
+  mutate(debate = as.factor(debate)) %&amp;gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&amp;quot;Laughs&amp;quot;, low = &amp;quot;white&amp;quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Laughs&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs_heat.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;who-spoke-the-most-words&#34;&gt;Who spoke the most words?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
+  unnest_tokens(word, speech) %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
+  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
+  mutate(debate = as.factor(debate)) %&amp;gt;% 
+  dplyr::count(speaker, .drop = F, sort = T) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  mutate(perc = round(n / total*100, 2)) %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  knitr::kable()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;speaker&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;total&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;perc&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;25295&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12.54&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Elizabeth Warren&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;22473&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11.14&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Pete Buttigieg&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;21400&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10.61&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Amy Klobuchar&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20076&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.96&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;19065&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.45&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Kamala Harris&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12128&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.01&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Cory Booker&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11839&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.87&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Andrew Yang&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10586&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.25&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Tom Steyer&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9635&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.78&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;Beto O’Rourke&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8253&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.09&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Again, we visualize the data.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;speak_emoji &amp;lt;- emoji_to_link(&amp;quot;🗣&amp;quot;) %&amp;gt;% link_to_img()
+
+speak_emoji
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debate_words &amp;lt;- debates %&amp;gt;% 
+  unnest_tokens(word, speech) %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
+  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
+  mutate(debate = as.factor(debate)) %&amp;gt;% 
+  dplyr::count(speaker, debate, .drop = F, sort = T) 
+
+# frontrunners &amp;lt;- c(&amp;quot;Bernie Sanders&amp;quot;, 
+#                   &amp;quot;Elizabeth Warren&amp;quot;, 
+#                   &amp;quot;Joe Biden&amp;quot;, 
+#                   &amp;quot;Pete Buttigieg&amp;quot;, 
+#                   &amp;quot;Amy Klobuchar&amp;quot;)
+
+
+
+debate_words %&amp;gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&amp;quot;Words&amp;quot;, low = &amp;quot;white&amp;quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who spoke the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Words&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;p&gt;We see something very obvious: as the number of candidates decreases,
+the spoken words also increase for the remaining candidates (as they
+have to fill the space).&lt;/p&gt;
+
+&lt;h2 id=&#34;did-men-speak-more-than-women&#34;&gt;Did men speak more than women?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debate_gender &amp;lt;- debates %&amp;gt;% 
+  unnest_tokens(word, speech) %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
+  dplyr::count(gender, debate, .drop = F) %&amp;gt;% 
+  group_by(debate) %&amp;gt;% 
+  mutate(total = sum(n)) %&amp;gt;% 
+  mutate(perc = n/total)
+
+debate_gender %&amp;gt;% 
+  filter(gender == &amp;quot;female&amp;quot;) %&amp;gt;%
+  ggplot(aes(debate, perc, fill = gender)) +
+  geom_area(fill = &amp;quot;#3E7ACF&amp;quot;, alpha = 0.75) +
+  ggrepel::geom_text_repel(aes(label = paste0(round(perc*100, 1), &amp;quot;%&amp;quot;)), nudge_y = 0.025,
+                           direction = &amp;quot;y&amp;quot;) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 0.5)) +
+  ggthemes::theme_hc()  +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    legend.position = &amp;quot;top&amp;quot;,
+    plot.title = element_markdown(size = 25, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
+    ) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;% Spoken Words by Women\n&amp;quot;, title = &amp;quot;Share of spoken Words by &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;Women&amp;lt;/span&amp;gt;&amp;lt;br&amp;gt;during the Democratic Debates&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) +
+  scale_x_continuous(breaks = 1:8)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words_gender.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;p&gt;Men have spoken more words than women across all debates. Of course,
+throughout the debates women were always in the minority (only 6 out of
+22 Democratic candidates were women and now only 2 are left: Amy
+Klobuchar and Elizabeth Warren).&lt;/p&gt;
+
+&lt;h2 id=&#34;what-were-the-most-common-distinct-words-used-by-candidates&#34;&gt;What were the most common distinct words used by candidates?&lt;/h2&gt;
+
+&lt;p&gt;We can use tf-idf scores to tell what word combinations (bigrams)
+candidates used the most and also were most distinct across other
+candidates.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;speaker_words &amp;lt;- debates %&amp;gt;% 
+  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
+  mutate(speech = tm::removeWords(str_to_lower(speech), stop_words$word)) %&amp;gt;% 
+  unnest_tokens(word, speech, token = &amp;quot;ngrams&amp;quot;, n = 2) %&amp;gt;%
+  count(speaker, word, sort = TRUE)
+  
+total_words &amp;lt;- speaker_words %&amp;gt;% 
+  group_by(speaker) %&amp;gt;% 
+  summarize(total = sum(n))
+
+
+speaker_words &amp;lt;- left_join(speaker_words, total_words)
+
+
+speaker_words &amp;lt;- speaker_words %&amp;gt;% 
+  bind_tf_idf(word, speaker, n)
+
+
+
+speaker_words %&amp;gt;%
+  arrange(desc(tf_idf)) %&amp;gt;%
+  filter(speaker %in% c(&amp;quot;Bernie Sanders&amp;quot;, &amp;quot;Elizabeth Warren&amp;quot;,
+                        &amp;quot;Joe Biden&amp;quot;, &amp;quot;Pete Buttigieg&amp;quot;, 
+                        &amp;quot;Andrew Yang&amp;quot;, &amp;quot;Amy Klobuchar&amp;quot;)) %&amp;gt;%
+  group_by(speaker) %&amp;gt;% 
+  arrange(desc(tf_idf)) %&amp;gt;% 
+  slice(1:15) %&amp;gt;% 
+  ungroup() %&amp;gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&amp;gt;% 
+  ggplot(aes(word, tf_idf, fill = speaker)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &amp;quot;tf-idf&amp;quot;) +
+  facet_wrap(~speaker, ncol = 3, scales = &amp;quot;free&amp;quot;) +
+  coord_flip()   +
+  ggthemes::theme_hc() +
+  # facet_grid(~type, scales = &amp;quot;free_x&amp;quot;, space = &amp;quot;free&amp;quot;) +
+  ggthemes::scale_fill_colorblind() +
+  theme(
+    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
+    legend.position = &amp;quot;top&amp;quot;,
+    plot.title = element_markdown(size = 30, margin=margin(0,0,20,0), face = &amp;quot;bold&amp;quot;, hjust = 0.5)
+    ) +
+  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;tf-idf&amp;quot;, title = &amp;quot;Most Common Distinct Word Combinations&amp;lt;br&amp;gt;for each Democratic Presidential Candidate&amp;quot;,
+       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18362)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_Germany.1252  LC_CTYPE=English_Germany.1252   
+## [3] LC_MONETARY=English_Germany.1252 LC_NUMERIC=C                    
+## [5] LC_TIME=English_Germany.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] scales_1.1.0              ggthemes_4.2.0           
+##  [3] demdebates2020_0.0.0.9000 tidytext_0.2.2           
+##  [5] rvest_0.3.4               xml2_1.2.2               
+##  [7] ggtext_0.1.0              extrafont_0.17           
+##  [9] knitr_1.25                forcats_0.4.0            
+## [11] stringr_1.4.0             dplyr_0.8.3              
+## [13] purrr_0.3.3               readr_1.3.1              
+## [15] tidyr_1.0.0               tibble_2.1.3             
+## [17] ggplot2_3.2.1             tidyverse_1.2.1          
+## 
+## loaded via a namespace (and not attached):
+##  [1] httr_1.4.1         jsonlite_1.6       modelr_0.1.5      
+##  [4] assertthat_0.2.1   highr_0.8          tidytemplate_0.1.0
+##  [7] selectr_0.4-1      cellranger_1.1.0   slam_0.1-45       
+## [10] yaml_2.2.0         ggrepel_0.8.1      Rttf2pt1_1.3.7    
+## [13] pillar_1.4.3       backports_1.1.5    lattice_0.20-38   
+## [16] glue_1.3.1         extrafontdb_1.0    digest_0.6.23     
+## [19] gridtext_0.1.0     colorspace_1.4-1   htmltools_0.4.0   
+## [22] Matrix_1.2-17      tm_0.7-7           pkgconfig_2.0.3   
+## [25] broom_0.5.2        haven_2.1.1        generics_0.0.2    
+## [28] farver_2.0.1       ellipsis_0.3.0     pacman_0.5.1      
+## [31] withr_2.1.2        lazyeval_0.2.2     NLP_0.2-0         
+## [34] cli_2.0.0          magrittr_1.5       crayon_1.3.4      
+## [37] readxl_1.3.1       evaluate_0.14      tokenizers_0.2.1  
+## [40] janeaustenr_0.1.5  fansi_0.4.0        nlme_3.1-140      
+## [43] SnowballC_0.6.0    tools_3.6.1        hms_0.5.2         
+## [46] lifecycle_0.1.0    munsell_0.5.0      compiler_3.6.1    
+## [49] rlang_0.4.1        grid_3.6.1         RCurl_1.95-4.12   
+## [52] rstudioapi_0.10    bitops_1.0-6       labeling_0.3      
+## [55] rmarkdown_1.14     gtable_0.3.0       curl_4.2          
+## [58] markdown_1.1       R6_2.4.1           lubridate_1.7.4   
+## [61] zeallot_0.1.0      stringi_1.4.3      parallel_3.6.1    
+## [64] Rcpp_1.0.3         vctrs_0.2.1        png_0.1-7         
+## [67] tidyselect_0.2.5   xfun_0.10
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Slides: Hacking Germany’s Official Statistics with datenguideR</title>
       <link>/project/dg_slides/</link>
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
@@ -2534,222 +3349,6 @@ and I don’t believe anyone should think the same of gender studies and
 related fields.&lt;/p&gt;
 
 &lt;p&gt;I am not the only academic person that will tell you peer review can be messy at times. But peer review being ineffective at catching work done in bad faith does not implicate entire fields or academia as a whole. It&amp;rsquo;s a problem, yes and it ought to be fixed. I also think it&amp;rsquo;s a conversation worth having because we all should be interested in our institutions working. But spreading the sort of hysteria that is directed at just specific academic fields with a stated goal to discredit them does not seem to be conducive to the kind of conversations that we ought to have.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
-      <link>/post/de_refugee_dat/</link>
-      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/post/de_refugee_dat/</guid>
-      <description>
-
-&lt;p&gt;Data Sources:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html&#34; target=&#34;_blank&#34;&gt;http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://biaj.de/&#34; target=&#34;_blank&#34;&gt;http://biaj.de/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;load-packages&#34;&gt;Load packages&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pacman::p_load(tidyverse, tabulizer, gganimate)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;get-acceptance-rates&#34;&gt;Get Acceptance Rates&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;source(&amp;quot;asylum_dat.R&amp;quot;)
-
-load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;number-of-refugees-data&#34;&gt;Number of Refugees Data&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;load(&amp;quot;data/asylum_dat.Rdata&amp;quot;)
-
-asylum_dat &amp;lt;- asylum_dat %&amp;gt;% 
-  full_join(refugee_decisions) %&amp;gt;%
-  select(time, `Total Number of Asylum Seekers` = number, 
-         `Accepted Applications` = pos, 
-         `Declined Applications` = neg) %&amp;gt;% 
-  gather(key, number, -time) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;plot-static&#34;&gt;Plot Static&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;)
-#rev(ggthemes::colorblind_pal()(3))
-
-n_peak &amp;lt;- asylum_dat %&amp;gt;% 
-  filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% 
-  filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% 
-  .$number
-
-
-asylum_dat %&amp;gt;% 
-  ggplot(aes(time, number)) +
-  geom_line(aes(color = key), size = 1.1) +
-  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
-  xlab(&amp;quot;&amp;quot;) +
-  ylab(&amp;quot;&amp;quot;) +
-  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
-  theme_minimal() +
-  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
-  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
-  ## Open Door Policy
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
-                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
-  ## Peak
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
-                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
-  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
-  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
-               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
-                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
-  theme(legend.position = &amp;quot;bottom&amp;quot;, 
-        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
-        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
-        legend.text = element_text(size = 12),
-        axis.text = element_text(size = 10), 
-        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
-        plot.caption = element_text(size = 10),
-        axis.title = element_text(size = 10))
-
-
-ggsave(filename = &amp;quot;images/asylum_numbers.png&amp;quot;, width = 12, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;logged-numbers&#34;&gt;Logged Numbers&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;)
-#rev(ggthemes::colorblind_pal()(3))
-
-n_peak &amp;lt;- asylum_dat %&amp;gt;% 
-  filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% 
-  filter(key == &amp;quot;Total Number of Asylum Applications&amp;quot;) %&amp;gt;% 
-  .$number
-
-
-asylum_dat %&amp;gt;% 
-  ggplot(aes(time, number)) +
-  geom_line(aes(color = key), size = 1.1) +
-  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
-  xlab(&amp;quot;&amp;quot;) +
-  ylab(&amp;quot;Logged Number of Applications/Decisions&amp;quot;) +
-  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Applications in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
-  theme_minimal() +
-  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
-  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
-  ## Open Door Policy
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
-                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
-  ## Peak
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
-                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2017-03-07&amp;quot;), y = 3500, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;March 2016\nClosure of Balkan Route and\nEU - Turkey Refugee Deal&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2017-03-07&amp;quot;), y = 4500, 
-                 xend = as.Date(&amp;quot;2016-03-09&amp;quot;), yend = 6000),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.4) +
-  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
-  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
-  scale_y_log10(labels = scales::comma) +
-  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
-               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
-                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
-  theme(legend.position = &amp;quot;bottom&amp;quot;, 
-        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
-        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
-        legend.text = element_text(size = 12),
-        axis.text = element_text(size = 10), 
-        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
-        plot.caption = element_text(size = 10),
-        axis.title = element_text(size = 10))
-
-
-ggsave(filename = &amp;quot;images/asylum_numbers_logged.png&amp;quot;, width = 12, height = 7)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asylum_numbers_logged.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;animation&#34;&gt;Animation&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;asyl_anim &amp;lt;- asylum_dat %&amp;gt;% 
-  full_join(refugee_decisions) %&amp;gt;%
-  select(time, `Total Number of Asylum Seekers` = number, 
-         `Accepted Applications` = pos, 
-         `Declined Applications` = neg) %&amp;gt;% 
-  gather(key, number, -time) %&amp;gt;% 
-  ggplot(aes(time, number)) +
-  geom_line(aes(color = key), size = 1.1) +
-  ggtitle(&amp;quot;Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)\n&amp;quot;) +
-  xlab(&amp;quot;&amp;quot;) +
-  ylab(&amp;quot;&amp;quot;) +
-  labs(caption = &amp;quot;Data: Federal Office for Migration and Refugees (BAMF)\nTotal Asylum Seekers in Time Range: 1.948.428\nfavstats.eu; @favstats&amp;quot;) +
-  theme_minimal() +
-  scale_color_manual(&amp;quot;&amp;quot;, values = rev_cols) +
-  geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2015-09-05&amp;quot;)), linetype = &amp;quot;dashed&amp;quot;) +
-  ## Open Door Policy
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2014-01-05&amp;quot;), y = 75000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;September 5th 2015\nDecision to accept refugees\ntravelling via Hungary&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2014-12-05&amp;quot;), y = 75000, 
-                 xend = as.Date(&amp;quot;2015-09-03&amp;quot;), yend = 60000),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = -0.2) +
-  ## Peak
-  annotate(&amp;quot;label&amp;quot;, as.Date(&amp;quot;2018-05-07&amp;quot;), y = 80000, 
-           fill = &amp;quot;lightgrey&amp;quot;, alpha = 0.85, label.size = NA,
-           label = &amp;quot;August 2016\nApplications peak and\ndecline sharply&amp;quot;) +
-  geom_curve(aes(x = as.Date(&amp;quot;2017-08-07&amp;quot;), y = 80000, 
-                 xend = as.Date(&amp;quot;2016-08-01&amp;quot;), yend = n_peak),
-  arrow = arrow(length = unit(0.02, &amp;quot;npc&amp;quot;), type = &amp;quot;closed&amp;quot;), curvature = 0.2) +
-  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-09&amp;quot;)), linetype=4) +
-  # geom_vline(xintercept = as.numeric(as.Date(&amp;quot;2016-03-20&amp;quot;)), linetype=4) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_x_date(breaks = scales::date_breaks(&amp;quot;1 year&amp;quot;), 
-               labels = scales::date_format(&amp;quot;%Y&amp;quot;), limits = c(as.Date(&amp;quot;2010-01-01&amp;quot;),
-                                                              as.Date(&amp;quot;2018-12-12&amp;quot;))) +
-  theme(legend.position = &amp;quot;bottom&amp;quot;, 
-        legend.key.width = unit(3, &amp;quot;line&amp;quot;), 
-        legend.key.size = unit(1.2, &amp;quot;line&amp;quot;),
-        legend.text = element_text(size = 12),
-        axis.text = element_text(size = 10), 
-        title = element_text(size = 14, face = &amp;quot;bold&amp;quot;), 
-        plot.caption = element_text(size = 10),
-        axis.title= element_text(size = 10)) +
-  transition_reveal(key, time)
-
-asyl_anim %&amp;gt;% animate(
-  nframes = 500, fps = 20, width = 1000, height = 600, detail = 1
-)
-
-anim_save(&amp;quot;images/asyl_anim.gif&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/german_refugee_data/master/images/asyl_anim.gif&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

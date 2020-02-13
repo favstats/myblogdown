@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.53" />
+  <meta name="author" content="Fabio Votta">
+  <meta name="description" content="Empirical Social and Political Research">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/demdebates/">
+
+  
+  
+
+
+  
+
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-121993278-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="favstats - personal blog">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="favstats - personal blog">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/demdebates/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@https://twitter.com/favstats">
+  <meta property="twitter:creator" content="@https://twitter.com/favstats">
+  
+  <meta property="og:site_name" content="favstats - personal blog">
+  <meta property="og:url" content="/post/demdebates/">
+  <meta property="og:title" content="2020 Democratic Debates dataset | favstats - personal blog">
+  <meta property="og:description" content=""><meta property="og:image" content="/img/headers/tfidfplot.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2020-02-13T00:00:00&#43;01:00">
+  
+  <meta property="article:modified_time" content="2020-02-13T00:00:00&#43;01:00">
+  
+
+  
+
+  <title>2020 Democratic Debates dataset | favstats - personal blog</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/"><img src="/img/logo.png" alt="favstats - personal blog"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#awards">
+            
+            <span>Awards</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+<div class="article-header">
+  <img src="/img/headers/tfidfplot.png" class="article-banner" itemprop="image">
+  
+</div>
+
+
+
+  <div class="article-container">
+    <div class="article-inner">
+      <h1 itemprop="name">2020 Democratic Debates dataset</h1>
+
+      
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2020-02-13 00:00:00 &#43;0100 CET" itemprop="datePublished">
+      Feb 13, 2020
+    </time>
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    12 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/demdebates/#disqus_thread"></a>
+  
+
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=2020%20Democratic%20Debates%20dataset&amp;url=%2fpost%2fdemdebates%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fdemdebates%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fdemdebates%2f&amp;title=2020%20Democratic%20Debates%20dataset"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fdemdebates%2f&amp;title=2020%20Democratic%20Debates%20dataset"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=2020%20Democratic%20Debates%20dataset&amp;body=%2fpost%2fdemdebates%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+      <div class="article-style" itemprop="articleBody">
+        
+
+<p>For anyone who is interested in exploring the Democratic primary debates
+of the U.S. Presidential Election, I compiled a dataset with all debates
+so far (i.e.: 8).</p>
+
+<p>In the following blog post I will introduce the R package
+<code>demdebates2020</code> which will be updated to include data from all
+Democratic debates as they are held. Further, I will present some
+possible use-cases and an exploratory analysis of the debates.</p>
+
+<h2 id="start">Start</h2>
+
+<p>First, I load in some packages.</p>
+
+<pre><code class="language-r"># Install these packages if you don't have them yet
+# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
+# devtools::install_github(&quot;favstats/demdebates2020&quot;)
+
+pacman::p_load(tidyverse,       # powerful data wrangling
+               knitr,           # for tables
+               extrafont,       # extra fonts
+               ggtext,          # markdown in ggplot!
+               rvest,           # for emoji scraping 
+               tidytext,        # text processing
+               demdebates2020,  # democratic debates datasets
+               ggthemes,        # custom themes
+               scales)          # for prettying up plot labels
+</code></pre>
+
+<p>To liven things up (and as a personal learning experience) I will use
+the great <a href="https://github.com/wilkelab/ggtext" target="_blank"><code>ggtext</code></a> package and
+include some emojis in the graphs to come.</p>
+
+<p>I will now present the main dataset: <code>debates</code>. This dataset represents
+the spoken words of all Democratic candidates for US president at eight
+Democratic debates. The following
+<a href="https://github.com/favstats/demdebates2020#sources" target="_blank">sources</a> have been
+used to compile the data: Washington Post, Des Moines Register and
+rev.com. The dataset has the following eight columns:</p>
+
+<ul>
+<li><code>speaker</code>: Who is speaking</li>
+<li><code>background</code>: Reactions from the audience, includes <code>(APPLAUSE)</code> or
+<code>(LAUGHTER)</code>
+
+<ul>
+<li>only availabe for the first seven debates</li>
+</ul></li>
+<li><code>speech</code>: Transcribed speech</li>
+<li><code>type</code>: Candidate, Moderator or Protester</li>
+<li><code>gender</code>: The gender of the person speaking</li>
+<li><code>debate</code>: Which debate</li>
+<li><code>day</code>: Which day of the debate
+
+<ul>
+<li>first and second debate were held on two separate days</li>
+</ul></li>
+<li><code>order</code>: The order in which the speech acts were delivered</li>
+</ul>
+
+<p>There are two ways in which you can access the dataset.</p>
+
+<ol>
+<li>Read .csv file directly from GitHub</li>
+</ol>
+
+<!-- end list -->
+
+<pre><code class="language-r">debates_url &lt;- &quot;https://raw.githubusercontent.com/favstats/demdebates2020/master/data/debates.csv&quot;
+
+debates &lt;- readr::read_csv(debates_url)
+</code></pre>
+
+<ol>
+<li>Install and load the R package like this:</li>
+</ol>
+
+<!-- end list -->
+
+<pre><code class="language-r">devtools::install_github(&quot;favstats/demdebates2020&quot;)
+
+library(demdebates2020)
+</code></pre>
+
+<p>This is how the dataset looks like:</p>
+
+<pre><code class="language-r">demdebates2020::debates %&gt;% 
+  dplyr::slice(1502:1510) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">speaker</th>
+<th align="left">background</th>
+<th align="left">speech</th>
+<th align="left">type</th>
+<th align="left">gender</th>
+<th align="right">debate</th>
+<th align="right">day</th>
+<th align="right">order</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">Joe Biden</td>
+<td align="left">NA</td>
+<td align="left">I also think we should not have combat troops in Afghanistan. It’s long overdue. It should end.</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">753</td>
+</tr>
+
+<tr>
+<td align="left">Joe Biden</td>
+<td align="left">(APPLAUSE)</td>
+<td align="left">NA</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">754</td>
+</tr>
+
+<tr>
+<td align="left">Joe Biden</td>
+<td align="left">NA</td>
+<td align="left">And, thirdly, I believe that you’re not going to find anybody who has pulled together more of our alliances to deal with what is the real stateless threat out there. We cannot go it alone in terms of dealing with terrorism.</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">755</td>
+</tr>
+
+<tr>
+<td align="left">Joe Biden</td>
+<td align="left">NA</td>
+<td align="left">So I would eliminate the act that allowed us to go into war, and not - the AUMF, and make sure that it could only be used for what its intent was, and that is to go after terrorists, but never do it alone. That’s why we have to repair our alliances. We put together 65 countries to make sure we dealt with ISIS in Iraq and other places. That’s what I would do. That’s what I have done. And I know how to do it.</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">756</td>
+</tr>
+
+<tr>
+<td align="left">Rachel Maddow</td>
+<td align="left">NA</td>
+<td align="left">Senator Sanders, 30 seconds.</td>
+<td align="left">Moderator</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">757</td>
+</tr>
+
+<tr>
+<td align="left">Rachel Maddow</td>
+<td align="left">(APPLAUSE)</td>
+<td align="left">NA</td>
+<td align="left">Moderator</td>
+<td align="left">female</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">758</td>
+</tr>
+
+<tr>
+<td align="left">Bernie Sanders</td>
+<td align="left">NA</td>
+<td align="left">One of the differences - one of the differences that Joe and I have in our record is Joe voted for that war, I helped lead the opposition to that war, which was a total disaster.</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">759</td>
+</tr>
+
+<tr>
+<td align="left">Bernie Sanders</td>
+<td align="left">(APPLAUSE)</td>
+<td align="left">NA</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">760</td>
+</tr>
+
+<tr>
+<td align="left">Bernie Sanders</td>
+<td align="left">NA</td>
+<td align="left">Second of all, I helped lead the effort for the first time to utilize the War Powers Act to get the United States out of the Saudi-led intervention in Yemen, which is the most horrific humanitarian disaster on Earth.</td>
+<td align="left">Candidate</td>
+<td align="left">male</td>
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="right">761</td>
+</tr>
+</tbody>
+</table>
+
+<p>If you want to explore applause or laughter that candidates received,
+then you can take a look at the <code>background</code> variable.</p>
+
+<blockquote>
+<p><em>Note:</em> as of now, <code>backgound</code> is only available for Democratic
+debates 1 through 7. I couldn’t find a transcript source that recorded
+applause or laughter for the 8th debate. If you have a source, please
+feel free to contact me and I am happy to add it!</p>
+</blockquote>
+
+<h2 id="who-received-the-most-applause">Who received the most applause?</h2>
+
+<p>We can use the <code>background</code> variable to see who received the most
+applause.</p>
+
+<pre><code class="language-r">## check out who received Applause
+debates %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  dplyr::count(speaker, sort = T) %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>speaker</th>
+<th align="right">n</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Bernie Sanders</td>
+<td align="right">73</td>
+</tr>
+
+<tr>
+<td>Elizabeth Warren</td>
+<td align="right">65</td>
+</tr>
+
+<tr>
+<td>Joe Biden</td>
+<td align="right">48</td>
+</tr>
+
+<tr>
+<td>Pete Buttigieg</td>
+<td align="right">47</td>
+</tr>
+
+<tr>
+<td>Kamala Harris</td>
+<td align="right">44</td>
+</tr>
+
+<tr>
+<td>Andrew Yang</td>
+<td align="right">39</td>
+</tr>
+
+<tr>
+<td>Cory Booker</td>
+<td align="right">36</td>
+</tr>
+
+<tr>
+<td>Julian Castro</td>
+<td align="right">36</td>
+</tr>
+
+<tr>
+<td>Amy Klobuchar</td>
+<td align="right">32</td>
+</tr>
+
+<tr>
+<td>Beto O’Rourke</td>
+<td align="right">22</td>
+</tr>
+</tbody>
+</table>
+
+<p>Looks like Bernie Sanders received the most applause.</p>
+
+<p>We can also create a data visualization to better emphasize the
+differences.</p>
+
+<p>As mentioned before I will use emojis in the graphs to liven things up.
+In order to so, I use two functions from the great blogpost <a href="https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/" target="_blank">Real emojis
+in ggplot2</a> by
+Emil Hvitfeldt.</p>
+
+<pre><code class="language-r">emoji_to_link &lt;- function(x) {
+  paste0(&quot;https://emojipedia.org/emoji/&quot;,x) %&gt;%
+    read_html() %&gt;%
+    html_nodes(&quot;tr td a&quot;) %&gt;%
+    .[1] %&gt;%
+    html_attr(&quot;href&quot;) %&gt;%
+    paste0(&quot;https://emojipedia.org/&quot;, .) %&gt;%
+    read_html() %&gt;%
+    html_node('div[class=&quot;vendor-image&quot;] img') %&gt;%
+    html_attr(&quot;src&quot;)
+}
+
+link_to_img &lt;- function(x, size = 20) {
+  paste0(&quot;&lt;img src='&quot;, x, &quot;' width='&quot;, size, &quot;'/&gt;&quot;)
+}
+</code></pre>
+
+<p>Next, I get the emoji link for 👏</p>
+
+<pre><code class="language-r">clap_emoji &lt;- emoji_to_link(&quot;👏&quot;) %&gt;% link_to_img()
+
+clap_emoji
+</code></pre>
+
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&quot;
+</code></pre>
+
+<p>And I can include that in a graph:</p>
+
+<pre><code class="language-r">## load fonts
+loadfonts(device = &quot;win&quot;)
+
+debates %&gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  mutate(type = paste0(type, &quot;s&quot;)) %&gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  facet_wrap(~type, scales = &quot;free&quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;none&quot;, 
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;Applause&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Applause&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause.png" alt="" /><!-- --></p>
+
+<p>We can also plot the same data as a heatmap across debates:</p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Applause&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Applause&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause_heat.png" alt="" /><!-- --></p>
+
+<h2 id="who-was-the-greatest-jokester-at-democratic-debates">Who was the greatest jokester at democratic debates?</h2>
+
+<p>We can also take a look at who received the most laughs during the
+debates. Just filter <code>background</code> by <code>(LAUGHTER)</code>.</p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  dplyr::count(speaker, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>speaker</th>
+<th align="right">n</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Bernie Sanders</td>
+<td align="right">14</td>
+</tr>
+
+<tr>
+<td>Amy Klobuchar</td>
+<td align="right">13</td>
+</tr>
+
+<tr>
+<td>Andrew Yang</td>
+<td align="right">13</td>
+</tr>
+
+<tr>
+<td>Joe Biden</td>
+<td align="right">9</td>
+</tr>
+
+<tr>
+<td>Elizabeth Warren</td>
+<td align="right">8</td>
+</tr>
+
+<tr>
+<td>Cory Booker</td>
+<td align="right">7</td>
+</tr>
+
+<tr>
+<td>Pete Buttigieg</td>
+<td align="right">6</td>
+</tr>
+
+<tr>
+<td>Kamala Harris</td>
+<td align="right">5</td>
+</tr>
+
+<tr>
+<td>Chuck Todd</td>
+<td align="right">3</td>
+</tr>
+
+<tr>
+<td>Jay Inslee</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+
+<p>Again, Bernie Sanders leads the field, closely followed by Andrew Yang
+(now dropped out) and Amy Klobuchar.</p>
+
+<p>We can visualize the data to get a better understanding. With the same process as before, I get the emoji link for 😂</p>
+
+<pre><code class="language-r">laugh_emoji &lt;- emoji_to_link(&quot;😂&quot;) %&gt;% link_to_img()
+
+laugh_emoji
+</code></pre>
+
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&quot;
+</code></pre>
+
+<p>And I can include that in a graph:</p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  # geom_point(aes(fill = type), size = 9) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  # facet_grid(~type, scales = &quot;free_x&quot;, space = &quot;free&quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;none&quot;, 
+    plot.title = element_markdown(size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;Laughs&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Laughs&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs.png" alt="" /><!-- --></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(laughs, width = 8, height = 8)
+</code></pre>
+
+<p>We can also plot the same data as a heatmap across debates:</p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Laughs&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Laughs&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs_heat.png" alt="" /><!-- --></p>
+
+<h2 id="who-spoke-the-most-words">Who spoke the most words?</h2>
+
+<pre><code class="language-r">debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(speaker, .drop = F, sort = T) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = round(n / total*100, 2)) %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="left">speaker</th>
+<th align="right">n</th>
+<th align="right">total</th>
+<th align="right">perc</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">Joe Biden</td>
+<td align="right">25295</td>
+<td align="right">201653</td>
+<td align="right">12.54</td>
+</tr>
+
+<tr>
+<td align="left">Elizabeth Warren</td>
+<td align="right">22473</td>
+<td align="right">201653</td>
+<td align="right">11.14</td>
+</tr>
+
+<tr>
+<td align="left">Pete Buttigieg</td>
+<td align="right">21400</td>
+<td align="right">201653</td>
+<td align="right">10.61</td>
+</tr>
+
+<tr>
+<td align="left">Amy Klobuchar</td>
+<td align="right">20076</td>
+<td align="right">201653</td>
+<td align="right">9.96</td>
+</tr>
+
+<tr>
+<td align="left">Bernie Sanders</td>
+<td align="right">19065</td>
+<td align="right">201653</td>
+<td align="right">9.45</td>
+</tr>
+
+<tr>
+<td align="left">Kamala Harris</td>
+<td align="right">12128</td>
+<td align="right">201653</td>
+<td align="right">6.01</td>
+</tr>
+
+<tr>
+<td align="left">Cory Booker</td>
+<td align="right">11839</td>
+<td align="right">201653</td>
+<td align="right">5.87</td>
+</tr>
+
+<tr>
+<td align="left">Andrew Yang</td>
+<td align="right">10586</td>
+<td align="right">201653</td>
+<td align="right">5.25</td>
+</tr>
+
+<tr>
+<td align="left">Tom Steyer</td>
+<td align="right">9635</td>
+<td align="right">201653</td>
+<td align="right">4.78</td>
+</tr>
+
+<tr>
+<td align="left">Beto O’Rourke</td>
+<td align="right">8253</td>
+<td align="right">201653</td>
+<td align="right">4.09</td>
+</tr>
+</tbody>
+</table>
+
+<p>Again, we visualize the data.</p>
+
+<pre><code class="language-r">speak_emoji &lt;- emoji_to_link(&quot;🗣&quot;) %&gt;% link_to_img()
+
+speak_emoji
+</code></pre>
+
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png' width='20'/&gt;&quot;
+</code></pre>
+
+<pre><code class="language-r">debate_words &lt;- debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(speaker, debate, .drop = F, sort = T) 
+
+# frontrunners &lt;- c(&quot;Bernie Sanders&quot;, 
+#                   &quot;Elizabeth Warren&quot;, 
+#                   &quot;Joe Biden&quot;, 
+#                   &quot;Pete Buttigieg&quot;, 
+#                   &quot;Amy Klobuchar&quot;)
+
+
+
+debate_words %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Words&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who spoke the &lt;span style='color: #3E7ACF'&gt;most Words&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words.png" alt="" /><!-- --></p>
+
+<p>We see something very obvious: as the number of candidates decreases,
+the spoken words also increase for the remaining candidates (as they
+have to fill the space).</p>
+
+<h2 id="did-men-speak-more-than-women">Did men speak more than women?</h2>
+
+<pre><code class="language-r">debate_gender &lt;- debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  dplyr::count(gender, debate, .drop = F) %&gt;% 
+  group_by(debate) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = n/total)
+
+debate_gender %&gt;% 
+  filter(gender == &quot;female&quot;) %&gt;%
+  ggplot(aes(debate, perc, fill = gender)) +
+  geom_area(fill = &quot;#3E7ACF&quot;, alpha = 0.75) +
+  ggrepel::geom_text_repel(aes(label = paste0(round(perc*100, 1), &quot;%&quot;)), nudge_y = 0.025,
+                           direction = &quot;y&quot;) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 0.5)) +
+  ggthemes::theme_hc()  +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;top&quot;,
+    plot.title = element_markdown(size = 25, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;% Spoken Words by Women\n&quot;, title = &quot;Share of spoken Words by &lt;span style='color: #3E7ACF'&gt;Women&lt;/span&gt;&lt;br&gt;during the Democratic Debates&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) +
+  scale_x_continuous(breaks = 1:8)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words_gender.png" alt="" /><!-- --></p>
+
+<p>Men have spoken more words than women across all debates. Of course,
+throughout the debates women were always in the minority (only 6 out of
+22 Democratic candidates were women and now only 2 are left: Amy
+Klobuchar and Elizabeth Warren).</p>
+
+<h2 id="what-were-the-most-common-distinct-words-used-by-candidates">What were the most common distinct words used by candidates?</h2>
+
+<p>We can use tf-idf scores to tell what word combinations (bigrams)
+candidates used the most and also were most distinct across other
+candidates.</p>
+
+<pre><code class="language-r">speaker_words &lt;- debates %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speech = tm::removeWords(str_to_lower(speech), stop_words$word)) %&gt;% 
+  unnest_tokens(word, speech, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  count(speaker, word, sort = TRUE)
+  
+total_words &lt;- speaker_words %&gt;% 
+  group_by(speaker) %&gt;% 
+  summarize(total = sum(n))
+
+
+speaker_words &lt;- left_join(speaker_words, total_words)
+
+
+speaker_words &lt;- speaker_words %&gt;% 
+  bind_tf_idf(word, speaker, n)
+
+
+
+speaker_words %&gt;%
+  arrange(desc(tf_idf)) %&gt;%
+  filter(speaker %in% c(&quot;Bernie Sanders&quot;, &quot;Elizabeth Warren&quot;,
+                        &quot;Joe Biden&quot;, &quot;Pete Buttigieg&quot;, 
+                        &quot;Andrew Yang&quot;, &quot;Amy Klobuchar&quot;)) %&gt;%
+  group_by(speaker) %&gt;% 
+  arrange(desc(tf_idf)) %&gt;% 
+  slice(1:15) %&gt;% 
+  ungroup() %&gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&gt;% 
+  ggplot(aes(word, tf_idf, fill = speaker)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &quot;tf-idf&quot;) +
+  facet_wrap(~speaker, ncol = 3, scales = &quot;free&quot;) +
+  coord_flip()   +
+  ggthemes::theme_hc() +
+  # facet_grid(~type, scales = &quot;free_x&quot;, space = &quot;free&quot;) +
+  ggthemes::scale_fill_colorblind() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;top&quot;,
+    plot.title = element_markdown(size = 30, margin=margin(0,0,20,0), face = &quot;bold&quot;, hjust = 0.5)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;tf-idf&quot;, title = &quot;Most Common Distinct Word Combinations&lt;br&gt;for each Democratic Presidential Candidate&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png" alt="" /><!-- --></p>
+
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 18362)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_Germany.1252  LC_CTYPE=English_Germany.1252   
+## [3] LC_MONETARY=English_Germany.1252 LC_NUMERIC=C                    
+## [5] LC_TIME=English_Germany.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] scales_1.1.0              ggthemes_4.2.0           
+##  [3] demdebates2020_0.0.0.9000 tidytext_0.2.2           
+##  [5] rvest_0.3.4               xml2_1.2.2               
+##  [7] ggtext_0.1.0              extrafont_0.17           
+##  [9] knitr_1.25                forcats_0.4.0            
+## [11] stringr_1.4.0             dplyr_0.8.3              
+## [13] purrr_0.3.3               readr_1.3.1              
+## [15] tidyr_1.0.0               tibble_2.1.3             
+## [17] ggplot2_3.2.1             tidyverse_1.2.1          
+## 
+## loaded via a namespace (and not attached):
+##  [1] httr_1.4.1         jsonlite_1.6       modelr_0.1.5      
+##  [4] assertthat_0.2.1   highr_0.8          tidytemplate_0.1.0
+##  [7] selectr_0.4-1      cellranger_1.1.0   slam_0.1-45       
+## [10] yaml_2.2.0         ggrepel_0.8.1      Rttf2pt1_1.3.7    
+## [13] pillar_1.4.3       backports_1.1.5    lattice_0.20-38   
+## [16] glue_1.3.1         extrafontdb_1.0    digest_0.6.23     
+## [19] gridtext_0.1.0     colorspace_1.4-1   htmltools_0.4.0   
+## [22] Matrix_1.2-17      tm_0.7-7           pkgconfig_2.0.3   
+## [25] broom_0.5.2        haven_2.1.1        generics_0.0.2    
+## [28] farver_2.0.1       ellipsis_0.3.0     pacman_0.5.1      
+## [31] withr_2.1.2        lazyeval_0.2.2     NLP_0.2-0         
+## [34] cli_2.0.0          magrittr_1.5       crayon_1.3.4      
+## [37] readxl_1.3.1       evaluate_0.14      tokenizers_0.2.1  
+## [40] janeaustenr_0.1.5  fansi_0.4.0        nlme_3.1-140      
+## [43] SnowballC_0.6.0    tools_3.6.1        hms_0.5.2         
+## [46] lifecycle_0.1.0    munsell_0.5.0      compiler_3.6.1    
+## [49] rlang_0.4.1        grid_3.6.1         RCurl_1.95-4.12   
+## [52] rstudioapi_0.10    bitops_1.0-6       labeling_0.3      
+## [55] rmarkdown_1.14     gtable_0.3.0       curl_4.2          
+## [58] markdown_1.1       R6_2.4.1           lubridate_1.7.4   
+## [61] zeallot_0.1.0      stringi_1.4.3      parallel_3.6.1    
+## [64] Rcpp_1.0.3         vctrs_0.2.1        png_0.1-7         
+## [67] tidyselect_0.2.5   xfun_0.10
+</code></pre>
+
+      </div>
+
+      
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/elections">elections</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/rstats">rstats</a>
+  
+</div>
+
+
+
+    </div>
+  </div>
+
+</article>
+
+
+
+<div class="article-container article-widget">
+  <div class="hr-light"></div>
+  <h3>Related</h3>
+  <ul>
+    
+    <li><a href="/project/dg_slides/">Slides: Hacking Germany’s Official Statistics with datenguideR</a></li>
+    
+    <li><a href="/post/greatest_body/">The &#39;Greatest Deliberative Body in the World&#39;?</a></li>
+    
+    <li><a href="/project/rpkgs/">Slides: Package Development in R</a></li>
+    
+    <li><a href="/post/do_if/">do_if</a></li>
+    
+    <li><a href="/post/btw_map/">Visualizing Results of German Elections (2013 and 2017)</a></li>
+    
+  </ul>
+</div>
+
+
+
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-favstats-netlify-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2019 Fabio Votta &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//https-favstats-netlify-com.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/go.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/clojure.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
