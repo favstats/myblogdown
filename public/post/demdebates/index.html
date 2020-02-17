@@ -353,7 +353,7 @@ possible use-cases and an exploratory analysis of the debates.</p>
 # if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
 # devtools::install_github(&quot;favstats/demdebates2020&quot;)
 
-pacman::p_load(tidyverse,       # powerful data wrangling
+pacman::p_load(tidyverse,       # powerful data wrangling (and so much more)
                knitr,           # for tables
                extrafont,       # extra fonts
                ggtext,          # markdown in ggplot!
@@ -364,7 +364,7 @@ pacman::p_load(tidyverse,       # powerful data wrangling
                scales)          # for prettying up plot labels
 </code></pre>
 
-<p>To liven things up (and as a personal learning experience) I will use
+<p>To liven things up (and as a personal learning opportunity) I will use
 the great <a href="https://github.com/wilkelab/ggtext" target="_blank"><code>ggtext</code></a> package and
 include some emojis in the graphs to come.</p>
 
@@ -441,72 +441,6 @@ library(demdebates2020)
 </thead>
 
 <tbody>
-<tr>
-<td align="left">Joe Biden</td>
-<td align="left">NA</td>
-<td align="left">I also think we should not have combat troops in Afghanistan. It’s long overdue. It should end.</td>
-<td align="left">Candidate</td>
-<td align="left">male</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">753</td>
-</tr>
-
-<tr>
-<td align="left">Joe Biden</td>
-<td align="left">(APPLAUSE)</td>
-<td align="left">NA</td>
-<td align="left">Candidate</td>
-<td align="left">male</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">754</td>
-</tr>
-
-<tr>
-<td align="left">Joe Biden</td>
-<td align="left">NA</td>
-<td align="left">And, thirdly, I believe that you’re not going to find anybody who has pulled together more of our alliances to deal with what is the real stateless threat out there. We cannot go it alone in terms of dealing with terrorism.</td>
-<td align="left">Candidate</td>
-<td align="left">male</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">755</td>
-</tr>
-
-<tr>
-<td align="left">Joe Biden</td>
-<td align="left">NA</td>
-<td align="left">So I would eliminate the act that allowed us to go into war, and not - the AUMF, and make sure that it could only be used for what its intent was, and that is to go after terrorists, but never do it alone. That’s why we have to repair our alliances. We put together 65 countries to make sure we dealt with ISIS in Iraq and other places. That’s what I would do. That’s what I have done. And I know how to do it.</td>
-<td align="left">Candidate</td>
-<td align="left">male</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">756</td>
-</tr>
-
-<tr>
-<td align="left">Rachel Maddow</td>
-<td align="left">NA</td>
-<td align="left">Senator Sanders, 30 seconds.</td>
-<td align="left">Moderator</td>
-<td align="left">female</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">757</td>
-</tr>
-
-<tr>
-<td align="left">Rachel Maddow</td>
-<td align="left">(APPLAUSE)</td>
-<td align="left">NA</td>
-<td align="left">Moderator</td>
-<td align="left">female</td>
-<td align="right">1</td>
-<td align="right">2</td>
-<td align="right">758</td>
-</tr>
-
 <tr>
 <td align="left">Bernie Sanders</td>
 <td align="left">NA</td>
@@ -953,7 +887,9 @@ laugh_emoji
 </tbody>
 </table>
 
-<p>Again, we visualize the data.</p>
+<p>In the Top 10 we see candidates who were present in each debate (for example Joe Biden, Elizabeth Warren and Bernie Sanders). Out of a share of all spoken words during all eight debates, Joe Biden spoke a plurality of words. Tom Steyer (as of writing still in the race) has less than half as many spoken words as most other candidates still in the race, despite being present in 5 out of 8 debates.</p>
+
+<p>Again, we can also visualize the data.</p>
 
 <pre><code class="language-r">speak_emoji &lt;- emoji_to_link(&quot;🗣&quot;) %&gt;% link_to_img()
 
@@ -996,7 +932,7 @@ debate_words %&gt;%
 
 <p>We see something very obvious: as the number of candidates decreases,
 the spoken words also increase for the remaining candidates (as they
-have to fill the space).</p>
+have to fill the space). Numbers remain rather low for Tom Steyer and Andrew Yang throughout the debates.</p>
 
 <h2 id="did-men-speak-more-than-women">Did men speak more than women?</h2>
 
@@ -1086,6 +1022,12 @@ speaker_words %&gt;%
 </code></pre>
 
 <p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png" alt="" /><!-- --></p>
+
+<p>Some fitting and recognizable word patterns emerge. For exampe, Andrew Yang and his proposal for Universal Basic Income (UBI) clearly distinguish him from other candidates with his most common distinct words referring to the &ldquo;freedom dividend&rdquo; and &ldquo;1000 [dollars a] month&rdquo;. A similar distinct pattern emerges with Bernie Sanders who frequently uses the phrase &ldquo;The US is the only <em>major country on earth</em> that does/does not have X&rdquo;.</p>
+
+<p><strong>In conclusio</strong></p>
+
+<p>So far from me. What kind of analysis would you run on the Democratic debates data? Feel free to use the data as you wish and I am curious to see what comes out of it!</p>
 
 <pre><code class="language-r">sessionInfo()
 </code></pre>

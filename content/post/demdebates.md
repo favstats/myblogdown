@@ -33,7 +33,7 @@ First, I load in some packages.
 # if (!require("pacman")) install.packages("pacman")
 # devtools::install_github("favstats/demdebates2020")
 
-pacman::p_load(tidyverse,       # powerful data wrangling
+pacman::p_load(tidyverse,       # powerful data wrangling (and so much more)
                knitr,           # for tables
                extrafont,       # extra fonts
                ggtext,          # markdown in ggplot!
@@ -44,7 +44,7 @@ pacman::p_load(tidyverse,       # powerful data wrangling
                scales)          # for prettying up plot labels
 ```
 
-To liven things up (and as a personal learning experience) I will use
+To liven things up (and as a personal learning opportunity) I will use
 the great [`ggtext`](https://github.com/wilkelab/ggtext) package and
 include some emojis in the graphs to come.
 
@@ -99,12 +99,6 @@ demdebates2020::debates %>%
 
 | speaker        | background | speech                                                                                                                                                                                                                                                                                                                                                                                                                     | type      | gender | debate | day | order |
 | :------------- | :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------- | :----- | -----: | --: | ----: |
-| Joe Biden      | NA         | I also think we should not have combat troops in Afghanistan. It’s long overdue. It should end.                                                                                                                                                                                                                                                                                                                            | Candidate | male   |      1 |   2 |   753 |
-| Joe Biden      | (APPLAUSE) | NA                                                                                                                                                                                                                                                                                                                                                                                                                         | Candidate | male   |      1 |   2 |   754 |
-| Joe Biden      | NA         | And, thirdly, I believe that you’re not going to find anybody who has pulled together more of our alliances to deal with what is the real stateless threat out there. We cannot go it alone in terms of dealing with terrorism.                                                                                                                                                                                            | Candidate | male   |      1 |   2 |   755 |
-| Joe Biden      | NA         | So I would eliminate the act that allowed us to go into war, and not - the AUMF, and make sure that it could only be used for what its intent was, and that is to go after terrorists, but never do it alone. That’s why we have to repair our alliances. We put together 65 countries to make sure we dealt with ISIS in Iraq and other places. That’s what I would do. That’s what I have done. And I know how to do it. | Candidate | male   |      1 |   2 |   756 |
-| Rachel Maddow  | NA         | Senator Sanders, 30 seconds.                                                                                                                                                                                                                                                                                                                                                                                               | Moderator | female |      1 |   2 |   757 |
-| Rachel Maddow  | (APPLAUSE) | NA                                                                                                                                                                                                                                                                                                                                                                                                                         | Moderator | female |      1 |   2 |   758 |
 | Bernie Sanders | NA         | One of the differences - one of the differences that Joe and I have in our record is Joe voted for that war, I helped lead the opposition to that war, which was a total disaster.                                                                                                                                                                                                                                         | Candidate | male   |      1 |   2 |   759 |
 | Bernie Sanders | (APPLAUSE) | NA                                                                                                                                                                                                                                                                                                                                                                                                                         | Candidate | male   |      1 |   2 |   760 |
 | Bernie Sanders | NA         | Second of all, I helped lead the effort for the first time to utilize the War Powers Act to get the United States out of the Saudi-led intervention in Yemen, which is the most horrific humanitarian disaster on Earth.                                                                                                                                                                                                   | Candidate | male   |      1 |   2 |   761 |
@@ -364,7 +358,9 @@ debates %>%
 | Beto O’Rourke       |    8253 | 201653 |  4.09 |
 
 
-Again, we visualize the data.
+In the Top 10 we see candidates who were present in each debate (for example Joe Biden, Elizabeth Warren and Bernie Sanders). Out of a share of all spoken words during all eight debates, Joe Biden spoke a plurality of words. Tom Steyer (as of writing still in the race) has less than half as many spoken words as most other candidates still in the race, despite being present in 5 out of 8 debates.
+
+Again, we can also visualize the data.
 
 ``` r
 speak_emoji <- emoji_to_link("🗣") %>% link_to_img()
@@ -408,7 +404,7 @@ debate_words %>%
 
 We see something very obvious: as the number of candidates decreases,
 the spoken words also increase for the remaining candidates (as they
-have to fill the space).
+have to fill the space). Numbers remain rather low for Tom Steyer and Andrew Yang throughout the debates.
 
 ## Did men speak more than women?
 
@@ -500,6 +496,12 @@ speaker_words %>%
 ```
 
 ![](https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png)<!-- -->
+
+Some fitting and recognizable word patterns emerge. For exampe, Andrew Yang and his proposal for Universal Basic Income (UBI) clearly distinguish him from other candidates with his most common distinct words referring to the "freedom dividend" and "1000 [dollars a] month". A similar distinct pattern emerges with Bernie Sanders who frequently uses the phrase "The US is the only *major country on earth* that does/does not have X".
+
+**In conclusio**
+
+So far from me. What kind of analysis would you run on the Democratic debates data? Feel free to use the data as you wish and I am curious to see what comes out of it!
 
 ``` r
 sessionInfo()

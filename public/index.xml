@@ -35,7 +35,7 @@ possible use-cases and an exploratory analysis of the debates.&lt;/p&gt;
 # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
 # devtools::install_github(&amp;quot;favstats/demdebates2020&amp;quot;)
 
-pacman::p_load(tidyverse,       # powerful data wrangling
+pacman::p_load(tidyverse,       # powerful data wrangling (and so much more)
                knitr,           # for tables
                extrafont,       # extra fonts
                ggtext,          # markdown in ggplot!
@@ -46,7 +46,7 @@ pacman::p_load(tidyverse,       # powerful data wrangling
                scales)          # for prettying up plot labels
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;To liven things up (and as a personal learning experience) I will use
+&lt;p&gt;To liven things up (and as a personal learning opportunity) I will use
 the great &lt;a href=&#34;https://github.com/wilkelab/ggtext&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;ggtext&lt;/code&gt;&lt;/a&gt; package and
 include some emojis in the graphs to come.&lt;/p&gt;
 
@@ -123,72 +123,6 @@ library(demdebates2020)
 &lt;/thead&gt;
 
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;I also think we should not have combat troops in Afghanistan. It’s long overdue. It should end.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;753&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;754&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;And, thirdly, I believe that you’re not going to find anybody who has pulled together more of our alliances to deal with what is the real stateless threat out there. We cannot go it alone in terms of dealing with terrorism.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;755&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;So I would eliminate the act that allowed us to go into war, and not - the AUMF, and make sure that it could only be used for what its intent was, and that is to go after terrorists, but never do it alone. That’s why we have to repair our alliances. We put together 65 countries to make sure we dealt with ISIS in Iraq and other places. That’s what I would do. That’s what I have done. And I know how to do it.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;756&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Rachel Maddow&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Senator Sanders, 30 seconds.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Moderator&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;female&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;757&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Rachel Maddow&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Moderator&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;female&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;758&lt;/td&gt;
-&lt;/tr&gt;
-
 &lt;tr&gt;
 &lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
@@ -635,7 +569,9 @@ laugh_emoji
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;Again, we visualize the data.&lt;/p&gt;
+&lt;p&gt;In the Top 10 we see candidates who were present in each debate (for example Joe Biden, Elizabeth Warren and Bernie Sanders). Out of a share of all spoken words during all eight debates, Joe Biden spoke a plurality of words. Tom Steyer (as of writing still in the race) has less than half as many spoken words as most other candidates still in the race, despite being present in 5 out of 8 debates.&lt;/p&gt;
+
+&lt;p&gt;Again, we can also visualize the data.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;speak_emoji &amp;lt;- emoji_to_link(&amp;quot;🗣&amp;quot;) %&amp;gt;% link_to_img()
 
@@ -678,7 +614,7 @@ debate_words %&amp;gt;%
 
 &lt;p&gt;We see something very obvious: as the number of candidates decreases,
 the spoken words also increase for the remaining candidates (as they
-have to fill the space).&lt;/p&gt;
+have to fill the space). Numbers remain rather low for Tom Steyer and Andrew Yang throughout the debates.&lt;/p&gt;
 
 &lt;h2 id=&#34;did-men-speak-more-than-women&#34;&gt;Did men speak more than women?&lt;/h2&gt;
 
@@ -768,6 +704,12 @@ speaker_words %&amp;gt;%
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;p&gt;Some fitting and recognizable word patterns emerge. For exampe, Andrew Yang and his proposal for Universal Basic Income (UBI) clearly distinguish him from other candidates with his most common distinct words referring to the &amp;ldquo;freedom dividend&amp;rdquo; and &amp;ldquo;1000 [dollars a] month&amp;rdquo;. A similar distinct pattern emerges with Bernie Sanders who frequently uses the phrase &amp;ldquo;The US is the only &lt;em&gt;major country on earth&lt;/em&gt; that does/does not have X&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In conclusio&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;So far from me. What kind of analysis would you run on the Democratic debates data? Feel free to use the data as you wish and I am curious to see what comes out of it!&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
 &lt;/code&gt;&lt;/pre&gt;
