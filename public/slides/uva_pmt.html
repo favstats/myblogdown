@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>WP3: The Effects of Political Microtargeting</title>
+    <meta charset="utf-8" />
+    <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, center, title-slide
+
+# WP3: The Effects of<br>Political Microtargeting
+## <br>Fabio Votta<br><br><i class="fab  fa-github "></i> <a href="https://www.github.com/favstats">favstats</a><br><i class="fab  fa-twitter "></i> <a href="https://www.twitter.com/favstats">favstats</a><br><i class="fas  fa-address-card "></i> <a href="https://www.favstats.eu">favstats.eu</a><br>
+### <br>20 March 2020<br>Slides available here:<br><a href="http://www.favstats.eu/slides/uva_pmt">favstats.eu/slides/uva_pmt</a>
+
+---
+
+
+
+
+
+class: center, middle, inverse
+
+
+## Introduction
+
+&lt;!-- TODO: Write up what you want to say? --&gt;
+
+&lt;!-- TODO: READ OPENMIND QUESTIONS --&gt;
+
+&lt;!-- TODO: BAYESIAN MODEL READUP --&gt;
+
+&lt;!-- TODO: Reduce Text --&gt;
+
+&lt;!-- How good is populist vs. anti-populist as meaningful conflict line if conflict is not against populists but actually against right-wing (or extremist) views? --&gt;
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+   
+.eightyseven {
+  font-size: 87%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+   
+.twentyfive {
+  font-size: 25%;
+   }
+&lt;/style&gt;
+
+
+
+
+
+---
+
+### Introduction
+
+Some facts about me:
+
++ Empirical Political- and Social Research M.A.
+   + Statistical &amp; Computational Methods
+   + Latest focus: Far-right and misinformation online
+   + M.A. thesis about personalization effects on Twitter
+     
+---
+     
+### Introduction
+
+
+Some facts about me:
+
++ Empirical Political- and Social Research M.A.
+   + Statistical &amp; Computational Methods
+   + Latest focus: Far-right and misinformation online
+   + M.A. thesis about personalization effects on Twitter
+     
+
++ Passion for Computational Social Science
+   + Very active in the R community
+   + Mostly self-taught in programming
+   + Natural Language Processing
+   + Open Science + Reproducibility advocate
+
+   
+---
+
+### Introduction
+
+Some facts about me:
+
+
++ Empirical Political- and Social Research M.A.
+   + Statistical &amp; Computational Methods
+   + Latest focus: Far-right and misinformation online
+   + M.A. thesis about personalization effects on Twitter
+     
+
++ Passion for Computational Social Science
+   + Very active in the R community
+   + Mostly self-taught in programming
+   + Natural Language Processing
+   + Open Science + Reproducibility advocate
+   
+
++ Work part-time as research analyst for non-profit organization *OpenMind* 
+   + Goal is to reduce affective polarization &amp; foster intellectual humility
+   + Pre &amp; Post Assessments, RCTs
+
+---
+
+## Theoretical Background of Proposed Study
+
+Political Parties increase use of political microtargeting (PMT) techniques
+
+PMT can have a series of adverse and positive effects and the topic remains understudied
+
+At the same time, PMT has become (in)famous since targeted disinformation campaigns in US 2016 election
+
+PMT can be grouped in two categories:
+
++ **Good Faith PMT**: Targeted political advertisement meant to inform and energize citizens
+
++ **Bad Faith PMT**: Political ads that are meant to deceive and misinform, illicit strong emotional reactions like fear and anger and exploit them
+
+---
+
+## Theoretical Background of Proposed Study
+
+For this study: 
+
+**Focus on PMT that transmits misinformation vs. accurate information**
+
+A recent study found that exposure to misinformation increases misperceptions and intention to vote but does not change views towards the media or affective polarization (Guess et al. 2020).
+
+**Research question:**
+
+How does good and bad faith PMT affect:
+
++ voting intention and political behaviour
+
++ trust in the media
+
++ belief in factual/wrong statements
+
++ evaluation of ideological opponents
+
+
+---
+
+
+## Research Design
+
+Use of artificial Social Media Website to display custom political ads.
+
+There are two such options at the moment:
+
+1. Mock Social Media Website Project (Jagayat, Pun &amp; Choma 2020)
+
+&lt;center&gt;
+&lt;img src="images/socialmedia1.png" width="500" height="300"&gt;
+&lt;/center&gt;
+
+
+---
+
+## Research Design
+
+Use of artificial Social Media Website to display custom political ads.
+
+There are two such options at the moment:
+
+1. Mock Social Media Website Project (Jagayat, Pun &amp; Choma 2020)
+
+2. Truman Platform (Cornell University)
+
+&lt;center&gt;
+&lt;img src="images/socialmedia2.png" width="500" height="300"&gt;
+&lt;/center&gt;
+
+---
+
+## Research Design
+
+Either of those "fake" platforms can be used in an *experimental design* with randomized treatments.
+
+Why use an experimental design?
+
++ Identify causal effects of PMT on attitudes.
+
++ Randomization of treatments enables us to draw a direct link from independent variable to the outcome
+
++ Different conditions allow us to tease out the effects of good and bad faith PMT
+
++ Opportunity to combine with observational and behavioural data collected with the help of partners like AlgorithmWatch and ALEX
+
+---
+
+## Research Design
+
+With the use of *deception* respondents are asked to test a new social media platform. They provide us with some basic demographics and political leanings before trying out the platform.
+
+Show a total of 20 posts on a timeline that people can scroll through and interact with, including *targeted* political ads.
+
+Political ads can be based on real-life examples with minor adaptations if necessary.
+
+Respondents are randomized in four branches:
+
++ **Good Faith PMT condition**
+    + Political ads accurately report information relevant to the respondent
++ **Bad Faith PMT condition** 
+    + Political ads report misinformation relevant to the respondent
++ **Political Chatter condition**
+    + Includes no political ads but posts talking about politics
++ **Control**
+    + Includes only random chatter with no political content
+
+
+---
+
+## Outcomes
+
+1. Trust in the Media
+
+2. Belief in the specific claims that were made in the political ads
+
+3. Affective Polarization (feelings of warmth and coldness towards ideological opponents)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%<br>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
