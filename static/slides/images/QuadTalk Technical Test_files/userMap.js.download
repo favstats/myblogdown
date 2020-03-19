@@ -1,0 +1,14 @@
+
+var counter = 0;
+
+var usersArray = ["3042", "3130", "3031", "3050", "3032", "3075", "3112", "3155", "3162", "3079", "3104", "3066", "3176", "3171", "3184", "3124", "3112", "3122", "3142", "3147", "3068", "3171", "3079", "3165", "3157", "3170", "3177", "3174", "3174", "3164", "3184", "3195", "3023", "3027", "3075", "3154", "3171", "3049", "3155", "3069", "3020", "3159", "3107", "3176", "3103", "3000", "3012", "3165", "3131", "3084", "3067"];
+var RUArray = ["160", "161", "174", "167", "166", "164", "164", "174", "164", "159", "167", "171", "164", "166", "169", "166", "163", "156", "170", "155", "174", "170", "167", "173", "155", "175", "157", "166", "175", "160", "165", "172", "173", "160", "164", "159", "175", "171", "174", "160", "164", "160", "168", "174", "175", "167", "174", "155", "175", "163", "173"];
+
+setInterval(function(){ 
+    document.getElementById("users").innerHTML = "<span class=\"right-highlighted-text\">"+usersArray[counter]+"</span> users online";
+    document.getElementById("RU-users").innerHTML = "<span class=\"right-highlighted-text\">"+RUArray[counter]+"</span> users online from <span class=\"right-highlighted-text\">Ryerson University</span>";
+    counter = counter+1;
+    if (counter > (usersArray.length-1)) {
+        counter = 0;
+    }
+ }, 15000);

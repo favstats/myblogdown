@@ -1,0 +1,213 @@
+$(function() {
+
+    var modal = document.querySelector(".modal");
+    var modalComment = document.querySelector(".modal-comment");
+    var modalConfirm = document.querySelector(".modal-confirm");
+    var modalUserPost = document.querySelector(".modal-user-post");
+    var closeButton = document.querySelector(".close-button");
+    var closePostButton = document.querySelector(".close-post-button");
+    var closeCommentButton = document.querySelector(".close-comment-button");
+
+    var postClicked = 0;
+    var commentPostClicked = 0;
+
+    function toggleModal() {
+        modal.classList.toggle("show-modal");
+    }
+
+    function toggleCommentModal() {
+        modalComment.classList.toggle("show-modal");
+    }
+
+    function toggleUserPostModal() {
+        modalUserPost.classList.toggle("show-modal");
+    }
+
+    closeButton.addEventListener("click", toggleModal);
+    closePostButton.addEventListener("click", toggleUserPostModal);
+    closeCommentButton.addEventListener("click", toggleCommentModal);
+
+	
+
+    $(document).on("click", ".like-post", function(e) {
+        e.preventDefault(); // Prevents default action of the link (would scroll page up on click)
+        buttonpressed = $(this).attr('name');
+        console.log("pressed"+buttonpressed);
+        
+        $.ajax({
+            method: 'POST',
+            data: {postID: buttonpressed, verificationCode: $('#verificationCode').val()},
+            url: 'ajax/post-ajax.php?action=like',
+            success: function(returned) {
+                console.log(returned);
+                if(returned == 'success') {
+            
+
+                    buttonDiv = "like"+buttonpressed;
+                    document.getElementById(buttonDiv).innerHTML = "<a href=\"#\" type=\"submit\" name=\""+buttonpressed+"\"><i class=\"fas fa-heart fa-2x\" style=\"color:#e15554;\"></i>";
+                    document.getElementById(buttonDiv).childNodes[0].setAttribute("class","unlike-post");
+
+                    console.log(document.getElementById(buttonDiv));
+
+                    //window.location.reload();
+                } else { 
+                    alert('An error occured');
+            }
+        }
+        });
+    });
+
+    $(document).on("click", ".unlike-post", function(e) {
+        console.log("unlikePost");
+        e.preventDefault(); // Prevents default action of the link (would scroll page up on click)
+        buttonpressed = $(this).attr('name');
+        console.log("pressed"+buttonpressed);
+        
+        $.ajax({
+            method: 'POST',
+            data: {postID: buttonpressed, verificationCode: $('#verificationCode').val()},
+            url: 'ajax/post-ajax.php?action=unlike',
+            success: function(returned) {
+                console.log(returned);
+                if(returned == 'success') {
+
+                    buttonDiv = "like"+buttonpressed;
+                    document.getElementById(buttonDiv).innerHTML = "<a href=\"#\" type=\"submit\" name=\""+buttonpressed+"\"><i class=\"fas fa-heart fa-2x\" style=\"color:lightgrey;\"></i></a>";
+                    document.getElementById(buttonDiv).childNodes[0].setAttribute("class","like-post");
+
+
+                    //window.location.reload();
+                } else { 
+                    alert('An error occured');
+            }
+        }
+        });
+    });
+
+    $('.user-post').click(function(e) {
+        e.preventDefault(); // Prevents default action of the link (would scroll page up on click)
+        buttonpressed = $(this).attr('name');
+        postClicked = buttonpressed;
+        console.log(postClicked);
+        toggleUserPostModal();
+        
+    });
+
+    $('.modal-save-user-post').click(function() {
+        buttonpressed = postClicked;
+        console.log(buttonpressed);
+        var cleanPost = $('#userPost').val().replace(/[|&;$%'@"<>()+,]/g, "");
+        
+        $.ajax({
+            method: 'POST',
+            data: {postID: buttonpressed, userPost: cleanPost},
+            url: 'ajax/post-ajax.php?action=uPost',
+            success: function(returned) {
+                console.log(returned);
+                if(returned == 'success') {
+
+                    $('#userPost').val('');
+
+                    //window.location.reload();
+                } else { 
+                    alert('An error occured');
+            }
+        }
+        });
+
+        toggleUserPostModal();
+        modalConfirm.classList.toggle("show-modal");
+        setTimeout(function() {modalConfirm.classList.toggle("show-modal");}, 1250);
+
+    });
+    
+    $('.share-post').click(function(e) {
+        e.preventDefault(); // Prevents default action of the link (would scroll page up on click)
+        buttonpressed = $(this).attr('name');
+        postClicked = buttonpressed;
+        console.log(postClicked);
+        toggleModal();
+        
+    });
+
+    $('.modal-share').click(function() {
+        buttonpressed = postClicked;
+        console.log(buttonpressed);
+        var cleanShare = $('#sharedComment').val().replace(/[|&;$%'@"<>()+,]/g, "");
+        
+        $.ajax({
+            method: 'POST',
+            data: {postID: buttonpressed, sharedComment: cleanShare},
+            url: 'ajax/post-ajax.php?action=share',
+            success: function(returned) {
+                console.log(returned);
+                if(returned == 'success') {
+
+                    buttonDiv = "share"+buttonpressed;
+                    document.getElementById(buttonDiv).innerHTML = "<i class=\"fas fa-retweet fa-2x\" style=\"color:#4cd999;\"></i>";
+                    $('#sharedComment').val('');
+
+                    //window.location.reload();
+                } else { 
+                    alert('An error occured');
+            }
+        }
+        });
+
+        toggleModal();
+        modalConfirm.classList.toggle("show-modal");
+        setTimeout(function() {modalConfirm.classList.toggle("show-modal");}, 1250);
+    });
+    
+    $('.modal-save-comment').click(function() {
+        buttonpressed = commentPostClicked;
+        commentText = $('#commentInput').val();
+        var cleanComment = $('#commentInput').val().replace(/[|&;$%'@"<>()+,]/g, "");
+        //console.log(commentText);
+        //buttonpressed = $(this).attr('name');
+        //commentText = $('#commentText'+buttonpressed).val();
+        //console.log("pressed"+buttonpressed);
+        //console.log(commentText);
+        
+        $.ajax({
+            method: 'POST',
+            data: {postID: buttonpressed, comment: cleanComment},
+            url: 'ajax/post-ajax.php?action=comment',
+            success: function(returned) {
+                console.log(returned);
+                if(returned == 'success') {
+
+                    buttonDiv = "commentDiv"+buttonpressed;
+                    commentBox = "comment"+buttonpressed;
+                    
+                    //ARVIN -- comment section
+                    document.getElementById(buttonDiv).innerHTML = "<ul class=\"comment-display\"><li class=\"comment-unit\"><i class=\"fas fa-angle-right\"></i></li><li class=\"comment-unit\"><div id=\"profile-photo-comment\"></div></li><li class=\"comment-unit-text\">" + document.getElementById(buttonDiv).innerHTML + commentText+"</li></ul><br>";
+                    
+                    $('#commentInput').val('');
+                    document.getElementById(commentBox).innerHTML = "<i class=\"fas fa-comment fa-2x\" style=\"color:#46bcd2;\"></i>";
+                    //document.getElementById(commentBox).innerHTML = "<input name=\"commentText\" type=\"text\" maxlength=\"2000\" id=\"commentText"+buttonpressed+"\" /><button type=\"submit\" class=\"comment-post\" name=\""+buttonpressed+"\">Save Comment</button>";
+
+                    //window.location.reload();
+                } else { 
+                    alert('An error occured');
+            }
+        }
+        });
+
+        toggleCommentModal();
+        modalConfirm.classList.toggle("show-modal");
+        setTimeout(function() {modalConfirm.classList.toggle("show-modal");}, 1250);
+
+	});
+    
+    $(document).on("click", ".comment-post", function(e) {
+        e.preventDefault(); // Prevents default action of the link (would scroll page up on click)
+   // $('.comment-post').click(function() {
+        buttonpressed = $(this).attr('name');
+        commentPostClicked = buttonpressed;
+        toggleCommentModal();
+        console.log("pressed"+buttonpressed);
+        //console.log(commentText);
+        
+	});
+});
