@@ -10,15 +10,20 @@ weight = 5
 # List your academic interests.
 [interests]
   interests = [
-    "Data Visualization",
+    "Political Communication",
     "Computational Social Science",
-    "Political Extremism",
-    "Religion & Politics",
+    "Data Visualization",
+    "Fringe Groups online",
     "Political Polarization",
-    "Everything R related"
+    "Statistical Programming Language R"
   ]
 
 # List your qualifications (such as academic degrees).
+[[education.courses]]
+  course = "Ph.D. Candidate in Political Communication"
+  institution = "University of Amsterdam"
+  year = 2020
+
 [[education.courses]]
   course = "M.A. Empirical Political and Social Research"
   institution = "University of Stuttgart"
@@ -40,5 +45,4 @@ weight = 5
 
 <a href="docs/VottaFabio_CV.pdf">Curriculum Vitae</a>
 
-I am currently enrolled as a master's student of *Empirical Political and Social Research* at the University of Stuttgart. My research interests include political polarization, political extremism and the interaction of religion and politics. I am also a very quantitative focused person and passionate about data and data visualization. I enjoy statistical modeling, computational social science and everything R related. At the University of Stuttgart, I tutor graduate students in statistics using both SPSS and R.
-
+I am an incoming Ph.D. student in Political Communication at the University of Amsterdam. My Ph.D. research focuses on the impact of microtargeted political advertisements on citizens and society from an empirical and computational social science perspective. I am very passionate about reproducible open science, data visualization and communicating insights from data to a broader audience.  My other research interests include the study of political and affective polarization as well as political extremism and fringe political groups online. In my spare time, I am constantly looking for new ways to improve my R skills and acquire new methods in my tool box. Finally, I am enthusiastic about teaching statistics and programming, both introductory courses or more advanced topics.
