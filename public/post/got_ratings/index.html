@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,71 +334,54 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        
+        <h2 id="packages-and-folders">Packages and Folders</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have them yet</span>
+<span style="color:#75715e"># if (!require(&#34;pacman&#34;)) install.packages(&#34;pacman&#34;)</span>
+<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
 
-<h2 id="packages-and-folders">Packages and Folders</h2>
-
-<pre><code class="language-r"># Install these packages if you don't have them yet
-# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
-# devtools::install_github(&quot;favstats/tidytemplate&quot;)
-
-pacman::p_load(tidyverse, tidytemplate, htmltab, 
+pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, tidytemplate, htmltab, 
                janitor, gameofthrones, extrafont, 
                scales, ggthemes)
 
-# Creates folders
-# tidytemplate::data_dir()
-# tidytemplate::images_dir()
-</code></pre>
-
-<h2 id="scraping-views-from-wikipedia">Scraping Views from Wikipedia</h2>
-
-<pre><code class="language-r">got_tables &lt;- &quot;https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_episodes&quot;
+<span style="color:#75715e"># Creates folders</span>
+<span style="color:#75715e"># tidytemplate::data_dir()</span>
+<span style="color:#75715e"># tidytemplate::images_dir()</span>
+</code></pre></div><h2 id="scraping-views-from-wikipedia">Scraping Views from Wikipedia</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">got_tables <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_episodes&#34;</span>
 
 
-episode_list &lt;- 2:9 %&gt;% 
-  map_dfr(~htmltab(got_tables, .x) %&gt;% mutate(season = .x - 1)) %&gt;% 
-  clean_names() %&gt;% 
-  mutate_at(vars(no_overall, no_inseason, u_s_viewers_millions), as.numeric) %&gt;% 
-  mutate(season = str_glue(&quot;Season {season}&quot;)) %&gt;% 
-  mutate(written_by = ifelse(str_detect(written_by, &quot;David Benioff &amp; D. B. Weiss&quot;), &quot;David Benioff &amp; D. B. Weiss&quot;, written_by))  %&gt;% 
-  mutate(title = str_remove_all(title, '\\&quot;'))
+episode_list <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">9</span> <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">map_dfr</span>(<span style="color:#f92672">~</span><span style="color:#a6e22e">htmltab</span>(got_tables, .x) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(season <span style="color:#f92672">=</span> .x <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate_at</span>(<span style="color:#a6e22e">vars</span>(no_overall, no_inseason, u_s_viewers_millions), as.numeric) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(season <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_glue</span>(<span style="color:#e6db74">&#34;Season {season}&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(written_by <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">str_detect</span>(written_by, <span style="color:#e6db74">&#34;David Benioff &amp; D. B. Weiss&#34;</span>), <span style="color:#e6db74">&#34;David Benioff &amp; D. B. Weiss&#34;</span>, written_by))  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_remove_all</span>(title, <span style="color:#e6db74">&#39;\\&#34;&#39;</span>))
 
-# ## save data after scraping
-save(episode_list, file = &quot;data/episode_list.Rdata&quot;)
-</code></pre>
-
-<h2 id="views-over-time">Views over time</h2>
-
-<pre><code class="language-r">episode_list %&gt;% 
-  ggplot(aes(no_overall, u_s_viewers_millions, fill = season)) +
-  geom_col(alpha = 0.9, position = position_dodge(width = 0.1)) +
-  ggthemes::theme_hc() +
-  scale_fill_got(&quot;&quot;, discrete = T, option = &quot;Targaryen&quot;) +
-  scale_x_continuous(breaks = seq(0, 70, 10)) +
-  labs(y = &quot;US Viewers in Millions&quot;, 
-       x = &quot;Episode Number&quot;, 
-       title = &quot;Game of Thrones&quot;, 
-       subtitle =  &quot;US viewers  per episode&quot;, 
-       caption = &quot;Source: Nielsen Media Research&quot;) +
-  guides(fill = guide_legend(nrow = 1)) +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.caption = element_text(size = 8))
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(season_views, width = 9, height = 5)
-</code></pre>
-
-<h2 id="how-many-episodes-were-written-by-which-writer">How many episodes were written by which writer?</h2>
-
-<pre><code class="language-r">episode_list %&gt;% 
-  count(written_by, sort = T)
-</code></pre>
-
-<pre><code>## # A tibble: 5 x 2
+<span style="color:#75715e"># ## save data after scraping</span>
+<span style="color:#a6e22e">save</span>(episode_list, file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/episode_list.Rdata&#34;</span>)
+</code></pre></div><h2 id="views-over-time">Views over time</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_list <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(no_overall, u_s_viewers_millions, fill <span style="color:#f92672">=</span> season)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_col</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>, position <span style="color:#f92672">=</span> <span style="color:#a6e22e">position_dodge</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>)) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Targaryen&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">10</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;US Viewers in Millions&#34;</span>, 
+       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Episode Number&#34;</span>, 
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, 
+       subtitle <span style="color:#f92672">=</span>  <span style="color:#e6db74">&#34;US viewers  per episode&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Source: Nielsen Media Research&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_legend</span>(nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>))
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(season_views, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
+</code></pre></div><h2 id="how-many-episodes-were-written-by-which-writer">How many episodes were written by which writer?</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_list <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">count</span>(written_by, sort <span style="color:#f92672">=</span> T)
+</code></pre></div><pre><code>## # A tibble: 5 x 2
 ##   written_by                      n
 ##   &lt;chr&gt;                       &lt;int&gt;
 ## 1 David Benioff &amp; D. B. Weiss    51
@@ -407,14 +390,10 @@ save(episode_list, file = &quot;data/episode_list.Rdata&quot;)
 ## 4 George R. R. Martin             4
 ## 5 Vanessa Taylor                  3
 </code></pre>
-
 <h2 id="how-many-episodes-were-directed-by-which-director">How many episodes were directed by which director?</h2>
-
-<pre><code class="language-r">episode_list %&gt;% 
-  count(directed_by, sort = T)
-</code></pre>
-
-<pre><code>## # A tibble: 20 x 2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_list <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">count</span>(directed_by, sort <span style="color:#f92672">=</span> T)
+</code></pre></div><pre><code>## # A tibble: 20 x 2
 ##    directed_by                     n
 ##    &lt;chr&gt;                       &lt;int&gt;
 ##  1 David Nutter                    9
@@ -438,188 +417,148 @@ save(episode_list, file = &quot;data/episode_list.Rdata&quot;)
 ## 19 David Benioff                   1
 ## 20 David Benioff &amp; D. B. Weiss     1
 </code></pre>
-
 <h2 id="scraping-rotten-tomatoes-ratings">Scraping Rotten Tomatoes Ratings</h2>
-
 <p>Creating a function to get the ratings</p>
-
-<pre><code class="language-r">get_rotten_ratings &lt;- function(link) {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">get_rotten_ratings <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(link) {
   
-  raw_html &lt;- read_html(link)
+  raw_html <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_html</span>(link)
   
-  rotten_rating &lt;- raw_html %&gt;% 
-    html_nodes(&quot;#scoreStats div:nth-child(1)&quot;) %&gt;% 
-    html_text() %&gt;% 
-    parse_number()
+  rotten_rating <span style="color:#f92672">&lt;-</span> raw_html <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">html_nodes</span>(<span style="color:#e6db74">&#34;#scoreStats div:nth-child(1)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">html_text</span>() <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">parse_number</span>()
   
-  rotten_score &lt;-  raw_html %&gt;% 
-    html_nodes(&quot;#tomato_meter_link &gt; span.meter-value.superPageFontColor&quot;) %&gt;% 
-    html_text() %&gt;% 
-    parse_number()
+  rotten_score <span style="color:#f92672">&lt;-</span>  raw_html <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">html_nodes</span>(<span style="color:#e6db74">&#34;#tomato_meter_link &gt; span.meter-value.superPageFontColor&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">html_text</span>() <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">parse_number</span>()
     
-  final_data &lt;- tibble(rotten_rating, rotten_score)
+  final_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(rotten_rating, rotten_score)
   
-  return(final_data)
+  <span style="color:#a6e22e">return</span>(final_data)
   
 }
 
 
-episode_ratings &lt;- episode_list %&gt;% 
-  mutate(season = str_replace(season, &quot;Season &quot;, &quot;s0&quot;)) %&gt;% 
-  mutate(episode = ifelse(nchar(no_inseason) == 1, paste0(&quot;e0&quot;, no_inseason), paste0(&quot;e&quot;, no_inseason))) %&gt;% 
-  mutate(rottenlink = str_glue(&quot;https://www.rottentomatoes.com/tv/game_of_thrones/{season}/{episode}&quot;)) %&gt;% 
-  pull(rottenlink) %&gt;% 
-  map_dfr(get_rotten_ratings) %&gt;% 
-  bind_cols(episode_list, .) 
+episode_ratings <span style="color:#f92672">&lt;-</span> episode_list <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(season <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(season, <span style="color:#e6db74">&#34;Season &#34;</span>, <span style="color:#e6db74">&#34;s0&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(episode <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">nchar</span>(no_inseason) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;e0&#34;</span>, no_inseason), <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;e&#34;</span>, no_inseason))) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(rottenlink <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_glue</span>(<span style="color:#e6db74">&#34;https://www.rottentomatoes.com/tv/game_of_thrones/{season}/{episode}&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">pull</span>(rottenlink) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">map_dfr</span>(get_rotten_ratings) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">bind_cols</span>(episode_list, .) 
 
-# ## save data after scraping
-save(episode_ratings, file = &quot;data/episode_ratings.Rdata&quot;)
-</code></pre>
+<span style="color:#75715e"># ## save data after scraping</span>
+<span style="color:#a6e22e">save</span>(episode_ratings, file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/episode_ratings.Rdata&#34;</span>)
+</code></pre></div><h2 id="ratings-by-writer">Ratings by Writer</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(written_by <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(written_by, rotten_rating)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(written_by, rotten_rating)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_jitter</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_violin</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> written_by)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_boxplot</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Margaery&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Rating&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings  by Writer&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>))
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(writer_ratings, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
+</code></pre></div><h2 id="scores-by-writer">Scores by Writer</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(written_by <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(written_by, rotten_score)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(written_by, rotten_score)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_jitter</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_violin</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> written_by)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_boxplot</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Margaery&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Scores&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Episode  Scores  by Writer&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>))
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(writer_scores, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)
+</code></pre></div><h2 id="rating-by-director">Rating by Director</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(directed_by <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(directed_by, rotten_rating)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(directed_by, rotten_rating)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_jitter</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_violin</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> directed_by)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_boxplot</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stark2&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Rating&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings  by Director&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_flip</span>()
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(director_ratings, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>)
+</code></pre></div><h2 id="scores-by-director">Scores by Director</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(directed_by <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(directed_by, rotten_score)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(directed_by, rotten_score)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_jitter</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_violin</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> directed_by)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_boxplot</span>(width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Stark2&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Rating&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Scores  by Director&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_flip</span>()
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(director_scores, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>)
+</code></pre></div><h2 id="rating-by-episode">Rating by Episode</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_titles <span style="color:#f92672">&lt;-</span> episode_ratings <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(rotten_rating <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9.4</span> <span style="color:#f92672">|</span> rotten_rating <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">7.5</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(title <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;The Lion and the Rose&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(title <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;The Bells&#34;</span>)
 
-<h2 id="ratings-by-writer">Ratings by Writer</h2>
+episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(no_overall, rotten_rating, color <span style="color:#f92672">=</span> season)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_line</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
+  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> episode_titles, <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> title), 
+                           size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span>, nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>, nudge_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span> 
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>season, scales <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;free_x&#34;</span>, nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)  <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Targaryen2&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Rating&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings  by Episode&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+        axis.ticks.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>())
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(episode_ratings, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h2 id="score-by-episode">Score by Episode</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">episode_titles <span style="color:#f92672">&lt;-</span> episode_ratings <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(rotten_score <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">80</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(title <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;The Lion and the Rose&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">filter</span>(title <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;The Bells&#34;</span>)
 
-<pre><code class="language-r">episode_ratings %&gt;% 
-  mutate(written_by = fct_reorder(written_by, rotten_rating)) %&gt;% 
-  ggplot(aes(written_by, rotten_rating)) +
-  geom_jitter(width = 0.3) +
-  geom_violin(alpha = 0.75, aes(fill = written_by)) +
-  geom_boxplot(width = 0.05) +
-  guides(fill = F) +
-  ggthemes::theme_hc() +
-  scale_fill_got(&quot;&quot;, discrete = T, option = &quot;Margaery&quot;) +
-  labs(y = &quot;Rotten Tomatoes Rating&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Ratings  by Writer&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;))
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/analysis-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(writer_ratings, width = 9, height = 5)
-</code></pre>
-
-<h2 id="scores-by-writer">Scores by Writer</h2>
-
-<pre><code class="language-r">episode_ratings %&gt;% 
-  mutate(written_by = fct_reorder(written_by, rotten_score)) %&gt;% 
-  ggplot(aes(written_by, rotten_score)) +
-  geom_jitter(width = 0.3) +
-  geom_violin(alpha = 0.75, aes(fill = written_by)) +
-  geom_boxplot(width = 0.05) +
-  guides(fill = F) +
-  ggthemes::theme_hc() +
-  scale_fill_got(&quot;&quot;, discrete = T, option = &quot;Margaery&quot;) +
-  labs(y = &quot;Rotten Tomatoes Scores&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Episode  Scores  by Writer&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;))
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-9-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(writer_scores, width = 9, height = 5)
-</code></pre>
-
-<h2 id="rating-by-director">Rating by Director</h2>
-
-<pre><code class="language-r">episode_ratings %&gt;% 
-  mutate(directed_by = fct_reorder(directed_by, rotten_rating)) %&gt;% 
-  ggplot(aes(directed_by, rotten_rating)) +
-  geom_jitter(width = 0.3) +
-  geom_violin(alpha = 0.75, aes(fill = directed_by)) +
-  geom_boxplot(width = 0.05) +
-  guides(fill = F) +
-  ggthemes::theme_hc() +
-  scale_fill_got(&quot;&quot;, discrete = T, option = &quot;Stark2&quot;) +
-  labs(y = &quot;Rotten Tomatoes Rating&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Ratings  by Director&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;)) +
-  coord_flip()
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-10-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(director_ratings, width = 6, height = 12)
-</code></pre>
-
-<h2 id="scores-by-director">Scores by Director</h2>
-
-<pre><code class="language-r">episode_ratings %&gt;% 
-  mutate(directed_by = fct_reorder(directed_by, rotten_score)) %&gt;% 
-  ggplot(aes(directed_by, rotten_score)) +
-  geom_jitter(width = 0.3) +
-  geom_violin(alpha = 0.75, aes(fill = directed_by)) +
-  geom_boxplot(width = 0.05) +
-  guides(fill = F) +
-  ggthemes::theme_hc() +
-  scale_fill_got(&quot;&quot;, discrete = T, option = &quot;Stark2&quot;) +
-  labs(y = &quot;Rotten Tomatoes Rating&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Scores  by Director&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;)) +
-  coord_flip()
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-11-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(director_scores, width = 6, height = 12)
-</code></pre>
-
-<h2 id="rating-by-episode">Rating by Episode</h2>
-
-<pre><code class="language-r">episode_titles &lt;- episode_ratings %&gt;%
-  filter(rotten_rating &gt; 9.4 | rotten_rating &lt; 7.5) %&gt;% 
-  filter(title != &quot;The Lion and the Rose&quot;) %&gt;% 
-  filter(title != &quot;The Bells&quot;)
-
-episode_ratings %&gt;% 
-  ggplot(aes(no_overall, rotten_rating, color = season)) +
-  geom_point() +
-  geom_line(alpha = 0.75) +
-  ggrepel::geom_text_repel(data = episode_titles, aes(label = title), 
-                           size = 2.5, nudge_y = 0.15, nudge_x = 3, seed = 200, color = &quot;black&quot;) + 
-  facet_wrap(~season, scales = &quot;free_x&quot;, nrow = 1)  +
-  ggthemes::theme_hc() +
-  scale_color_got(&quot;&quot;, discrete = T, option = &quot;Targaryen2&quot;) +
-  labs(y = &quot;Rotten Tomatoes Rating&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Ratings  by Episode&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;)) +
-  guides(color = F)  +
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-12-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(episode_ratings, width = 12, height = 6)
-</code></pre>
-
-<h2 id="score-by-episode">Score by Episode</h2>
-
-<pre><code class="language-r">episode_titles &lt;- episode_ratings %&gt;%
-  filter(rotten_score &lt; 80) %&gt;%
-  filter(title != &quot;The Lion and the Rose&quot;) %&gt;%
-  filter(title != &quot;The Bells&quot;)
-
-episode_ratings %&gt;% 
-  ggplot(aes(no_overall, rotten_score, color = season)) +
-  geom_point() +
-  geom_line(alpha = 0.75) +
-  ggrepel::geom_text_repel(data = episode_titles, aes(label = title),
-                           size = 2.5, nudge_y = 2, nudge_x = 5, seed = 200, color = &quot;black&quot;) +
-  facet_wrap(~season, scales = &quot;free_x&quot;, nrow = 1)  +
-  ggthemes::theme_hc() +
-  scale_color_got(&quot;&quot;, discrete = T, option = &quot;Greyjoy&quot;) +
-  labs(y = &quot;Rotten Tomatoes Score&quot;, x = &quot;&quot;, title = &quot;Game of Thrones&quot;, subtitle = &quot;Scores  by Episode&quot;)  +
-  theme(plot.title = element_text(size = 20, face = &quot;bold&quot;, hjust = 0.5, family = &quot;Game of Thrones&quot;),
-        plot.subtitle = element_text(size = 10, hjust = 0.5, family = &quot;Game of Thrones&quot;)) +
-  guides(color = F)  +
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
-</code></pre>
-
-<p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(rotten_score, width = 12, height = 6)
-</code></pre>
-
+episode_ratings <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(no_overall, rotten_score, color <span style="color:#f92672">=</span> season)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_line</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
+  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> episode_titles, <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> title),
+                           size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span>, nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, nudge_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">200</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>season, scales <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;free_x&#34;</span>, nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)  <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_color_got</span>(<span style="color:#e6db74">&#34;&#34;</span>, discrete <span style="color:#f92672">=</span> T, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Greyjoy&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Rotten Tomatoes Score&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Scores  by Episode&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>),
+        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Game of Thrones&#34;</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+        axis.ticks.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>())
+</code></pre></div><p><a href="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true"><img src="https://github.com/favstats/got_ratings/blob/master/rating_scraper_files/figure-gfm/unnamed-chunk-13-1.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(rotten_score, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div>
       </div>
 
       
@@ -695,7 +634,7 @@ episode_ratings %&gt;%
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,119 +334,104 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        
-
-<p>Data
+        <p>Data
 Sources:</p>
-
-<p><a href="https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017" target="_blank">https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017</a></p>
-
-<p><a href="https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html" target="_blank">https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html</a></p>
-
+<p><a href="https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017">https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017</a></p>
+<p><a href="https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html">https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html</a></p>
 <h2 id="settings-packages-and-folders">Settings, Packages and Folders</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">options</span>(scipen <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>)
+knitr<span style="color:#f92672">::</span>opts_chunk<span style="color:#f92672">$</span><span style="color:#a6e22e">set</span>(message <span style="color:#f92672">=</span> F,  warning <span style="color:#f92672">=</span> F, error <span style="color:#f92672">=</span> F, 
+                      fig.align <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;center&#34;</span>, 
+                      fig.width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, fig.height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+<span style="color:#75715e"># Install these packages if you don&#39;t have theme yet</span>
+<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
+<span style="color:#75715e"># install.packages(&#34;pacman&#34;)</span>
 
-<pre><code class="language-r">options(scipen = 999)
-knitr::opts_chunk$set(message = F,  warning = F, error = F, 
-                      fig.align = &quot;center&quot;, 
-                      fig.width = 10, fig.height = 6)
-# Install these packages if you don't have theme yet
-# devtools::install_github(&quot;favstats/tidytemplate&quot;)
-# install.packages(&quot;pacman&quot;)
+pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse)
 
-pacman::p_load(tidyverse)
+<span style="color:#75715e"># Creates folders</span>
+<span style="color:#75715e"># tidytemplate::data_dir()</span>
+<span style="color:#75715e"># tidytemplate::images_dir()</span>
+</code></pre></div><h2 id="helper-functions">Helper Functions</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">get_percentage <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(part, total, digits <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) {
 
-# Creates folders
-# tidytemplate::data_dir()
-# tidytemplate::images_dir()
-</code></pre>
-
-<h2 id="helper-functions">Helper Functions</h2>
-
-<pre><code class="language-r">get_percentage &lt;- function(part, total, digits = NULL) {
-
-  if(!is.numeric(part) | !is.numeric(total)){
-    cat(&quot;Non-numeric variables.. converting\n&quot;)
-    part &lt;- as.numeric(part)
-    total &lt;- as.numeric(total)
+  <span style="color:#a6e22e">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.numeric</span>(part) <span style="color:#f92672">|</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.numeric</span>(total)){
+    <span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Non-numeric variables.. converting\n&#34;</span>)
+    part <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(part)
+    total <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(total)
   }
-   val &lt;- part / total * 100
-   if(!is.null(digits)){
-   val &lt;- round(val, digits)
+   val <span style="color:#f92672">&lt;-</span> part <span style="color:#f92672">/</span> total <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>
+   <span style="color:#a6e22e">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.null</span>(digits)){
+   val <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">round</span>(val, digits)
    }
-  return(val) 
+  <span style="color:#a6e22e">return</span>(val) 
 }
 
 
-get_labs &lt;- function (pval) 
+get_labs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function </span>(pval) 
 {
-  dplyr::case_when(is.na(pval) ~ &quot;&quot;, 
-                   pval &lt; 0.001 ~ &quot;p &lt; 0.001&quot;,
-                   pval &lt; 0.01 ~ &quot;p &lt; 0.01&quot;, 
-                   pval &lt; 0.05 ~ &quot;p &lt; 0.05&quot;, 
-                   pval &lt; 0.1 ~  &quot;p &lt; 0.10&quot;, 
-      TRUE ~ &quot;p &gt; 0.10&quot;)
+  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">case_when</span>(<span style="color:#a6e22e">is.na</span>(pval) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;&#34;</span>, 
+                   pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.001</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;p &lt; 0.001&#34;</span>,
+                   pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.01</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;p &lt; 0.01&#34;</span>, 
+                   pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.05</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;p &lt; 0.05&#34;</span>, 
+                   pval <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.1</span> <span style="color:#f92672">~</span>  <span style="color:#e6db74">&#34;p &lt; 0.10&#34;</span>, 
+      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;p &gt; 0.10&#34;</span>)
 }
 
 
-get_r2_label &lt;- function(mod, digits = 3, adj = F){
-  if(!adj){#
-    message(&quot;R Squared\n&quot;)
-r2 &lt;- broom::glance(mod) %&gt;%
-    mutate(r.squared = r.squared * 100) %&gt;% 
-    .$r.squared %&gt;% 
-    format(., digits = digits) %&gt;% 
-    paste0(., &quot;%&quot;)
-return(r2)
+get_r2_label <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(mod, digits <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, adj <span style="color:#f92672">=</span> F){
+  <span style="color:#a6e22e">if</span>(<span style="color:#f92672">!</span>adj){<span style="color:#75715e">#</span>
+    <span style="color:#a6e22e">message</span>(<span style="color:#e6db74">&#34;R Squared\n&#34;</span>)
+r2 <span style="color:#f92672">&lt;-</span> broom<span style="color:#f92672">::</span><span style="color:#a6e22e">glance</span>(mod) <span style="color:#f92672">%&gt;%</span>
+    <span style="color:#a6e22e">mutate</span>(r.squared <span style="color:#f92672">=</span> r.squared <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">%&gt;%</span> 
+    .$r.squared <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">format</span>(., digits <span style="color:#f92672">=</span> digits) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">paste0</span>(., <span style="color:#e6db74">&#34;%&#34;</span>)
+<span style="color:#a6e22e">return</span>(r2)
   } else {
-    message(&quot;Getting Adjusted R Squared\n&quot;)
-    r2 &lt;- broom::glance(mod) %&gt;%
-      mutate(adj.r.squared = adj.r.squared * 100) %&gt;% 
-      .$adj.r.squared %&gt;% 
-      format(., digits = digits) %&gt;% 
-      paste0(., &quot;%&quot;)    
-return(r2)
+    <span style="color:#a6e22e">message</span>(<span style="color:#e6db74">&#34;Getting Adjusted R Squared\n&#34;</span>)
+    r2 <span style="color:#f92672">&lt;-</span> broom<span style="color:#f92672">::</span><span style="color:#a6e22e">glance</span>(mod) <span style="color:#f92672">%&gt;%</span>
+      <span style="color:#a6e22e">mutate</span>(adj.r.squared <span style="color:#f92672">=</span> adj.r.squared <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>) <span style="color:#f92672">%&gt;%</span> 
+      .$adj.r.squared <span style="color:#f92672">%&gt;%</span> 
+      <span style="color:#a6e22e">format</span>(., digits <span style="color:#f92672">=</span> digits) <span style="color:#f92672">%&gt;%</span> 
+      <span style="color:#a6e22e">paste0</span>(., <span style="color:#e6db74">&#34;%&#34;</span>)    
+<span style="color:#a6e22e">return</span>(r2)
   }
 }
-</code></pre>
-
-<h2 id="load-data">Load Data</h2>
-
+</code></pre></div><h2 id="load-data">Load Data</h2>
 <h3 id="btw13">BTW13</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## loading in district names</span>
+district_names <span style="color:#f92672">&lt;-</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">load_it</span>(<span style="color:#e6db74">&#34;data/district_names.Rdata&#34;</span>)
 
-<pre><code class="language-r">## loading in district names
-district_names &lt;- tidytemplate::load_it(&quot;data/district_names.Rdata&quot;)
 
+vars13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;wahlkreis_nr&#34;</span>, <span style="color:#e6db74">&#34;kreis&#34;</span>, <span style="color:#e6db74">&#34;part_of&#34;</span>, <span style="color:#e6db74">&#34;valid&#34;</span>, <span style="color:#e6db74">&#34;CDU&#34;</span>, <span style="color:#e6db74">&#34;SPD&#34;</span>, <span style="color:#e6db74">&#34;FDP&#34;</span>, <span style="color:#e6db74">&#34;DIE LINKE&#34;</span>, <span style="color:#e6db74">&#34;GRÜNE&#34;</span>, <span style="color:#e6db74">&#34;CSU&#34;</span>, <span style="color:#e6db74">&#34;PIRATEN&#34;</span>, <span style="color:#e6db74">&#34;NPD&#34;</span>, <span style="color:#e6db74">&#34;Tierschutzpartei&#34;</span>, <span style="color:#e6db74">&#34;REP&#34;</span>, <span style="color:#e6db74">&#34;ÖDP&#34;</span>, <span style="color:#e6db74">&#34;FAMILIE&#34;</span>, <span style="color:#e6db74">&#34;Bündnis 21/RRP&#34;</span>, <span style="color:#e6db74">&#34;RENTNER&#34;</span>, <span style="color:#e6db74">&#34;BP&#34;</span>, <span style="color:#e6db74">&#34;PBC&#34;</span>, <span style="color:#e6db74">&#34;BüSo&#34;</span>, <span style="color:#e6db74">&#34;DIE VIOLETTEN&#34;</span>, <span style="color:#e6db74">&#34;MLPD&#34;</span>, <span style="color:#e6db74">&#34;Volksabstimmung&#34;</span>, <span style="color:#e6db74">&#34;PSG&#34;</span>, <span style="color:#e6db74">&#34;AfD&#34;</span>, <span style="color:#e6db74">&#34;BIG&#34;</span>, <span style="color:#e6db74">&#34;pro Deutschland&#34;</span>, <span style="color:#e6db74">&#34;DIE RECHTE&#34;</span>, <span style="color:#e6db74">&#34;DIE FRAUEN&#34;</span>, <span style="color:#e6db74">&#34;FREIE WÄHLER&#34;</span>, <span style="color:#e6db74">&#34;Nichtwähler&#34;</span>, <span style="color:#e6db74">&#34;PARTEI DER VERNUNFT&#34;</span>, <span style="color:#e6db74">&#34;Die PARTEI&#34;</span>, <span style="color:#e6db74">&#34;B&#34;</span>, <span style="color:#e6db74">&#34;BGD&#34;</span>, <span style="color:#e6db74">&#34;DKP&#34;</span>, <span style="color:#e6db74">&#34;NEIN!&#34;</span>, <span style="color:#e6db74">&#34;Übrige&#34;</span>)
 
-vars13 &lt;- c(&quot;wahlkreis_nr&quot;, &quot;kreis&quot;, &quot;part_of&quot;, &quot;valid&quot;, &quot;CDU&quot;, &quot;SPD&quot;, &quot;FDP&quot;, &quot;DIE LINKE&quot;, &quot;GRÜNE&quot;, &quot;CSU&quot;, &quot;PIRATEN&quot;, &quot;NPD&quot;, &quot;Tierschutzpartei&quot;, &quot;REP&quot;, &quot;ÖDP&quot;, &quot;FAMILIE&quot;, &quot;Bündnis 21/RRP&quot;, &quot;RENTNER&quot;, &quot;BP&quot;, &quot;PBC&quot;, &quot;BüSo&quot;, &quot;DIE VIOLETTEN&quot;, &quot;MLPD&quot;, &quot;Volksabstimmung&quot;, &quot;PSG&quot;, &quot;AfD&quot;, &quot;BIG&quot;, &quot;pro Deutschland&quot;, &quot;DIE RECHTE&quot;, &quot;DIE FRAUEN&quot;, &quot;FREIE WÄHLER&quot;, &quot;Nichtwähler&quot;, &quot;PARTEI DER VERNUNFT&quot;, &quot;Die PARTEI&quot;, &quot;B&quot;, &quot;BGD&quot;, &quot;DKP&quot;, &quot;NEIN!&quot;, &quot;Übrige&quot;)
+ <span style="color:#75715e"># ss %&gt;% </span>
 
- # ss %&gt;% 
-
-btw13 &lt;- readr::read_delim(&quot;data/btw13_kerg.csv&quot;, 
-                           &quot;;&quot;, escape_double = FALSE, 
-                           comment = &quot;#&quot;, 
-                           trim_ws = TRUE)  %&gt;% 
-  janitor::clean_names() %&gt;% 
-  select(nr, gebiet, geh_f6_rt, str_which(pattern = &quot;Endg&lt;fc&gt;ltig&quot;, .)) %&gt;%
-  select(nr, gebiet, geh_f6_rt, str_which(pattern = &quot;Zweitstimme&quot;, .))  %&gt;% 
-  select(-x6, -x10, -x14) %&gt;% 
-  set_names(vars13) %&gt;% 
-  mutate(cdu_csu = ifelse(is.na(CDU), CSU, CDU)) %&gt;% 
-  mutate(perc_cdu_csu = get_percentage(cdu_csu, valid)) %&gt;%
-  mutate(perc_spd = get_percentage(SPD, valid)) %&gt;%
-  mutate(perc_linke = get_percentage(`DIE LINKE`, valid)) %&gt;%
-  mutate(perc_fdp = get_percentage(FDP, valid)) %&gt;%
-  mutate(perc_grun = get_percentage(`GRÜNE`, valid)) %&gt;%
-  mutate(perc_afd = get_percentage(AfD, valid)) %&gt;%
-  mutate(NPD = ifelse(is.na(NPD), &quot;0&quot;, NPD)) %&gt;% 
-  mutate(perc_npd = get_percentage(NPD, valid)) %&gt;%
-  select(wahlkreis_nr, kreis, part_of, valid, perc_afd, 
+btw13 <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672">::</span><span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;data/btw13_kerg.csv&#34;</span>, 
+                           <span style="color:#e6db74">&#34;;&#34;</span>, escape_double <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, 
+                           comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#&#34;</span>, 
+                           trim_ws <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)  <span style="color:#f92672">%&gt;%</span> 
+  janitor<span style="color:#f92672">::</span><span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(nr, gebiet, geh_f6_rt, <span style="color:#a6e22e">str_which</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Endg&lt;fc&gt;ltig&#34;</span>, .)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(nr, gebiet, geh_f6_rt, <span style="color:#a6e22e">str_which</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Zweitstimme&#34;</span>, .))  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>x6, <span style="color:#f92672">-</span>x10, <span style="color:#f92672">-</span>x14) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">set_names</span>(vars13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(cdu_csu <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">is.na</span>(CDU), CSU, CDU)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc_cdu_csu <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(cdu_csu, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_spd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(SPD, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_linke <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`DIE LINKE`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_fdp <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(FDP, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_grun <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`GRÜNE`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_afd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(AfD, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(NPD <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">is.na</span>(NPD), <span style="color:#e6db74">&#34;0&#34;</span>, NPD)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc_npd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(NPD, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, kreis, part_of, valid, perc_afd, 
          perc_npd, perc_spd, perc_linke, perc_fdp, 
-         perc_grun, perc_cdu_csu) %&gt;% 
-  drop_na(wahlkreis_nr) %&gt;% 
-  filter(part_of != 99)
-</code></pre>
-
-<pre><code>## Non-numeric variables.. converting
+         perc_grun, perc_cdu_csu) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">drop_na</span>(wahlkreis_nr) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(part_of <span style="color:#f92672">!=</span> <span style="color:#ae81ff">99</span>)
+</code></pre></div><pre><code>## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
@@ -454,32 +439,29 @@ btw13 &lt;- readr::read_delim(&quot;data/btw13_kerg.csv&quot;,
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 </code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">strukturdaten13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;data/btw13_strukturdaten.csv&#34;</span>, 
+                              <span style="color:#e6db74">&#34;;&#34;</span>, escape_double <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+                              comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#&#34;</span>, 
+                              trim_ws <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, 
+                              col_types <span style="color:#f92672">=</span> <span style="color:#a6e22e">cols</span>(.default <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;c&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+  janitor<span style="color:#f92672">::</span><span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
+  .[<span style="color:#ae81ff">-1</span>,] <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(unemployment <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(arbeitslosenquote_ende_dezember_2012_insgesamt, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(sgbii <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(empf_e4_nger_innen_von_leistungen_nach_sgb_ii_am_31_12_2012_insgesamt_je_1000_einwohner, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span>   
+  <span style="color:#a6e22e">mutate</span>(wanderung <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(zu_bzw_abnahme_der_bev_f6_lkerung_2011_wanderungssaldo_je_1000_einwohner, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span>  
+  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(<span style="color:#a6e22e">str_detect</span>(wahlkreis_name, <span style="color:#e6db74">&#34;insgesamt|Insgesamt&#34;</span>))) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, wanderung, unemployment, sgbii, wahlkreis_name, land) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(wahlkreis_nr <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.integer</span>(wahlkreis_nr))
 
-<pre><code class="language-r">strukturdaten13 &lt;- read_delim(&quot;data/btw13_strukturdaten.csv&quot;, 
-                              &quot;;&quot;, escape_double = FALSE,
-                              comment = &quot;#&quot;, 
-                              trim_ws = TRUE, 
-                              col_types = cols(.default = &quot;c&quot;)) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  .[-1,] %&gt;% 
-  mutate(unemployment = str_replace(arbeitslosenquote_ende_dezember_2012_insgesamt, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;% 
-  mutate(sgbii = str_replace(empf_e4_nger_innen_von_leistungen_nach_sgb_ii_am_31_12_2012_insgesamt_je_1000_einwohner, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;%   
-  mutate(wanderung = str_replace(zu_bzw_abnahme_der_bev_f6_lkerung_2011_wanderungssaldo_je_1000_einwohner, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;%  
-  filter(!(str_detect(wahlkreis_name, &quot;insgesamt|Insgesamt&quot;))) %&gt;% 
-  select(wahlkreis_nr, wanderung, unemployment, sgbii, wahlkreis_name, land) %&gt;%
-  mutate(wahlkreis_nr = as.integer(wahlkreis_nr))
+btw13_data <span style="color:#f92672">&lt;-</span> btw13 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(strukturdaten13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>kreis, <span style="color:#f92672">-</span>wahlkreis_name) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(district_names)
 
-btw13_data &lt;- btw13 %&gt;% 
-  left_join(strukturdaten13) %&gt;% 
-  select(-kreis, -wahlkreis_name) %&gt;% 
-  left_join(district_names)
-
-tidytemplate::save_it(btw13_data)
+tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">save_it</span>(btw13_data)
 
 btw13_data
-</code></pre>
-
-<pre><code>## # A tibble: 299 x 15
+</code></pre></div><pre><code>## # A tibble: 299 x 15
 ##    wahlkreis_nr part_of valid perc_afd perc_npd perc_spd perc_linke
 ##           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
 ##  1            1 1       1606~     4.09    0.578     32.6       5.66
@@ -496,40 +478,36 @@ btw13_data
 ## #   perc_grun &lt;dbl&gt;, perc_cdu_csu &lt;dbl&gt;, wanderung &lt;dbl&gt;,
 ## #   unemployment &lt;dbl&gt;, sgbii &lt;dbl&gt;, land &lt;chr&gt;, kreis &lt;chr&gt;
 </code></pre>
-
 <h3 id="btw-17">BTW 17</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">vars17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;wahlkreis_nr&#34;</span>, <span style="color:#e6db74">&#34;kreis&#34;</span>, <span style="color:#e6db74">&#34;part_of&#34;</span>, <span style="color:#e6db74">&#34;valid&#34;</span>, <span style="color:#e6db74">&#34;Christlich Demokratische Union Deutschlands&#34;</span>, <span style="color:#e6db74">&#34;Sozialdemokratische Partei Deutschlands&#34;</span>, <span style="color:#e6db74">&#34;DIE LINKE&#34;</span>, <span style="color:#e6db74">&#34;BÜNDNIS 90/DIE GRÜNEN&#34;</span>, <span style="color:#e6db74">&#34;Christlich-Soziale Union in Bayern e.V.&#34;</span>, <span style="color:#e6db74">&#34;Freie Demokratische Partei&#34;</span>, <span style="color:#e6db74">&#34;Alternative für Deutschland&#34;</span>, <span style="color:#e6db74">&#34;Piratenpartei Deutschland&#34;</span>, <span style="color:#e6db74">&#34;Nationaldemokratische Partei Deutschlands&#34;</span>, <span style="color:#e6db74">&#34;FREIE WÄHLER&#34;</span>, <span style="color:#e6db74">&#34;PARTEI MENSCH UMWELT TIERSCHUTZ&#34;</span>, <span style="color:#e6db74">&#34;Ökologisch-Demokratische Partei&#34;</span>, <span style="color:#e6db74">&#34;Die PARTEI&#34;</span>, <span style="color:#e6db74">&#34;Bayernpartei&#34;</span>, <span style="color:#e6db74">&#34;Ab jetzt...Demokratie durch Volksabstimmung&#34;</span>, <span style="color:#e6db74">&#34;Partei der Vernunft&#34;</span>, <span style="color:#e6db74">&#34;Marxistisch-Leninistische Partei Deutschlands&#34;</span>, <span style="color:#e6db74">&#34;Bürgerrechtsbewegung Solidarität&#34;</span>, <span style="color:#e6db74">&#34;Sozialistische Gleichheitspartei&#34;</span>, <span style="color:#e6db74">&#34;DIE RECHTE&#34;</span>, <span style="color:#e6db74">&#34;Allianz Deutscher Demokraten&#34;</span>, <span style="color:#e6db74">&#34;Allianz für Menschenrechte&#34;</span>, <span style="color:#e6db74">&#34;bergpartei&#34;</span>, <span style="color:#e6db74">&#34;Bündnis Grundeinkommen&#34;</span>, <span style="color:#e6db74">&#34;DEMOKRATIE IN BEWEGUNG&#34;</span>, <span style="color:#e6db74">&#34;Deutsche Kommunistische Partei&#34;</span>, <span style="color:#e6db74">&#34;Deutsche Mitte&#34;</span>, <span style="color:#e6db74">&#34;Die Grauen – Für alle Generationen&#34;</span>, <span style="color:#e6db74">&#34;Die Urbane. Eine HipHop Partei&#34;</span>, <span style="color:#e6db74">&#34;Madgeburger Gartenpartei&#34;</span>, <span style="color:#e6db74">&#34;Menschliche Welt&#34;</span>, <span style="color:#e6db74">&#34;Partei der Humanisten&#34;</span>, <span style="color:#e6db74">&#34;Partei für Gesundheitsforschung&#34;</span>, <span style="color:#e6db74">&#34;V-Partei³ - Partei für Veränderung&#34;</span>, <span style="color:#e6db74">&#34;Bündnis C - Christen für Deutschland&#34;</span>, <span style="color:#e6db74">&#34;DIE EINHEIT&#34;</span>, <span style="color:#e6db74">&#34;Die Violetten&#34;</span>, <span style="color:#e6db74">&#34;Familien-Partei Deutschlands&#34;</span>, <span style="color:#e6db74">&#34;Feministische Partei DIE FRAUEN&#34;</span>, <span style="color:#e6db74">&#34;Mieterpartei&#34;</span>, <span style="color:#e6db74">&#34;Neue Liberale – Die Sozialliberalen&#34;</span>, <span style="color:#e6db74">&#34;UNABHÄNGIGE für bürgernahe Demokratie&#34;</span>, <span style="color:#e6db74">&#34;Übrige&#34;</span>)
 
-<pre><code class="language-r">vars17 &lt;- c(&quot;wahlkreis_nr&quot;, &quot;kreis&quot;, &quot;part_of&quot;, &quot;valid&quot;, &quot;Christlich Demokratische Union Deutschlands&quot;, &quot;Sozialdemokratische Partei Deutschlands&quot;, &quot;DIE LINKE&quot;, &quot;BÜNDNIS 90/DIE GRÜNEN&quot;, &quot;Christlich-Soziale Union in Bayern e.V.&quot;, &quot;Freie Demokratische Partei&quot;, &quot;Alternative für Deutschland&quot;, &quot;Piratenpartei Deutschland&quot;, &quot;Nationaldemokratische Partei Deutschlands&quot;, &quot;FREIE WÄHLER&quot;, &quot;PARTEI MENSCH UMWELT TIERSCHUTZ&quot;, &quot;Ökologisch-Demokratische Partei&quot;, &quot;Die PARTEI&quot;, &quot;Bayernpartei&quot;, &quot;Ab jetzt...Demokratie durch Volksabstimmung&quot;, &quot;Partei der Vernunft&quot;, &quot;Marxistisch-Leninistische Partei Deutschlands&quot;, &quot;Bürgerrechtsbewegung Solidarität&quot;, &quot;Sozialistische Gleichheitspartei&quot;, &quot;DIE RECHTE&quot;, &quot;Allianz Deutscher Demokraten&quot;, &quot;Allianz für Menschenrechte&quot;, &quot;bergpartei&quot;, &quot;Bündnis Grundeinkommen&quot;, &quot;DEMOKRATIE IN BEWEGUNG&quot;, &quot;Deutsche Kommunistische Partei&quot;, &quot;Deutsche Mitte&quot;, &quot;Die Grauen – Für alle Generationen&quot;, &quot;Die Urbane. Eine HipHop Partei&quot;, &quot;Madgeburger Gartenpartei&quot;, &quot;Menschliche Welt&quot;, &quot;Partei der Humanisten&quot;, &quot;Partei für Gesundheitsforschung&quot;, &quot;V-Partei³ - Partei für Veränderung&quot;, &quot;Bündnis C - Christen für Deutschland&quot;, &quot;DIE EINHEIT&quot;, &quot;Die Violetten&quot;, &quot;Familien-Partei Deutschlands&quot;, &quot;Feministische Partei DIE FRAUEN&quot;, &quot;Mieterpartei&quot;, &quot;Neue Liberale – Die Sozialliberalen&quot;, &quot;UNABHÄNGIGE für bürgernahe Demokratie&quot;, &quot;Übrige&quot;)
-
-btw17 &lt;- readr::read_delim(&quot;data/btw17_kerg.csv&quot;, 
-                           &quot;;&quot;, escape_double = FALSE, comment = &quot;#&quot;, 
-                           trim_ws = TRUE)  %&gt;% 
-  janitor::clean_names() %&gt;% 
-  select(nr, gebiet, gehort_zu, grep(&quot;Endgültig&quot;, .)) %&gt;%
-  select(nr, gebiet, gehort_zu, grep(&quot;Zweitstimme&quot;, .)) %&gt;% 
-  select(-x6, -x10, -x14) %&gt;% 
-  set_names(vars17) %&gt;% 
-  mutate(cdu_csu = ifelse(is.na(`Christlich Demokratische Union Deutschlands`), 
+btw17 <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672">::</span><span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;data/btw17_kerg.csv&#34;</span>, 
+                           <span style="color:#e6db74">&#34;;&#34;</span>, escape_double <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#&#34;</span>, 
+                           trim_ws <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)  <span style="color:#f92672">%&gt;%</span> 
+  janitor<span style="color:#f92672">::</span><span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(nr, gebiet, gehort_zu, <span style="color:#a6e22e">grep</span>(<span style="color:#e6db74">&#34;Endgültig&#34;</span>, .)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(nr, gebiet, gehort_zu, <span style="color:#a6e22e">grep</span>(<span style="color:#e6db74">&#34;Zweitstimme&#34;</span>, .)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>x6, <span style="color:#f92672">-</span>x10, <span style="color:#f92672">-</span>x14) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">set_names</span>(vars17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(cdu_csu <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">is.na</span>(`Christlich Demokratische Union Deutschlands`), 
                           `Christlich-Soziale Union in Bayern e.V.`, 
-                          `Christlich Demokratische Union Deutschlands`)) %&gt;% 
-  mutate(perc_cdu_csu = get_percentage(cdu_csu, valid)) %&gt;%
-  mutate(perc_spd = get_percentage(`Sozialdemokratische Partei Deutschlands`, valid)) %&gt;%
-  mutate(perc_linke = get_percentage(`DIE LINKE`, valid)) %&gt;%
-  mutate(perc_fdp = get_percentage(`Freie Demokratische Partei`, valid)) %&gt;%
-  mutate(perc_grun = get_percentage(`BÜNDNIS 90/DIE GRÜNEN`, valid)) %&gt;%
-  mutate(perc_afd = get_percentage(`Alternative für Deutschland`, valid)) %&gt;%
-  mutate(NPD = ifelse(is.na(`Nationaldemokratische Partei Deutschlands`), 
-                      &quot;0&quot;, 
-                      `Nationaldemokratische Partei Deutschlands`)) %&gt;% 
-  mutate(perc_npd = get_percentage(NPD, valid)) %&gt;%
-  select(wahlkreis_nr, kreis, part_of, valid, perc_afd, 
+                          `Christlich Demokratische Union Deutschlands`)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc_cdu_csu <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(cdu_csu, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_spd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`Sozialdemokratische Partei Deutschlands`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_linke <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`DIE LINKE`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_fdp <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`Freie Demokratische Partei`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_grun <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`BÜNDNIS 90/DIE GRÜNEN`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(perc_afd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(`Alternative für Deutschland`, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(NPD <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">is.na</span>(`Nationaldemokratische Partei Deutschlands`), 
+                      <span style="color:#e6db74">&#34;0&#34;</span>, 
+                      `Nationaldemokratische Partei Deutschlands`)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc_npd <span style="color:#f92672">=</span> <span style="color:#a6e22e">get_percentage</span>(NPD, valid)) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, kreis, part_of, valid, perc_afd, 
          perc_npd, perc_spd, perc_linke, perc_fdp, 
-         perc_grun, perc_cdu_csu) %&gt;% 
-  drop_na(wahlkreis_nr) %&gt;% 
-  filter(part_of != 99)
-</code></pre>
-
-<pre><code>## Non-numeric variables.. converting
+         perc_grun, perc_cdu_csu) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">drop_na</span>(wahlkreis_nr) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(part_of <span style="color:#f92672">!=</span> <span style="color:#ae81ff">99</span>)
+</code></pre></div><pre><code>## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
@@ -537,11 +515,8 @@ btw17 &lt;- readr::read_delim(&quot;data/btw17_kerg.csv&quot;,
 ## Non-numeric variables.. converting
 ## Non-numeric variables.. converting
 </code></pre>
-
-<pre><code class="language-r">btw17
-</code></pre>
-
-<pre><code>## # A tibble: 299 x 11
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw17
+</code></pre></div><pre><code>## # A tibble: 299 x 11
 ##    wahlkreis_nr kreis part_of valid perc_afd perc_npd perc_spd perc_linke
 ##           &lt;int&gt; &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
 ##  1            1 Flen~       1 1704~     6.84    0.205     23.7       8.21
@@ -557,32 +532,29 @@ btw17 &lt;- readr::read_delim(&quot;data/btw17_kerg.csv&quot;,
 ## # ... with 289 more rows, and 3 more variables: perc_fdp &lt;dbl&gt;,
 ## #   perc_grun &lt;dbl&gt;, perc_cdu_csu &lt;dbl&gt;
 </code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">strukturdaten17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;data/btw17_strukturdaten.csv&#34;</span>, 
+                              <span style="color:#e6db74">&#34;;&#34;</span>, escape_double <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>,
+                              col_types <span style="color:#f92672">=</span> <span style="color:#a6e22e">cols</span>(.default <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;c&#34;</span>), 
+                              comment <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#&#34;</span>, 
+                              trim_ws <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>, 
+                              skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span> 
+  janitor<span style="color:#f92672">::</span><span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(unemployment <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(arbeitslosenquote_marz_2017_insgesamt, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(wanderung <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(zu_bzw_abnahme_der_bev_f6_lkerung_2015_wanderungssaldo_je_1000_einwohner, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(sgbii <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(empfanger_innen_von_leistungen_nach_sgb_ii_am_31_12_2016_insgesamt_je_1000_einwohner, <span style="color:#e6db74">&#34;,&#34;</span>, <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(<span style="color:#a6e22e">str_detect</span>(wahlkreis_name, <span style="color:#e6db74">&#34;insgesamt|Insgesamt&#34;</span>))) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, unemployment, wanderung, sgbii, wahlkreis_name, land) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">mutate</span>(wahlkreis_nr <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.integer</span>(wahlkreis_nr))
 
-<pre><code class="language-r">strukturdaten17 &lt;- read_delim(&quot;data/btw17_strukturdaten.csv&quot;, 
-                              &quot;;&quot;, escape_double = FALSE,
-                              col_types = cols(.default = &quot;c&quot;), 
-                              comment = &quot;#&quot;, 
-                              trim_ws = TRUE, 
-                              skip = 1) %&gt;% 
-  janitor::clean_names() %&gt;% 
-  mutate(unemployment = str_replace(arbeitslosenquote_marz_2017_insgesamt, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;% 
-  mutate(wanderung = str_replace(zu_bzw_abnahme_der_bev_f6_lkerung_2015_wanderungssaldo_je_1000_einwohner, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;% 
-  mutate(sgbii = str_replace(empfanger_innen_von_leistungen_nach_sgb_ii_am_31_12_2016_insgesamt_je_1000_einwohner, &quot;,&quot;, &quot;.&quot;) %&gt;% as.numeric) %&gt;% 
-  filter(!(str_detect(wahlkreis_name, &quot;insgesamt|Insgesamt&quot;))) %&gt;% 
-  select(wahlkreis_nr, unemployment, wanderung, sgbii, wahlkreis_name, land) %&gt;%
-  mutate(wahlkreis_nr = as.integer(wahlkreis_nr))
+btw17_data <span style="color:#f92672">&lt;-</span> btw17 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(strukturdaten17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>kreis, <span style="color:#f92672">-</span>wahlkreis_name) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(district_names)
 
-btw17_data &lt;- btw17 %&gt;% 
-  left_join(strukturdaten17) %&gt;% 
-  select(-kreis, -wahlkreis_name) %&gt;% 
-  left_join(district_names)
-
-tidytemplate::save_it(btw17_data)
+tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">save_it</span>(btw17_data)
 
 btw17_data
-</code></pre>
-
-<pre><code>## # A tibble: 299 x 15
+</code></pre></div><pre><code>## # A tibble: 299 x 15
 ##    wahlkreis_nr part_of valid perc_afd perc_npd perc_spd perc_linke
 ##           &lt;int&gt;   &lt;int&gt; &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
 ##  1            1       1 1704~     6.84    0.205     23.7       8.21
@@ -599,28 +571,24 @@ btw17_data
 ## #   perc_grun &lt;dbl&gt;, perc_cdu_csu &lt;dbl&gt;, unemployment &lt;dbl&gt;,
 ## #   wanderung &lt;dbl&gt;, sgbii &lt;dbl&gt;, land &lt;chr&gt;, kreis &lt;chr&gt;
 </code></pre>
-
 <h2 id="all-together">All Together</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw13_data <span style="color:#f92672">&lt;-</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">load_it</span>(<span style="color:#e6db74">&#34;data/btw13_data.Rdata&#34;</span>)
+btw17_data <span style="color:#f92672">&lt;-</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">load_it</span>(<span style="color:#e6db74">&#34;data/btw17_data.Rdata&#34;</span>)
 
-<pre><code class="language-r">btw13_data &lt;- tidytemplate::load_it(&quot;data/btw13_data.Rdata&quot;)
-btw17_data &lt;- tidytemplate::load_it(&quot;data/btw17_data.Rdata&quot;)
-
-btw_data &lt;- bind_rows(btw17_data %&gt;% 
-  mutate(year = &quot;BTW 2017&quot;) %&gt;% 
-  mutate(part_of = as.character(part_of)),
-  btw13_data %&gt;% 
-    mutate(year = &quot;BTW 2013&quot;))  %&gt;% 
-  mutate(east_west = case_when(
-    str_detect(land, &quot;Berlin|Brand|Nieder|Sachs&quot;) ~ &quot;East Germany&quot;,
-    T ~ &quot;West Germany&quot;
+btw_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(btw17_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(part_of <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(part_of)),
+  btw13_data <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>))  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(east_west <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+    <span style="color:#a6e22e">str_detect</span>(land, <span style="color:#e6db74">&#34;Berlin|Brand|Nieder|Sachs&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;East Germany&#34;</span>,
+    T <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;West Germany&#34;</span>
   )) 
 
-tidytemplate::save_it(btw_data)
+tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">save_it</span>(btw_data)
 
 btw_data
-</code></pre>
-
-<pre><code>## # A tibble: 598 x 17
+</code></pre></div><pre><code>## # A tibble: 598 x 17
 ##    wahlkreis_nr part_of valid perc_afd perc_npd perc_spd perc_linke
 ##           &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
 ##  1            1 1       1704~     6.84    0.205     23.7       8.21
@@ -638,502 +606,418 @@ btw_data
 ## #   wanderung &lt;dbl&gt;, sgbii &lt;dbl&gt;, land &lt;chr&gt;, kreis &lt;chr&gt;, year &lt;chr&gt;,
 ## #   east_west &lt;chr&gt;
 </code></pre>
-
 <h3 id="unemployment">Unemployment</h3>
-
 <h4 id="afd">AfD</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_afd <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_afd <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw17_data)
 
-<pre><code class="language-r">mod13 &lt;- lm(perc_afd ~ unemployment, data = btw13_data)
-mod17 &lt;- lm(perc_afd ~ unemployment, data = btw17_data)
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_afd &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_afd)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 34, x = 8, label = text), show.legend = F) +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share AfD in %&quot;,
-       title = &quot;AfD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_afd <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_afd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">34</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share AfD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_afd
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_afd, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west">East-West</h5>
-
-<pre><code class="language-r">gg_afd_eastwest &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_afd, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share AfD in %&quot;,
-       title = &quot;AfD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;) +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_afd, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_afd_eastwest <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_afd, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share AfD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_afd_eastwest
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_afd_eastwest, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h4 id="npd">NPD</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw17_data)
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /></p>
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_afd_eastwest, width = 10, height = 6)
-</code></pre>
-
-<h4 id="npd">NPD</h4>
-
-<pre><code class="language-r">mod13 &lt;- lm(perc_npd ~ unemployment, data = btw13_data)
-mod17 &lt;- lm(perc_npd ~ unemployment, data = btw17_data)
-
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_npd &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_npd)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 5.2, x = 8, label = text), show.legend = F) +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share npd in %&quot;,
-       title = &quot;NPD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_npd <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_npd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">5.2</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share npd in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NPD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_npd
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_npd, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west-1">East-West</h5>
-
-<pre><code class="language-r">gg_npd_eastwest &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_npd, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share npd in %&quot;,
-       title = &quot;NPD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;)  +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_npd, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west-1">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_npd_eastwest <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_npd, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share npd in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NPD Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_npd_eastwest
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_npd_eastwest, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h4 id="linke">Linke</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_linke <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_linke <span style="color:#f92672">~</span> unemployment, data <span style="color:#f92672">=</span> btw17_data)
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /></p>
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_npd_eastwest, width = 10, height = 6)
-</code></pre>
-
-<h4 id="linke">Linke</h4>
-
-<pre><code class="language-r">mod13 &lt;- lm(perc_linke ~ unemployment, data = btw13_data)
-mod17 &lt;- lm(perc_linke ~ unemployment, data = btw17_data)
-
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;unemployment&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;unemployment&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_linke &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_linke)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 34, x = 8, label = text), show.legend = F) +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share 'Die Linke' in %&quot;,
-       title = &quot;'Die Linke' Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_linke <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_linke)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">34</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share &#39;Die Linke&#39; in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#39;Die Linke&#39; Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_linke
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_linke, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west-2">East-West</h5>
-
-<pre><code class="language-r">gg_linke_eastwest &lt;- btw_data %&gt;% 
-  ggplot(aes(unemployment, perc_linke, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Unemployment Rate in %&quot;, y = &quot;Vote Share 'Die Linke in %&quot;,
-       title = &quot;'Die Linke' Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;)  +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_linke, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west-2">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_linke_eastwest <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(unemployment, perc_linke, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Unemployment Rate in %&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share &#39;Die Linke in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#39;Die Linke&#39; Vote Share and Unemployment Rate in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_linke_eastwest
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_linke_eastwest, width = 10, height = 6)
-</code></pre>
-
-<h3 id="migration">Migration</h3>
-
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_linke_eastwest, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h3 id="migration">Migration</h3>
 <h4 id="afd-1">AfD</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_afd <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_afd <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw17_data)
 
-<pre><code class="language-r">mod13 &lt;- lm(perc_afd ~ wanderung, data = btw13_data)
-mod17 &lt;- lm(perc_afd ~ wanderung, data = btw17_data)
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_afd_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_afd)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 34, x = 15, label = text), show.legend = F) +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share AfD in %&quot;,
-       title = &quot;AfD Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_afd_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_afd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">34</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share AfD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_afd_wanderung
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_afd_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west-3">East-West</h5>
-
-<pre><code class="language-r">gg_afd_eastwest_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_afd, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share AfD in %&quot;,
-       title = &quot;AfD Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;) +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_afd_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west-3">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_afd_eastwest_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_afd, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share AfD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_afd_eastwest_wanderung
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_afd_eastwest_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h5 id="just-btw-2017">Just BTW 2017</h5>
-
-<pre><code class="language-r">gg_afd_wanderung17 &lt;- btw_data %&gt;% 
-  filter(year == &quot;BTW 2017&quot;) %&gt;% 
-  ggplot(aes(wanderung, perc_afd, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  theme_minimal() +
-  # geom_text(data = label_dat %&gt;% 
-  #             filter(year == &quot;BTW 2017&quot;), aes(y = 34, x = 15, label = text), show.legend = F) +
-  labs(x = &quot;Net Migration per 1000 inhabitants&quot;, y = &quot;Vote Share AfD in %&quot;,
-       title = &quot;AfD Vote Share and Net Migration in the 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)   +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;) +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_afd_eastwest_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="just-btw-2017">Just BTW 2017</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_afd_wanderung17 <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_afd, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#75715e"># geom_text(data = label_dat %&gt;% </span>
+  <span style="color:#75715e">#             filter(year == &#34;BTW 2017&#34;), aes(y = 34, x = 15, label = text), show.legend = F) +</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Net Migration per 1000 inhabitants&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share AfD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share and Net Migration in the 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)   <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_afd_wanderung17
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_afd_wanderung17, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h4 id="npd-1">NPD</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw17_data)
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /></p>
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_afd_wanderung17, width = 10, height = 6)
-</code></pre>
-
-<h4 id="npd-1">NPD</h4>
-
-<pre><code class="language-r">mod13 &lt;- lm(perc_npd ~ wanderung, data = btw13_data)
-mod17 &lt;- lm(perc_npd ~ wanderung, data = btw17_data)
-
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_npd_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_npd)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 5.2, x = 15, label = text), show.legend = F) +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share NPD in %&quot;,
-       title = &quot;NPD Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_npd_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_npd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">5.2</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share NPD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NPD Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_npd_wanderung
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_npd_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west-4">East-West</h5>
-
-<pre><code class="language-r">gg_npd_eastwest_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_npd, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share NPD in %&quot;,
-       title = &quot;NPD Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;)  +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_npd_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west-4">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_npd_eastwest_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_npd, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share NPD in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NPD Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_npd_eastwest_wanderung
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_npd_eastwest_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h4 id="linke-1">Linke</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_linke <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_linke <span style="color:#f92672">~</span> wanderung, data <span style="color:#f92672">=</span> btw17_data)
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /></p>
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_npd_eastwest_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h4 id="linke-1">Linke</h4>
-
-<pre><code class="language-r">mod13 &lt;- lm(perc_linke ~ wanderung, data = btw13_data)
-mod17 &lt;- lm(perc_linke ~ wanderung, data = btw17_data)
-
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;wanderung&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;wanderung&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_linke_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_linke)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 34, x = 15, label = text), show.legend = F) +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share 'Die Linke' in %&quot;,
-       title = &quot;'Die Linke' Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_linke_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_linke)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">34</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share &#39;Die Linke&#39; in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#39;Die Linke&#39; Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_linke_wanderung
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_linke_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h5 id="east-west-5">East-West</h5>
-
-<pre><code class="language-r">gg_linke_eastwest_wanderung &lt;- btw_data %&gt;% 
-  ggplot(aes(wanderung, perc_linke, color = east_west)) +
-  geom_point(aes(shape = east_west), alpha = 0.8) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  labs(x = &quot;Migration Saldo&quot;, y = &quot;Vote Share 'Die Linke in %&quot;,
-       title = &quot;'Die Linke' Vote Share and Net Migration in the 2013 and 2017 German Elections&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;)  +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;)  +
-  guides(shape = F)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_linke_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h5 id="east-west-5">East-West</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_linke_eastwest_wanderung <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wanderung, perc_linke, color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(shape <span style="color:#f92672">=</span> east_west), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Migration Saldo&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share &#39;Die Linke in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#39;Die Linke&#39; Vote Share and Net Migration in the 2013 and 2017 German Elections&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F)
 
 gg_linke_eastwest_wanderung
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_linke_eastwest_wanderung, width = 10, height = 6)
-</code></pre>
-
-<h2 id="where-did-the-afd-come-from">Where did the AfD come from?</h2>
-
-<pre><code class="language-r">btw_lagged_all &lt;- btw_data %&gt;% 
-  filter(year == &quot;BTW 2017&quot;) %&gt;%
-  select(wahlkreis_nr, perc_afd) %&gt;% 
-left_join(
-  btw_data %&gt;% 
-  filter(year == &quot;BTW 2013&quot;) %&gt;%
-  select(wahlkreis_nr, perc_spd, perc_cdu_csu, perc_linke, 
-         perc_grun, perc_fdp, perc_npd))  %&gt;% 
-  rename(`AfD 2017` = perc_afd,
-         `SPD 2013` = perc_spd,
-         `CDU/CSU 2013` = perc_cdu_csu,
-         `Die Linke 2013` = perc_linke,
-         `Die Grünen 2013` = perc_grun,
-         `FDP 2013` = perc_fdp,
-         `NPD 2013` = perc_npd) %&gt;% 
-left_join(
-  btw_data %&gt;% select(wahlkreis_nr, east_west)) %&gt;% 
-  select(-wahlkreis_nr) 
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_linke_eastwest_wanderung, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><h2 id="where-did-the-afd-come-from">Where did the AfD come from?</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_lagged_all <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, perc_afd) <span style="color:#f92672">%&gt;%</span> 
+<span style="color:#a6e22e">left_join</span>(
+  btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(wahlkreis_nr, perc_spd, perc_cdu_csu, perc_linke, 
+         perc_grun, perc_fdp, perc_npd))  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(`AfD 2017` <span style="color:#f92672">=</span> perc_afd,
+         `SPD 2013` <span style="color:#f92672">=</span> perc_spd,
+         `CDU/CSU 2013` <span style="color:#f92672">=</span> perc_cdu_csu,
+         `Die Linke 2013` <span style="color:#f92672">=</span> perc_linke,
+         `Die Grünen 2013` <span style="color:#f92672">=</span> perc_grun,
+         `FDP 2013` <span style="color:#f92672">=</span> perc_fdp,
+         `NPD 2013` <span style="color:#f92672">=</span> perc_npd) <span style="color:#f92672">%&gt;%</span> 
+<span style="color:#a6e22e">left_join</span>(
+  btw_data <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(wahlkreis_nr, east_west)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>wahlkreis_nr) 
 
 btw_lagged_all
-</code></pre>
-
-<pre><code>## # A tibble: 598 x 8
+</code></pre></div><pre><code>## # A tibble: 598 x 8
 ##    `AfD 2017` `SPD 2013` `CDU/CSU 2013` `Die Linke 2013` `Die Grünen 201~
 ##         &lt;dbl&gt;      &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
 ##  1       6.84       32.6           38.2             5.66             9.79
@@ -1149,369 +1033,317 @@ btw_lagged_all
 ## # ... with 588 more rows, and 3 more variables: `FDP 2013` &lt;dbl&gt;, `NPD
 ## #   2013` &lt;dbl&gt;, east_west &lt;chr&gt;
 </code></pre>
-
-<pre><code class="language-r">afd_origin &lt;- btw_lagged_all %&gt;% 
-  gather(parties, perc, -east_west, -`AfD 2017`) %&gt;% 
-  ggplot(aes(perc, `AfD 2017`, 
-             color = east_west, 
-             shape = east_west)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~parties, scales = &quot;free&quot;) +
-  ggthemes::scale_color_colorblind(&quot;Region&quot;) +
-  theme_minimal()  +
-  labs(x = &quot;2013 Vote Share in Percent&quot;, 
-       y = &quot;AfD Vote Share in 2017&quot;,
-       title = &quot;Where did AfD voters come from?&quot;, 
-       subtitle = &quot;Comparing 2013 Election results with Vote Share of the AfD in the 2017 Election on the Electoral District Level&quot;,
-       caption = &quot;N = 299 Electoral Districts\nData from Federal Returning Officer ('Bundeswahlleiter')\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;),
-        legend.position = &quot;bottom&quot;) +
-  guides(shape = F) #+
-  # ggpubr::stat_cor()
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">afd_origin <span style="color:#f92672">&lt;-</span> btw_lagged_all <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">gather</span>(parties, perc, <span style="color:#f92672">-</span>east_west, <span style="color:#f92672">-</span>`AfD 2017`) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(perc, `AfD 2017`, 
+             color <span style="color:#f92672">=</span> east_west, 
+             shape <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.6</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>parties, scales <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;free&#34;</span>) <span style="color:#f92672">+</span>
+  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>()  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2013 Vote Share in Percent&#34;</span>, 
+       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AfD Vote Share in 2017&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Where did AfD voters come from?&#34;</span>, 
+       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Comparing 2013 Election results with Vote Share of the AfD in the 2017 Election on the Electoral District Level&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from Federal Returning Officer (&#39;Bundeswahlleiter&#39;)\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(shape <span style="color:#f92672">=</span> F) <span style="color:#75715e">#+</span>
+  <span style="color:#75715e"># ggpubr::stat_cor()</span>
 
 afd_origin
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(afd_origin, width = 12, height = 8)
-</code></pre>
-
-<p><strong>To-Do</strong></p>
-
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(afd_origin, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+</code></pre></div><p><strong>To-Do</strong></p>
 <h2 id="mapping">mapping</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_data <span style="color:#f92672">&lt;-</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">load_it</span>(<span style="color:#e6db74">&#34;data/btw_data.Rdata&#34;</span>)
 
-<pre><code class="language-r">btw_data &lt;- tidytemplate::load_it(&quot;data/btw_data.Rdata&quot;)
-
-library(rgdal)
-btw_raw &lt;- readOGR(&quot;data/Geometrie_Wahlkreise_19DBT_geo.shp&quot;) 
-</code></pre>
-
-<pre><code>## OGR data source with driver: ESRI Shapefile 
+<span style="color:#a6e22e">library</span>(rgdal)
+btw_raw <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readOGR</span>(<span style="color:#e6db74">&#34;data/Geometrie_Wahlkreise_19DBT_geo.shp&#34;</span>) 
+</code></pre></div><pre><code>## OGR data source with driver: ESRI Shapefile 
 ## Source: &quot;C:\Users\Fabio\Documents\git_proj\btw_data\data\Geometrie_Wahlkreise_19DBT_geo.shp&quot;, layer: &quot;Geometrie_Wahlkreise_19DBT_geo&quot;
 ## with 299 features
 ## It has 4 fields
 ## Integer64 fields read as strings:  WKR_NR
 </code></pre>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">plot</span>(btw_raw)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_map_dat <span style="color:#f92672">&lt;-</span> btw_raw<span style="color:#f92672">@</span>data<span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as.data.frame</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rownames_to_column</span>(<span style="color:#e6db74">&#34;id&#34;</span>)
 
-<pre><code class="language-r">plot(btw_raw)
-</code></pre>
+btw_map_wt <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">spTransform</span>(btw_raw, <span style="color:#a6e22e">CRS</span>(<span style="color:#e6db74">&#34;+proj=longlat +datum=WGS84&#34;</span>))
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">btw_map_dat &lt;- btw_raw@data%&gt;% 
-  as.data.frame() %&gt;% 
-  rownames_to_column(&quot;id&quot;)
-
-btw_map_wt &lt;- spTransform(btw_raw, CRS(&quot;+proj=longlat +datum=WGS84&quot;))
-
-btw_map &lt;- fortify(btw_map_wt) %&gt;% 
-  left_join(btw_map_dat, by = &quot;id&quot;)
+btw_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">fortify</span>(btw_map_wt) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(btw_map_dat, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;id&#34;</span>)
 
 
-btw_map13 &lt;- btw_data %&gt;% 
-  filter(year == &quot;BTW 2013&quot;) %&gt;% 
-  inner_join(btw_map %&gt;% 
-  rename(wahlkreis_nr = WKR_NR) %&gt;% 
-  mutate(wahlkreis_nr = as.character(wahlkreis_nr) %&gt;% as.integer))
+btw_map13 <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">inner_join</span>(btw_map <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(wahlkreis_nr <span style="color:#f92672">=</span> WKR_NR) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(wahlkreis_nr <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(wahlkreis_nr) <span style="color:#f92672">%&gt;%</span> as.integer))
 
-btw_map17 &lt;- btw_data %&gt;% 
-  filter(year == &quot;BTW 2017&quot;) %&gt;% 
-  inner_join(btw_map %&gt;% 
-  rename(wahlkreis_nr = WKR_NR) %&gt;% 
-  mutate(wahlkreis_nr = as.character(wahlkreis_nr) %&gt;% as.integer))
+btw_map17 <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">inner_join</span>(btw_map <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(wahlkreis_nr <span style="color:#f92672">=</span> WKR_NR) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(wahlkreis_nr <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(wahlkreis_nr) <span style="color:#f92672">%&gt;%</span> as.integer))
 
 
-# btw_map &lt;- bind_rows(btw_map13 %&gt;% 
-#             mutate(year = &quot;BTW 2013&quot;), 
-#           btw_map17 %&gt;% 
-#             mutate(year = &quot;BTW 2017&quot;))
-</code></pre>
+<span style="color:#75715e"># btw_map &lt;- bind_rows(btw_map13 %&gt;% </span>
+<span style="color:#75715e">#             mutate(year = &#34;BTW 2013&#34;), </span>
+<span style="color:#75715e">#           btw_map17 %&gt;% </span>
+<span style="color:#75715e">#             mutate(year = &#34;BTW 2017&#34;))</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(btw_map13 <span style="color:#f92672">%&gt;%</span> 
+            <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>), 
+          btw_map17 <span style="color:#f92672">%&gt;%</span> 
+            <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>))
 
-<pre><code class="language-r">btw_map &lt;- bind_rows(btw_map13 %&gt;% 
-            mutate(year = &quot;BTW 2013&quot;), 
-          btw_map17 %&gt;% 
-            mutate(year = &quot;BTW 2017&quot;))
-
-gg_btw_map17 &lt;- btw_map17 %&gt;% 
-  ggplot(aes(fill = perc_afd)) +
-  geom_map(map = btw_map17,
-         aes(x = long, y = lat, group = group, map_id = id),
-         color = &quot;black&quot;, size = 0.4)  + 
-  theme_void() +
-  # facet_wrap(~year) +
-  coord_map() +
-  viridis::scale_fill_viridis(&quot;AfD Vote Share in %&quot;,
-                               option = &quot;D&quot;, discrete = F, end = .8) +
-                       #       limits = c(1, 10),
-                       # breaks = c(1:10),
-                       # labels = c(1:10)) +
-  theme(plot.title = element_text(hjust = 0.5, size = 19, face = &quot;bold&quot;),
-    legend.justification = c(1, 0),
-    legend.position = c(0.82, 0.91),
-    legend.title = element_text(size = 16, face = &quot;bold&quot;), 
-    strip.text = element_text(size = 12),
-    #axis.ticks.length = unit(3, &quot;cm&quot;),
-    legend.direction = &quot;horizontal&quot;,
-    plot.caption = element_text(size = 13)) +
-  guides(fill = guide_colorbar(barwidth = 12, barheight = 0.5,
-                title.position = &quot;top&quot;, title.hjust = 0.5,
-                label.theme = element_text(colour = &quot;black&quot;, size = 14, angle = 0))) +
-  labs(title = &quot;German General Election 2017 - AfD Results&quot;, 
-       caption = &quot;299 Electoral Districts   \nData from Federal Returning Officer ('Bundeswahlleiter')   \n@FabioFavusMaxim; favstats.eu   &quot;)
+gg_btw_map17 <span style="color:#f92672">&lt;-</span> btw_map17 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> perc_afd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_map</span>(map <span style="color:#f92672">=</span> btw_map17,
+         <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, map_id <span style="color:#f92672">=</span> id),
+         color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>)  <span style="color:#f92672">+</span> 
+  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
+  <span style="color:#75715e"># facet_wrap(~year) +</span>
+  <span style="color:#a6e22e">coord_map</span>() <span style="color:#f92672">+</span>
+  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(<span style="color:#e6db74">&#34;AfD Vote Share in %&#34;</span>,
+                               option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;D&#34;</span>, discrete <span style="color:#f92672">=</span> F, end <span style="color:#f92672">=</span> <span style="color:#ae81ff">.8</span>) <span style="color:#f92672">+</span>
+                       <span style="color:#75715e">#       limits = c(1, 10),</span>
+                       <span style="color:#75715e"># breaks = c(1:10),</span>
+                       <span style="color:#75715e"># labels = c(1:10)) +</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    legend.justification <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.82</span>, <span style="color:#ae81ff">0.91</span>),
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
+    <span style="color:#75715e">#axis.ticks.length = unit(3, &#34;cm&#34;),</span>
+    legend.direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;horizontal&#34;</span>,
+    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, barheight <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>, title.hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                label.theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>))) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;German General Election 2017 - AfD Results&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;299 Electoral Districts   \nData from Federal Returning Officer (&#39;Bundeswahlleiter&#39;)   \n@FabioFavusMaxim; favstats.eu   &#34;</span>)
 
 gg_btw_map17
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_btw_map17, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_map <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(btw_map13 <span style="color:#f92672">%&gt;%</span> 
+            <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>), 
+          btw_map17 <span style="color:#f92672">%&gt;%</span> 
+            <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>))
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_btw_map17, width = 8, height = 12)
-</code></pre>
-
-<pre><code class="language-r">btw_map &lt;- bind_rows(btw_map13 %&gt;% 
-            mutate(year = &quot;BTW 2013&quot;), 
-          btw_map17 %&gt;% 
-            mutate(year = &quot;BTW 2017&quot;))
-
-gg_btw_map &lt;- btw_map %&gt;% 
-  ggplot(aes(fill = perc_afd)) +
-  geom_map(map = btw_map17,
-         aes(x = long, y = lat, group = group, map_id = id),
-         color = &quot;black&quot;, size = 0.4)  + 
-  theme_void() +
-  facet_wrap(~year) +
-  coord_map() +
-  viridis::scale_fill_viridis(&quot;AfD Vote Share in %&quot;,
-                               option = &quot;D&quot;, discrete = F, end = .8) +
-                       #       limits = c(1, 10),
-                       # breaks = c(1:10),
-                       # labels = c(1:10)) +
-  theme(plot.title = element_text(hjust = 0.5, size = 19, face = &quot;bold&quot;),
-    legend.justification = c(1, 0),
-    legend.position = c(.63, 0.91),
-    legend.title = element_text(size = 12, face = &quot;bold&quot;), 
-    strip.text = element_text(size = 13),
-    plot.margin=unit(c(0,0,0,0),&quot;mm&quot;),
-    #axis.ticks.length = unit(3, &quot;cm&quot;),
-    legend.direction = &quot;horizontal&quot;,
-    plot.caption = element_text(size = 13)) +
-  guides(fill = guide_colorbar(barwidth = 10, barheight = 0.5,
-                title.position = &quot;top&quot;, title.hjust = 0.5,
-                label.theme = element_text(colour = &quot;black&quot;, size = 11, angle = 0))) +
-  labs(title = &quot;German General Elections 2013 and 2017 - AfD Results\n&quot;, 
-       caption = &quot;299 Electoral Districts   \nData from Federal Returning Officer ('Bundeswahlleiter')   \n@FabioFavusMaxim; favstats.eu   &quot;)
+gg_btw_map <span style="color:#f92672">&lt;-</span> btw_map <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> perc_afd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_map</span>(map <span style="color:#f92672">=</span> btw_map17,
+         <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, map_id <span style="color:#f92672">=</span> id),
+         color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>)  <span style="color:#f92672">+</span> 
+  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_map</span>() <span style="color:#f92672">+</span>
+  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(<span style="color:#e6db74">&#34;AfD Vote Share in %&#34;</span>,
+                               option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;D&#34;</span>, discrete <span style="color:#f92672">=</span> F, end <span style="color:#f92672">=</span> <span style="color:#ae81ff">.8</span>) <span style="color:#f92672">+</span>
+                       <span style="color:#75715e">#       limits = c(1, 10),</span>
+                       <span style="color:#75715e"># breaks = c(1:10),</span>
+                       <span style="color:#75715e"># labels = c(1:10)) +</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    legend.justification <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.63</span>, <span style="color:#ae81ff">0.91</span>),
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>),
+    plot.margin<span style="color:#f92672">=</span><span style="color:#a6e22e">unit</span>(<span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>),<span style="color:#e6db74">&#34;mm&#34;</span>),
+    <span style="color:#75715e">#axis.ticks.length = unit(3, &#34;cm&#34;),</span>
+    legend.direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;horizontal&#34;</span>,
+    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, barheight <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>, title.hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                label.theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>))) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;German General Elections 2013 and 2017 - AfD Results\n&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;299 Electoral Districts   \nData from Federal Returning Officer (&#39;Bundeswahlleiter&#39;)   \n@FabioFavusMaxim; favstats.eu   &#34;</span>)
 
 gg_btw_map
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_btw_map, width = 8, height = 8)
-</code></pre>
-
-<pre><code class="language-r">gg_btw_map_blue &lt;- btw_map %&gt;% 
-  ggplot(aes(fill = perc_afd)) +
-  geom_map(map = btw_map17,
-         aes(x = long, y = lat, group = group, map_id = id),
-         color = &quot;black&quot;, size = 0.4)  + 
-  theme_void() +
-  facet_wrap(~year) +
-  coord_map() +
-  scale_fill_continuous(&quot;AfD Vote Share in %&quot;, 
-                        low = &quot;#00b4ff&quot;, 
-                        high = &quot;#002f42&quot;) +
-  theme(plot.title = element_text(hjust = 0.5, size = 19, face = &quot;bold&quot;),
-    legend.justification = c(1, 0),
-    legend.position = c(.63, 0.91),
-    legend.title = element_text(size = 12, face = &quot;bold&quot;), 
-    strip.text = element_text(size = 13),
-    plot.margin=unit(c(0,0,0,0),&quot;mm&quot;),
-    #axis.ticks.length = unit(3, &quot;cm&quot;),
-    legend.direction = &quot;horizontal&quot;,
-    plot.caption = element_text(size = 13)) +
-  guides(fill = guide_colorbar(barwidth = 10, barheight = 0.5,
-                title.position = &quot;top&quot;, title.hjust = 0.5,
-                label.theme = element_text(colour = &quot;black&quot;, size = 11, angle = 0))) +
-  labs(title = &quot;German General Elections 2013 and 2017 - AfD Results\n&quot;, 
-       caption = &quot;299 Electoral Districts   \nData from Federal Returning Officer ('Bundeswahlleiter')   \n@FabioFavusMaxim; favstats.eu   &quot;)
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_btw_map, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_btw_map_blue <span style="color:#f92672">&lt;-</span> btw_map <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> perc_afd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_map</span>(map <span style="color:#f92672">=</span> btw_map17,
+         <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, map_id <span style="color:#f92672">=</span> id),
+         color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>)  <span style="color:#f92672">+</span> 
+  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">coord_map</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_continuous</span>(<span style="color:#e6db74">&#34;AfD Vote Share in %&#34;</span>, 
+                        low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#00b4ff&#34;</span>, 
+                        high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#002f42&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    legend.justification <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.63</span>, <span style="color:#ae81ff">0.91</span>),
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>),
+    plot.margin<span style="color:#f92672">=</span><span style="color:#a6e22e">unit</span>(<span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>),<span style="color:#e6db74">&#34;mm&#34;</span>),
+    <span style="color:#75715e">#axis.ticks.length = unit(3, &#34;cm&#34;),</span>
+    legend.direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;horizontal&#34;</span>,
+    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, barheight <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>, title.hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                label.theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>))) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;German General Elections 2013 and 2017 - AfD Results\n&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;299 Electoral Districts   \nData from Federal Returning Officer (&#39;Bundeswahlleiter&#39;)   \n@FabioFavusMaxim; favstats.eu   &#34;</span>)
 
 gg_btw_map_blue
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_btw_map_blue, width = 8, height = 8)
-</code></pre>
-
-<pre><code class="language-r">btw_map17_unemp &lt;- btw_map17 %&gt;% 
-  ggplot(aes(fill = unemployment)) +
-  geom_map(map = btw_map17,
-         aes(x = long, y = lat, group = group, map_id = id),
-         color = &quot;black&quot;, size = 0.4)  + 
-  theme_void() +
-  # facet_wrap(~year) +
-  coord_map() +
-  viridis::scale_fill_viridis(&quot;Unemplyoment in %&quot;,
-                               option = &quot;D&quot;, discrete = F, end = .8) +
-                       #       limits = c(1, 10),
-                       # breaks = c(1:10),
-                       # labels = c(1:10)) +
-  theme(plot.title = element_text(hjust = 0.5, size = 19, face = &quot;bold&quot;),
-    legend.justification = c(1, 0),
-    legend.position = c(0.3, 0.82),
-    legend.title = element_text(size = 10, face = &quot;bold&quot;), strip.text = element_text(size = 12),
-    #axis.ticks.length = unit(3, &quot;cm&quot;),
-    legend.direction = &quot;horizontal&quot;) +
-  guides(fill = guide_colorbar(barwidth = 10, barheight = 0.5,
-                title.position = &quot;top&quot;, title.hjust = 0.5,
-                label.theme = element_text(colour = &quot;black&quot;, size = 5, angle = 0)))
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_btw_map_blue, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_map17_unemp <span style="color:#f92672">&lt;-</span> btw_map17 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> unemployment)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_map</span>(map <span style="color:#f92672">=</span> btw_map17,
+         <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, map_id <span style="color:#f92672">=</span> id),
+         color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>)  <span style="color:#f92672">+</span> 
+  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
+  <span style="color:#75715e"># facet_wrap(~year) +</span>
+  <span style="color:#a6e22e">coord_map</span>() <span style="color:#f92672">+</span>
+  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(<span style="color:#e6db74">&#34;Unemplyoment in %&#34;</span>,
+                               option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;D&#34;</span>, discrete <span style="color:#f92672">=</span> F, end <span style="color:#f92672">=</span> <span style="color:#ae81ff">.8</span>) <span style="color:#f92672">+</span>
+                       <span style="color:#75715e">#       limits = c(1, 10),</span>
+                       <span style="color:#75715e"># breaks = c(1:10),</span>
+                       <span style="color:#75715e"># labels = c(1:10)) +</span>
+  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    legend.justification <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.3</span>, <span style="color:#ae81ff">0.82</span>),
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
+    <span style="color:#75715e">#axis.ticks.length = unit(3, &#34;cm&#34;),</span>
+    legend.direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;horizontal&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colorbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, barheight <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>, title.hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>,
+                label.theme <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)))
 
 btw_map17_unemp
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(btw_map17_unemp, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>)
+</code></pre></div><h2 id="gganimate">gganimate</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># library(gganimate)</span>
+<span style="color:#75715e"># </span>
+<span style="color:#75715e"># btw_data %&gt;% </span>
+<span style="color:#75715e">#   ggplot(aes(unemployment, perc_afd, color = year)) +</span>
+<span style="color:#75715e">#   geom_point() +</span>
+<span style="color:#75715e">#   geom_smooth(method = &#34;lm&#34;) +</span>
+<span style="color:#75715e">#   transition_states(year, transition_length = 10, state_length = 4)</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># btw_map_anim &lt;- btw_map %&gt;% </span>
+<span style="color:#75715e">#   ggplot(aes(fill = perc_afd)) +</span>
+<span style="color:#75715e">#   geom_map(map = btw_map,</span>
+<span style="color:#75715e">#          aes(x = long, y = lat, group = group, map_id = id),</span>
+<span style="color:#75715e">#          color = &#34;black&#34;, size = 0.4)  + </span>
+<span style="color:#75715e">#   theme_void() +</span>
+<span style="color:#75715e">#   coord_map() +</span>
+<span style="color:#75715e">#   geom_text(aes(x = 7, y = 55, </span>
+<span style="color:#75715e">#                 label = paste0(&#34;Year: &#34;, year)), size = 7) +</span>
+<span style="color:#75715e">#   viridis::scale_fill_viridis(&#34;AfD Vote Share in %&#34;,</span>
+<span style="color:#75715e">#                                option = &#34;D&#34;, discrete = F, end = .8) +</span>
+<span style="color:#75715e">#                        #       limits = c(1, 10),</span>
+<span style="color:#75715e">#                        # breaks = c(1:10),</span>
+<span style="color:#75715e">#                        # labels = c(1:10)) +</span>
+<span style="color:#75715e">#   theme(plot.title = element_text(hjust = 0.5, size = 19, face = &#34;bold&#34;),</span>
+<span style="color:#75715e">#     legend.justification = c(1, 0),</span>
+<span style="color:#75715e">#     legend.position = c(0.82, 0.91),</span>
+<span style="color:#75715e">#     legend.title = element_text(size = 16, face = &#34;bold&#34;), </span>
+<span style="color:#75715e">#     strip.text = element_text(size = 12),</span>
+<span style="color:#75715e">#     #axis.ticks.length = unit(3, &#34;cm&#34;),</span>
+<span style="color:#75715e">#     legend.direction = &#34;horizontal&#34;,</span>
+<span style="color:#75715e">#     plot.caption = element_text(size = 13)) +</span>
+<span style="color:#75715e">#   guides(fill = guide_colorbar(barwidth = 12, barheight = 0.5,</span>
+<span style="color:#75715e">#                 title.position = &#34;top&#34;, title.hjust = 0.5,</span>
+<span style="color:#75715e">#                 label.theme = element_text(colour = &#34;black&#34;, size = 14, angle = 0))) +</span>
+<span style="color:#75715e">#   labs(title = &#34;German General Elections - AfD Results&#34;, </span>
+<span style="color:#75715e">#        caption = &#34;299 Electoral Districts   \nData from Federal Returning Officer (&#39;Bundeswahlleiter&#39;)   \n@FabioFavusMaxim; favstats.eu   &#34;) +</span>
+<span style="color:#75715e">#   transition_states(year, transition_length = 10, state_length = 4)</span>
+<span style="color:#75715e"># </span>
+<span style="color:#75715e"># # btw_map_anim</span>
+<span style="color:#75715e"># </span>
+<span style="color:#75715e"># # tidytemplate::ggsave_it(btw_map_anim, width = 8, height = 12)</span>
+<span style="color:#75715e"># </span>
+<span style="color:#75715e"># btw_map_anim %&gt;% animate(</span>
+<span style="color:#75715e">#   nframes = 100, fps = 15, width = 666.6667, height = 1000, detail = 1</span>
+<span style="color:#75715e"># )</span>
+<span style="color:#75715e"># </span>
+<span style="color:#75715e"># anim_save(&#34;images/btw_map_anim.gif&#34;)</span>
+</code></pre></div><h2 id="ggally">GGally</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(GGally)
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(btw_map17_unemp, width = 8, height = 12)
-</code></pre>
-
-<h2 id="gganimate">gganimate</h2>
-
-<pre><code class="language-r"># library(gganimate)
-# 
-# btw_data %&gt;% 
-#   ggplot(aes(unemployment, perc_afd, color = year)) +
-#   geom_point() +
-#   geom_smooth(method = &quot;lm&quot;) +
-#   transition_states(year, transition_length = 10, state_length = 4)
-</code></pre>
-
-<pre><code class="language-r"># btw_map_anim &lt;- btw_map %&gt;% 
-#   ggplot(aes(fill = perc_afd)) +
-#   geom_map(map = btw_map,
-#          aes(x = long, y = lat, group = group, map_id = id),
-#          color = &quot;black&quot;, size = 0.4)  + 
-#   theme_void() +
-#   coord_map() +
-#   geom_text(aes(x = 7, y = 55, 
-#                 label = paste0(&quot;Year: &quot;, year)), size = 7) +
-#   viridis::scale_fill_viridis(&quot;AfD Vote Share in %&quot;,
-#                                option = &quot;D&quot;, discrete = F, end = .8) +
-#                        #       limits = c(1, 10),
-#                        # breaks = c(1:10),
-#                        # labels = c(1:10)) +
-#   theme(plot.title = element_text(hjust = 0.5, size = 19, face = &quot;bold&quot;),
-#     legend.justification = c(1, 0),
-#     legend.position = c(0.82, 0.91),
-#     legend.title = element_text(size = 16, face = &quot;bold&quot;), 
-#     strip.text = element_text(size = 12),
-#     #axis.ticks.length = unit(3, &quot;cm&quot;),
-#     legend.direction = &quot;horizontal&quot;,
-#     plot.caption = element_text(size = 13)) +
-#   guides(fill = guide_colorbar(barwidth = 12, barheight = 0.5,
-#                 title.position = &quot;top&quot;, title.hjust = 0.5,
-#                 label.theme = element_text(colour = &quot;black&quot;, size = 14, angle = 0))) +
-#   labs(title = &quot;German General Elections - AfD Results&quot;, 
-#        caption = &quot;299 Electoral Districts   \nData from Federal Returning Officer ('Bundeswahlleiter')   \n@FabioFavusMaxim; favstats.eu   &quot;) +
-#   transition_states(year, transition_length = 10, state_length = 4)
-# 
-# # btw_map_anim
-# 
-# # tidytemplate::ggsave_it(btw_map_anim, width = 8, height = 12)
-# 
-# btw_map_anim %&gt;% animate(
-#   nframes = 100, fps = 15, width = 666.6667, height = 1000, detail = 1
-# )
-# 
-# anim_save(&quot;images/btw_map_anim.gif&quot;)
-</code></pre>
-
-<h2 id="ggally">GGally</h2>
-
-<pre><code class="language-r">pacman::p_load(GGally)
-
-plot_lagged_all &lt;- btw_lagged_all %&gt;% 
-  ggpairs(lower = list(continuous = &quot;smooth&quot;),
-   mapping = aes(color = east_west)) +
-  labs(title = &quot;Where did AfD voters come from?&quot;, 
-       caption = &quot;N = 299 Electoral Districts\nData from bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+plot_lagged_all <span style="color:#f92672">&lt;-</span> btw_lagged_all <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggpairs</span>(lower <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(continuous <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;smooth&#34;</span>),
+   mapping <span style="color:#f92672">=</span> <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> east_west)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Where did AfD voters come from?&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 
-for(i in 1:plot_lagged_all$nrow) {
-  for(j in 1:plot_lagged_all$ncol){
-    plot_lagged_all[i,j] &lt;- plot_lagged_all[i,j] + ggthemes::scale_color_fivethirtyeight() 
+<span style="color:#a6e22e">for</span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>plot_lagged_all<span style="color:#f92672">$</span>nrow) {
+  <span style="color:#a6e22e">for</span>(j in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>plot_lagged_all<span style="color:#f92672">$</span>ncol){
+    plot_lagged_all[i,j] <span style="color:#f92672">&lt;-</span> plot_lagged_all[i,j] <span style="color:#f92672">+</span> ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_fivethirtyeight</span>() 
   }
 }
 
 plot_lagged_all
-</code></pre>
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(plot_lagged_all, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>)
+</code></pre></div><h2 id="sgb-ii">SGB II</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">btw_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(btw17_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2017&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(part_of <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.character</span>(part_of)),
+  btw13_data <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BTW 2013&#34;</span>)) 
 
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-26-1.png" style="display: block; margin: auto;" /></p>
+mod13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> sgbii, data <span style="color:#f92672">=</span> btw13_data)
+mod17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lm</span>(perc_npd <span style="color:#f92672">~</span> sgbii, data <span style="color:#f92672">=</span> btw17_data)
 
-<pre><code class="language-r">tidytemplate::ggsave_it(plot_lagged_all, width = 15, height = 13)
-</code></pre>
+<span style="color:#a6e22e">options</span>(scipen <span style="color:#f92672">=</span> <span style="color:#ae81ff">999</span>)
 
-<h2 id="sgb-ii">SGB II</h2>
+r2_13 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod13)
+r2_17 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_r2_label</span>(mod17)
 
-<pre><code class="language-r">btw_data &lt;- bind_rows(btw17_data %&gt;% 
-  mutate(year = &quot;BTW 2017&quot;) %&gt;% 
-  mutate(part_of = as.character(part_of)),
-  btw13_data %&gt;% 
-    mutate(year = &quot;BTW 2013&quot;)) 
-
-mod13 &lt;- lm(perc_npd ~ sgbii, data = btw13_data)
-mod17 &lt;- lm(perc_npd ~ sgbii, data = btw17_data)
-
-options(scipen = 999)
-
-r2_13 &lt;- get_r2_label(mod13)
-r2_17 &lt;- get_r2_label(mod17)
-
-label_dat &lt;- tibble(year = c(&quot;BTW 2013&quot;, &quot;BTW 2017&quot;),
-     text =   c(
-broom::tidy(mod13) %&gt;% 
-  filter(term == &quot;sgbii&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_13)) %&gt;% 
+label_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;BTW 2013&#34;</span>, <span style="color:#e6db74">&#34;BTW 2017&#34;</span>),
+     text <span style="color:#f92672">=</span>   <span style="color:#a6e22e">c</span>(
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod13) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;sgbii&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_13)) <span style="color:#f92672">%&gt;%</span> 
   .$text,
 
-broom::tidy(mod17) %&gt;% 
-  filter(term == &quot;sgbii&quot;) %&gt;% 
-  mutate(text = paste0(&quot;b = &quot;, round(estimate, 2), 
-         &quot;, &quot;, get_labs(p.value),
-         &quot;, R Squared = &quot;, r2_17)) %&gt;% 
+broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod17) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;sgbii&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;b = &#34;</span>, <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>), 
+         <span style="color:#e6db74">&#34;, &#34;</span>, <span style="color:#a6e22e">get_labs</span>(p.value),
+         <span style="color:#e6db74">&#34;, R Squared = &#34;</span>, r2_17)) <span style="color:#f92672">%&gt;%</span> 
   .$text
 ))
 
-gg_npd_sgbii &lt;- btw_data %&gt;% 
-  ggplot(aes(sgbii, perc_npd)) +
-  geom_point() +
-  geom_smooth(method = &quot;lm&quot;) +
-  facet_wrap(~year) +
-  theme_minimal() +
-  geom_text(data = label_dat, aes(y = 5, x = 100, label = text), show.legend = F) +
-  labs(x = &quot;sgbii Rate in %&quot;, 
-       y = &quot;Vote Share npd in %&quot;,
-       title = &quot;npd Vote Share and sgbii Rate in the 2013 and 2017 German Elections&quot;, 
-       caption = &quot;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&quot;) +
-  theme(title = element_text(face = &quot;bold&quot;), 
-        strip.background = element_rect(fill = &quot;lightgrey&quot;), 
-        strip.text = element_text(face = &quot;bold&quot;))
+gg_npd_sgbii <span style="color:#f92672">&lt;-</span> btw_data <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(sgbii, perc_npd)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>year) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>, label <span style="color:#f92672">=</span> text), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sgbii Rate in %&#34;</span>, 
+       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Vote Share npd in %&#34;</span>,
+       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;npd Vote Share and sgbii Rate in the 2013 and 2017 German Elections&#34;</span>, 
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;N = 299 Electoral Districts\nData from govdata.de and bundeswahlleiter.de\n@FabioFavusMaxim; favstats.eu&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
+        strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>), 
+        strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
 
 gg_npd_sgbii
-</code></pre>
-
-<p><img src="https://raw.githubusercontent.com/favstats/btw_data/master/btw_data_files/figure-gfm/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /></p>
-
-<pre><code class="language-r">tidytemplate::ggsave_it(gg_npd_sgbii, width = 10, height = 6)
-</code></pre>
-
+</code></pre></div><p><!-- raw HTML omitted --></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_npd_sgbii, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div>
       </div>
 
       
@@ -1587,7 +1419,7 @@ gg_npd_sgbii
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

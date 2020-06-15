@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -335,26 +335,15 @@
 
       <div class="article-style" itemprop="articleBody">
         <p>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.</p>
-
-<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/terror_map" target="_blank">GitHub Repository</a>.</p>
-
+<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/terror_map">GitHub Repository</a>.</p>
 <p><strong>Getting Started</strong></p>
-
-<p>First I need data about terror attacks. For this I downloaded the <a href="https://www.start.umd.edu/gtd/" target="_blank">Global Terrorism Database</a>.</p>
-
+<p>First I need data about terror attacks. For this I downloaded the <a href="https://www.start.umd.edu/gtd/">Global Terrorism Database</a>.</p>
 <p>Now in Rstudio, I load in the needed packages:</p>
-
-<pre><code class="language-r">pacman::p_load(tidyverse, magrittr, readxl, highcharter)
-</code></pre>
-
-<p>After I put the downloaded <code>.xlsx</code> file into my working directory, I use <code>readxl</code> to read in the data.</p>
-
-<pre><code class="language-r">terror &lt;- read_xlsx(&quot;data/globalterrorism.xlsx&quot;, sheet = &quot;Data&quot;)
-</code></pre>
-
-<p>Now comes the <strong>data wrangling part</strong>.</p>
-
-<pre><code class="language-r">terror_map &lt;- terror %&gt;% 
+<pre><code class="language-{r}" data-lang="{r}">pacman::p_load(tidyverse, magrittr, readxl, highcharter)
+</code></pre><p>After I put the downloaded <code>.xlsx</code> file into my working directory, I use <code>readxl</code> to read in the data.</p>
+<pre><code class="language-{r}" data-lang="{r}">terror &lt;- read_xlsx(&quot;data/globalterrorism.xlsx&quot;, sheet = &quot;Data&quot;)
+</code></pre><p>Now comes the <strong>data wrangling part</strong>.</p>
+<pre><code class="language-{r}" data-lang="{r}">terror_map &lt;- terror %&gt;% 
   filter(iyear &gt;= 2000) %&gt;% 
   filter(region %in% c(8, 9)) %&gt;% 
   filter(nkill &gt; 0) %&gt;% 
@@ -373,24 +362,17 @@
                        &quot;&lt;br&gt; &lt;b&gt;Target:&lt;/b&gt; &quot;, target1,
                        &quot;&lt;br&gt; &lt;b&gt;Death Count&lt;/b&gt;&quot;)) %&gt;% 
   select(name, lon = longitude, lat,  z = nkill)
-</code></pre>
-
-<p>And finally, I apply the <code>highcharter</code> functions to create a beautiful interactive map.</p>
-
-<pre><code class="language-r">hcmap(&quot;custom/europe&quot;, showInLegend = FALSE) %&gt;%
+</code></pre><p>And finally, I apply the <code>highcharter</code> functions to create a beautiful interactive map.</p>
+<pre><code class="language-{r}" data-lang="{r}">hcmap(&quot;custom/europe&quot;, showInLegend = FALSE) %&gt;%
   hc_add_series(data = na.omit(terror_map), type = &quot;mapbubble&quot;,
                 minSize = 0, maxSize = 30,
                 name = &quot;Terror Attack&quot;, fillOpacity = 0.01) %&gt;%
   highcharter::hc_title(text = &quot;Terror Attacks with Casualties &gt; 1 (2000 - 2016)&quot;, 
                         style = list(fontWeight = &quot;bold&quot;)) %&gt;%
   hc_subtitle(text = &quot;Source: &lt;a href='https://www.start.umd.edu/gtd/'&gt;Global Terrorism Database (GTD)&lt;/a&gt;&quot;)
-</code></pre>
-
-<p>The result:</p>
-
-<p><img src="https://github.com/favstats/terror_map/blob/master/images/terror_map.png?raw=true" alt="" /></p>
-
-<p><strong>Click <a href="https://favstats.github.io/terror_map/" target="_blank">here</a> for interactive version.</strong></p>
+</code></pre><p>The result:</p>
+<p><img src="https://github.com/favstats/terror_map/blob/master/images/terror_map.png?raw=true" alt=""></p>
+<p><strong>Click <a href="https://favstats.github.io/terror_map/">here</a> for interactive version.</strong></p>
 
       </div>
 
@@ -463,7 +445,7 @@
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

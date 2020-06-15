@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,42 +334,25 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code <a href="https://github.com/asheshwor/R-maps/blob/master/05_ggmap_google_location.R" target="_blank">here</a>. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?</p>
-
-<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/tidy_locations" target="_blank">GitHub Repository</a>.</p>
-
+        <p>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code <a href="https://github.com/asheshwor/R-maps/blob/master/05_ggmap_google_location.R">here</a>. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?</p>
+<p>The code for this blogpost can be found in this <a href="https://github.com/favstats/tidy_locations">GitHub Repository</a>.</p>
 <p><strong>Getting Started</strong></p>
-
-<p>First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours <a href="https://takeout.google.com/settings/takeout" target="_blank">here</a>.</p>
-
+<p>First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours <a href="https://takeout.google.com/settings/takeout">here</a>.</p>
 <p>Now in Rstudio, I load in the needed packages:</p>
-
-<pre><code class="language-r">pacman::p_load(ggmap, jsonlite, tidyverse, lubridate, magrittr)
-</code></pre>
-
-<p>After I put the downloaded <code>.json</code> file into my working directory, I use <code>fromJSON</code> to read in the data.<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
-
-<pre><code class="language-r">loc_history &lt;- fromJSON('data/Standortverlauf.json')
-</code></pre>
-
-<p>As a next step, we want to extract our locations from the data. The locations are located (ha!) under <code>loc_history$locations</code>.</p>
-
-<pre><code class="language-r">locations &lt;- loc_history$locations #we are only interested in locations
-</code></pre>
-
-<p>Now comes the <strong>data wrangling part</strong>. We want the data to be in the right format. Especially the dates are easily transformed with the powerful <code>lubridate</code> package. First we create a <code>time</code> variable, using the <code>as_datetime</code> function. Next we bring the longitudes and lattitudes in the right format, then we select three relevant variables <code>time</code>, <code>lon</code> and <code>lat</code>. Lastly, we filter the dataframe so that we will only be left with data of 2017.</p>
-
-<pre><code class="language-r">locations %&lt;&gt;% 
+<pre><code class="language-{r}" data-lang="{r}">pacman::p_load(ggmap, jsonlite, tidyverse, lubridate, magrittr)
+</code></pre><p>After I put the downloaded <code>.json</code> file into my working directory, I use <code>fromJSON</code> to read in the data.<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+<pre><code class="language-{r}" data-lang="{r}">loc_history &lt;- fromJSON('data/Standortverlauf.json')
+</code></pre><p>As a next step, we want to extract our locations from the data. The locations are located (ha!) under <code>loc_history$locations</code>.</p>
+<pre><code class="language-{r}" data-lang="{r}">locations &lt;- loc_history$locations #we are only interested in locations
+</code></pre><p>Now comes the <strong>data wrangling part</strong>. We want the data to be in the right format. Especially the dates are easily transformed with the powerful <code>lubridate</code> package. First we create a <code>time</code> variable, using the <code>as_datetime</code> function. Next we bring the longitudes and lattitudes in the right format, then we select three relevant variables <code>time</code>, <code>lon</code> and <code>lat</code>. Lastly, we filter the dataframe so that we will only be left with data of 2017.</p>
+<pre><code class="language-{r}" data-lang="{r}">locations %&lt;&gt;% 
  mutate(time = as_datetime(as.numeric(timestampMs) / 1000)) %&gt;% 
  mutate(lon = longitudeE7/1E7) %&gt;% 
  mutate(lat = latitudeE7/1E7) %&gt;% 
  select(time, lon, lat) %&gt;% 
  filter(time &gt; as_datetime(&quot;2017-01-01 00:00:01&quot;) &amp; time &lt; as_datetime(&quot;2017-12-31 23:59:59&quot;))
-</code></pre>
-
-<p>Finally, we come to the <strong>plotting part</strong>! We type in our keyword and off we go with the <code>ggmap</code> package!</p>
-
-<pre><code class="language-r">map1 &lt;- &quot;Stuttgart&quot; %&gt;% 
+</code></pre><p>Finally, we come to the <strong>plotting part</strong>! We type in our keyword and off we go with the <code>ggmap</code> package!</p>
+<pre><code class="language-{r}" data-lang="{r}">map1 &lt;- &quot;Stuttgart&quot; %&gt;% 
   qmap(maptype = &quot;toner&quot;, source = &quot;stamen&quot;, zoom = 14) + # creates the map
   geom_point(aes(x = lon, y = lat),                       # adding your data
              size = 1,
@@ -377,13 +360,9 @@
              color = &quot;red&quot;, 
              alpha = 0.01)
 map1
-</code></pre>
-
-<p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map1.png?raw=true" alt="" /></p>
-
+</code></pre><p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map1.png?raw=true" alt=""></p>
 <p>We could also zoom out and get a map from all of Germany</p>
-
-<pre><code class="language-r">map2 &lt;- &quot;germany&quot; %&gt;% 
+<pre><code class="language-{r}" data-lang="{r}">map2 &lt;- &quot;germany&quot; %&gt;% 
   qmap(maptype = &quot;toner&quot;, source = &quot;stamen&quot;, zoom = 5) + # creates the map
   geom_point(aes(x = lon, y = lat),                       # adding your data
              size = 1,
@@ -391,23 +370,17 @@ map1
              color = &quot;red&quot;, 
              alpha = 0.01)
 map2
-</code></pre>
-
-<p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map4.png?raw=true" alt="" /></p>
-
+</code></pre><p><img src="https://github.com/favstats/tidy_locations/blob/master/images/map4.png?raw=true" alt=""></p>
 <p>If we wanted to save the map on our computer, we could use the following code:</p>
-
-<pre><code class="language-r">ggsave(map2, file = &quot;images/map2.png&quot;, height = 4, width = 4)
-</code></pre>
-<div class="footnotes">
-
-<hr />
-
+<pre><code class="language-{r}" data-lang="{r}">ggsave(map2, file = &quot;images/map2.png&quot;, height = 4, width = 4)
+</code></pre><section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1">Note that the name of your <code>.json</code> might differ from mine if you are not using Google in German.
- <a class="footnote-return" href="#fnref:1"><sup>^</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p>Note that the name of your <code>.json</code> might differ from mine if you are not using Google in German. <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div>
+</section>
 
       </div>
 
@@ -480,7 +453,7 @@ map2
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

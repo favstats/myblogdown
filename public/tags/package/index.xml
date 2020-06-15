@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>package on favstats - personal blog</title>
@@ -18,7 +18,7 @@
       <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>/project/dg_slides/</guid>
-      <description></description>
+      <description>These slides were presented at the berlinR Meetup group.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Sat, 29 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/project/rpkgs/</guid>
-      <description></description>
+      <description>These slides were presented at the Kickoff workshop for the Datenguide project (organized by Correlaid).</description>
     </item>
     
   </channel>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homes on favstats - personal blog</title>
@@ -27,8 +27,7 @@
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/about/</guid>
-      <description>About Me Curriculum Vitae
-I am an incoming Ph.D. student in Political Communication at the University of Amsterdam. My Ph.D. research focuses on the impact of microtargeted political advertisements on citizens and society from an empirical and computational social science perspective. I am very passionate about reproducible open science, data visualization and communicating insights from data to a broader audience. My other research interests include the study of political and affective polarization as well as political extremism and fringe political groups online.</description>
+      <description>About Me Curriculum VitaeI am an incoming Ph.D. student in Political Communication at the University of Amsterdam. My Ph.D. research focuses on the impact of microtargeted political advertisements on citizens and society from an empirical and computational social science perspective. I am very passionate about reproducible open science, data visualization and communicating insights from data to a broader audience. My other research interests include the study of political and affective polarization as well as political extremism and fringe political groups online.</description>
     </item>
     
     <item>
@@ -46,8 +45,8 @@ I am an incoming Ph.D. student in Political Communication at the University of A
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/r_packages/</guid>
-      <description> peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
- datenguideR - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
+      <description>  peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
+  datenguideR - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
   </description>
     </item>
     

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>politics on favstats - personal blog</title>
@@ -18,10 +18,7 @@
       <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/trump_endorsements/</guid>
-      <description>Data Sources:
-https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html
-https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767
-Packages # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, rvest, qdapRegex, ggthemes, tidytemplate, rtweet)  Including Plots candidate &amp;lt;- read_html(&amp;quot;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&amp;quot;) %&amp;gt;% html_nodes(&amp;quot;#content-body- li&amp;quot;) %&amp;gt;% html_text() mcclatch &amp;lt;- tibble(candidate) %&amp;gt;% mutate(won = case_when( str_detect(candidate, &amp;quot;✓&amp;quot;) ~ &amp;quot;Won&amp;quot;, str_detect(candidate, &amp;quot;✗&amp;quot;) ~ &amp;quot;Lost&amp;quot;, T~ &amp;quot;Undecided&amp;quot;)) %&amp;gt;% mutate(type = case_when( str_detect(candidate, &amp;quot;House&amp;quot;) ~ &amp;quot;House&amp;quot;, str_detect(candidate, &amp;quot;Senate|senator&amp;quot;) ~ &amp;quot;Senate&amp;quot;, str_detect(candidate, &amp;quot;governor|gubernatorial&amp;quot;) ~ &amp;quot;Governor&amp;quot;)) %&amp;gt;% mutate(incumbent = ifelse(str_detect(candidate, &amp;quot;incumbent|Incumbent&amp;quot;), &amp;quot;Incumbent&amp;quot;, &amp;quot;Not Incumbent&amp;quot;)) %&amp;gt;% mutate(candidate = str_remove(candidate, &amp;quot;✓|✗&amp;quot;) %&amp;gt;% str_trim()) %&amp;gt;% mutate(candidate = str_extract(candidate, &amp;quot;.</description>
+      <description>Anaylizing data from the 2018 Midterm Elections.</description>
     </item>
     
   </channel>

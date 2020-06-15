@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>r-group on favstats - personal blog</title>
@@ -18,7 +18,7 @@
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/project/example-external-project/</guid>
-      <description></description>
+      <description>Die Modelldiagnostik dient dazu die Validität und Reliabilität der Ergebnisse einer linearen Regression sicherzustellen. In diesem Workshop lernt ihr die Grundkonzepte, deren Anwendung sowie Interpretation und Visualisierung.</description>
     </item>
     
   </channel>

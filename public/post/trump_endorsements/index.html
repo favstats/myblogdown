@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,47 +334,36 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        
-
-<p>Data
+        <p>Data
 Sources:</p>
-
-<p><a href="https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html" target="_blank">https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html</a></p>
-
-<p><a href="https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767" target="_blank">https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767</a></p>
-
+<p><a href="https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html">https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html</a></p>
+<p><a href="https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767">https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767</a></p>
 <h2 id="packages">Packages</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
+<span style="color:#75715e"># install.packages(&#34;pacman&#34;)</span>
+pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, rvest, qdapRegex, ggthemes, tidytemplate, rtweet)
+</code></pre></div><h2 id="including-plots">Including Plots</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">candidate <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_html</span>(<span style="color:#e6db74">&#34;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">html_nodes</span>(<span style="color:#e6db74">&#34;#content-body- li&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">html_text</span>()
 
-<pre><code class="language-r"># devtools::install_github(&quot;favstats/tidytemplate&quot;)
-# install.packages(&quot;pacman&quot;)
-pacman::p_load(tidyverse, rvest, qdapRegex, ggthemes, tidytemplate, rtweet)
-</code></pre>
-
-<h2 id="including-plots">Including Plots</h2>
-
-<pre><code class="language-r">candidate &lt;- read_html(&quot;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&quot;) %&gt;% 
-  html_nodes(&quot;#content-body- li&quot;) %&gt;% 
-  html_text()
-
-mcclatch &lt;- tibble(candidate) %&gt;% 
-    mutate(won = case_when(
-        str_detect(candidate, &quot;✓&quot;) ~ &quot;Won&quot;, 
-        str_detect(candidate, &quot;✗&quot;) ~ &quot;Lost&quot;, 
-        T~ &quot;Undecided&quot;)) %&gt;% 
-    mutate(type = case_when(
-        str_detect(candidate, &quot;House&quot;) ~ &quot;House&quot;, 
-        str_detect(candidate, &quot;Senate|senator&quot;) ~ &quot;Senate&quot;, 
-        str_detect(candidate, &quot;governor|gubernatorial&quot;) ~ &quot;Governor&quot;)) %&gt;% 
-    mutate(incumbent = ifelse(str_detect(candidate, &quot;incumbent|Incumbent&quot;), &quot;Incumbent&quot;, &quot;Not Incumbent&quot;)) %&gt;% 
-    mutate(candidate = str_remove(candidate, &quot;✓|✗&quot;) %&gt;% str_trim()) %&gt;% 
-    mutate(candidate = str_extract(candidate, &quot;.+?(?=,)&quot;)) %&gt;% 
-    mutate(candidate = str_remove(candidate, &quot;\\(GOING TO RECOUNT\\) &quot;)) %&gt;% 
-    mutate(candidate = str_remove(candidate, &quot;Runoff: &quot;))
+mcclatch <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(candidate) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(won <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+        <span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;✓&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Won&#34;</span>, 
+        <span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;✗&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Lost&#34;</span>, 
+        T<span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Undecided&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(type <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+        <span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;House&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;House&#34;</span>, 
+        <span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;Senate|senator&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Senate&#34;</span>, 
+        <span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;governor|gubernatorial&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Governor&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(incumbent <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">str_detect</span>(candidate, <span style="color:#e6db74">&#34;incumbent|Incumbent&#34;</span>), <span style="color:#e6db74">&#34;Incumbent&#34;</span>, <span style="color:#e6db74">&#34;Not Incumbent&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(candidate <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_remove</span>(candidate, <span style="color:#e6db74">&#34;✓|✗&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">str_trim</span>()) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(candidate <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_extract</span>(candidate, <span style="color:#e6db74">&#34;.+?(?=,)&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(candidate <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_remove</span>(candidate, <span style="color:#e6db74">&#34;\\(GOING TO RECOUNT\\) &#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(candidate <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_remove</span>(candidate, <span style="color:#e6db74">&#34;Runoff: &#34;</span>))
 
 mcclatch
-</code></pre>
-
-<pre><code>## # A tibble: 88 x 4
+</code></pre></div><pre><code>## # A tibble: 88 x 4
 ##    candidate        won       type     incumbent    
 ##    &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;        
 ##  1 &lt;U+2713&gt; Martha Roby    Undecided House    Incumbent    
@@ -404,17 +393,12 @@ mcclatch
 ## 10 Kevin McCarthy Won       House   
 ## # ... with 85 more rows
 </code></pre>
-
-<h2 id="checking-for-missings-errors-disagreements-between-data-sources">Checking for Missings/Errors/Disagreements between Data Sources</h2>
-
+<h2 id="checking-for-missingserrorsdisagreements-between-data-sources">Checking for Missings/Errors/Disagreements between Data Sources</h2>
 <p>Let’s merge the datasets and see if we find any errors.</p>
-
-<pre><code class="language-r">politico %&gt;% 
-  full_join(mcclatch, by = &quot;candidate&quot;) %&gt;% 
-  filter(is.na(won.x) | is.na(won.y))
-</code></pre>
-
-<pre><code>## # A tibble: 169 x 6
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">full_join</span>(mcclatch, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">is.na</span>(won.x) <span style="color:#f92672">|</span> <span style="color:#a6e22e">is.na</span>(won.y))
+</code></pre></div><pre><code>## # A tibble: 169 x 6
 ##    candidate      won.x     type.x   won.y type.y incumbent
 ##    &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    
 ##  1 Martha Roby    Won       House    &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;     
@@ -429,93 +413,63 @@ mcclatch
 ## 10 John Cox       Lost      Governor &lt;NA&gt;  &lt;NA&gt;   &lt;NA&gt;     
 ## # ... with 159 more rows
 </code></pre>
-
 <p>Politico misspelled Patrick Morrisey.</p>
-
 <p>Politico has more candidates but they did not include Mike Kelly.</p>
-
 <p>Fix:</p>
-
-<pre><code class="language-r">politico &lt;- politico %&gt;% 
-  mutate(candidate = ifelse(candidate == &quot;Patrick Morrissey&quot;, &quot;Patrick Morrisey&quot;, candidate))
-</code></pre>
-
-<p>Do the datasets disagree on whether the candidate ran for House or
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">&lt;-</span> politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(candidate <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Patrick Morrissey&#34;</span>, <span style="color:#e6db74">&#34;Patrick Morrisey&#34;</span>, candidate))
+</code></pre></div><p>Do the datasets disagree on whether the candidate ran for House or
 Senate?</p>
-
-<pre><code class="language-r">politico %&gt;% 
-  left_join(mcclatch, by = &quot;candidate&quot;) %&gt;% 
-  filter(type.x != type.y)
-</code></pre>
-
-<pre><code>## # A tibble: 1 x 6
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(mcclatch, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(type.x <span style="color:#f92672">!=</span> type.y)
+</code></pre></div><pre><code>## # A tibble: 1 x 6
 ##   candidate      won.x     type.x won.y     type.y incumbent    
 ##   &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;        
 ## 1 Martha McSally Undecided House  Undecided Senate Not Incumbent
 </code></pre>
-
 <p>Politico states that Martha McSally ran for the House of Representatives
 but this information seems to be wrong. She ran for Senate.</p>
-
-<p>-&gt; <a href="https://mcsallyforsenate.com/" target="_blank">https://mcsallyforsenate.com/</a></p>
-
+<p>-&gt; <a href="https://mcsallyforsenate.com/">https://mcsallyforsenate.com/</a></p>
 <p>Fix:</p>
-
-<pre><code class="language-r">politico &lt;- politico %&gt;% 
-  mutate(type = ifelse(candidate ==  &quot;Martha McSally&quot;, &quot;Senate&quot;, type)) 
-</code></pre>
-
-<p>Do the datasets disagree on whether a race was lost/won?</p>
-
-<pre><code class="language-r">politico %&gt;% 
-  left_join(mcclatch, by = &quot;candidate&quot;) %&gt;% 
-  filter(won.x != won.y)
-</code></pre>
-
-<pre><code>## # A tibble: 1 x 6
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">&lt;-</span> politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(type <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span>  <span style="color:#e6db74">&#34;Martha McSally&#34;</span>, <span style="color:#e6db74">&#34;Senate&#34;</span>, type)) 
+</code></pre></div><p>Do the datasets disagree on whether a race was lost/won?</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(mcclatch, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(won.x <span style="color:#f92672">!=</span> won.y)
+</code></pre></div><pre><code>## # A tibble: 1 x 6
 ##   candidate      won.x type.x won.y     type.y incumbent
 ##   &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;    
 ## 1 Claudia Tenney Lost  House  Undecided House  Incumbent
 </code></pre>
-
 <p>Politico seems to not have updated Mike Dunleavy’s win yet (via The
 Associated Press).</p>
-
 <p>Data sources disagree on Diane Harkey. She is indeed projected to lose
 (via The Associated Press).</p>
-
 <p>Rick Scott is in the lead in the Senate Race (via The Associated Press).</p>
-
 <p>Data sources also disagree on Claudia Tenney. Probably lost the race
 (via The Associated Press).</p>
-
 <p>Fix:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">politico <span style="color:#f92672">&lt;-</span> politico <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(won <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Diane Harkey&#34;</span>, <span style="color:#e6db74">&#34;Lost&#34;</span>, won)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(won <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Mike Dunleavy&#34;</span>, <span style="color:#e6db74">&#34;Won&#34;</span>, won))  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(won <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Rick Scott&#34;</span>, <span style="color:#e6db74">&#34;Won&#34;</span>, won))  
 
-<pre><code class="language-r">politico &lt;- politico %&gt;% 
-  mutate(won = ifelse(candidate == &quot;Diane Harkey&quot;, &quot;Lost&quot;, won)) %&gt;% 
-  mutate(won = ifelse(candidate == &quot;Mike Dunleavy&quot;, &quot;Won&quot;, won))  %&gt;% 
-  mutate(won = ifelse(candidate == &quot;Rick Scott&quot;, &quot;Won&quot;, won))  
-
-mcclatch &lt;- mcclatch %&gt;% 
-  mutate(won = ifelse(candidate == &quot;Claudia Tenney&quot;, &quot;Lost&quot;, won)) 
-</code></pre>
-
-<p>No errors left :)</p>
-
+mcclatch <span style="color:#f92672">&lt;-</span> mcclatch <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(won <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(candidate <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Claudia Tenney&#34;</span>, <span style="color:#e6db74">&#34;Lost&#34;</span>, won)) 
+</code></pre></div><p>No errors left :)</p>
 <p>We can now use the Politico dataset as base, as it is the most complete
 dataset:</p>
-
-<pre><code class="language-r">trump_endorsements &lt;- politico  %&gt;% 
-  left_join(mcclatch, by = &quot;candidate&quot;) %&gt;% 
-  rename(results = won.x) %&gt;% 
-  rename(type = type.x) %&gt;% 
-  select(candidate, results, type, incumbent) %&gt;% 
-  arrange(candidate)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">trump_endorsements <span style="color:#f92672">&lt;-</span> politico  <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">left_join</span>(mcclatch, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(results <span style="color:#f92672">=</span> won.x) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rename</span>(type <span style="color:#f92672">=</span> type.x) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(candidate, results, type, incumbent) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">arrange</span>(candidate)
 
 trump_endorsements
-</code></pre>
-
-<pre><code>## # A tibble: 95 x 4
+</code></pre></div><pre><code>## # A tibble: 95 x 4
 ##    candidate       results   type     incumbent    
 ##    &lt;chr&gt;           &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;        
 ##  1 Adam Laxalt     Lost      Governor &lt;NA&gt;         
@@ -530,140 +484,115 @@ trump_endorsements
 ## 10 Bruce Poliquin  Undecided House    Incumbent    
 ## # ... with 85 more rows
 </code></pre>
-
 <h2 id="gissisim-data">@GissiSim Data</h2>
-
 <p>@GissiSim on Twitter collected some Trump Endorsements as well. Let’s
 check them out:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">token <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#34;.rtweet.rds&#34;</span>)
 
-<pre><code class="language-r">token &lt;- readRDS(&quot;.rtweet.rds&quot;)
-
-tml &lt;- get_timelines(&quot;GissiSim&quot;, n = 500, token = token)
-
+tml <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">get_timelines</span>(<span style="color:#e6db74">&#34;GissiSim&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, token <span style="color:#f92672">=</span> token)
 
 
-save_it(tml)
-</code></pre>
 
-<pre><code class="language-r">tml &lt;- load_it(&quot;data/tml.Rdata&quot;)
+<span style="color:#a6e22e">save_it</span>(tml)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tml <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">load_it</span>(<span style="color:#e6db74">&#34;data/tml.Rdata&#34;</span>)
 
-lastnames &lt;- trump_endorsements %&gt;% 
-  mutate(lastname = str_remove(candidate, &quot;.+?(?= )&quot;) %&gt;% str_trim) %&gt;% 
-  .$lastname %&gt;% paste0(collapse = &quot;|&quot;)
+lastnames <span style="color:#f92672">&lt;-</span> trump_endorsements <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(lastname <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_remove</span>(candidate, <span style="color:#e6db74">&#34;.+?(?= )&#34;</span>) <span style="color:#f92672">%&gt;%</span> str_trim) <span style="color:#f92672">%&gt;%</span> 
+  .$lastname <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">paste0</span>(collapse <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;|&#34;</span>)
 
-tml %&gt;% 
-  filter(str_detect(text, &quot;lost&quot;)) %&gt;% 
-  filter(!(str_detect(text, &quot;Please let me know|That's 31|15 Trump|lost souls|democracy lost&quot;))) %&gt;%
-  select(screen_name, text) %&gt;% 
-  mutate(lastnames = str_detect(text, lastnames)) %&gt;% 
-  filter(!(lastnames))
-</code></pre>
-
-<pre><code>## # A tibble: 2 x 3
+tml <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">str_detect</span>(text, <span style="color:#e6db74">&#34;lost&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(<span style="color:#a6e22e">str_detect</span>(text, <span style="color:#e6db74">&#34;Please let me know|That&#39;s 31|15 Trump|lost souls|democracy lost&#34;</span>))) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">select</span>(screen_name, text) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(lastnames <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_detect</span>(text, lastnames)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(lastnames))
+</code></pre></div><pre><code>## # A tibble: 2 x 3
 ##   screen_name text                                                lastnames
 ##   &lt;chr&gt;       &lt;chr&gt;                                               &lt;lgl&gt;    
 ## 1 GissiSim    &quot;Handel lost 51% to 50%\n\nhttps://t.co/TJZPJYGzR1&quot; FALSE    
 ## 2 GissiSim    Randy lost 52% to 48% https://t.co/GlmUBxdHcz       FALSE
 </code></pre>
-
 <p>Karen Handel is not in the dataset but did receive an endorsement in
 2017.</p>
-
 <p>Randy is the first name of Randy Hultgren who is already in dataset.</p>
-
 <p>Fix:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">trump_endorsements <span style="color:#f92672">&lt;-</span> trump_endorsements <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rbind</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Karen Handel&#34;</span>, <span style="color:#e6db74">&#34;Lost&#34;</span>, <span style="color:#e6db74">&#34;House&#34;</span>, <span style="color:#e6db74">&#34;Incumbent&#34;</span>))
 
-<pre><code class="language-r">trump_endorsements &lt;- trump_endorsements %&gt;% 
-  rbind(c(&quot;Karen Handel&quot;, &quot;Lost&quot;, &quot;House&quot;, &quot;Incumbent&quot;))
-
-save_it(trump_endorsements)
-</code></pre>
-
-<h2 id="plotting-the-data">Plotting the Data</h2>
-
+<span style="color:#a6e22e">save_it</span>(trump_endorsements)
+</code></pre></div><h2 id="plotting-the-data">Plotting the Data</h2>
 <p>Let’s plot the data now :)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_dat <span style="color:#f92672">&lt;-</span> trump_endorsements <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(results, type) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ungroup</span>()<span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(type) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ungroup</span>() 
 
-<pre><code class="language-r">gg_dat &lt;- trump_endorsements %&gt;% 
-  group_by(results, type) %&gt;% 
-  tally() %&gt;% 
-  ungroup()%&gt;% 
-  group_by(type) %&gt;% 
-  mutate(total = sum(n)) %&gt;% 
-  ungroup() 
+gg_text <span style="color:#f92672">&lt;-</span> gg_dat <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(results <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Won&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">get_percentage</span>(n, total, <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(n, <span style="color:#e6db74">&#34; out of &#34;</span>, total, <span style="color:#e6db74">&#34; won (&#34;</span>, perc,<span style="color:#e6db74">&#34;%)&#34;</span>))
 
-gg_text &lt;- gg_dat %&gt;% 
-  filter(results == &quot;Won&quot;) %&gt;% 
-  mutate(perc = tidytemplate::get_percentage(n, total, 2)) %&gt;% 
-  mutate(text = paste0(n, &quot; out of &quot;, total, &quot; won (&quot;, perc,&quot;%)&quot;))
-
-gg_dat %&gt;% 
-  ggplot(aes(results, n, fill = results)) +
-  geom_col(alpha = 0.75) +
-  facet_wrap(~type) +
-  theme_hc() +
-  scale_fill_colorblind() +
-  guides(fill = F) +
-  labs(x = &quot;&quot;, y = &quot;&quot;,
-       caption = &quot;Data: Politico &amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&quot;) +
-  geom_text(aes(label = n), nudge_y = 1) +
-  geom_text(data = gg_text, aes(x = 1.5, y = 31, label = text)) +
-  ggtitle(&quot;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&quot;)  +
-  theme(legend.text = element_text(size = 8),
-    axis.title = element_text(size = 10, face = &quot;bold&quot;),
-    plot.title = element_text(size = 14, face = &quot;bold&quot;, hjust = 0),
-    plot.caption = element_text(size = 10),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 8), 
+gg_dat <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(results, n, fill <span style="color:#f92672">=</span> results)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_col</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>type) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_colorblind</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Politico &amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> n), nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> gg_text, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">31</span>, label <span style="color:#f92672">=</span> text)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>),
+    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>),
+    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>,
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>), 
     ) 
-</code></pre>
+</code></pre></div><p><a href="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true"><img src="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(gg_freqs, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div><p>Plot by incumbents:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_dat2 <span style="color:#f92672">&lt;-</span> trump_endorsements <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(results, incumbent) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ungroup</span>()<span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(incumbent) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">drop_na</span>(incumbent)
 
-<p><a href="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true" target="_blank"><img src="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs.png?raw=true" alt="" /></a></p>
+gg_text2 <span style="color:#f92672">&lt;-</span> gg_dat2 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(results <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Won&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">get_percentage</span>(n, total, <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(n, <span style="color:#e6db74">&#34; out of &#34;</span>, total, <span style="color:#e6db74">&#34; won (&#34;</span>, perc,<span style="color:#e6db74">&#34;%)&#34;</span>))
 
-<pre><code class="language-r">ggsave_it(gg_freqs, width = 10, height = 6)
-</code></pre>
-
-<p>Plot by incumbents:</p>
-
-<pre><code class="language-r">gg_dat2 &lt;- trump_endorsements %&gt;% 
-  group_by(results, incumbent) %&gt;% 
-  tally() %&gt;% 
-  ungroup()%&gt;% 
-  group_by(incumbent) %&gt;% 
-  mutate(total = sum(n)) %&gt;% 
-  ungroup() %&gt;% 
-  drop_na(incumbent)
-
-gg_text2 &lt;- gg_dat2 %&gt;% 
-  filter(results == &quot;Won&quot;) %&gt;% 
-  mutate(perc = tidytemplate::get_percentage(n, total, 2)) %&gt;% 
-  mutate(text = paste0(n, &quot; out of &quot;, total, &quot; won (&quot;, perc,&quot;%)&quot;))
-
-gg_dat2 %&gt;% 
-  ggplot(aes(results, n, fill = results)) +
-  geom_col(alpha = 0.75) +
-  facet_wrap(~incumbent) +
-  theme_hc() +
-  scale_fill_colorblind() +
-  guides(fill = F) +
-  labs(x = &quot;&quot;, y = &quot;&quot;,
-       caption = &quot;Data: Politico &amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&quot;) +
-  geom_text(aes(label = n), nudge_y = 1) +
-#  geom_text(data = gg_text2, aes(x = 1.5, y = 31, label = text)) +
-  ggtitle(&quot;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&quot;)  +
-  theme(legend.text = element_text(size = 8),
-    axis.title = element_text(size = 10, face = &quot;bold&quot;),
-    plot.title = element_text(size = 14, face = &quot;bold&quot;, hjust = 0),
-    plot.caption = element_text(size = 10),
-    legend.position = &quot;bottom&quot;,
-    legend.title = element_text(size = 8), 
+gg_dat2 <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(results, n, fill <span style="color:#f92672">=</span> results)) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_col</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>incumbent) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">scale_fill_colorblind</span>() <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>,
+       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Politico &amp; McClatchy Articles and Gissur Simonarson (@GissiSim)\nfavstats.eu; @favstats&#34;</span>) <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> n), nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span>
+<span style="color:#75715e">#  geom_text(data = gg_text2, aes(x = 1.5, y = 31, label = text)) +</span>
+  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?\n&#34;</span>)  <span style="color:#f92672">+</span>
+  <span style="color:#a6e22e">theme</span>(legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>),
+    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
+    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>),
+    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
+    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>,
+    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>), 
     ) 
-</code></pre>
-
-<p><a href="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true" target="_blank"><img src="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true" alt="" /></a></p>
-
-<pre><code class="language-r">ggsave_it(gg_freqs2, width = 10, height = 6)
-</code></pre>
-
+</code></pre></div><p><a href="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true"><img src="https://github.com/favstats/trump_endorsements/blob/master/images/gg_freqs2.png?raw=true" alt=""></a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(gg_freqs2, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
+</code></pre></div>
       </div>
 
       
@@ -739,7 +668,7 @@ gg_dat2 %&gt;%
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

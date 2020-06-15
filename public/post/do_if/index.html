@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.53" />
+  <meta name="generator" content="Hugo 0.69.2" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -337,51 +337,41 @@
         <p>So recently I was writing functions with many if statements and pipes. Given that
 I am a huge fan of the <code>%&gt;%</code> pipe workflow, I was thinking about
 creating a pipable if environment. Here is my attempt to implement
-exactly that. With a lot help from my good friend <a href="https://twitter.com/Ben_Guinaudeau" target="_blank">Ben</a>. If you are reading this, thank you! You made this possible.</p>
-
+exactly that. With a lot help from my good friend <a href="https://twitter.com/Ben_Guinaudeau">Ben</a>. If you are reading this, thank you! You made this possible.</p>
 <p>Import gist from here:</p>
-
-<pre><code class="language-r">library(dplyr)
-source(&quot;https://gist.githubusercontent.com/favstats/3e1d8b65a019b24344b7b3dea6002a0b/raw/6919b22f01db6d672d64ebcac5798b8495c89ad2/do_if.R&quot;)
-</code></pre>
-
-<p>So let’s say you want to create a function that has multiple if
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(dplyr)
+<span style="color:#a6e22e">source</span>(<span style="color:#e6db74">&#34;https://gist.githubusercontent.com/favstats/3e1d8b65a019b24344b7b3dea6002a0b/raw/6919b22f01db6d672d64ebcac5798b8495c89ad2/do_if.R&#34;</span>)
+</code></pre></div><p>So let’s say you want to create a function that has multiple if
 specifications but you also want to always create two columns regardless
 of the input. You might create something like this:</p>
-
-<pre><code class="language-r">mock_function &lt;- function(.data, argument = &quot;&quot;) {
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mock_function <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(.data, argument <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>) {
   
-  if (argument == &quot;do_this1&quot;) {
-    .data &lt;-.data %&gt;%
-          dplyr::filter(am == 1) %&gt;%
-          dplyr::filter(cyl == 6) %&gt;%
-          dplyr::mutate(x = disp &gt;= 100)
-  } else if (argument == &quot;do_this2&quot;) {
-    .data &lt;-.data %&gt;%
-          dplyr::filter(am == 0) %&gt;%
-          dplyr::filter(cyl == 4) %&gt;%
-          dplyr::mutate(x = disp &lt; 100)
+  <span style="color:#a6e22e">if </span>(argument <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;do_this1&#34;</span>) {
+    .data <span style="color:#f92672">&lt;-</span>.data <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(am <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(cyl <span style="color:#f92672">==</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">mutate</span>(x <span style="color:#f92672">=</span> disp <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">100</span>)
+  } else <span style="color:#a6e22e">if </span>(argument <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;do_this2&#34;</span>) {
+    .data <span style="color:#f92672">&lt;-</span>.data <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(am <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(cyl <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">mutate</span>(x <span style="color:#f92672">=</span> disp <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>)
   }
   
-  final &lt;- .data %&gt;% 
-    mutate(new_column = &quot;Say What&quot;) %&gt;% 
-    mutate(other_column = &quot;Say That&quot;)
+  final <span style="color:#f92672">&lt;-</span> .data <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(new_column <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Say What&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(other_column <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Say That&#34;</span>)
   
-  return(final)
+  <span style="color:#a6e22e">return</span>(final)
   
 }
-</code></pre>
-
-<p>So if you leave the argument blank you will receive the entire dataset
+</code></pre></div><p>So if you leave the argument blank you will receive the entire dataset
 with two new columns:</p>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function() %&gt;% 
-  select(vs:other_column) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 32 x 6
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(vs<span style="color:#f92672">:</span>other_column) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 32 x 6
 ##       vs    am  gear  carb new_column other_column
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       
 ##  1     0     1     4     4 Say What   Say That    
@@ -396,99 +386,83 @@ with two new columns:</p>
 ## 10     1     0     4     4 Say What   Say That    
 ## # ... with 22 more rows
 </code></pre>
-
 <p>If you add <code>&quot;do_this1</code> to the argument you will receive a filtered
 dataset:</p>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function(&quot;do_this1&quot;) %&gt;% 
-  select(vs:other_column) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 3 x 7
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>(<span style="color:#e6db74">&#34;do_this1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(vs<span style="color:#f92672">:</span>other_column) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 3 x 7
 ##      vs    am  gear  carb x     new_column other_column
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt; &lt;chr&gt;      &lt;chr&gt;       
 ## 1     0     1     4     4 TRUE  Say What   Say That    
 ## 2     0     1     4     4 TRUE  Say What   Say That    
 ## 3     0     1     5     6 TRUE  Say What   Say That
 </code></pre>
-
 <p>And if you specify <code>&quot;do_this2</code> it will create a different subset.. but
 always with the <code>new_column</code> and <code>other_column</code> intact.</p>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function(&quot;do_this2&quot;) %&gt;% 
-  select(vs:other_column) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 3 x 7
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>(<span style="color:#e6db74">&#34;do_this2&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">select</span>(vs<span style="color:#f92672">:</span>other_column) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 3 x 7
 ##      vs    am  gear  carb x     new_column other_column
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt; &lt;chr&gt;      &lt;chr&gt;       
 ## 1     1     0     4     2 FALSE Say What   Say That    
 ## 2     1     0     4     2 FALSE Say What   Say That    
 ## 3     1     0     3     1 FALSE Say What   Say That
 </code></pre>
-
 <p>Now this would work just fine. But what if you have multiple if
 statements along your pipe chain and you don’t want to split into so
 many different if statements? Well this is where <code>do_if</code> comes in!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">#&#39; A pipable if statement</span>
+<span style="color:#75715e">#&#39;</span>
+<span style="color:#75715e">#&#39; This function allows to create an if statement that can be used within a pipable workflow</span>
+<span style="color:#75715e">#&#39;</span>
+<span style="color:#75715e">#&#39; @importFrom magrittr %&gt;%</span>
+<span style="color:#75715e">#&#39; @importFrom rlang parse_expr</span>
+<span style="color:#75715e">#&#39; @param .data tibble</span>
+<span style="color:#75715e">#&#39; @param condition logical test</span>
+<span style="color:#75715e">#&#39; @param call a formula descibing a pipe to be evaluated if condition is \code{code}</span>
+<span style="color:#75715e">#&#39; @examples</span>
+<span style="color:#75715e">#&#39; any_condition &lt;- T</span>
+<span style="color:#75715e">#&#39;</span>
+<span style="color:#75715e">#&#39; mtcars %&gt;%</span>
+<span style="color:#75715e">#&#39; do_if(any_condition, ~{</span>
+<span style="color:#75715e">#&#39; .x %&gt;%</span>
+<span style="color:#75715e">#&#39;  dplyr::filter(cyl == 6) %&gt;%</span>
+<span style="color:#75715e">#&#39;  dplyr::mutate(x = disp &gt; 170)</span>
+<span style="color:#75715e">#&#39; })</span>
+<span style="color:#75715e">#&#39; @export</span>
+do_if <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(.data, condition, call){
 
-<pre><code class="language-r">#' A pipable if statement
-#'
-#' This function allows to create an if statement that can be used within a pipable workflow
-#'
-#' @importFrom magrittr %&gt;%
-#' @importFrom rlang parse_expr
-#' @param .data tibble
-#' @param condition logical test
-#' @param call a formula descibing a pipe to be evaluated if condition is \code{code}
-#' @examples
-#' any_condition &lt;- T
-#'
-#' mtcars %&gt;%
-#' do_if(any_condition, ~{
-#' .x %&gt;%
-#'  dplyr::filter(cyl == 6) %&gt;%
-#'  dplyr::mutate(x = disp &gt; 170)
-#' })
-#' @export
-do_if &lt;- function(.data, condition, call){
+  <span style="color:#a6e22e">if</span>(condition){
+    .x <span style="color:#f92672">&lt;-</span> .data
 
-  if(condition){
-    .x &lt;- .data
-
-    call_str &lt;- call %&gt;%
-      as.character %&gt;%
+    call_str <span style="color:#f92672">&lt;-</span> call <span style="color:#f92672">%&gt;%</span>
+      as.character <span style="color:#f92672">%&gt;%</span>
       .[2]
 
-    out &lt;- eval(rlang::parse_expr(call_str))
+    out <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">eval</span>(rlang<span style="color:#f92672">::</span><span style="color:#a6e22e">parse_expr</span>(call_str))
 
-    return(out)
+    <span style="color:#a6e22e">return</span>(out)
   } else {
-    return(.data)
+    <span style="color:#a6e22e">return</span>(.data)
   }
 }
-</code></pre>
-
-<p>With <code>do_if</code> you can specify an if statement <em>within</em> a pipable
+</code></pre></div><p>With <code>do_if</code> you can specify an if statement <em>within</em> a pipable
 workflow!</p>
-
 <p>Example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">any_condition <span style="color:#f92672">&lt;-</span> T
 
-<pre><code class="language-r">any_condition &lt;- T
-
-mtcars %&gt;%
-  do_if(any_condition, ~{
-    .x %&gt;%
-      dplyr::filter(cyl == 6) %&gt;%
-      dplyr::mutate(x = disp &gt; 170)
-    }) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 7 x 12
+mtcars <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">do_if</span>(any_condition, <span style="color:#f92672">~</span>{
+    .x <span style="color:#f92672">%&gt;%</span>
+      dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(cyl <span style="color:#f92672">==</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">%&gt;%</span>
+      dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">mutate</span>(x <span style="color:#f92672">=</span> disp <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">170</span>)
+    }) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 7 x 12
 ##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;
 ## 1  21       6  160    110  3.9   2.62  16.5     0     1     4     4 FALSE
@@ -499,43 +473,36 @@ mtcars %&gt;%
 ## 6  17.8     6  168.   123  3.92  3.44  18.9     1     0     4     4 FALSE
 ## 7  19.7     6  145    175  3.62  2.77  15.5     0     1     5     6 FALSE
 </code></pre>
-
 <p>This can come in really handy if you are not a big fan of seperating
 your pipe workflow all too often. Let’s recreate the mock_function with
 the help of <code>do_if</code></p>
-
-<pre><code class="language-r">mock_function &lt;- function(.data, argument = &quot;&quot;) {
-  .data %&gt;% 
-    do_if(
-      argument == &quot;do_this1&quot;,
-      ~{.x %&gt;%
-          dplyr::filter(am == 1) %&gt;%
-          dplyr::filter(cyl == 6) %&gt;%
-          dplyr::mutate(x = disp &gt;= 100)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mock_function <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(.data, argument <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>) {
+  .data <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">do_if</span>(
+      argument <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;do_this1&#34;</span>,
+      <span style="color:#f92672">~</span>{.x <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(am <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(cyl <span style="color:#f92672">==</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">mutate</span>(x <span style="color:#f92672">=</span> disp <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">100</span>)
         }
-    ) %&gt;% 
-    do_if(
-      argument == &quot;do_this2&quot;,
-      ~{.x %&gt;%
-          dplyr::filter(am == 0) %&gt;%
-          dplyr::filter(cyl == 4) %&gt;%
-          dplyr::mutate(x = disp &lt; 100)
+    ) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">do_if</span>(
+      argument <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;do_this2&#34;</span>,
+      <span style="color:#f92672">~</span>{.x <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(am <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">filter</span>(cyl <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">%&gt;%</span>
+          dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">mutate</span>(x <span style="color:#f92672">=</span> disp <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>)
         }
-    ) %&gt;% 
-    mutate(other_column = &quot;Say That&quot;) %&gt;% 
-    mutate(new_column = &quot;Say What&quot;) 
+    ) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(other_column <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Say That&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">mutate</span>(new_column <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Say What&#34;</span>) 
 }
-</code></pre>
-
-<p>And again we can get the same results, only with a slighly less
+</code></pre></div><p>And again we can get the same results, only with a slighly less
 troublesome workflow within a function!</p>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function() %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 32 x 13
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 32 x 13
 ##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
@@ -551,13 +518,10 @@ troublesome workflow within a function!</p>
 ## # ... with 22 more rows, and 2 more variables: other_column &lt;chr&gt;,
 ## #   new_column &lt;chr&gt;
 </code></pre>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function(argument = &quot;do_this1&quot;) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 3 x 14
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>(argument <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;do_this1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 3 x 14
 ##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;
 ## 1  21       6   160   110  3.9   2.62  16.5     0     1     4     4 TRUE 
@@ -565,13 +529,10 @@ troublesome workflow within a function!</p>
 ## 3  19.7     6   145   175  3.62  2.77  15.5     0     1     5     6 TRUE 
 ## # ... with 2 more variables: other_column &lt;chr&gt;, new_column &lt;chr&gt;
 </code></pre>
-
-<pre><code class="language-r">mtcars %&gt;% 
-  mock_function(argument = &quot;do_this2&quot;) %&gt;% 
-  as_tibble()
-</code></pre>
-
-<pre><code>## # A tibble: 3 x 14
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mock_function</span>(argument <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;do_this2&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">as_tibble</span>()
+</code></pre></div><pre><code>## # A tibble: 3 x 14
 ##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb x    
 ##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;
 ## 1  24.4     4  147.    62  3.69  3.19  20       1     0     4     2 FALSE
@@ -579,36 +540,29 @@ troublesome workflow within a function!</p>
 ## 3  21.5     4  120.    97  3.7   2.46  20.0     1     0     3     1 FALSE
 ## # ... with 2 more variables: other_column &lt;chr&gt;, new_column &lt;chr&gt;
 </code></pre>
-
 <p>UPDATE:</p>
-
-<p><a href="https://twitter.com/kearneymw" target="_blank">Mike Kearney</a> created a much smoother version with the ability to create an else statement as well.</p>
-
-<p>Check it out <a href="https://gist.github.com/mkearney/bb2ce47eb635c14d5f99151636e26b21" target="_blank">here</a>:</p>
-
-<pre><code class="language-r">
-#' Conditionally apply expressions on a data object
-#' 
-#' @param .data Input data
-#' @param condition A logical value to determine whether to use .if or .else
-#' @param .if Formula or function to apply to intput data when condition is TRUE
-#' @param .else Formula or function to apply to intput data when condition is FALSE
-#' @return Output of appropriate .if/.else call
-#' @export
-#' @importFrom rlang as_closure
-do_if_else &lt;- function(.data, condition, .if, .else = identity) {
-  if (condition) {
-    call &lt;- rlang::as_closure(.if)
+<p><a href="https://twitter.com/kearneymw">Mike Kearney</a> created a much smoother version with the ability to create an else statement as well.</p>
+<p>Check it out <a href="https://gist.github.com/mkearney/bb2ce47eb635c14d5f99151636e26b21">here</a>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
+<span style="color:#75715e">#&#39; Conditionally apply expressions on a data object</span>
+<span style="color:#75715e">#&#39; </span>
+<span style="color:#75715e">#&#39; @param .data Input data</span>
+<span style="color:#75715e">#&#39; @param condition A logical value to determine whether to use .if or .else</span>
+<span style="color:#75715e">#&#39; @param .if Formula or function to apply to intput data when condition is TRUE</span>
+<span style="color:#75715e">#&#39; @param .else Formula or function to apply to intput data when condition is FALSE</span>
+<span style="color:#75715e">#&#39; @return Output of appropriate .if/.else call</span>
+<span style="color:#75715e">#&#39; @export</span>
+<span style="color:#75715e">#&#39; @importFrom rlang as_closure</span>
+do_if_else <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(.data, condition, .if, .else <span style="color:#f92672">=</span> identity) {
+  <span style="color:#a6e22e">if </span>(condition) {
+    call <span style="color:#f92672">&lt;-</span> rlang<span style="color:#f92672">::</span><span style="color:#a6e22e">as_closure</span>(.if)
   } else {
-    call &lt;- rlang::as_closure(.else)
+    call <span style="color:#f92672">&lt;-</span> rlang<span style="color:#f92672">::</span><span style="color:#a6e22e">as_closure</span>(.else)
   }
-  do.call(call, list(.data))
+  <span style="color:#a6e22e">do.call</span>(call, <span style="color:#a6e22e">list</span>(.data))
 }
-</code></pre>
-
-<p>Usage Example:</p>
-
-<p><img src="https://pbs.twimg.com/media/D6i5BJ2X4AAcnVx.jpg" alt="" /></p>
+</code></pre></div><p>Usage Example:</p>
+<p><img src="https://pbs.twimg.com/media/D6i5BJ2X4AAcnVx.jpg" alt=""></p>
 
       </div>
 
@@ -667,7 +621,7 @@ do_if_else &lt;- function(.data, condition, .if, .else = identity) {
   <div class="container">
     <p class="powered-by">
 
-      &copy; 2019 Fabio Votta &middot; 
+      © 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
