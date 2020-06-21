@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title> Pernicious Personalization?</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="xaringan-themer-ma.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: top, center, title-slide
+
+# <br>Pernicious Personalization?
+## A Field Experiment using Automated Accounts on Twitter
+### <br>Master thesis submitted in partial fulfillment of the requirements for the degree of Master of Arts (M. A.) in Empirical Political and Social Research<br><br>Fabio Votta<br><br>24 June 2020<br>Slides available here:<br><a href="http://www.favstats.eu/slides/personalization_ma">favstats.eu/slides/personalization_ma</a>
+
+---
+
+
+
+
+
+
+class: center, middle, inverse
+
+
+
+&lt;style&gt;
+.onehundredtwenty {
+  font-size: 120%;
+   }
+
+&lt;style&gt;
+.ninety {
+  font-size: 90%;
+   }
+   
+.eightyseven {
+  font-size: 87%;
+   }
+
+.eightyfive {
+  font-size: 85%;
+   }
+   
+.eighty {
+  font-size: 80%;
+   }
+   
+.seventyfive {
+  font-size: 75%;
+   }
+   
+.seventy {
+  font-size: 70%;
+   }
+   
+.sixty {
+  font-size: 70%;
+   }
+   
+.twentyfive {
+  font-size: 25%;
+   }
+&lt;/style&gt;
+
+
+
+## Relevance
+
+
+---
+
+
+## Relevance
+
+
+![](images/filter_bubble.png)
+
+???
+
+In the media and public discourse there is a lot of discussion around filter bubbles &amp; echo chambers.
+
+They supposedly destroy democracies and radicalize their users.
+
+On the upper right you can see a YouTube analysis of recommended Videos based on the 2018 Chemnitz violent demonstrations in Germany.
+
+---
+
+## Relevance
+
+.pull-left[
+
++ People tend to prefer reinforcing information more than they avoid information they disagree with. 
+
++ Selective exposure can also be overridden by other factors such as personal recommendation. 
+
++ Selective exposure often does not translate into real-world outcomes.
+
++ Much of the public is not attentive to politics and thus unlikely to be in an echo chamber of any sort.
+
+]
+
+
+.pull-right[
+
+![](images/knight.png)
+
+]
+
+
+???
+
+
+---
+
+## Relevance
+
+![](images/algo_extremism.png)
+
+&gt;"[...] these data suggest that YouTubes recommendation algorithm actively discourages viewers from visiting radicalizing or extremist content. Instead, the algorithm is shown to favor mainstream media and cable news content over independent YouTube channels with slant towards left-leaning or politically neutral channels."
+
+
+---
+
+## Relevance
+
+![](images/algo_extremism.png)
+
+The problem with this study (and many similar studies) is that they *only use the API* to get their data. The data collection does not mimic user-platform relationship at all and does not take into account personalization, which is one of the most important aspects of the radicalization hypothesis.
+
+---
+
+## Goals
+
+Three main contributions of this thesis:
+
+1. Theoretically and analytically distinguish echo chamber from filter bubble effects.
+
+2. Focus on what algorithm do before analyzing how algorithms influence people and societies.
+
+3. Development and application of an **algorithm audit study** that can be used on other platforms and contexts.
+
+---
+
+
+class: center, middle, inverse
+
+
+## Echo Chambers vs. Filter Bubbles
+
+---
+
+## Echo Chambers vs. Filter Bubbles
+
+
+The main difference refers to the **authority in charge of selection**. 
+
+--
+
+&lt;!-- While in an echo chamber, users are mainly in charge of selecting the content they will be exposed to, in the case of filter bubbles, an individual does not directly control which content is selected and how the selection happens. In fact, as algorithms are the default on most prominent social media pages, users could be totally unaware of algorithmic selection. --&gt;
+
+**Echo chamber mechanism**
+
+A user chooses to read specific sources or follow users that reinforce the opinion that they already hold.
+
+
+&amp;#x2192; Explicit Personalization (Thurman &amp; Schifferes 2012)
+
+--
+
+**Filter bubble mechanism**
+
+A platform will track user behavior and curate their news feed accordingly.
+
+&amp;#x2192; Implicit Personalization (Thurman &amp; Schifferes 2012)
+
+
+???
+
+Both echo chambers and filter bubbles signify a state in which a person is only exposed to their own political or social views. However, they differ in one main aspect: authority.
+
+In an echo chamber it can be reasonably assumed they are in charge of selction. You subscribe to a newspaper. You follow a person.
+
+In a filter bubble, the algorithm decides what kind of content you will ultimately see.
++ It's black box.
++ People may not be aware of algorithmic selection.
++ Think it shows the public sphere
+
+---
+
+class: center, middle, inverse
+
+
+## Hypotheses
+
+---
+
+## H1: Explicit personalization
+
+Tailoring content by explicitly telling the algorithm what kind of content the user is interested in.
+
+
+&gt; H1: Ideological crosscutting content will be displayed in the same proportion as the user explicitly tells it to.
+
+
+---
+
+## H2: Implicit vs. Explicit personalization
+
+If a person engages with content on Twitter (by liking, retweeting and commenting) they reveal more information about their preferences.
+
+&gt; H2: Explicit personalization deprioritizes ideologically crosscutting content more so than implicit personalization. This will be true in terms of frequency (H2a) and ranking (H2b).
+
+---
+
+## H3 &amp; H4: Algorithmic vs. non-algorithmic timelines
+
+Personalized algorithms may be expected to show less cross-cutting content than non-algorithmic timelines.
+
+&gt; H3: Algorithmic timelines (explicitly and implicitly pesonalized) deprioritize crosscutting content more than non-algorithmic ones. This will be true in terms of frequency (H3a) and ranking (H3b).
+
+&gt; H4: Implicitly personalized timelines deprioritize crosscutting content more than non-algorithmic timelines. This will be true in terms of frequency (H4a) and ranking (H4b).
+
+---
+
+
+
+## H5: "Radicalization" Hypothesis
+
+Without built-in limitation, we would expect that the more an algorithm learns about the ideological leanings of their users the more partisan the content it displays will be.
+
+&gt; H5: Implicitly pesonalized timelines are more ideologically partisan than explicit personalized (H5a) and non-algorithmic timelines (H5b).
+
+---
+
+
+
+## Twitter as a Use-Case
+
++ Twitter is one of the major social media platforms
+   + *126 million* daily active users and a vivid space for political discussions (Twitter 2019; TwitterGov 2016). 
+
+
+---
+
+
+## Twitter as a Use-Case
+
++ Twitter is one of the major social media platforms
+   + *126 million* daily active users and a vivid space for political discussions (Twitter 2019c; TwitterGov 2016). 
+
++ Twitter algorithm ranks content for the user by default. 
+   + Users can  opt-out and receive tweets in chronological order. 
+
+---
+
+## Twitter as a Use-Case
+
++ Twitter is one of the major social media platforms
+   + *126 million* daily active users and a vivid space for political discussions (Twitter 2019c; TwitterGov 2016). 
+
++ Twitter algorithm ranks content for the user by default. 
+   + Users can  opt-out and receive tweets in chronological order. 
+
++ Good data access via Twitter API
+   + Makes it possible to reconstruct the unfiltered version of the timeline.
+
+---
+
+## Actions
+
+Four (algorithm-relevant) actions a user can take on Twitter
+
+A user can
+
++ follow other accounts
+
++ retweet content
+
++ like content
+
++ leave comments
+
+---
+
+## Actions
+
+Four (algorithm-relevant) actions a user can take on Twitter
+
+A user can
+
++ follow other accounts
+
+&amp;#x2192; Explicit personalization
+
+--
+
++ retweet content, 
+
++ like content
+
++ leave comments
+
+&amp;#x2192; Implicit personalization
+
+---
+
+class: center, middle, inverse
+
+
+## Methods
+
+Research Design and Measurement
+
+---
+
+## Research Design
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_full.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+---
+
+## Research Design
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_00.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+---
+
+## Research Design
+
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_01.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+---
+
+## Research Design
+
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_02.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+---
+
+
+## Research Design
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_03.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+
+---
+
+## Research Design
+
+&lt;center&gt;
+
+&lt;img src="images/figure_3_full.png" width="550px" height="500px" /&gt;
+
+&lt;/center&gt;
+
+---
+
+## Measurement of Ideology
+
+The measure for political ideology needs to fulfill two purposes: 
+
+1. provide info on who the bot should follow, and 
+
+2. serve as the dependent variable for the hypotheses to be tested.
+
+--
+
+**Main Dependent Variables**
+
+1. Percentage of Crosscutting Content 
+
+2. Rank of Crosscutting Content
+
+3. Ideology Score
+
+---
+
+## Inferring ideology from text with `deepvoter`
+
+--
+
+&lt;center&gt;
+
+&lt;img src="images/gg_valid.png" width="550px" height="520px" /&gt;
+
+&lt;/center&gt;
+
+
+---
+
+class: center, middle, inverse
+
+## Results
+
+---
+
+## Results
+
+Data collection for the Twitter accounts went on for *33 days* 
+  + 29th October to 30th November 2019 
+  
+Total of 438,694 tweets appeared in the timelines of 28 Bots
+  + 138,860 (31.65%) were unique tweets
+
+---
+
+### DV: % Crosscutting Content - Over Time
+
+--
+
+&lt;img src="images/figure_10_01.png" width="4000" /&gt;
+
+.sixty[
+
++ Observer bots explicitly personalize timeline by following accounts.
+
++ % crosscutting content remains stable with no further input over time.
+
+]
+
+
+
+
+---
+
+### DV: % Crosscutting Content - Over Time
+
+
+&lt;img src="images/figure_10_02.png" width="4000" /&gt;
+
+
+.sixty[
+
++ Engager bots implicitly personalize timeline by following accounts and engaging with partisan content.
+
++ % crosscutting content is reduced over time (17% less crosscutting content compared to Observer after 33 days)
+
+]
+
+---
+
+### DV: % Crosscutting Content - Over Time
+
+
+&lt;img src="images/figure_10_03.png" width="4000" /&gt;
+
+.sixty[
+
++ Chronological timeline stable over time and highly dependent on tweet frequency of followed accounts.
+
+]
+
+---
+
+### DV: % Crosscutting Content - Tweet Rates
+
+--
+
+&lt;img src="images/table_2.png" width="1123" /&gt;
+
+Liberal accounts tweet much more on average. Liberal accounts followed by conservative bots tweeted **282.49 times a day**, more so than conservative accounts followed by conservative bots, who tweeted only **226.54 times a day**, on average.
+
+---
+
+### DV: Rank Crosscutting Content - Differing Tresholds
+
+--
+
+&lt;img src="images/figure_15_00.png" width="4000" /&gt;
+
+.sixty[
+
++ If there is no bias in rank of crosscutting content we would expect a median rank of 30 when considering 60 tweets per session.
+
+]
+
+
+---
+
+### DV: Rank Crosscutting Content - Differing Tresholds
+
+
+
+&lt;img src="images/figure_15_01.png" width="4000" /&gt;
+
+.sixty[
+
++ This is pretty much exactly what we observe!
+
+]
+
+---
+
+
+### DV: Rank Crosscutting Content - Differing Tresholds
+
+
+
+&lt;img src="images/figure_15_02.png" width="4000" /&gt;
+
+.sixty[
+
++ Crosscutting content is lower ranked in timelines that were implicitly personalized (Engager bots)
++ For liberal bots the deprioritization of crosscutting content seems to vanish when considering more than 85 tweets per session.
+
+]
+
+---
+
+
+
+### DV: Rank Crosscutting Content - Differing Tresholds
+
+
+
+&lt;img src="images/figure_15_03.png" width="4000" /&gt;
+
+.sixty[
+
++ When considering Observer bots, crosscutting content is highest ranked for liberal bots.
++ Both algorithmic timelines (explicitly and implicitly personalized) display crosscutting content less prominently for conservative bots.
+]
+
+---
+
+### DV: Ideology Score - Over Time
+
+--
+
+
+&lt;img src="images/figure_12_00.png" width="4000" /&gt;
+
+
+.sixty[
+
++ Observer bots explicitly personalize timeline by following accounts.
+
++ Ideology remains stable with no further input over time
+
+]
+
+
+---
+
+
+### DV: Ideology Score - Over Time
+
+
+
+&lt;img src="images/figure_12_01.png" width="4000" /&gt;
+
+
+.sixty[
+
++ Engager bots implicitly personalize timeline by following accounts and engaging with partisan content.
+
++ Content becomes more partisan over time
+
+]
+
+
+---
+
+
+
+### DV: Ideology Score - Over Time
+
+
+
+&lt;img src="images/figure_12_02.png" width="4000" /&gt;
+
+
+.sixty[
+
++ Chronological timeline stable over time.
+
+]
+
+---
+
+class: center, middle, inverse
+
+## Conclusions
+
+---
+
+## Conclusions
+
+### H1: Explicit personalization
+
+
+&gt; H1: Ideological crosscutting content will be displayed in the same proportion as the user explicitly tells it to.
+
+Despite the tweet rate being higher and lower for the accounts of the opposing side that conservative and liberal bots followed, respectively, the personalization algorithm tried to come closer to the initial stimulus of 30% crosscutting content (Liberal Observer bots: 31.93%; Conservative Observer bots: 36.44%).
+
+--
+
+&amp;#x2192; H1 confirmed
+
+
+
+---
+
+## Conclusions
+
+
+### H2: Implicit vs. Explicit personalization vs. Non-Algorithmic Timeline
+
+
+&gt; H2: Explicit personalization deprioritizes ideologically crosscutting content more so than implicit personalization. This will be true in terms of frequency (H2a) and ranking (H2b).
+
+&gt; H4: Implicitly personalized timelines deprioritize crosscutting content more than non-algorithmic timelines. This will be true in terms of frequency (H4a) and ranking (H4b).
+
+--
+
+Providing more information to the algorithm (through engagement) has produced the most homogeneous and least diverse timeline as hypothesized in terms of frequency (confirming H2a and H4a) and deprioritized crosscutting content in terms of rank (confirming H2b and H4b).
+
+&amp;#x2192; H2 and H4 confirmed
+
+
+---
+
+## Conclusions
+
+
+### H3: Algorithmic vs. Non-Algorithmic Timeline
+
+
+&gt; H3: Algorithmic timelines (explicitly and implicitly pesonalized) deprioritize crosscutting content more than non-algorithmic ones. This will be true in terms of frequency (H3a) and ranking (H3b).
+
+--
+
+Algorithmic timelines are only less diverse with deprioritized crosscutting content for bots of the conservative ideology type, but not for bots in the liberal ideology type. Thus hypotheses H3a and H3b can only be confirmed for conservative users.
+
+&amp;#x2192; H3 only confirmed for conservative bots
+
+---
+
+## Conclusions
+
+### H5: Algorithmic vs. Non-Algorithmic Timeline
+
+&gt; H5: Implicitly pesonalized timelines are more ideologically partisan than explicit personalized (H5a) and non-algorithmic timelines (H5b).
+
+--
+
+Bots in the Engage condition consistently received more partisan content in comparison to just implicitly personalized and chronological timelines.
+
+
+&amp;#x2192; H5 confirmed
+
+
+---
+
+## Conclusions
+
+The thesis succesfully discerned echo chamber from filter bubble mechanisms.
+
+It showed how implicit personalization:
+
+1. decreases the relative frequency of ideologically crosscutting content
+
+2. deprioritized the rank of crosscutting content
+
+3. increased the ideological intensity (partisanship) of the content in the user timeline
+
+
+
+---
+
+## Conclusions
+
+The study presented in this thesis ran from 29th October 2019 to 30th November 2019. 
+
+This time range falls squarely within the impeachment hearings of U.S. President Donald J. Trump.
+
+Considering the highly conflicted and partisan nature of this endeavor, it is not unreasonable to ask what algorithms and in specific Twitter’s algorithm do to the quality of discourse when each partisan side is stuck in a filter bubble and is predominantly confronted with opinions and commentary from their own political side
+
+---
+
+## Conclusions
+
+The study is very valid :D
+
+---
+
+
+
+## Sources
+
++ Guess, Andrew, et al. "Avoiding the echo chamber about echo chambers: Why selective exposure to like-minded political news is less prevalent than you think." Knight Foundation White Paper (2018).
+
++ Ledwich, Mark, and Anna Zaitsev. "Algorithmic extremism: Examining YouTube's rabbit hole of radicalization." arXiv preprint arXiv:1912.11211 (2019).
+
++ Roth, Simon &amp; Göbel, Sascha 2020: ‘Deepvoter‘, GitHub. Available at: https://github.com/systats/deepvoter/.
+
+
++ Thurman, Neil &amp; Schifferes, Steve 2012: The future of personalization at news websites: Lessons from a longitudinal study, Journalism Studies 13, pp. 775–90.
+
+
++ Twitter 2019: Twitter Q1 2019 Company Metrics, Available at: http://tiny.cc/n7e5iz
+
++ TwitterGov 2016: Tuesday was the most-tweeted election day ever: 75+ million global election-related tweets sent through 3am et as trump claimed victory, Available at: https://twitter.com/TwitterGov/status/796729706758438912.
+
+---
+
+class: center, middle, inverse
+
+## Appendix
+
+---
+
+
+## Research Design
+
+**Chronological Timeline**
+
+This condition will serve as a counterfactual for each bot as it simulates what a given user would have seen if no algorithmic filters are applied.
+
+
+Instead, chronological timelines for each bot are constructed in the following way: first, all tweets created by the accounts that bots follow in their respective time they were active are collected via the Twitter API. This serves as the pool of tweets that each bot could have potentially seen. Each time a bot started a session, it also made a note of the exact time and date that it started. So for instance, if a bot session was initiated on 11 am on November 13th, 2019 and collected 124 tweets, the equivalent chronological timeline was constructed by considering the entire pool of tweets that the bot could have seen and filtering it only to include the 124 latest tweets after 11 am November 13th, 2019. This way, we can ensure that all chronological timelines are the exact same tweets that a user would have seen at that specific time if it were not for algorithmic sorting.
+
+---
+
+## Session Logic
+
+
+&lt;img src="images/figure_8_full.png" width="2073" /&gt;
+
+---
+
+## Session Logic
+
+
+&lt;img src="images/figure_8_01.png" width="2073" /&gt;
+
+---
+
+## Session Logic
+
+
+&lt;img src="images/figure_8_02.png" width="2073" /&gt;
+
+---
+
+
+## Session Logic
+
+
+&lt;img src="images/figure_8_03.png" width="2073" /&gt;
+
+---
+
+## Session Logic
+
+
+&lt;img src="images/figure_8_full.png" width="2073" /&gt;
+
+---
+
+
+## DV: % Crosscutting Content - Mixed Effects Model
+
+--
+
+&lt;img src="images/figure_13.png" width="1385" /&gt;
+
+---
+
+
+## DV: Ideology Score - Mixed Effects Model
+
+--
+
+
+&lt;img src="images/figure_16.png" width="1385" /&gt;
+
+---
+
+## Research Questions
+
++ *RQ1:* Can we distinguish echo chamber from filter bubble effects?
+
+--
+
++ *RQ2:* Does the algorithm infer political ideology from user data, and does that
+lead to an ideologically homogeneous timeline over time?
+
+--
+
++ *RQ3:* Are algorithmic timelines ideologically more homogeneous than non-algorithmic ones?
+
+--
+
++ *RQ4:* If the algorithm promotes homogeneity, does it affect conservative and
+liberal content to the same extent?
+
+--
+
++ *RQ5:* Does the algorithm “radicalize” users by showing them increasingly partisan
+content?
+
+---
+
+## Conclusions - Research Questions
+
+
++ *RQ1:* Can we distinguish echo chamber from filter bubble effects?
+
+--
+
+Yes. Implicit and explicit personalization produce different outcomes.
+
+Despite the tweet rate being higher and lower for the accounts of the opposing side that conservative and liberal bots followed, respectively the personalization algorithm tried to come closer to the initial stimulus of 30% crosscutting content (Liberal Observer bots: 31.93%; Conservative Observer bots: 36.44%).
+
+&amp;#x2192; H1 confirmed
+
+---
+
+## Conclusions - Research Questions
+
++ *RQ2:* Does the algorithm infer political ideology from user data, and does that
+lead to an ideologically homogeneous timeline over time?
+
+--
+
+Yes.
+
+Providing more information to the algorithm (through engagement) has produced the most homogeneous and least diverse timeline as hypothesized in terms of frequency (confirming H2a and H4a) and deprioritized crosscutting content in terms of
+rank (confirming H2b and H4b).
+
+When implicitly offering more information to the Twitter algorithm by engaging with a specific type of content, the percentage of crosscutting content is reduced substantially after a month: we can observe around **13-14% less crosscutting content** for both liberal and conservative bots.
+
+---
+
+
+## Conclusions - Research Questions
+
++ *RQ3:* Are algorithmic timelines ideologically more homogeneous than non-algorithmic ones?
+
++ *RQ4:* If the algorithm promotes homogeneity, does it affect conservative and liberal content to the same extent?
+
+--
+
+Mixed.
+
+Algorithmic timelines (which entail both Observer and Engager timelines) are only less diverse with deprioritized crosscutting content for bots of the conservative ideology type, but not for bots in the liberal ideology type. Thus hypotheses H3a and H3b can only be confirmed for conservative users.
+
+---
+
+## Conclusions - Research Questions
+
++ *RQ5:* Does the algorithm “radicalize” users by showing them increasingly partisan
+content?
+
+--
+
+Yes.
+
+Bots in the Engage condition consistently received more partisan content over time and in comparison to just self-selection (Observers) and chronological timelines, thus confirming hypotheses H5a and H5b.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "%current%<br>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
