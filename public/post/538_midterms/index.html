@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,22 +334,32 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <h2 id="packages">Packages</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have them yet</span>
-<span style="color:#75715e"># if (!require(&#34;pacman&#34;)) install.packages(&#34;pacman&#34;)</span>
-<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
+        
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, tidytemplate, janitor, ggthemes, ggpubr, rvest, ggrepel)
-</code></pre></div><h2 id="load-data">Load Data</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">csv_link <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;https://blogs.sciencemag.org/sciencehound/wp-content/uploads/sites/5/2018/11/Congressional-election-results-and-forecasts.csv&#34;</span>
+<h2 id="packages">Packages</h2>
 
-pred_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(csv_link) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">clean_names</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(close <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(election_results <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">55</span> <span style="color:#f92672">&amp;</span> election_results <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">45</span>, <span style="color:#e6db74">&#34;Close&#34;</span>, <span style="color:#e6db74">&#34;Safe&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">left_join</span>(<span style="color:#a6e22e">tibble</span>(state <span style="color:#f92672">=</span> state.name, abbr <span style="color:#f92672">=</span>state.abb)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(distr_abbr <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(abbr, district))
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred_dat
-</code></pre></div><pre><code>## # A tibble: 435 x 14
+<pre><code class="language-r"># Install these packages if you don't have them yet
+# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
+# devtools::install_github(&quot;favstats/tidytemplate&quot;)
+
+pacman::p_load(tidyverse, tidytemplate, janitor, ggthemes, ggpubr, rvest, ggrepel)
+</code></pre>
+
+<h2 id="load-data">Load Data</h2>
+
+<pre><code class="language-r">csv_link &lt;- &quot;https://blogs.sciencemag.org/sciencehound/wp-content/uploads/sites/5/2018/11/Congressional-election-results-and-forecasts.csv&quot;
+
+pred_dat &lt;- read_csv(csv_link) %&gt;% 
+  clean_names() %&gt;% 
+  mutate(close = ifelse(election_results &lt;= 55 &amp; election_results &gt;= 45, &quot;Close&quot;, &quot;Safe&quot;)) %&gt;% 
+  left_join(tibble(state = state.name, abbr =state.abb)) %&gt;% 
+  mutate(distr_abbr = paste0(abbr, district))
+</code></pre>
+
+<pre><code class="language-r">pred_dat
+</code></pre>
+
+<pre><code>## # A tibble: 435 x 14
 ##    state district democratic_cand~ republican_cand~ election_results
 ##    &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;                       &lt;dbl&gt;
 ##  1 Alab~        1 Kennedy          Byrne                        36.7
@@ -367,103 +377,128 @@ pred_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">re
 ## #   predicted_probability_deluxe &lt;dbl&gt;, correct_deluxe &lt;int&gt;,
 ## #   democratic_win &lt;int&gt;, close &lt;chr&gt;, abbr &lt;chr&gt;, distr_abbr &lt;chr&gt;
 </code></pre>
+
 <h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections">How did 538 Predictions fare in the 2018 Midterm Elections?</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">text_dat <span style="color:#f92672">&lt;-</span> pred_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">count</span>(correct_deluxe) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">spread</span>(correct_deluxe, n) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">rename</span>(incorrect <span style="color:#f92672">=</span> `0`, correct <span style="color:#f92672">=</span> `1`) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> (incorrect <span style="color:#f92672">+</span> correct)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc_correct <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(((correct <span style="color:#f92672">/</span> total)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>), <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(label <span style="color:#f92672">=</span> glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;538 predicted {correct} out of {total} races correctly ({perc_correct}%)&#34;</span>))
 
-pred_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(correct_deluxe <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(correct_deluxe)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(predicted_deluxe, election_results)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> correct_deluxe)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_colorblind</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> text_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">22</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">97</span>, label <span style="color:#f92672">=</span> label)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;How did 538 Predictions fare in the 2018 Midterm Elections?&#34;</span>,
-       x<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Forecast from 538 Deluxe forecast % for Democratic candidates&#34;</span>, 
-       y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Actual % for Democratic candidates from the election&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Black dots show 10 races that were wrongly predicted&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;favstats.eu; @favstats\nData: @jeremymberg&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-2-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(pred1, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div><h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections---close-races">How did 538 Predictions fare in the 2018 Midterm Elections? - Close Races</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(predicted_deluxe, election_results)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> close)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_colorblind</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">55</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">stat_cor</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;How did 538 Predictions fare in the 2018 Midterm Elections?&#34;</span>,
-       x<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Forecast from 538 Deluxe forecast % for Democratic candidates&#34;</span>,
-       y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Actual % for Democratic candidates from the election&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Black dots show 89 races that were close&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;favstats.eu; @favstats\nData: @jeremymberg&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-3-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(pred2, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div><h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections---close-races-ii">How did 538 Predictions fare in the 2018 Midterm Elections? - Close Races II</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pred_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(correct_deluxe <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(correct_deluxe)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(close <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Close&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(predicted_deluxe, election_results)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> correct_deluxe)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_colorblind</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">45</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">55</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lm&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> pred_dat <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(correct_deluxe <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>), <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> distr_abbr)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">stat_cor</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;How did 538 Predictions fare in the 2018 Midterm Elections?&#34;</span>,
-       x<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Forecast from 538 Deluxe forecast % for Democratic candidates&#34;</span>, 
-       y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Actual % for Democratic candidates from the election&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Black dots show 10 races that were wrongly predicted&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;favstats.eu; @favstats\nData: @jeremymberg&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/analysis-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(pred3, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div><h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections---prediction">How did 538 Predictions fare in the 2018 Midterm Elections? - Prediction</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">hist_dat <span style="color:#f92672">&lt;-</span> pred_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(diff <span style="color:#f92672">=</span> <span style="color:#a6e22e">abs</span>(election_results <span style="color:#f92672">-</span> predicted_deluxe)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(diff)) 
+<pre><code class="language-r">text_dat &lt;- pred_dat %&gt;% 
+  count(correct_deluxe) %&gt;%
+  spread(correct_deluxe, n) %&gt;% 
+  rename(incorrect = `0`, correct = `1`) %&gt;%
+  mutate(total = (incorrect + correct)) %&gt;% 
+  mutate(perc_correct = round(((correct / total)*100), 2)) %&gt;% 
+  mutate(label = glue::glue(&quot;538 predicted {correct} out of {total} races correctly ({perc_correct}%)&quot;))
 
-difference <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">mean</span>(hist_dat<span style="color:#f92672">$</span>diff) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">round</span>(<span style="color:#ae81ff">2</span>)
-
-hist_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(diff)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_histogram</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(xintercept <span style="color:#f92672">=</span> difference, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> difference <span style="color:#f92672">+</span> <span style="color:#ae81ff">.5</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">62</span>, label <span style="color:#f92672">=</span> difference)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;How did 538 Predictions fare in the 2018 Midterm Elections?&#34;</span>,
-       x<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Absolute Difference between 538 Forecast and Results in %&#34;</span>, 
-       y<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Frequency&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;favstats.eu; @favstats\nData: @jeremymberg&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>))
-</code></pre></div><pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+pred_dat %&gt;% 
+  mutate(correct_deluxe = as.factor(correct_deluxe)) %&gt;% 
+  ggplot(aes(predicted_deluxe, election_results)) +
+  geom_point(aes(color = correct_deluxe)) +
+  theme_minimal() +
+  scale_color_colorblind() +
+  geom_smooth(method = &quot;lm&quot;, color = &quot;black&quot;, alpha = 0.4) +
+  theme(legend.position = &quot;bottom&quot;) +
+  geom_text(data = text_dat, aes(x = 22, y = 97, label = label)) + 
+  labs(title = &quot;How did 538 Predictions fare in the 2018 Midterm Elections?&quot;,
+       x=&quot;Forecast from 538 Deluxe forecast % for Democratic candidates&quot;, 
+       y=&quot;Actual % for Democratic candidates from the election&quot;,
+       subtitle = &quot;Black dots show 10 races that were wrongly predicted&quot;,
+       caption = &quot;favstats.eu; @favstats\nData: @jeremymberg&quot;)  +
+  guides(color = F)  +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;italic&quot;))
 </code></pre>
-<p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(pred4, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div>
+
+<p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-2-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave_it(pred1, width = 10, height = 6)
+</code></pre>
+
+<h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections-close-races">How did 538 Predictions fare in the 2018 Midterm Elections? - Close Races</h2>
+
+<pre><code class="language-r">pred_dat %&gt;% 
+  ggplot(aes(predicted_deluxe, election_results)) +
+  geom_point(aes(color = close)) +
+  theme_minimal() +
+  scale_color_colorblind() +
+  geom_hline(yintercept = 55, linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 45, linetype = &quot;dashed&quot;) +
+  geom_smooth(method = &quot;lm&quot;, color = &quot;black&quot;, alpha = 0.4) +
+  theme(legend.position = &quot;bottom&quot;) +
+  stat_cor() +
+  labs(title = &quot;How did 538 Predictions fare in the 2018 Midterm Elections?&quot;,
+       x=&quot;Forecast from 538 Deluxe forecast % for Democratic candidates&quot;,
+       y=&quot;Actual % for Democratic candidates from the election&quot;,
+       subtitle = &quot;Black dots show 89 races that were close&quot;,
+       caption = &quot;favstats.eu; @favstats\nData: @jeremymberg&quot;)  +
+  guides(color = F)  +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;italic&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-3-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave_it(pred2, width = 10, height = 6)
+</code></pre>
+
+<h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections-close-races-ii">How did 538 Predictions fare in the 2018 Midterm Elections? - Close Races II</h2>
+
+<pre><code class="language-r">pred_dat %&gt;% 
+  mutate(correct_deluxe = as.factor(correct_deluxe)) %&gt;% 
+  filter(close == &quot;Close&quot;) %&gt;% 
+  ggplot(aes(predicted_deluxe, election_results)) +
+  geom_point(aes(color = correct_deluxe)) +
+  theme_minimal() +
+  geom_hline(yintercept = 50, linetype = &quot;dashed&quot;) +
+  scale_color_colorblind() +
+  scale_y_continuous(breaks = c(45, 50, 55)) +
+  geom_smooth(method = &quot;lm&quot;, color = &quot;black&quot;, alpha = 0.4) +
+  geom_text_repel(data = pred_dat %&gt;% filter(correct_deluxe == 0), aes(label = distr_abbr)) +
+  theme(legend.position = &quot;bottom&quot;) +
+  stat_cor() +
+  labs(title = &quot;How did 538 Predictions fare in the 2018 Midterm Elections?&quot;,
+       x=&quot;Forecast from 538 Deluxe forecast % for Democratic candidates&quot;, 
+       y=&quot;Actual % for Democratic candidates from the election&quot;,
+       subtitle = &quot;Black dots show 10 races that were wrongly predicted&quot;,
+       caption = &quot;favstats.eu; @favstats\nData: @jeremymberg&quot;)  +
+  guides(color = F)  +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;italic&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/analysis-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave_it(pred3, width = 10, height = 6)
+</code></pre>
+
+<h2 id="how-did-538-predictions-fare-in-the-2018-midterm-elections-prediction">How did 538 Predictions fare in the 2018 Midterm Elections? - Prediction</h2>
+
+<pre><code class="language-r">hist_dat &lt;- pred_dat %&gt;% 
+  mutate(diff = abs(election_results - predicted_deluxe)) %&gt;% 
+  arrange(desc(diff)) 
+
+difference &lt;- mean(hist_dat$diff) %&gt;% round(2)
+
+hist_dat %&gt;% 
+  ggplot(aes(diff)) +
+  theme_minimal() +
+  geom_histogram(alpha = 0.75) +
+  geom_vline(xintercept = difference, linetype = &quot;dashed&quot;) +
+  geom_text(aes(x = difference + .5, y = 62, label = difference)) +
+  labs(title = &quot;How did 538 Predictions fare in the 2018 Midterm Elections?&quot;,
+       x=&quot;Absolute Difference between 538 Forecast and Results in %&quot;, 
+       y=&quot;Frequency&quot;,
+       caption = &quot;favstats.eu; @favstats\nData: @jeremymberg&quot;)  +
+  guides(color = F)  +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;))
+</code></pre>
+
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</code></pre>
+
+<p><img src="https://github.com/favstats/538_pred_results/blob/master/538_preds_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave_it(pred4, width = 10, height = 6)
+</code></pre>
+
       </div>
 
       
@@ -539,7 +574,7 @@ hist_dat <span style="color:#f92672">%&gt;%</span>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

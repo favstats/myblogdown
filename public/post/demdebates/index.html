@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,76 +334,99 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>For anyone who is interested in exploring the Democratic primary debates
+        
+
+<p>For anyone who is interested in exploring the Democratic primary debates
 of the U.S. Presidential Election, I compiled a dataset with all debates
 so far (i.e.: 8).</p>
+
 <p>In the following blog post I will introduce the R package
 <code>demdebates2020</code> which will be updated to include data from all
 Democratic debates as they are held. Further, I will present some
 possible use-cases and an exploratory analysis of the debates.</p>
-<h2 id="start">Start</h2>
-<p>First, I load in some packages.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have them yet</span>
-<span style="color:#75715e"># if (!require(&#34;pacman&#34;)) install.packages(&#34;pacman&#34;)</span>
-<span style="color:#75715e"># devtools::install_github(&#34;favstats/demdebates2020&#34;)</span>
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse,       <span style="color:#75715e"># powerful data wrangling (and so much more)</span>
-               knitr,           <span style="color:#75715e"># for tables</span>
-               extrafont,       <span style="color:#75715e"># extra fonts</span>
-               ggtext,          <span style="color:#75715e"># markdown in ggplot!</span>
-               rvest,           <span style="color:#75715e"># for emoji scraping </span>
-               tidytext,        <span style="color:#75715e"># text processing</span>
-               demdebates2020,  <span style="color:#75715e"># democratic debates datasets</span>
-               ggthemes,        <span style="color:#75715e"># custom themes</span>
-               scales)          <span style="color:#75715e"># for prettying up plot labels</span>
-</code></pre></div><p>To liven things up (and as a personal learning opportunity) I will use
-the great <a href="https://github.com/wilkelab/ggtext"><code>ggtext</code></a> package and
+<h2 id="start">Start</h2>
+
+<p>First, I load in some packages.</p>
+
+<pre><code class="language-r"># Install these packages if you don't have them yet
+# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
+# devtools::install_github(&quot;favstats/demdebates2020&quot;)
+
+pacman::p_load(tidyverse,       # powerful data wrangling (and so much more)
+               knitr,           # for tables
+               extrafont,       # extra fonts
+               ggtext,          # markdown in ggplot!
+               rvest,           # for emoji scraping 
+               tidytext,        # text processing
+               demdebates2020,  # democratic debates datasets
+               ggthemes,        # custom themes
+               scales)          # for prettying up plot labels
+</code></pre>
+
+<p>To liven things up (and as a personal learning opportunity) I will use
+the great <a href="https://github.com/wilkelab/ggtext" target="_blank"><code>ggtext</code></a> package and
 include some emojis in the graphs to come.</p>
+
 <p>I will now present the main dataset: <code>debates</code>. This dataset represents
 the spoken words of all Democratic candidates for US president at eight
 Democratic debates. The following
-<a href="https://github.com/favstats/demdebates2020#sources">sources</a> have been
+<a href="https://github.com/favstats/demdebates2020#sources" target="_blank">sources</a> have been
 used to compile the data: Washington Post, Des Moines Register and
 rev.com. The dataset has the following eight columns:</p>
+
 <ul>
 <li><code>speaker</code>: Who is speaking</li>
 <li><code>background</code>: Reactions from the audience, includes <code>(APPLAUSE)</code> or
 <code>(LAUGHTER)</code>
+
 <ul>
 <li>only availabe for the first seven debates</li>
-</ul>
-</li>
+</ul></li>
 <li><code>speech</code>: Transcribed speech</li>
 <li><code>type</code>: Candidate, Moderator or Protester</li>
 <li><code>gender</code>: The gender of the person speaking</li>
 <li><code>debate</code>: Which debate</li>
 <li><code>day</code>: Which day of the debate
+
 <ul>
 <li>first and second debate were held on two separate days</li>
-</ul>
-</li>
+</ul></li>
 <li><code>order</code>: The order in which the speech acts were delivered</li>
 </ul>
+
 <p>There are two ways in which you can access the dataset.</p>
+
 <ol>
 <li>Read .csv file directly from GitHub</li>
 </ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates_url <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/data/debates.csv&#34;</span>
 
-debates <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672">::</span><span style="color:#a6e22e">read_csv</span>(debates_url)
-</code></pre></div><ol start="2">
+<!-- end list -->
+
+<pre><code class="language-r">debates_url &lt;- &quot;https://raw.githubusercontent.com/favstats/demdebates2020/master/data/debates.csv&quot;
+
+debates &lt;- readr::read_csv(debates_url)
+</code></pre>
+
+<ol>
 <li>Install and load the R package like this:</li>
 </ol>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">devtools<span style="color:#f92672">::</span><span style="color:#a6e22e">install_github</span>(<span style="color:#e6db74">&#34;favstats/demdebates2020&#34;</span>)
 
-<span style="color:#a6e22e">library</span>(demdebates2020)
-</code></pre></div><p>This is how the dataset looks like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">demdebates2020<span style="color:#f92672">::</span>debates <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1502</span><span style="color:#f92672">:</span><span style="color:#ae81ff">1510</span>) <span style="color:#f92672">%&gt;%</span> 
-  knitr<span style="color:#f92672">::</span><span style="color:#a6e22e">kable</span>()
-</code></pre></div><table>
+<!-- end list -->
+
+<pre><code class="language-r">devtools::install_github(&quot;favstats/demdebates2020&quot;)
+
+library(demdebates2020)
+</code></pre>
+
+<p>This is how the dataset looks like:</p>
+
+<pre><code class="language-r">demdebates2020::debates %&gt;% 
+  dplyr::slice(1502:1510) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
 <thead>
 <tr>
 <th align="left">speaker</th>
@@ -416,6 +439,7 @@ debates <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672
 <th align="right">order</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="left">Bernie Sanders</td>
@@ -427,6 +451,7 @@ debates <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672
 <td align="right">2</td>
 <td align="right">759</td>
 </tr>
+
 <tr>
 <td align="left">Bernie Sanders</td>
 <td align="left">(APPLAUSE)</td>
@@ -437,6 +462,7 @@ debates <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672
 <td align="right">2</td>
 <td align="right">760</td>
 </tr>
+
 <tr>
 <td align="left">Bernie Sanders</td>
 <td align="left">NA</td>
@@ -449,268 +475,336 @@ debates <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672
 </tr>
 </tbody>
 </table>
+
 <p>If you want to explore applause or laughter that candidates received,
 then you can take a look at the <code>background</code> variable.</p>
+
 <blockquote>
 <p><em>Note:</em> as of now, <code>backgound</code> is only available for Democratic
 debates 1 through 7. I couldn’t find a transcript source that recorded
 applause or laughter for the 8th debate. If you have a source, please
 feel free to contact me and I am happy to add it!</p>
 </blockquote>
+
 <h2 id="who-received-the-most-applause">Who received the most applause?</h2>
+
 <p>We can use the <code>background</code> variable to see who received the most
 applause.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## check out who received Applause</span>
-debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(APPLAUSE)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(speaker, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>) <span style="color:#f92672">%&gt;%</span> 
-  knitr<span style="color:#f92672">::</span><span style="color:#a6e22e">kable</span>()
-</code></pre></div><table>
+
+<pre><code class="language-r">## check out who received Applause
+debates %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  dplyr::count(speaker, sort = T) %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
 <thead>
 <tr>
 <th>speaker</th>
 <th align="right">n</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>Bernie Sanders</td>
 <td align="right">73</td>
 </tr>
+
 <tr>
 <td>Elizabeth Warren</td>
 <td align="right">65</td>
 </tr>
+
 <tr>
 <td>Joe Biden</td>
 <td align="right">48</td>
 </tr>
+
 <tr>
 <td>Pete Buttigieg</td>
 <td align="right">47</td>
 </tr>
+
 <tr>
 <td>Kamala Harris</td>
 <td align="right">44</td>
 </tr>
+
 <tr>
 <td>Andrew Yang</td>
 <td align="right">39</td>
 </tr>
+
 <tr>
 <td>Cory Booker</td>
 <td align="right">36</td>
 </tr>
+
 <tr>
 <td>Julian Castro</td>
 <td align="right">36</td>
 </tr>
+
 <tr>
 <td>Amy Klobuchar</td>
 <td align="right">32</td>
 </tr>
+
 <tr>
 <td>Beto O’Rourke</td>
 <td align="right">22</td>
 </tr>
 </tbody>
 </table>
+
 <p>Looks like Bernie Sanders received the most applause.</p>
+
 <p>We can also create a data visualization to better emphasize the
 differences.</p>
+
 <p>As mentioned before I will use emojis in the graphs to liven things up.
-In order to so, I use two functions from the great blogpost <a href="https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/">Real emojis
+In order to so, I use two functions from the great blogpost <a href="https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/" target="_blank">Real emojis
 in ggplot2</a> by
 Emil Hvitfeldt.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">emoji_to_link <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
-  <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;https://emojipedia.org/emoji/&#34;</span>,x) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">read_html</span>() <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">html_nodes</span>(<span style="color:#e6db74">&#34;tr td a&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-    .[1] <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">html_attr</span>(<span style="color:#e6db74">&#34;href&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;https://emojipedia.org/&#34;</span>, .) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">read_html</span>() <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">html_node</span>(<span style="color:#e6db74">&#39;div[class=&#34;vendor-image&#34;] img&#39;</span>) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">html_attr</span>(<span style="color:#e6db74">&#34;src&#34;</span>)
+
+<pre><code class="language-r">emoji_to_link &lt;- function(x) {
+  paste0(&quot;https://emojipedia.org/emoji/&quot;,x) %&gt;%
+    read_html() %&gt;%
+    html_nodes(&quot;tr td a&quot;) %&gt;%
+    .[1] %&gt;%
+    html_attr(&quot;href&quot;) %&gt;%
+    paste0(&quot;https://emojipedia.org/&quot;, .) %&gt;%
+    read_html() %&gt;%
+    html_node('div[class=&quot;vendor-image&quot;] img') %&gt;%
+    html_attr(&quot;src&quot;)
 }
 
-link_to_img <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>) {
-  <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;&lt;img src=&#39;&#34;</span>, x, <span style="color:#e6db74">&#34;&#39; width=&#39;&#34;</span>, size, <span style="color:#e6db74">&#34;&#39;/&gt;&#34;</span>)
+link_to_img &lt;- function(x, size = 20) {
+  paste0(&quot;&lt;img src='&quot;, x, &quot;' width='&quot;, size, &quot;'/&gt;&quot;)
 }
-</code></pre></div><p>Next, I get the emoji link for 👏</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">clap_emoji <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">emoji_to_link</span>(<span style="color:#e6db74">&#34;👏&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">link_to_img</span>()
+</code></pre>
+
+<p>Next, I get the emoji link for 👏</p>
+
+<pre><code class="language-r">clap_emoji &lt;- emoji_to_link(&quot;👏&quot;) %&gt;% link_to_img()
 
 clap_emoji
-</code></pre></div><pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&quot;
 </code></pre>
-<p>And I can include that in a graph:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## load fonts</span>
-<span style="color:#a6e22e">loadfonts</span>(device <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;win&#34;</span>)
 
-debates <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(background, speaker, type, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(APPLAUSE)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(speaker, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(type <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(type, <span style="color:#e6db74">&#34;s&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(speaker, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_col</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> type), width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> n), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>type, scales <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;free&#34;</span>) <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_gdocs</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>, 
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Applause&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who got the &lt;span style=&#39;color: #3E7ACF&#39;&gt;most Applause&lt;/span&gt;&lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&gt;&lt;br&gt;in Democratic Debates?&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>) 
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause.png" alt=""><!-- raw HTML omitted --></p>
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&quot;
+</code></pre>
+
+<p>And I can include that in a graph:</p>
+
+<pre><code class="language-r">## load fonts
+loadfonts(device = &quot;win&quot;)
+
+debates %&gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  mutate(type = paste0(type, &quot;s&quot;)) %&gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  facet_wrap(~type, scales = &quot;free&quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;none&quot;, 
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;Applause&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Applause&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause.png" alt="" /><!-- --></p>
+
 <p>We can also plot the same data as a heatmap across debates:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(APPLAUSE)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(speaker)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(debate <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(debate)) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(background, speaker, debate, .drop <span style="color:#f92672">=</span> F) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(speaker, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(debate, speaker, fill <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_tile</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_gradient</span>(<span style="color:#e6db74">&#34;Applause&#34;</span>, low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_classic</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Debate&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who got the &lt;span style=&#39;color: #3E7ACF&#39;&gt;most Applause&lt;/span&gt;&lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&gt;&lt;br&gt;in Democratic Debates?&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>)
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause_heat.png" alt=""><!-- raw HTML omitted --></p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(APPLAUSE)&quot;) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Applause&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Applause&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause_heat.png" alt="" /><!-- --></p>
+
 <h2 id="who-was-the-greatest-jokester-at-democratic-debates">Who was the greatest jokester at democratic debates?</h2>
+
 <p>We can also take a look at who received the most laughs during the
 debates. Just filter <code>background</code> by <code>(LAUGHTER)</code>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(LAUGHTER)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(speaker, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>) <span style="color:#f92672">%&gt;%</span> 
-  knitr<span style="color:#f92672">::</span><span style="color:#a6e22e">kable</span>()
-</code></pre></div><table>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  dplyr::count(speaker, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
 <thead>
 <tr>
 <th>speaker</th>
 <th align="right">n</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>Bernie Sanders</td>
 <td align="right">14</td>
 </tr>
+
 <tr>
 <td>Amy Klobuchar</td>
 <td align="right">13</td>
 </tr>
+
 <tr>
 <td>Andrew Yang</td>
 <td align="right">13</td>
 </tr>
+
 <tr>
 <td>Joe Biden</td>
 <td align="right">9</td>
 </tr>
+
 <tr>
 <td>Elizabeth Warren</td>
 <td align="right">8</td>
 </tr>
+
 <tr>
 <td>Cory Booker</td>
 <td align="right">7</td>
 </tr>
+
 <tr>
 <td>Pete Buttigieg</td>
 <td align="right">6</td>
 </tr>
+
 <tr>
 <td>Kamala Harris</td>
 <td align="right">5</td>
 </tr>
+
 <tr>
 <td>Chuck Todd</td>
 <td align="right">3</td>
 </tr>
+
 <tr>
 <td>Jay Inslee</td>
 <td align="right">2</td>
 </tr>
 </tbody>
 </table>
+
 <p>Again, Bernie Sanders leads the field, closely followed by Andrew Yang
 (now dropped out) and Amy Klobuchar.</p>
+
 <p>We can visualize the data to get a better understanding. With the same process as before, I get the emoji link for 😂</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">laugh_emoji <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">emoji_to_link</span>(<span style="color:#e6db74">&#34;😂&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">link_to_img</span>()
+
+<pre><code class="language-r">laugh_emoji &lt;- emoji_to_link(&quot;😂&quot;) %&gt;% link_to_img()
 
 laugh_emoji
-</code></pre></div><pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&quot;
 </code></pre>
+
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&quot;
+</code></pre>
+
 <p>And I can include that in a graph:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(LAUGHTER)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(background, speaker, type, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(speaker, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(speaker, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_col</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> type), width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># geom_point(aes(fill = type), size = 9) +</span>
-  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> n), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># facet_grid(~type, scales = &#34;free_x&#34;, space = &#34;free&#34;) +</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_gdocs</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>, 
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Laughs&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who got the &lt;span style=&#39;color: #3E7ACF&#39;&gt;most Laughs&lt;/span&gt;&lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&gt;&lt;br&gt;in Democratic Debates?&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>) 
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs.png" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(laughs, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
-</code></pre></div><p>We can also plot the same data as a heatmap across debates:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(background <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;(LAUGHTER)&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(speaker)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(debate <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(debate)) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(background, speaker, debate, .drop <span style="color:#f92672">=</span> F) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(speaker, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(debate, speaker, fill <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_tile</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_gradient</span>(<span style="color:#e6db74">&#34;Laughs&#34;</span>, low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_classic</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Debate&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who got the &lt;span style=&#39;color: #3E7ACF&#39;&gt;most Laughs&lt;/span&gt;&lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&gt;&lt;br&gt;in Democratic Debates?&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>)
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs_heat.png" alt=""><!-- raw HTML omitted --></p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  dplyr::count(background, speaker, type, sort = T) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(speaker, n)) +
+  geom_col(aes(fill = type), width = 0.5) +
+  # geom_point(aes(fill = type), size = 9) +
+  coord_flip() +
+  ggthemes::theme_hc() +
+  geom_label(aes(label = n), size = 3) +
+  # facet_grid(~type, scales = &quot;free_x&quot;, space = &quot;free&quot;) +
+  ggthemes::scale_fill_gdocs() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;none&quot;, 
+    plot.title = element_markdown(size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;Laughs&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Laughs&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs.png" alt="" /><!-- --></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(laughs, width = 8, height = 8)
+</code></pre>
+
+<p>We can also plot the same data as a heatmap across debates:</p>
+
+<pre><code class="language-r">debates %&gt;% 
+  filter(background == &quot;(LAUGHTER)&quot;) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(background, speaker, debate, .drop = F) %&gt;% 
+  drop_na() %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Laughs&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who got the &lt;span style='color: #3E7ACF'&gt;most Laughs&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs_heat.png" alt="" /><!-- --></p>
+
 <h2 id="who-spoke-the-most-words">Who spoke the most words?</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">unnest_tokens</span>(word, speech) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(speaker)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(debate <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(debate)) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(speaker, .drop <span style="color:#f92672">=</span> F, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(n <span style="color:#f92672">/</span> total<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">2</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>) <span style="color:#f92672">%&gt;%</span> 
-  knitr<span style="color:#f92672">::</span><span style="color:#a6e22e">kable</span>()
-</code></pre></div><table>
+
+<pre><code class="language-r">debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(speaker, .drop = F, sort = T) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = round(n / total*100, 2)) %&gt;% 
+  slice(1:10) %&gt;% 
+  knitr::kable()
+</code></pre>
+
+<table>
 <thead>
 <tr>
 <th align="left">speaker</th>
@@ -719,6 +813,7 @@ laugh_emoji
 <th align="right">perc</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="left">Joe Biden</td>
@@ -726,54 +821,63 @@ laugh_emoji
 <td align="right">201653</td>
 <td align="right">12.54</td>
 </tr>
+
 <tr>
 <td align="left">Elizabeth Warren</td>
 <td align="right">22473</td>
 <td align="right">201653</td>
 <td align="right">11.14</td>
 </tr>
+
 <tr>
 <td align="left">Pete Buttigieg</td>
 <td align="right">21400</td>
 <td align="right">201653</td>
 <td align="right">10.61</td>
 </tr>
+
 <tr>
 <td align="left">Amy Klobuchar</td>
 <td align="right">20076</td>
 <td align="right">201653</td>
 <td align="right">9.96</td>
 </tr>
+
 <tr>
 <td align="left">Bernie Sanders</td>
 <td align="right">19065</td>
 <td align="right">201653</td>
 <td align="right">9.45</td>
 </tr>
+
 <tr>
 <td align="left">Kamala Harris</td>
 <td align="right">12128</td>
 <td align="right">201653</td>
 <td align="right">6.01</td>
 </tr>
+
 <tr>
 <td align="left">Cory Booker</td>
 <td align="right">11839</td>
 <td align="right">201653</td>
 <td align="right">5.87</td>
 </tr>
+
 <tr>
 <td align="left">Andrew Yang</td>
 <td align="right">10586</td>
 <td align="right">201653</td>
 <td align="right">5.25</td>
 </tr>
+
 <tr>
 <td align="left">Tom Steyer</td>
 <td align="right">9635</td>
 <td align="right">201653</td>
 <td align="right">4.78</td>
 </tr>
+
 <tr>
 <td align="left">Beto O’Rourke</td>
 <td align="right">8253</td>
@@ -782,128 +886,153 @@ laugh_emoji
 </tr>
 </tbody>
 </table>
+
 <p>In the Top 10 we see candidates who were present in each debate (for example Joe Biden, Elizabeth Warren and Bernie Sanders). Out of a share of all spoken words during all eight debates, Joe Biden spoke a plurality of words. Tom Steyer (as of writing still in the race) has less than half as many spoken words as most other candidates still in the race, despite being present in 5 out of 8 debates.</p>
+
 <p>Again, we can also visualize the data.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">speak_emoji <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">emoji_to_link</span>(<span style="color:#e6db74">&#34;🗣&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">link_to_img</span>()
+
+<pre><code class="language-r">speak_emoji &lt;- emoji_to_link(&quot;🗣&quot;) %&gt;% link_to_img()
 
 speak_emoji
-</code></pre></div><pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png' width='20'/&gt;&quot;
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debate_words <span style="color:#f92672">&lt;-</span> debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">unnest_tokens</span>(word, speech) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(speaker)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(debate <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(debate)) <span style="color:#f92672">%&gt;%</span> 
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(speaker, debate, .drop <span style="color:#f92672">=</span> F, sort <span style="color:#f92672">=</span> T) 
 
-<span style="color:#75715e"># frontrunners &lt;- c(&#34;Bernie Sanders&#34;, </span>
-<span style="color:#75715e">#                   &#34;Elizabeth Warren&#34;, </span>
-<span style="color:#75715e">#                   &#34;Joe Biden&#34;, </span>
-<span style="color:#75715e">#                   &#34;Pete Buttigieg&#34;, </span>
-<span style="color:#75715e">#                   &#34;Amy Klobuchar&#34;)</span>
+<pre><code>## [1] &quot;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png' width='20'/&gt;&quot;
+</code></pre>
+
+<pre><code class="language-r">debate_words &lt;- debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  mutate(speaker = as.factor(speaker)) %&gt;% 
+  mutate(debate = as.factor(debate)) %&gt;% 
+  dplyr::count(speaker, debate, .drop = F, sort = T) 
+
+# frontrunners &lt;- c(&quot;Bernie Sanders&quot;, 
+#                   &quot;Elizabeth Warren&quot;, 
+#                   &quot;Joe Biden&quot;, 
+#                   &quot;Pete Buttigieg&quot;, 
+#                   &quot;Amy Klobuchar&quot;)
 
 
 
-debate_words <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speaker <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(speaker, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(debate, speaker, fill <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_tile</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_gradient</span>(<span style="color:#e6db74">&#34;Words&#34;</span>, low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_classic</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Debate&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who spoke the &lt;span style=&#39;color: #3E7ACF&#39;&gt;most Words&lt;/span&gt;&lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png&#39; width=&#39;20&#39;/&gt;&lt;br&gt;in Democratic Debates?&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>)
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words.png" alt=""><!-- raw HTML omitted --></p>
+debate_words %&gt;% 
+  mutate(speaker = fct_reorder(speaker, n)) %&gt;% 
+  ggplot(aes(debate, speaker, fill = n)) +
+  geom_tile() +
+  scale_fill_gradient(&quot;Words&quot;, low = &quot;white&quot;) +
+  theme_classic() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;Debate&quot;, y = &quot;&quot;, title = &quot;Who spoke the &lt;span style='color: #3E7ACF'&gt;most Words&lt;/span&gt;&lt;img src='https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png' width='20'/&gt;&lt;br&gt;in Democratic Debates?&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words.png" alt="" /><!-- --></p>
+
 <p>We see something very obvious: as the number of candidates decreases,
 the spoken words also increase for the remaining candidates (as they
 have to fill the space). Numbers remain rather low for Tom Steyer and Andrew Yang throughout the debates.</p>
-<h2 id="did-men-speak-more-than-women">Did men speak more than women?</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">debate_gender <span style="color:#f92672">&lt;-</span> debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">unnest_tokens</span>(word, speech) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">count</span>(gender, debate, .drop <span style="color:#f92672">=</span> F) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(debate) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> n<span style="color:#f92672">/</span>total)
 
-debate_gender <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(gender <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;female&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(debate, perc, fill <span style="color:#f92672">=</span> gender)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_area</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3E7ACF&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.75</span>) <span style="color:#f92672">+</span>
-  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_text_repel</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#a6e22e">round</span>(perc<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">1</span>), <span style="color:#e6db74">&#34;%&#34;</span>)), nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.025</span>,
-                           direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;y&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>percent, limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.5</span>)) <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>()  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>,
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;% Spoken Words by Women\n&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Share of spoken Words by &lt;span style=&#39;color: #3E7ACF&#39;&gt;Women&lt;/span&gt;&lt;br&gt;during the Democratic Debates&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">8</span>)
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words_gender.png" alt=""><!-- raw HTML omitted --></p>
+<h2 id="did-men-speak-more-than-women">Did men speak more than women?</h2>
+
+<pre><code class="language-r">debate_gender &lt;- debates %&gt;% 
+  unnest_tokens(word, speech) %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;%
+  dplyr::count(gender, debate, .drop = F) %&gt;% 
+  group_by(debate) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = n/total)
+
+debate_gender %&gt;% 
+  filter(gender == &quot;female&quot;) %&gt;%
+  ggplot(aes(debate, perc, fill = gender)) +
+  geom_area(fill = &quot;#3E7ACF&quot;, alpha = 0.75) +
+  ggrepel::geom_text_repel(aes(label = paste0(round(perc*100, 1), &quot;%&quot;)), nudge_y = 0.025,
+                           direction = &quot;y&quot;) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 0.5)) +
+  ggthemes::theme_hc()  +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;top&quot;,
+    plot.title = element_markdown(size = 25, margin=margin(0,0,15,0), face = &quot;bold&quot;)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;% Spoken Words by Women\n&quot;, title = &quot;Share of spoken Words by &lt;span style='color: #3E7ACF'&gt;Women&lt;/span&gt;&lt;br&gt;during the Democratic Debates&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) +
+  scale_x_continuous(breaks = 1:8)
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words_gender.png" alt="" /><!-- --></p>
+
 <p>Men have spoken more words than women across all debates. Of course,
 throughout the debates women were always in the minority (only 6 out of
 22 Democratic candidates were women and now only 2 are left: Amy
 Klobuchar and Elizabeth Warren).</p>
+
 <h2 id="what-were-the-most-common-distinct-words-used-by-candidates">What were the most common distinct words used by candidates?</h2>
+
 <p>We can use tf-idf scores to tell what word combinations (bigrams)
 candidates used the most and also were most distinct across other
 candidates.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">speaker_words <span style="color:#f92672">&lt;-</span> debates <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Candidate&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(speech <span style="color:#f92672">=</span> tm<span style="color:#f92672">::</span><span style="color:#a6e22e">removeWords</span>(<span style="color:#a6e22e">str_to_lower</span>(speech), stop_words<span style="color:#f92672">$</span>word)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">unnest_tokens</span>(word, speech, token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ngrams&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">count</span>(speaker, word, sort <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+
+<pre><code class="language-r">speaker_words &lt;- debates %&gt;% 
+  filter(type == &quot;Candidate&quot;) %&gt;% 
+  mutate(speech = tm::removeWords(str_to_lower(speech), stop_words$word)) %&gt;% 
+  unnest_tokens(word, speech, token = &quot;ngrams&quot;, n = 2) %&gt;%
+  count(speaker, word, sort = TRUE)
   
-total_words <span style="color:#f92672">&lt;-</span> speaker_words <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(speaker) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n))
+total_words &lt;- speaker_words %&gt;% 
+  group_by(speaker) %&gt;% 
+  summarize(total = sum(n))
 
 
-speaker_words <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">left_join</span>(speaker_words, total_words)
+speaker_words &lt;- left_join(speaker_words, total_words)
 
 
-speaker_words <span style="color:#f92672">&lt;-</span> speaker_words <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">bind_tf_idf</span>(word, speaker, n)
+speaker_words &lt;- speaker_words %&gt;% 
+  bind_tf_idf(word, speaker, n)
 
 
 
-speaker_words <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(tf_idf)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">filter</span>(speaker <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Bernie Sanders&#34;</span>, <span style="color:#e6db74">&#34;Elizabeth Warren&#34;</span>,
-                        <span style="color:#e6db74">&#34;Joe Biden&#34;</span>, <span style="color:#e6db74">&#34;Pete Buttigieg&#34;</span>, 
-                        <span style="color:#e6db74">&#34;Andrew Yang&#34;</span>, <span style="color:#e6db74">&#34;Amy Klobuchar&#34;</span>)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(speaker) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(tf_idf)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(word <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(word, levels <span style="color:#f92672">=</span> <span style="color:#a6e22e">rev</span>(<span style="color:#a6e22e">unique</span>(word)))) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(word, tf_idf, fill <span style="color:#f92672">=</span> speaker)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_col</span>(show.legend <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tf-idf&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>speaker, ncol <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, scales <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;free&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_flip</span>()   <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># facet_grid(~type, scales = &#34;free_x&#34;, space = &#34;free&#34;) +</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_colorblind</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-    text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(family <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fira Code Retina&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>,
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, margin<span style="color:#f92672">=</span><span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">0</span>), face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)
-    ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tf-idf&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Most Common Distinct Word Combinations&lt;br&gt;for each Democratic Presidential Candidate&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&#34;</span>) 
-</code></pre></div><p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png" alt=""><!-- raw HTML omitted --></p>
+speaker_words %&gt;%
+  arrange(desc(tf_idf)) %&gt;%
+  filter(speaker %in% c(&quot;Bernie Sanders&quot;, &quot;Elizabeth Warren&quot;,
+                        &quot;Joe Biden&quot;, &quot;Pete Buttigieg&quot;, 
+                        &quot;Andrew Yang&quot;, &quot;Amy Klobuchar&quot;)) %&gt;%
+  group_by(speaker) %&gt;% 
+  arrange(desc(tf_idf)) %&gt;% 
+  slice(1:15) %&gt;% 
+  ungroup() %&gt;%
+  mutate(word = factor(word, levels = rev(unique(word)))) %&gt;% 
+  ggplot(aes(word, tf_idf, fill = speaker)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = &quot;tf-idf&quot;) +
+  facet_wrap(~speaker, ncol = 3, scales = &quot;free&quot;) +
+  coord_flip()   +
+  ggthemes::theme_hc() +
+  # facet_grid(~type, scales = &quot;free_x&quot;, space = &quot;free&quot;) +
+  ggthemes::scale_fill_colorblind() +
+  theme(
+    text = element_text(family = &quot;Fira Code Retina&quot;),
+    legend.position = &quot;top&quot;,
+    plot.title = element_markdown(size = 30, margin=margin(0,0,20,0), face = &quot;bold&quot;, hjust = 0.5)
+    ) +
+  labs(x = &quot;&quot;, y = &quot;tf-idf&quot;, title = &quot;Most Common Distinct Word Combinations&lt;br&gt;for each Democratic Presidential Candidate&quot;,
+       caption = &quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp; Des Moines Register&quot;) 
+</code></pre>
+
+<p><img src="https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png" alt="" /><!-- --></p>
+
 <p>Some fitting and recognizable word patterns emerge. For exampe, Andrew Yang and his proposal for Universal Basic Income (UBI) clearly distinguish him from other candidates with his most common distinct words referring to the &ldquo;freedom dividend&rdquo; and &ldquo;1000 [dollars a] month&rdquo;. A similar distinct pattern emerges with Bernie Sanders who frequently uses the phrase &ldquo;The US is the only <em>major country on earth</em> that does/does not have X&rdquo;.</p>
+
 <p><strong>In conclusio</strong></p>
+
 <p>So far from me. What kind of analysis would you run on the Democratic debates data? Feel free to use the data as you wish and I am curious to see what comes out of it!</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">sessionInfo</span>()
-</code></pre></div><pre><code>## R version 3.6.1 (2019-07-05)
+
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.6.1 (2019-07-05)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 18362)
 ## 
@@ -1029,7 +1158,7 @@ speaker_words <span style="color:#f92672">%&gt;%</span>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

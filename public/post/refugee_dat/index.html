@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,570 +334,658 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>Data from:
-<a href="http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion">http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion</a></p>
+        
+
+<p>Data from:
+<a href="http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion" target="_blank">http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion</a></p>
+
 <h2 id="packages-and-folders">Packages and Folders</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have theme yet</span>
-<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
-<span style="color:#75715e"># install.packages(&#34;pacman&#34;)</span>
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, readxl, sjmisc)
+<pre><code class="language-r"># Install these packages if you don't have theme yet
+# devtools::install_github(&quot;favstats/tidytemplate&quot;)
+# install.packages(&quot;pacman&quot;)
 
-<span style="color:#75715e"># Creates folders</span>
-<span style="color:#75715e"># tidytemplate::data_dir()</span>
-<span style="color:#75715e"># tidytemplate::images_dir()</span>
-</code></pre></div><h2 id="load-data">Load Data</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">refugee_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_excel</span>(<span style="color:#e6db74">&#34;data/refugee_dat.xls&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>(X__1) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">rename</span>(cntry <span style="color:#f92672">=</span> X__1) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Religion, <span style="color:#f92672">-</span>X__2, <span style="color:#f92672">-</span>X__3, <span style="color:#f92672">-</span> Total) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(<span style="color:#a6e22e">str_detect</span>(cntry, <span style="color:#e6db74">&#34;Total|Data&#34;</span>))) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">gather</span>(year, n, <span style="color:#f92672">-</span>cntry) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(year, <span style="color:#e6db74">&#34;CY &#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric)
+pacman::p_load(tidyverse, readxl, sjmisc)
 
-refugee_dat <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(cntry) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(nn)) <span style="color:#f92672">%&gt;%</span> .[1<span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>,] <span style="color:#f92672">%&gt;%</span> .$cntry <span style="color:#f92672">-&gt;</span> top10
-</code></pre></div><pre><code>## Using `n` as weighting variable
+# Creates folders
+# tidytemplate::data_dir()
+# tidytemplate::images_dir()
 </code></pre>
+
+<h2 id="load-data">Load Data</h2>
+
+<pre><code class="language-r">refugee_dat &lt;- read_excel(&quot;data/refugee_dat.xls&quot;) %&gt;% 
+  drop_na(X__1) %&gt;% 
+  rename(cntry = X__1) %&gt;% 
+  select(-Religion, -X__2, -X__3, - Total) %&gt;% 
+  filter(!(str_detect(cntry, &quot;Total|Data&quot;))) %&gt;% 
+  gather(year, n, -cntry) %&gt;% 
+  mutate(year = str_replace(year, &quot;CY &quot;, &quot;&quot;) %&gt;% as.numeric)
+
+refugee_dat %&gt;% group_by(cntry) %&gt;% tally() %&gt;% arrange(desc(nn)) %&gt;% .[1:10,] %&gt;% .$cntry -&gt; top10
+</code></pre>
+
+<pre><code>## Using `n` as weighting variable
+</code></pre>
+
 <h2 id="static">Static</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">year_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2005</span>, <span style="color:#ae81ff">2009</span>, <span style="color:#ae81ff">2013</span>, <span style="color:#ae81ff">2017</span>), label <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Bush II&#34;</span>, <span style="color:#e6db74">&#34;Obama I&#34;</span>, <span style="color:#e6db74">&#34;Obama II&#34;</span>, <span style="color:#e6db74">&#34;Trump I&#34;</span>))
+
+<pre><code class="language-r">year_dat &lt;- tibble(year = c(2005, 2009, 2013, 2017), label = c(&quot;Bush II&quot;, &quot;Obama I&quot;, &quot;Obama II&quot;, &quot;Trump I&quot;))
 
 
-refugee_total <span style="color:#f92672">&lt;-</span> refugee_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(year) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">tally</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, nn)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">100000</span>, label <span style="color:#f92672">=</span> label), 
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Country&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Accepted Refugees in the United States of America by Year (2002 - 2018)&#34;</span>, 
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Total accepted Refugees in Timerange: 943.338\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&#34;</span>)
-</code></pre></div><pre><code>## Using `n` as weighting variable
+refugee_total &lt;- refugee_dat %&gt;% 
+  group_by(year) %&gt;% 
+  tally() %&gt;% 
+  ggplot(aes(year, nn)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 100000, label = label), 
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(linetype = &quot;dashed&quot;) + 
+  geom_point() +
+  theme_minimal() +
+  scale_color_manual(&quot;Country&quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&quot;, 
+       subtitle = &quot;Total accepted Refugees in Timerange: 943.338\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&quot;)
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">refugee_total
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(refugee_total, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div><h2 id="colored">Colored</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">qualitative <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;#a6cee3&#39;</span>,<span style="color:#e6db74">&#39;#1f78b4&#39;</span>,<span style="color:#e6db74">&#39;#b2df8a&#39;</span>,<span style="color:#e6db74">&#39;#33a02c&#39;</span>,<span style="color:#e6db74">&#39;#fb9a99&#39;</span>,<span style="color:#e6db74">&#39;#e31a1c&#39;</span>,<span style="color:#e6db74">&#39;#fdbf6f&#39;</span>,<span style="color:#e6db74">&#39;#ff7f00&#39;</span>,<span style="color:#e6db74">&#39;#cab2d6&#39;</span>,<span style="color:#e6db74">&#39;#6a3d9a&#39;</span>)
 
-gg_refugee_static_data <span style="color:#f92672">&lt;-</span> refugee_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(cntry <span style="color:#f92672">%in%</span> top10) 
-
-label_dat <span style="color:#f92672">&lt;-</span> gg_refugee_static_data <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(cntry) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>cntry) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">inner_join</span>(gg_refugee_static_data)
-</code></pre></div><pre><code>## Joining, by = &quot;n&quot;
+<pre><code>## Using `n` as weighting variable
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_refugee_static <span style="color:#f92672">&lt;-</span> gg_refugee_static_data <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">22000</span>, label <span style="color:#f92672">=</span> label), 
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(linetype <span style="color:#f92672">=</span> cntry, color <span style="color:#f92672">=</span> cntry)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_label_repel</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> cntry, color <span style="color:#f92672">=</span> cntry), show.legend <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> cntry)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Country&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_linetype</span>(<span style="color:#e6db74">&#34;Country&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;line&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Accepted Refugees in the United States of America by Year (2002 - 2018)&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Top 10 Origin Countries\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&#34;</span>) 
-  <span style="color:#75715e"># geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),</span>
-  <span style="color:#75715e">#             color = &#34;black&#34;,</span>
-  <span style="color:#75715e">#             alpha = 0.8,</span>
-  <span style="color:#75715e">#             inherit.aes = FALSE)</span>
+
+<pre><code class="language-r">refugee_total
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-2-1.png" alt="" /></a></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(refugee_total, width = 10, height = 6)
+</code></pre>
+
+<h2 id="colored">Colored</h2>
+
+<pre><code class="language-r">qualitative &lt;- c('#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a')
+
+gg_refugee_static_data &lt;- refugee_dat %&gt;% 
+  filter(cntry %in% top10) 
+
+label_dat &lt;- gg_refugee_static_data %&gt;% 
+  group_by(cntry) %&gt;% 
+  summarize(n = max(n)) %&gt;% 
+  select(-cntry) %&gt;% 
+  inner_join(gg_refugee_static_data)
+</code></pre>
+
+<pre><code>## Joining, by = &quot;n&quot;
+</code></pre>
+
+<pre><code class="language-r">gg_refugee_static &lt;- gg_refugee_static_data %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 22000, label = label), 
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(linetype = cntry, color = cntry)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat, aes(label = cntry, color = cntry), show.legend = F) + 
+  geom_point(data = label_dat, aes(color = cntry)) + 
+  scale_color_manual(&quot;Country&quot;, values = qualitative) +
+  scale_linetype(&quot;Country&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Top 10 Origin Countries\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&quot;) 
+  # geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),
+  #             color = &quot;black&quot;,
+  #             alpha = 0.8,
+  #             inherit.aes = FALSE)
 
 gg_refugee_static
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_refugee_static, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
-</code></pre></div><h2 id="animated">Animated</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(gganimate)
+</code></pre>
 
-gg_refugee <span style="color:#f92672">&lt;-</span> refugee_dat <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">filter</span>(cntry <span style="color:#f92672">%in%</span> top10) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, n, color <span style="color:#f92672">=</span> cntry)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">22000</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">2018</span>, yend <span style="color:#f92672">=</span> n), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2019</span>, label <span style="color:#f92672">=</span> cntry)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Country&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>,
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Accepted Refugees in the United States of America by Year (2002 - 2018)&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Top 10 Origin Countries\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F, text <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">transition_reveal</span>(cntry, year, keep_last <span style="color:#f92672">=</span> T)
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-3-1.png" alt="" /></a></p>
 
-gg_refugee <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">animate</span>(
-  nframes <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, fps <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>, detail <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_refugee_static, width = 12, height = 8)
+</code></pre>
+
+<h2 id="animated">Animated</h2>
+
+<pre><code class="language-r">library(gganimate)
+
+gg_refugee &lt;- refugee_dat %&gt;%
+  filter(cntry %in% top10) %&gt;%
+  ggplot(aes(year, n, color = cntry)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 22000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line() +
+  geom_segment(aes(xend = 2018, yend = n), alpha = 0.5) +
+  geom_point() +
+  geom_text(aes(x = 2019, label = cntry)) +
+  theme_minimal() +
+  scale_color_manual(&quot;Country&quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 12, face = &quot;bold&quot;),
+    plot.caption = element_text(size = 10),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;,
+       title = &quot;Accepted Refugees in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Top 10 Origin Countries\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\n@FabioFavusMaxim; favstats.eu&quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(cntry, year, keep_last = T)
+
+gg_refugee %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
 )
 
-<span style="color:#a6e22e">anim_save</span>(<span style="color:#e6db74">&#34;images/gg_refugee.gif&#34;</span>)
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif" alt=""></a></p>
+anim_save(&quot;images/gg_refugee.gif&quot;)
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_refugee.gif" alt="" /></a></p>
+
 <h2 id="region">Region</h2>
+
 <h3 id="static-1">Static</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_refugee_static_region <span style="color:#f92672">&lt;-</span> refugee_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(continent <span style="color:#f92672">=</span> countrycode<span style="color:#f92672">::</span><span style="color:#a6e22e">countrycode</span>(cntry, <span style="color:#e6db74">&#34;country.name&#34;</span>, <span style="color:#e6db74">&#34;continent&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(region <span style="color:#f92672">=</span> countrycode<span style="color:#f92672">::</span><span style="color:#a6e22e">countrycode</span>(cntry, <span style="color:#e6db74">&#34;country.name&#34;</span>, <span style="color:#e6db74">&#34;region&#34;</span>)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(continent <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Asia&#34;</span> <span style="color:#f92672">~</span> region,
-    T <span style="color:#f92672">~</span> continent
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(continent <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    cntry <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Tibet&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Eastern Asia&#34;</span>,
-    cntry <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Yemen (Sanaa)&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Middle East&#34;</span>,
-    cntry <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Yugoslavia&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Europe&#34;</span>,
-    <span style="color:#a6e22e">str_detect</span>(cntry, <span style="color:#e6db74">&#34;Georgia|Armenia|Azerbaijan&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Central Asia&#34;</span>,
-    continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Western Asia&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Middle East&#34;</span>,
-    T <span style="color:#f92672">~</span> continent
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># group_by(continent) %&gt;% tally</span>
-  <span style="color:#75715e"># filter(continent == &#34;Western Asia&#34;)</span>
-  <span style="color:#a6e22e">group_by</span>(year, continent) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">tally</span>() 
-</code></pre></div><pre><code>## Warning in countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;continent&quot;): Some values were not matched unambiguously: Tibet, Yemen (Sanaa), Yugoslavia
+
+<pre><code class="language-r">gg_refugee_static_region &lt;- refugee_dat %&gt;% 
+  mutate(continent = countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;continent&quot;)) %&gt;% 
+  mutate(region = countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;region&quot;)) %&gt;%
+  mutate(continent = case_when(
+    continent == &quot;Asia&quot; ~ region,
+    T ~ continent
+  )) %&gt;% 
+  mutate(continent = case_when(
+    cntry == &quot;Tibet&quot; ~ &quot;Eastern Asia&quot;,
+    cntry == &quot;Yemen (Sanaa)&quot; ~ &quot;Middle East&quot;,
+    cntry == &quot;Yugoslavia&quot; ~ &quot;Europe&quot;,
+    str_detect(cntry, &quot;Georgia|Armenia|Azerbaijan&quot;) ~ &quot;Central Asia&quot;,
+    continent == &quot;Western Asia&quot; ~ &quot;Middle East&quot;,
+    T ~ continent
+  )) %&gt;% 
+  # group_by(continent) %&gt;% tally
+  # filter(continent == &quot;Western Asia&quot;)
+  group_by(year, continent) %&gt;% 
+  tally() 
+</code></pre>
+
+<pre><code>## Warning in countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;continent&quot;): Some values were not matched unambiguously: Tibet, Yemen (Sanaa), Yugoslavia
 
 ## Warning in countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;region&quot;): Some values were not matched unambiguously: Tibet, Yemen (Sanaa), Yugoslavia
 
 ## Using `n` as weighting variable
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># gg_refugee_static_region %&gt;% filter(continent == &#34;Southern Asia&#34;) %&gt;% summarize_all(sum)</span>
+
+<pre><code class="language-r"># gg_refugee_static_region %&gt;% filter(continent == &quot;Southern Asia&quot;) %&gt;% summarize_all(sum)
   
-label_dat <span style="color:#f92672">&lt;-</span> gg_refugee_static_region <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(continent) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(nn <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(nn)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>continent) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">inner_join</span>(gg_refugee_static_region) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span> <span style="color:#f92672">&amp;</span> continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Eastern Asia&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2004</span> <span style="color:#f92672">&amp;</span> continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Eastern Asia&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(nn <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Southern Asia&#34;</span>, <span style="color:#ae81ff">10385</span>, nn)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Southern Asia&#34;</span>, <span style="color:#ae81ff">2015</span>, year))
-</code></pre></div><pre><code>## Joining, by = &quot;nn&quot;
+label_dat &lt;- gg_refugee_static_region %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(nn = max(nn)) %&gt;% 
+  select(-continent) %&gt;% 
+  inner_join(gg_refugee_static_region) %&gt;% 
+  filter(!(year == 2018 &amp; continent == &quot;Eastern Asia&quot;)) %&gt;% 
+  filter(!(year == 2004 &amp; continent == &quot;Eastern Asia&quot;)) %&gt;% 
+  mutate(nn = ifelse(continent == &quot;Southern Asia&quot;, 10385, nn)) %&gt;% 
+  mutate(year = ifelse(continent == &quot;Southern Asia&quot;, 2015, year))
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_static_region <span style="color:#f92672">&lt;-</span> gg_refugee_static_region <span style="color:#f92672">%&gt;%</span>   
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, nn)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">41000</span>, label <span style="color:#f92672">=</span> label), 
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(linetype <span style="color:#f92672">=</span> continent, color <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_label_repel</span>(data <span style="color:#f92672">=</span> label_dat, 
-                            <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> continent, color <span style="color:#f92672">=</span> continent), 
-                            show.legend <span style="color:#f92672">=</span> F, seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">13092018</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Region&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_linetype</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    <span style="color:#75715e"># plot.subtitle = element_text(size = 11, face = &#34;bold&#34;), </span>
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;line&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>,
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (2002 - 2018)&#34;</span>, 
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&#34;</span>) 
-  <span style="color:#75715e"># geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),</span>
-  <span style="color:#75715e">#             color = &#34;black&#34;,</span>
-  <span style="color:#75715e">#             alpha = 0.8,</span>
-  <span style="color:#75715e">#             inherit.aes = FALSE)</span>
+
+<pre><code>## Joining, by = &quot;nn&quot;
+</code></pre>
+
+<pre><code class="language-r">gg_static_region &lt;- gg_refugee_static_region %&gt;%   
+  ggplot(aes(year, nn)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 41000, label = label), 
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(linetype = continent, color = continent)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat, 
+                            aes(label = continent, color = continent), 
+                            show.legend = F, seed = 13092018) +
+  geom_point(data = label_dat, aes(color = continent)) +
+  scale_color_manual(&quot;Region&quot;, values = qualitative) +
+  scale_linetype(&quot;Region&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, 
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) 
+  # geom_rect(aes(xmin = 2002, xmax = 2005, ymin = 22000, ymax = 22000),
+  #             color = &quot;black&quot;,
+  #             alpha = 0.8,
+  #             inherit.aes = FALSE)
 
 gg_static_region
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_static_region, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
-</code></pre></div><h3 id="percent">Percent</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_static_region_perc <span style="color:#f92672">&lt;-</span> gg_refugee_static_region <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(year) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(nn)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">get_percentage</span>(nn, total))  
-  
-label_dat <span style="color:#f92672">&lt;-</span> gg_static_region_perc <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(continent) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(perc <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(perc)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>continent) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">inner_join</span>(gg_static_region_perc)
-</code></pre></div><pre><code>## Joining, by = &quot;perc&quot;
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_region_perc <span style="color:#f92672">&lt;-</span> gg_static_region_perc <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, perc)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">60</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(linetype <span style="color:#f92672">=</span> continent, color <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_label_repel</span>(data <span style="color:#f92672">=</span> label_dat,
-                            <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> continent, color <span style="color:#f92672">=</span> continent),
-                            show.legend <span style="color:#f92672">=</span> F, seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">13092018</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Region&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_linetype</span>(<span style="color:#e6db74">&#34;Region&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    <span style="color:#75715e"># plot.subtitle = element_text(size = 11, face = &#34;bold&#34;), </span>
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;line&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>,
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Percentage of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (2002 - 2018)\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&#34;</span>) 
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-5-1.png" alt="" /></a></p>
+
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_static_region, width = 12, height = 8)
+</code></pre>
+
+<h3 id="percent">Percent</h3>
+
+<pre><code class="language-r">gg_static_region_perc &lt;- gg_refugee_static_region %&gt;% 
+  group_by(year) %&gt;% 
+  mutate(total = sum(nn)) %&gt;% 
+  mutate(perc = tidytemplate::get_percentage(nn, total))  
+  
+label_dat &lt;- gg_static_region_perc %&gt;% 
+  group_by(continent) %&gt;% 
+  summarize(perc = max(perc)) %&gt;% 
+  select(-continent) %&gt;% 
+  inner_join(gg_static_region_perc)
+</code></pre>
+
+<pre><code>## Joining, by = &quot;perc&quot;
+</code></pre>
+
+<pre><code class="language-r">gg_region_perc &lt;- gg_static_region_perc %&gt;% 
+  ggplot(aes(year, perc)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 60, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(linetype = continent, color = continent)) +
+  theme_minimal() +
+  ggrepel::geom_label_repel(data = label_dat,
+                            aes(label = continent, color = continent),
+                            show.legend = F, seed = 13092018) +
+  geom_point(data = label_dat, aes(color = continent)) +
+  scale_color_manual(&quot;Region&quot;, values = qualitative) +
+  scale_linetype(&quot;Region&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Percentage of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) 
 
 gg_region_perc
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_region_perc, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
-</code></pre></div><h3 id="animation">Animation</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(gganimate)
+</code></pre>
 
-gg_anim_region <span style="color:#f92672">&lt;-</span> gg_refugee_static_region <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(continent <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(continent <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;South-Eastern Asia&#34;</span>, <span style="color:#e6db74">&#34;S.E. Asia&#34;</span>, continent)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, nn, color <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">41000</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">2018</span>, yend <span style="color:#f92672">=</span> nn), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2019</span>, label <span style="color:#f92672">=</span> continent)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_color_manual</span>(<span style="color:#e6db74">&#34;Country&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    <span style="color:#75715e"># plot.subtitle = element_text(size = 12, face = &#34;bold&#34;),</span>
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>,
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>,
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (2002 - 2018)\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F, text <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">transition_reveal</span>(continent, year, keep_last <span style="color:#f92672">=</span> T)
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-6-1.png" alt="" /></a></p>
 
-gg_anim_region <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">animate</span>(
-  nframes <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, fps <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>, detail <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_region_perc, width = 12, height = 8)
+</code></pre>
+
+<h3 id="animation">Animation</h3>
+
+<pre><code class="language-r">library(gganimate)
+
+gg_anim_region &lt;- gg_refugee_static_region %&gt;%
+  mutate(continent = ifelse(continent == &quot;South-Eastern Asia&quot;, &quot;S.E. Asia&quot;, continent)) %&gt;% 
+  ggplot(aes(year, nn, color = continent)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 41000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line() +
+  geom_segment(aes(xend = 2018, yend = nn), alpha = 0.5) +
+  geom_point() +
+  geom_text(aes(x = 2019, label = continent)) +
+  theme_minimal() +
+  scale_color_manual(&quot;Country&quot;, values = qualitative) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 12, face = &quot;bold&quot;),
+    plot.caption = element_text(size = 10),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018,
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;,
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(continent, year, keep_last = T)
+
+gg_anim_region %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
 )
 
-<span style="color:#a6e22e">anim_save</span>(<span style="color:#e6db74">&#34;images/gg_anim_region.gif&#34;</span>)
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif" alt=""></a></p>
-<h2 id="religion-data">Religion Data</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">relig_refugee <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_excel</span>(<span style="color:#e6db74">&#34;data/refugee_dat.xls&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>(Religion) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">rename</span>(religion <span style="color:#f92672">=</span> Religion) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>X__1, <span style="color:#f92672">-</span>X__2, <span style="color:#f92672">-</span>X__3, <span style="color:#f92672">-</span> Total) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># filter(!(str_detect(cntry, &#34;Total|Data&#34;))) %&gt;% </span>
-  <span style="color:#a6e22e">gather</span>(year, n, <span style="color:#f92672">-</span>religion) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(year <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace</span>(year, <span style="color:#e6db74">&#34;CY &#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span> as.numeric) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># group_by(religion, year) %&gt;% </span>
-  <span style="color:#75715e"># mutate(n = sum(n)) %&gt;% </span>
-  <span style="color:#a6e22e">mutate</span>(religion_cat <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    <span style="color:#a6e22e">str_detect</span>(religion, <span style="color:#e6db74">&#34;Moslem|Ahmadiyya&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Muslim&#34;</span>,
-    <span style="color:#a6e22e">str_detect</span>(religion, <span style="color:#e6db74">&#34;Christ|Baptist|Chald|Coptic|Greek|Jehovah|Lutheran|Mennonite|Orthodox|Pentecostalist|Protestant|Uniate|Adventist|Cath|Meth|Old Believer&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Christian&#34;</span>,
-    <span style="color:#a6e22e">str_detect</span>(religion, <span style="color:#e6db74">&#34;Atheist|No Religion&#34;</span>) <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Atheist/No Religion&#34;</span>,
-    religion <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Hindu&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Hindu&#34;</span>,
-    T <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Other/Unknown&#34;</span>
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># filter(religion == &#34;Unknown&#34;) %&gt;% </span>
-  <span style="color:#75715e"># .$n %&gt;% sum%&gt;% </span>
-  <span style="color:#a6e22e">group_by</span>(religion_cat, year) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) 
-</code></pre></div><h3 id="static-2">Static</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">label_dat <span style="color:#f92672">&lt;-</span> relig_refugee <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span>)
+anim_save(&quot;images/gg_anim_region.gif&quot;)
+</code></pre>
 
-gg_relig <span style="color:#f92672">&lt;-</span> relig_refugee  <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">48000</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> religion_cat), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">.8</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  ggrepel<span style="color:#f92672">::</span><span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> label_dat, 
-                           <span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> religion_cat, color <span style="color:#f92672">=</span> religion_cat), 
-                           nudge_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>,
-                           show.legend <span style="color:#f92672">=</span> F, 
-                           direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;y&#34;</span>, min.segment.length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> religion_cat)) <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_gdocs</span>(<span style="color:#e6db74">&#34;Religion&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># scale_color_manual(&#34;Religion&#34;, values = qualitative) +</span>
-  <span style="color:#a6e22e">scale_linetype</span>(<span style="color:#e6db74">&#34;Religion&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;line&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, 
-                     limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2021</span>),
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (2002 - 2018)&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Aggregated by Religion\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F)
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_anim_region.gif" alt="" /></a></p>
+
+<h2 id="religion-data">Religion Data</h2>
+
+<pre><code class="language-r">relig_refugee &lt;- read_excel(&quot;data/refugee_dat.xls&quot;) %&gt;% 
+  drop_na(Religion) %&gt;% 
+  rename(religion = Religion) %&gt;% 
+  select(-X__1, -X__2, -X__3, - Total) %&gt;% 
+  # filter(!(str_detect(cntry, &quot;Total|Data&quot;))) %&gt;% 
+  gather(year, n, -religion) %&gt;% 
+  mutate(year = str_replace(year, &quot;CY &quot;, &quot;&quot;) %&gt;% as.numeric) %&gt;% 
+  # group_by(religion, year) %&gt;% 
+  # mutate(n = sum(n)) %&gt;% 
+  mutate(religion_cat = case_when(
+    str_detect(religion, &quot;Moslem|Ahmadiyya&quot;) ~ &quot;Muslim&quot;,
+    str_detect(religion, &quot;Christ|Baptist|Chald|Coptic|Greek|Jehovah|Lutheran|Mennonite|Orthodox|Pentecostalist|Protestant|Uniate|Adventist|Cath|Meth|Old Believer&quot;) ~ &quot;Christian&quot;,
+    str_detect(religion, &quot;Atheist|No Religion&quot;) ~ &quot;Atheist/No Religion&quot;,
+    religion == &quot;Hindu&quot; ~ &quot;Hindu&quot;,
+    T ~ &quot;Other/Unknown&quot;
+  )) %&gt;% 
+  # filter(religion == &quot;Unknown&quot;) %&gt;% 
+  # .$n %&gt;% sum%&gt;% 
+  group_by(religion_cat, year) %&gt;% 
+  summarize(n = sum(n)) 
+</code></pre>
+
+<h3 id="static-2">Static</h3>
+
+<pre><code class="language-r">label_dat &lt;- relig_refugee %&gt;% 
+  filter(year == 2018)
+
+gg_relig &lt;- relig_refugee  %&gt;% 
+  ggplot(aes(year, n)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 48000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_line(aes(color = religion_cat), size = .8) +
+  theme_minimal() +
+  ggrepel::geom_text_repel(data = label_dat, 
+                           aes(label = religion_cat, color = religion_cat), 
+                           nudge_x = 2,
+                           show.legend = F, 
+                           direction = &quot;y&quot;, min.segment.length = 0.7) +
+  geom_point(data = label_dat, aes(color = religion_cat)) +
+  ggthemes::scale_color_gdocs(&quot;Religion&quot;) +
+  # scale_color_manual(&quot;Religion&quot;, values = qualitative) +
+  scale_linetype(&quot;Religion&quot;) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, labels = 2002:2018, 
+                     limits = c(2002, 2021),
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Aggregated by Religion\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;) +
+  guides(color = F)
 
 gg_relig
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">tidytemplate<span style="color:#f92672">::</span><span style="color:#a6e22e">ggsave_it</span>(gg_relig, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>)
-</code></pre></div><h3 id="animated-1">Animated</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(gganimate)
+</code></pre>
 
-gg_religion <span style="color:#f92672">&lt;-</span> relig_refugee <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, n, color <span style="color:#f92672">=</span> religion_cat)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">48000</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">2018</span>, yend <span style="color:#f92672">=</span> n), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2019</span>, label <span style="color:#f92672">=</span> religion_cat), 
-            size <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, nudge_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">.75</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_gdocs</span>(<span style="color:#e6db74">&#34;Religion&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>),
-    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    axis.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, 
-                     labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;&#39;02&#34;</span>, <span style="color:#e6db74">&#34;&#39;03&#34;</span>, <span style="color:#e6db74">&#34;&#39;04&#34;</span>,
-                                <span style="color:#e6db74">&#34;&#39;05&#34;</span>, <span style="color:#e6db74">&#34;&#39;06&#34;</span>, <span style="color:#e6db74">&#34;&#39;07&#34;</span>,
-                                <span style="color:#e6db74">&#34;&#39;08&#34;</span>, <span style="color:#e6db74">&#34;&#39;09&#34;</span>, <span style="color:#e6db74">&#34;&#39;10&#34;</span>,
-                                <span style="color:#e6db74">&#34;&#39;11&#34;</span>, <span style="color:#e6db74">&#34;&#39;12&#34;</span>, <span style="color:#e6db74">&#34;&#39;13&#34;</span>,
-                                <span style="color:#e6db74">&#34;&#39;14&#34;</span>, <span style="color:#e6db74">&#34;&#39;15&#34;</span>, <span style="color:#e6db74">&#34;&#39;16&#34;</span>,
-                                <span style="color:#e6db74">&#34;&#39;17&#34;</span>, <span style="color:#e6db74">&#34;&#39;18&#34;</span>), 
-                     limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2020.5</span>),
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">2002</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n\n&#34;</span>,
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (2002 - 2018)&#34;</span>, subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Aggregated by Religion\n\n&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> F, text <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">transition_reveal</span>(religion_cat, year, keep_last <span style="color:#f92672">=</span> T)
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/refugee_analysis_files/figure-gfm/unnamed-chunk-9-1.png" alt="" /></a></p>
 
-gg_religion <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">animate</span>(
-  nframes <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, fps <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>, detail <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<pre><code class="language-r">tidytemplate::ggsave_it(gg_relig, width = 10, height = 6)
+</code></pre>
+
+<h3 id="animated-1">Animated</h3>
+
+<pre><code class="language-r">library(gganimate)
+
+gg_religion &lt;- relig_refugee %&gt;%
+  ggplot(aes(year, n, color = religion_cat)) +
+  geom_vline(data = year_dat, aes(xintercept = year), alpha = 0.15) +
+  geom_label(data = year_dat, aes(x = year, y = 48000, label = label),
+            angle = 0, color = &quot;black&quot;, size = 6) +
+  geom_line(size = 1) +
+  geom_segment(aes(xend = 2018, yend = n), alpha = 0.5) +
+  geom_point(size = 2) +
+  geom_text(aes(x = 2019, label = religion_cat), 
+            size = 6, face = &quot;bold&quot;, nudge_x = .75) +
+  theme_minimal() +
+  ggthemes::scale_color_gdocs(&quot;Religion&quot;) +
+  theme(plot.title = element_text(size = 18, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 16, face = &quot;bold&quot;),
+    plot.caption = element_text(size = 14),
+    axis.title = element_text(size = 14, face = &quot;bold&quot;),
+    axis.text = element_text(size = 14),
+        legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 2002:2018, 
+                     labels = c(&quot;'02&quot;, &quot;'03&quot;, &quot;'04&quot;,
+                                &quot;'05&quot;, &quot;'06&quot;, &quot;'07&quot;,
+                                &quot;'08&quot;, &quot;'09&quot;, &quot;'10&quot;,
+                                &quot;'11&quot;, &quot;'12&quot;, &quot;'13&quot;,
+                                &quot;'14&quot;, &quot;'15&quot;, &quot;'16&quot;,
+                                &quot;'17&quot;, &quot;'18&quot;), 
+                     limits = c(2002, 2020.5),
+                     minor_breaks = seq(2002, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n\n&quot;,
+       title = &quot;Refugees arriving in the United States of America by Year (2002 - 2018)&quot;, subtitle = &quot;Aggregated by Religion\n\n&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nfavstats.eu; @favstats&quot;)  +
+  guides(color = F, text = F) +
+  transition_reveal(religion_cat, year, keep_last = T)
+
+gg_religion %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 1
 )
 
-<span style="color:#a6e22e">anim_save</span>(<span style="color:#e6db74">&#34;images/gg_religion.gif&#34;</span>)
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif" alt=""></a></p>
+anim_save(&quot;images/gg_religion.gif&quot;)
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/gg_religion.gif" alt="" /></a></p>
+
 <h2 id="maps">Maps</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;data/world_map.Rdata&#34;</span>)
 
-refugee_map_total <span style="color:#f92672">&lt;-</span> refugee_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(id <span style="color:#f92672">=</span> countrycode<span style="color:#f92672">::</span><span style="color:#a6e22e">countrycode</span>(cntry, <span style="color:#e6db74">&#34;country.name&#34;</span>, <span style="color:#e6db74">&#34;country.name&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(id <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(cntry <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Tibet&#34;</span>, yes <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;China&#34;</span>, no <span style="color:#f92672">=</span> id)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(id) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n, na.rm <span style="color:#f92672">=</span> T)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">full_join</span>(world_map) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">cut</span>(n,  
-                 breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">50000</span>, <span style="color:#ae81ff">100000</span>, <span style="color:#ae81ff">175000</span>), 
-                 labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;&lt; 100&#34;</span>, <span style="color:#e6db74">&#34;100 - 10.000&#34;</span>, 
-                          <span style="color:#e6db74">&#34;10.001 - 50.000&#34;</span>, <span style="color:#e6db74">&#34;50.001 - 100.000&#34;</span>, 
-                            <span style="color:#e6db74">&#34;100.001 - 175.000&#34;</span>)))
-</code></pre></div><h3 id="total-map">Total Map</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">refugee_map_total <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_map</span>(map <span style="color:#f92672">=</span> world_map,
-         <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> long, y <span style="color:#f92672">=</span> lat, group <span style="color:#f92672">=</span> group, map_id <span style="color:#f92672">=</span> id),
-         color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#7f7f7f&#34;</span>, fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray80&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_map</span>(data <span style="color:#f92672">=</span> refugee_map_total, 
-           map <span style="color:#f92672">=</span> world_map,
-        <span style="color:#a6e22e">aes</span>(map_id  <span style="color:#f92672">=</span> id, 
-            fill <span style="color:#f92672">=</span> n), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.01</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-<span style="color:#75715e">#  scale_fill_gradient(low = &#34;red&#34;, high = &#34;blue&#34;) + </span>
-  <span style="color:#a6e22e">coord_equal</span>() <span style="color:#f92672">+</span>
-  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(<span style="color:#e6db74">&#34;Number of Refugees&#34;</span>, 
-                              direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-                              option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;D&#34;</span>, 
-                              discrete <span style="color:#f92672">=</span> T, 
-                              <span style="color:#75715e"># begin = .2, </span>
-                              <span style="color:#75715e"># end = .8, </span>
-                              na.value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;grey&#34;</span>,
-                        <span style="color:#75715e">#       limits = c(0, 1), </span>
-                        <span style="color:#75715e"># breaks = c(0, .20, .40, .60, .8, 1),</span>
-                        labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;&lt; 100&#34;</span>, <span style="color:#e6db74">&#34;100 - 10.000&#34;</span>, 
-                          <span style="color:#e6db74">&#34;10.000 - 50.000&#34;</span>, <span style="color:#e6db74">&#34;50.000 - 100.000&#34;</span>, 
-                            <span style="color:#e6db74">&#34;100.000 - 175.000&#34;</span>, <span style="color:#e6db74">&#34;No Refugees&#34;</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># facet_wrap(~year, ncol = 6) +</span>
-  <span style="color:#a6e22e">theme</span>(
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>),
-    legend.justification <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.2</span>, <span style="color:#ae81ff">0.25</span>),
-    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>), 
-    <span style="color:#75715e">#axis.ticks.length = unit(3, &#34;cm&#34;),</span>
-    legend.direction <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;vertical&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># guides(fill = guide_colorbar(barwidth = 0.7, barheight = 15,</span>
-  <span style="color:#75715e">#               title.position = &#34;bottom&#34;, title.hjust = 0.5,</span>
-  <span style="color:#75715e">#               label.theme = element_text(colour = &#34;black&#34;, size = 6, angle = 0))) +</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>,
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Nationality (2002 - 2018)&#34;</span>,
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center   \nfavstats.eu; @favstats   &#34;</span>)   
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">
-<span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/refugee_total_map.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>) 
+<pre><code class="language-r">load(&quot;data/world_map.Rdata&quot;)
 
-</code></pre></div><h2 id="extended-data-1975---2018">Extended Data (1975 - 2018)</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">refuge_admissions75 <span style="color:#f92672">&lt;-</span> <span style="color:#e6db74">&#39;https://static1.squarespace.com/static/580e4274e58c624696efadc6/t/5b8ff632aa4a999f85f99e8d/1536161330411/Graph+Refugee+Admissions+since+1975%289.5.18%29.pdf&#39;</span>
+refugee_map_total &lt;- refugee_dat %&gt;% 
+  mutate(id = countrycode::countrycode(cntry, &quot;country.name&quot;, &quot;country.name&quot;)) %&gt;% 
+  mutate(id = ifelse(cntry == &quot;Tibet&quot;, yes = &quot;China&quot;, no = id)) %&gt;%
+  group_by(id) %&gt;% 
+  summarize(n = sum(n, na.rm = T)) %&gt;% 
+  full_join(world_map) %&gt;% 
+  mutate(n = cut(n,  
+                 breaks = c(1, 100, 10000, 50000, 100000, 175000), 
+                 labels = c(&quot;&lt; 100&quot;, &quot;100 - 10.000&quot;, 
+                          &quot;10.001 - 50.000&quot;, &quot;50.001 - 100.000&quot;, 
+                            &quot;100.001 - 175.000&quot;)))
+</code></pre>
 
-<span style="color:#75715e"># Extract the table</span>
-out <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">extract_tables</span>(refuge_admissions75)
+<h3 id="total-map">Total Map</h3>
 
-first_pages <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">do.call</span>(rbind, out[<span style="color:#f92672">-</span><span style="color:#a6e22e">length</span>(out)]) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">as_tibble</span>()
+<pre><code class="language-r">refugee_map_total %&gt;% 
+  ggplot() +
+  geom_map(map = world_map,
+         aes(x = long, y = lat, group = group, map_id = id),
+         color = &quot;#7f7f7f&quot;, fill = &quot;gray80&quot;, size = 0.15) +
+  geom_map(data = refugee_map_total, 
+           map = world_map,
+        aes(map_id  = id, 
+            fill = n), size = 0.01) + 
+  theme_void() +
+#  scale_fill_gradient(low = &quot;red&quot;, high = &quot;blue&quot;) + 
+  coord_equal() +
+  viridis::scale_fill_viridis(&quot;Number of Refugees&quot;, 
+                              direction = -1,
+                              option = &quot;D&quot;, 
+                              discrete = T, 
+                              # begin = .2, 
+                              # end = .8, 
+                              na.value = &quot;grey&quot;,
+                        #       limits = c(0, 1), 
+                        # breaks = c(0, .20, .40, .60, .8, 1),
+                        labels = c(&quot;&lt; 100&quot;, &quot;100 - 10.000&quot;, 
+                          &quot;10.000 - 50.000&quot;, &quot;50.000 - 100.000&quot;, 
+                            &quot;100.000 - 175.000&quot;, &quot;No Refugees&quot;)) +
+  # facet_wrap(~year, ncol = 6) +
+  theme(
+    plot.title = element_text(size = 18, face = &quot;bold&quot;, hjust = 0.5),
+    plot.caption = element_text(size = 14),
+    legend.justification = c(1, 0),
+    legend.position = c(0.2, 0.25),
+    legend.title = element_text(size = 10), 
+    #axis.ticks.length = unit(3, &quot;cm&quot;),
+    legend.direction = &quot;vertical&quot;) +
+  # guides(fill = guide_colorbar(barwidth = 0.7, barheight = 15,
+  #               title.position = &quot;bottom&quot;, title.hjust = 0.5,
+  #               label.theme = element_text(colour = &quot;black&quot;, size = 6, angle = 0))) +
+  labs(x = &quot;&quot;, y = &quot;&quot;,
+       title = &quot;Refugees arriving in the United States of America by Nationality (2002 - 2018)&quot;,
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center   \nfavstats.eu; @favstats   &quot;)   
+</code></pre>
 
-correct_names <span style="color:#f92672">&lt;-</span> first_pages[2,] <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">as.character</span>()
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee_total_map.png" alt="" /></a></p>
 
-final1 <span style="color:#f92672">&lt;-</span> first_pages <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">set_names</span>(correct_names) <span style="color:#f92672">%&gt;%</span> 
-  .[<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>),] <span style="color:#f92672">%&gt;%</span> 
-  .[<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">length</span>(.)),] 
+<pre><code class="language-r">
+ggsave(filename = &quot;images/refugee_total_map.png&quot;, height = 6, width = 12) 
 
-last_page <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">cbind</span>(
-   out[[3]][,<span style="color:#ae81ff">1</span>],
-   out[[3]][,<span style="color:#ae81ff">2</span>],
-   out[[3]][,<span style="color:#ae81ff">3</span>],
-   out[[3]][,<span style="color:#ae81ff">5</span>],
-   out[[3]][,<span style="color:#ae81ff">6</span>],
-   out[[3]][,<span style="color:#ae81ff">7</span>],
-   out[[3]][,<span style="color:#ae81ff">8</span>],
-   out[[3]][,<span style="color:#ae81ff">9</span>],
-   out[[3]][,<span style="color:#ae81ff">10</span>],
-   out[[3]][,<span style="color:#ae81ff">11</span>]
-) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">as_tibble</span>() 
+</code></pre>
+
+<h2 id="extended-data-1975-2018">Extended Data (1975 - 2018)</h2>
+
+<pre><code class="language-r">refuge_admissions75 &lt;- 'https://static1.squarespace.com/static/580e4274e58c624696efadc6/t/5b8ff632aa4a999f85f99e8d/1536161330411/Graph+Refugee+Admissions+since+1975%289.5.18%29.pdf'
+
+# Extract the table
+out &lt;- extract_tables(refuge_admissions75)
+
+first_pages &lt;- do.call(rbind, out[-length(out)]) %&gt;% as_tibble()
+
+correct_names &lt;- first_pages[2,] %&gt;% as.character()
+
+final1 &lt;- first_pages %&gt;% 
+  set_names(correct_names) %&gt;% 
+  .[-c(1:2),] %&gt;% 
+  .[-c(length(.)),] 
+
+last_page &lt;- cbind(
+   out[[3]][,1],
+   out[[3]][,2],
+   out[[3]][,3],
+   out[[3]][,5],
+   out[[3]][,6],
+   out[[3]][,7],
+   out[[3]][,8],
+   out[[3]][,9],
+   out[[3]][,10],
+   out[[3]][,11]
+) %&gt;% as_tibble() 
   
-correct_lastpage <span style="color:#f92672">&lt;-</span> last_page[2,] <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">as.character</span>()
+correct_lastpage &lt;- last_page[2,] %&gt;% as.character()
 
-final2 <span style="color:#f92672">&lt;-</span> last_page <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">set_names</span>(correct_lastpage) <span style="color:#f92672">%&gt;%</span> 
-  .[<span style="color:#f92672">-</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>),] 
+final2 &lt;- last_page %&gt;% 
+  set_names(correct_lastpage) %&gt;% 
+  .[-c(1:2),] 
 
 
 
-admissions75 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(final1, final2) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>Total) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate_all</span>(parse_number) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">na.omit</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">gather</span>(region, n, <span style="color:#f92672">-</span>`Fiscal\rYear`) <span style="color:#f92672">%&gt;%</span> 
-  janitor<span style="color:#f92672">::</span><span style="color:#a6e22e">clean_names</span>()
-</code></pre></div><h3 id="plot-it">Plot It</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">year_lab <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;&#39;&#34;</span>, stringi<span style="color:#f92672">::</span><span style="color:#a6e22e">stri_sub</span>(<span style="color:#ae81ff">1975</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">-2</span> , <span style="color:#ae81ff">-1</span>))
+admissions75 &lt;- bind_rows(final1, final2) %&gt;% 
+  select(-Total) %&gt;% 
+  mutate_all(parse_number) %&gt;% 
+  na.omit() %&gt;% 
+  gather(region, n, -`Fiscal\rYear`) %&gt;% 
+  janitor::clean_names()
+</code></pre>
 
-year_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(fiscal_year <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1976</span>, <span style="color:#ae81ff">2016</span>, <span style="color:#ae81ff">4</span>)), 
-                   label <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Carter I&#34;</span>, <span style="color:#e6db74">&#34;Reagan I&#34;</span>, <span style="color:#e6db74">&#34;Reagan II&#34;</span>, 
-                             <span style="color:#e6db74">&#34;H.W. Bush I&#34;</span>, <span style="color:#e6db74">&#34;Clinton I&#34;</span>, <span style="color:#e6db74">&#34;Clinton II&#34;</span>, <span style="color:#e6db74">&#34;Bush I&#34;</span>, 
-                             <span style="color:#e6db74">&#34;Bush II&#34;</span>, <span style="color:#e6db74">&#34;Obama I&#34;</span>, <span style="color:#e6db74">&#34;Obama II&#34;</span>, <span style="color:#e6db74">&#34;Trump I&#34;</span>))
+<h3 id="plot-it">Plot It</h3>
 
-n_refugee_2018 <span style="color:#f92672">&lt;-</span> admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(fiscal_year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+<pre><code class="language-r">year_lab &lt;- paste0(&quot;'&quot;, stringi::stri_sub(1975:2018, -2 , -1))
+
+year_dat &lt;- tibble(fiscal_year = c(seq(1976, 2016, 4)), 
+                   label = c(&quot;Carter I&quot;, &quot;Reagan I&quot;, &quot;Reagan II&quot;, 
+                             &quot;H.W. Bush I&quot;, &quot;Clinton I&quot;, &quot;Clinton II&quot;, &quot;Bush I&quot;, 
+                             &quot;Bush II&quot;, &quot;Obama I&quot;, &quot;Obama II&quot;, &quot;Trump I&quot;))
+
+n_refugee_2018 &lt;- admissions75 %&gt;% 
+  filter(fiscal_year == 2018) %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
-n_refugee_2002 <span style="color:#f92672">&lt;-</span> admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(fiscal_year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2002</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+n_refugee_2002 &lt;- admissions75 %&gt;% 
+  filter(fiscal_year == 2002) %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
-n_refugee_1992 <span style="color:#f92672">&lt;-</span> admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(fiscal_year <span style="color:#f92672">==</span> <span style="color:#ae81ff">1992</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+n_refugee_1992 &lt;- admissions75 %&gt;% 
+  filter(fiscal_year == 1992) %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
-n_refugee_1980 <span style="color:#f92672">&lt;-</span> admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(fiscal_year <span style="color:#f92672">==</span> <span style="color:#ae81ff">1980</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+n_refugee_1980 &lt;- admissions75 %&gt;% 
+  filter(fiscal_year == 1980) %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
-n_refugee_1975 <span style="color:#f92672">&lt;-</span> admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(fiscal_year <span style="color:#f92672">==</span> <span style="color:#ae81ff">1975</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+n_refugee_1975 &lt;- admissions75 %&gt;% 
+  filter(fiscal_year == 1975) %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
-admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarize</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
+admissions75 %&gt;% 
+  summarize(n = sum(n)) %&gt;% 
   .$n
 
 
-admissions75 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(region <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    region <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Former\rSoviet\rUnion&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;(Former) Soviet Union&#34;</span>,
-    region <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Latin America\rCaribbean&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Latin America/Caribbean&#34;</span>,
-    region <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Near East\rSouth Asia&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Near East/South Asia&#34;</span>,    
-    region <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;PSI&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Private Sector Initiative&#34;</span>,   
-    T <span style="color:#f92672">~</span> region
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(fiscal_year, n))  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_vline</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(xintercept <span style="color:#f92672">=</span> fiscal_year), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_label</span>(data <span style="color:#f92672">=</span> year_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> fiscal_year, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">220000</span>, label <span style="color:#f92672">=</span> label),
-            angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_area</span>(<span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> region), alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> n_refugee_2018, 
-             linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;label&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1978</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">115000</span>, 
-           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>, label.size <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>,
-           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;End of\n Vietnam War&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;label&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1984</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">185000</span>, 
-           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>, label.size <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>,
-           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugee Act of 1980&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;label&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1997</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">150000</span>, 
-           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>, label.size <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>,
-           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Fall of Soviet Union&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;label&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">105000</span>, 
-           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>, label.size <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>,
-           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Drop after 9/11&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;label&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2015</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">110000</span>, 
-           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.85</span>, label.size <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>,
-           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees in 2018\n lowest since 1977&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>comma) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_manual</span>(<span style="color:#e6db74">&#34;Region&#34;</span>, values <span style="color:#f92672">=</span> qualitative) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_curve</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1977</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">125000</span>, xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">1975</span>, yend <span style="color:#f92672">=</span> n_refugee_1975),
-  arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.03</span>, <span style="color:#e6db74">&#34;npc&#34;</span>)), curvature <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_curve</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1982</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">190000</span>, xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">1980</span>, yend <span style="color:#f92672">=</span> n_refugee_1980),
-  arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.03</span>, <span style="color:#e6db74">&#34;npc&#34;</span>)), curvature <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_curve</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1994</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">150000</span>, xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">1992</span>, yend <span style="color:#f92672">=</span> n_refugee_1992),
-  arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.03</span>, <span style="color:#e6db74">&#34;npc&#34;</span>)), curvature <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_curve</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">100000</span>, xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">2002</span>, yend <span style="color:#f92672">=</span> n_refugee_2002),
-  arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.03</span>, <span style="color:#e6db74">&#34;npc&#34;</span>)), curvature <span style="color:#f92672">=</span> <span style="color:#ae81ff">-0.3</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_curve</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2016</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">100000</span>, xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">2018</span>, yend <span style="color:#f92672">=</span> n_refugee_2018),
-  arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.03</span>, <span style="color:#e6db74">&#34;npc&#34;</span>)), curvature <span style="color:#f92672">=</span> <span style="color:#ae81ff">-0.2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    <span style="color:#75715e"># plot.subtitle = element_text(size = 11, face = &#34;bold&#34;), </span>
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.width <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;line&#34;</span>),
-    legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1975</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2018</span>, labels <span style="color:#f92672">=</span> year_lab,
-                     minor_breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1975</span>, <span style="color:#ae81ff">2018</span>, <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Number of Refugees\n&#34;</span>, 
-       title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Refugees arriving in the United States of America by Year (1975 - 2018)\n&#34;</span>, 
-       caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data: Department of State, Office of Admissions - Refugee Processing Center\nTotal Number of Accepted Refugees since 1975: 3.340.709\nfavstats.eu; @favstats&#34;</span>) 
+admissions75 %&gt;% 
+  mutate(region = case_when(
+    region == &quot;Former\rSoviet\rUnion&quot; ~ &quot;(Former) Soviet Union&quot;,
+    region == &quot;Latin America\rCaribbean&quot; ~ &quot;Latin America/Caribbean&quot;,
+    region == &quot;Near East\rSouth Asia&quot; ~ &quot;Near East/South Asia&quot;,    
+    region == &quot;PSI&quot; ~ &quot;Private Sector Initiative&quot;,   
+    T ~ region
+  )) %&gt;% 
+  ggplot(aes(fiscal_year, n))  +
+  geom_vline(data = year_dat, aes(xintercept = fiscal_year), alpha = 0.35) +
+  geom_label(data = year_dat, aes(x = fiscal_year, y = 220000, label = label),
+            angle = 0, color = &quot;black&quot;) +
+  geom_area(aes(fill = region), alpha = 0.9) +
+  geom_hline(yintercept = n_refugee_2018, 
+             linetype = &quot;dashed&quot;, color = &quot;black&quot;, alpha = 0.85) +
+  annotate(&quot;label&quot;, x = 1978, y = 115000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;End of\n Vietnam War&quot;) +
+  annotate(&quot;label&quot;, x = 1984, y = 185000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;Refugee Act of 1980&quot;) +
+  annotate(&quot;label&quot;, x = 1997, y = 150000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;Fall of Soviet Union&quot;) +
+  annotate(&quot;label&quot;, x = 2000, y = 105000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;Drop after 9/11&quot;) +
+  annotate(&quot;label&quot;, x = 2015, y = 110000, 
+           fill = &quot;lightgrey&quot;, alpha = 0.85, label.size = NA,
+           label = &quot;Number of Refugees in 2018\n lowest since 1977&quot;) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::comma) +
+  scale_fill_manual(&quot;Region&quot;, values = qualitative) +
+  geom_curve(aes(x = 1977, y = 125000, xend = 1975, yend = n_refugee_1975),
+  arrow = arrow(length = unit(0.03, &quot;npc&quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 1982, y = 190000, xend = 1980, yend = n_refugee_1980),
+  arrow = arrow(length = unit(0.03, &quot;npc&quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 1994, y = 150000, xend = 1992, yend = n_refugee_1992),
+  arrow = arrow(length = unit(0.03, &quot;npc&quot;)), curvature = 0.2) +
+  geom_curve(aes(x = 2000, y = 100000, xend = 2002, yend = n_refugee_2002),
+  arrow = arrow(length = unit(0.03, &quot;npc&quot;)), curvature = -0.3) +
+  geom_curve(aes(x = 2016, y = 100000, xend = 2018, yend = n_refugee_2018),
+  arrow = arrow(length = unit(0.03, &quot;npc&quot;)), curvature = -0.2) +
+  theme(plot.title = element_text(size = 13, face = &quot;bold&quot;),
+    # plot.subtitle = element_text(size = 11, face = &quot;bold&quot;), 
+    plot.caption = element_text(size = 10),
+    legend.key.width = unit(3, &quot;line&quot;),
+    legend.position = &quot;bottom&quot;) +
+  scale_x_continuous(breaks = 1975:2018, labels = year_lab,
+                     minor_breaks = seq(1975, 2018, 1)) +
+  labs(x = &quot;&quot;, y = &quot;Number of Refugees\n&quot;, 
+       title = &quot;Refugees arriving in the United States of America by Year (1975 - 2018)\n&quot;, 
+       caption = &quot;Data: Department of State, Office of Admissions - Refugee Processing Center\nTotal Number of Accepted Refugees since 1975: 3.340.709\nfavstats.eu; @favstats&quot;) 
 
-</code></pre></div><p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/refugee75.png&#34;</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>) 
-</code></pre></div>
+</code></pre>
+
+<p><a href="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png" target="_blank"><img src="https://raw.githubusercontent.com/favstats/usa_refugee_data/master/images/refugee75.png" alt="" /></a></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/refugee75.png&quot;, height = 7, width = 13) 
+</code></pre>
+
       </div>
 
       
@@ -933,7 +1021,7 @@ admissions75 <span style="color:#f92672">%&gt;%</span>
     
     <li><a href="/post/ecprconf18/">Analyzing Tweets of the ECPR General Conference 2018</a></li>
     
-    <li><a href="/post/terror_map/">Mapping Terror Attacks with Highcharter</a></li>
+    <li><a href="/post/tidylocations/">Mapping your 2017 Geolocations: The Tidy Way</a></li>
     
   </ul>
 </div>
@@ -973,7 +1061,7 @@ admissions75 <span style="color:#f92672">%&gt;%</span>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

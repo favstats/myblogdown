@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,36 +334,66 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <h2 id="introduction">Introduction</h2>
-<p>There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&rsquo;s build on the remark.js library and if you want to learn more about it you can do this <a href="https://remark.js.org/">here</a>. Here are some example slides by the creator which also serves as an introduction:</p>
-<p><a href="https://slides.yihui.name/xaringan/">https://slides.yihui.name/xaringan/</a></p>
+        
+
+<h2 id="introduction">Introduction</h2>
+
+<p>There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&rsquo;s build on the remark.js library and if you want to learn more about it you can do this <a href="https://remark.js.org/" target="_blank">here</a>. Here are some example slides by the creator which also serves as an introduction:</p>
+
+<p><a href="https://slides.yihui.name/xaringan/" target="_blank">https://slides.yihui.name/xaringan/</a></p>
+
 <p>Are you ready to become a <strong>presentation ninja</strong>?</p>
+
 <h2 id="installation">Installation</h2>
+
 <p>There is multiple ways to install packages in R. One safe bet is to install the xaringan package from CRAN, as follows:</p>
-<pre><code class="language-{r," data-lang="{r,">install.packages(&quot;xaringan&quot;)
-</code></pre><p>Sometimes the versions on CRAN are somewhat older. If you are interested in the newest version, one option is to always look for the related (GitHub) repository. To install it from here you need to first install the devtools package in case you don&rsquo;t have it and then use install_github(&ldquo;yihui/xaringan&rdquo;) to install the package from GitHub.</p>
-<pre><code class="language-{r," data-lang="{r,">## only install devtools if needed ##
+
+<pre><code class="language-r,">install.packages(&quot;xaringan&quot;)
+</code></pre>
+
+<p>Sometimes the versions on CRAN are somewhat older. If you are interested in the newest version, one option is to always look for the related (GitHub) repository. To install it from here you need to first install the devtools package in case you don&rsquo;t have it and then use install_github(&ldquo;yihui/xaringan&rdquo;) to install the package from GitHub.</p>
+
+<pre><code class="language-r,">## only install devtools if needed ##
 #install.packages(devtools)
 
 devtools::install_github('yihui/xaringan')
-</code></pre><p>To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:</p>
-<p><img src="http://www.favstats.eu/img/rmarkdown.png" alt=""></p>
+</code></pre>
+
+<p>To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:</p>
+
+<p><img src="http://www.favstats.eu/img/rmarkdown.png" alt="" /></p>
+
 <p>Next select &ldquo;From Template&rdquo; then Ninja Presentation, and you will see an R Markdown example.</p>
-<p><img src="http://www.favstats.eu/img/ninja_presentation.png" alt=""></p>
+
+<p><img src="http://www.favstats.eu/img/ninja_presentation.png" alt="" /></p>
+
 <p>Press the Knit button to compile it.</p>
+
 <h2 id="basics">Basics</h2>
+
 <p>As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:</p>
-<p><img src="http://www.favstats.eu/img/yaml.png" alt=""></p>
+
+<p><img src="http://www.favstats.eu/img/yaml.png" alt="" /></p>
+
 <p>This gives us the following title slide:</p>
-<p><img src="http://www.favstats.eu/img/titleslide.png" alt=""></p>
+
+<p><img src="http://www.favstats.eu/img/titleslide.png" alt="" /></p>
+
 <p>So how are slides created with xaringan? Easy!</p>
+
 <p>Overall, regular R Markdown rules apply so you can use this for <em>italic</em> and two stars for <strong>bold</strong> for example or even your most complicated LaTeX equations.</p>
+
 <p>The # before a line of text creates a header for the slide and the more hashtags you add the smaller is the header</p>
+
 <p>Slides are then seperated with three lines <code>---</code>. For the first slide you don&rsquo;t need to do this because it is already implied after the yaml header.</p>
+
 <p>If we wanted to let elements on the slides appear with a click, we seperate them with two lines <code>--</code> like this.</p>
+
 <p>Lastly, if we want to have more space between the elements on a slide we can use the html tag <code>&lt;br&gt;</code>.</p>
+
 <p>You could start with something like this:</p>
-<pre><code class="language-{r," data-lang="{r,"># Slide 1
+
+<pre><code class="language-r,"># Slide 1
 
 This is slide 1
 
@@ -399,59 +429,99 @@ This will appear on click
 &lt;br&gt;
 
 This will appear on click but a bit farther away
-</code></pre><p>This is how this would look like:</p>
-<p><img src="http://www.favstats.eu/img/slides1.png" alt=""></p>
+</code></pre>
+
+<p>This is how this would look like:</p>
+
+<p><img src="http://www.favstats.eu/img/slides1.png" alt="" /></p>
+
 <p>This looks awesome already!</p>
+
 <h2 id="formatting-slides">Formatting Slides</h2>
+
 <p>Let&rsquo;s say we want to play around a bit with the format of our slides. There are some build in functions that lets us do exactly that.</p>
+
 <p>We specify the following code at the beginning of a slide:</p>
+
 <p><code>class: inverse, center, middle</code></p>
+
 <p>This will inverse the color (here: black) center the elements horizontally (center) and vertically (middle) on that slide. This makes for some pretty cool transition slides.</p>
+
 <p>Here is an example:</p>
-<pre><code class="language-{r," data-lang="{r,">---
+
+<pre><code class="language-r,">---
 
 class: inverse, center, middle
 
 # Statistical Analysis
 
-</code></pre><p>Which produces the following slide:</p>
-<p><img src="http://www.favstats.eu/img/transitionslide.png" alt=""></p>
+</code></pre>
+
+<p>Which produces the following slide:</p>
+
+<p><img src="http://www.favstats.eu/img/transitionslide.png" alt="" /></p>
+
 <h2 id="adding-a-gif-or-an-image">Adding a GIF or an Image</h2>
+
 <p>You can also add GIFs or images to your slides. It&rsquo;s done exactly in the same way as you would with a normal R Markdown document. Here is an example:</p>
-<pre><code class="language-{r," data-lang="{r,">---
+
+<pre><code class="language-r,">---
 
 class: inverse, center, middle
 
 ![](https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg)
 
-</code></pre><p><img src="http://www.favstats.eu/img/image.png" alt=""></p>
+</code></pre>
+
+<p><img src="http://www.favstats.eu/img/image.png" alt="" /></p>
+
 <h2 id="using-themes-and-xaringanthemer">using themes and xaringanthemer</h2>
+
 <p>We&rsquo;ve already come a long way creating nice xaringan slides. If we wanted to customize the theme of the presentation, xaringan comes with some build-in color schemes that you can try out.</p>
+
 <p>Here is one of them. Just add the following line in your YAML header and you are good to go:</p>
-<pre><code class="language-{r," data-lang="{r,">output:
+
+<pre><code class="language-r,">output:
   xaringan::moon_reader:
     css: [metropolis]
 
-</code></pre><p>This looks like this:</p>
-<p><img src="http://www.favstats.eu/img/metropolis.png" alt=""></p>
+</code></pre>
+
+<p>This looks like this:</p>
+
+<p><img src="http://www.favstats.eu/img/metropolis.png" alt="" /></p>
+
 <p>Here is a list of themes:</p>
+
 <ul>
 <li>metropolis</li>
 <li>hygge</li>
 <li>rladies</li>
 </ul>
+
 <p>If you want to create your own themes I can recommend the xaringanthemer package:</p>
-<p><a href="https://github.com/gadenbuie/xaringanthemer">https://github.com/gadenbuie/xaringanthemer</a></p>
+
+<p><a href="https://github.com/gadenbuie/xaringanthemer" target="_blank">https://github.com/gadenbuie/xaringanthemer</a></p>
+
 <h2 id="exporting-the-presentation-to-pdf">Exporting the presentation to .pdf</h2>
+
 <p>The output format of xaringan is html. However, if you want a .pdf file you could just simply open the slides in your favorite web browser and print them to .pdf. This seems to be the easiest version to do it.</p>
+
 <h2 id="what-now">What Now?</h2>
+
 <p>I hope you enjoyed this little tutorial!</p>
+
 <p>Here are some more examples of beautiful xaringan slides that can serve as your inspiration:</p>
-<p><a href="https://github.com/favstats/xaringan_slides/">https://github.com/favstats/xaringan_slides/</a></p>
+
+<p><a href="https://github.com/favstats/xaringan_slides/" target="_blank">https://github.com/favstats/xaringan_slides/</a></p>
+
 <p>You want to add animated transitions? Well, here&rsquo;s an implementation of that:</p>
-<p><a href="https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/">https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/</a></p>
+
+<p><a href="https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/" target="_blank">https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/</a></p>
+
 <p>Lastly, a wiki helps to implement more advanced options. Be sure to check it out at some point:</p>
-<p><a href="https://github.com/yihui/xaringan/wiki">https://github.com/yihui/xaringan/wiki</a></p>
+
+<p><a href="https://github.com/yihui/xaringan/wiki" target="_blank">https://github.com/yihui/xaringan/wiki</a></p>
 
       </div>
 
@@ -514,7 +584,7 @@ class: inverse, center, middle
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

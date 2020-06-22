@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,241 +334,304 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.</p>
+        
+
+<p>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.</p>
+
 <p><strong>Overview:</strong></p>
+
 <ul>
 <li><a href="#packages">Packages</a></li>
 <li><a href="#sim1">Simulation Function</a></li>
 <li><a href="#sim2">Simulate and Save Data</a></li>
 <li><a href="#coll">Visualizing the Influence of Collinearity</a>
+
 <ul>
 <li><a href="#std">Standard Errors</a></li>
 <li><a href="#t_stat">T-Statistic and P-Values</a></li>
 <li><a href="#b_coef">B-Coefficients</a></li>
 <li><a href="#anim">Animation</a></li>
 <li><a href="#b_stand">Standardized</a></li>
+</ul></li>
 </ul>
-</li>
-</ul>
-<h2 id="a-idpackagesapackagespackages"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#packages">Packages</a></h2>
-<p>Load the necessary packages</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># install pacman once if not avaible on your machine</span>
-<span style="color:#75715e"># install.packages(&#34;pacman&#34;)</span>
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
-</code></pre></div><h2 id="a-idsim1asimulation-functionsim1"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#sim1">Simulation Function</a></h2>
+<h2 id="a-id-packages-a-packages-packages"><a id="packages"></a><a href="#packages">Packages</a></h2>
+
+<p>Load the necessary packages</p>
+
+<pre><code class="language-r"># install pacman once if not avaible on your machine
+# install.packages(&quot;pacman&quot;)
+
+pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.beta, tidyr, ggrepel)
+</code></pre>
+
+<h2 id="a-id-sim1-a-simulation-function-sim1"><a id="sim1"></a><a href="#sim1">Simulation Function</a></h2>
+
 <p>First, I write a little function to simulate collinearity.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">generate_multi <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(n, cor_seq){
-  <span style="color:#a6e22e">set.seed</span>(<span style="color:#ae81ff">2017</span>)
-  x <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">runif</span>(n, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>)
-  models <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>()
-  std.models <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>()
-  <span style="color:#a6e22e">for </span>(jj in <span style="color:#a6e22e">seq_along</span>(cor_seq)) {
-    <span style="color:#75715e">## generate correlated variable x2</span>
-    dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(<span style="color:#a6e22e">corgen</span>(x <span style="color:#f92672">=</span> x, r <span style="color:#f92672">=</span> cor_seq[jj],  epsilon <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>))
-    <span style="color:#a6e22e">colnames</span>(dat) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;x1&#34;</span>, <span style="color:#e6db74">&#34;x2&#34;</span>)
-    <span style="color:#75715e">## generate y variable</span>
-    dat<span style="color:#f92672">$</span>y <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> dat<span style="color:#f92672">$</span>x1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> dat<span style="color:#f92672">$</span>x2 <span style="color:#f92672">+</span> <span style="color:#a6e22e">rnorm</span>(n, sd <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)
-    <span style="color:#75715e">## modelling and tidy dataframe</span>
-    models[[jj]] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tidy</span>(<span style="color:#a6e22e">lm</span>(y <span style="color:#f92672">~</span> x1 <span style="color:#f92672">+</span> x2, data <span style="color:#f92672">=</span> dat))
-    <span style="color:#75715e">## get standardized betas</span>
-    std.models[[jj]] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(lm.beta<span style="color:#f92672">::</span><span style="color:#a6e22e">coef.lm.beta</span>((lm.beta<span style="color:#f92672">::</span><span style="color:#a6e22e">lm.beta</span>(<span style="color:#a6e22e">lm</span>(y <span style="color:#f92672">~</span> x1 <span style="color:#f92672">+</span> x2, data <span style="color:#f92672">=</span> dat)))))
-    <span style="color:#a6e22e">colnames</span>(std.models[[jj]]) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;std.estimate&#34;</span>)  
-    <span style="color:#75715e">## bind it together</span>
-    models[[jj]] <span style="color:#f92672">&lt;-</span> std.models[[jj]] <span style="color:#f92672">%&gt;%</span> 
-                      <span style="color:#a6e22e">bind_cols</span>(models[[jj]]) 
-    models[[jj]]<span style="color:#f92672">$</span>cors <span style="color:#f92672">&lt;-</span> cor_seq[jj]
+
+<pre><code class="language-r">generate_multi &lt;- function(n, cor_seq){
+  set.seed(2017)
+  x &lt;- runif(n, 1, 10)
+  models &lt;- list()
+  std.models &lt;- list()
+  for (jj in seq_along(cor_seq)) {
+    ## generate correlated variable x2
+    dat &lt;- data.frame(corgen(x = x, r = cor_seq[jj],  epsilon = 0))
+    colnames(dat) &lt;- c(&quot;x1&quot;, &quot;x2&quot;)
+    ## generate y variable
+    dat$y &lt;- 0.5 * dat$x1 + 0.5 * dat$x2 + rnorm(n, sd = 10)
+    ## modelling and tidy dataframe
+    models[[jj]] &lt;- tidy(lm(y ~ x1 + x2, data = dat))
+    ## get standardized betas
+    std.models[[jj]] &lt;- data.frame(lm.beta::coef.lm.beta((lm.beta::lm.beta(lm(y ~ x1 + x2, data = dat)))))
+    colnames(std.models[[jj]]) &lt;- c(&quot;std.estimate&quot;)  
+    ## bind it together
+    models[[jj]] &lt;- std.models[[jj]] %&gt;% 
+                      bind_cols(models[[jj]]) 
+    models[[jj]]$cors &lt;- cor_seq[jj]
   }
-  sim_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(models)
-  sim_dat<span style="color:#f92672">$</span>col <span style="color:#f92672">&lt;-</span> n
-  <span style="color:#a6e22e">return</span>(sim_dat)
+  sim_dat &lt;- bind_rows(models)
+  sim_dat$col &lt;- n
+  return(sim_dat)
 }
 
-draw.data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(cor_seq <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>, step_seq <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>){
-    sim.list <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>()
-    <span style="color:#a6e22e">for</span>(jj in <span style="color:#a6e22e">seq_along</span>(step_seq)) {
-      sim.list[[jj]] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">generate_multi</span>(n <span style="color:#f92672">=</span> step_seq[jj], cor_seq)
-      sim.list[[jj]]<span style="color:#f92672">$</span>n <span style="color:#f92672">&lt;-</span> step_seq[jj]
+draw.data &lt;- function(cor_seq = NULL, step_seq = NULL){
+    sim.list &lt;- list()
+    for(jj in seq_along(step_seq)) {
+      sim.list[[jj]] &lt;- generate_multi(n = step_seq[jj], cor_seq)
+      sim.list[[jj]]$n &lt;- step_seq[jj]
       
-      <span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;Batch: &#34;</span>, jj, <span style="color:#e6db74">&#34;\t&#34;</span>))
+      cat(paste0(&quot;Batch: &quot;, jj, &quot;\t&quot;))
       
     } 
-    sim_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(sim.list)
-    <span style="color:#a6e22e">return</span>(sim_data)
+    sim_data &lt;- bind_rows(sim.list)
+    return(sim_data)
 }
-</code></pre></div><h2 id="a-idsim2asimulate-and-save-datasim2"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#sim2">Simulate and Save Data</a></h2>
+</code></pre>
+
+<h2 id="a-id-sim2-a-simulate-and-save-data-sim2"><a id="sim2"></a><a href="#sim2">Simulate and Save Data</a></h2>
+
 <p>Draw data from function and save it.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sim_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">draw.data</span>(cor_seq <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">.99</span>,<span style="color:#ae81ff">0.01</span>), step_seq <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">10000</span>, by <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>))
 
-<span style="color:#a6e22e">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">dir.exists</span>(<span style="color:#e6db74">&#34;data&#34;</span>)) <span style="color:#a6e22e">dir.create</span>(<span style="color:#e6db74">&#34;data&#34;</span>)
+<pre><code class="language-r">sim_data &lt;- draw.data(cor_seq = seq(0,.99,0.01), step_seq = seq(50, 10000, by = 50))
 
-<span style="color:#a6e22e">save</span>(sim_data, file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/sim_data.Rdata&#34;</span>)
-</code></pre></div><h2 id="a-idcollavisualizing-the-influence-of-collinearitycoll"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#coll">Visualizing the Influence of Collinearity</a></h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;data/sim_data.Rdata&#34;</span>)
-</code></pre></div><p>Now, consider the following linear regression: y ~ x1 + x2.</p>
+if(!dir.exists(&quot;data&quot;)) dir.create(&quot;data&quot;)
+
+save(sim_data, file = &quot;data/sim_data.Rdata&quot;)
+</code></pre>
+
+<h2 id="a-id-coll-a-visualizing-the-influence-of-collinearity-coll"><a id="coll"></a><a href="#coll">Visualizing the Influence of Collinearity</a></h2>
+
+<pre><code class="language-r">load(&quot;data/sim_data.Rdata&quot;)
+</code></pre>
+
+<p>Now, consider the following linear regression: y ~ x1 + x2.</p>
+
 <p>\begin{equation}
 Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \epsilon
 \end{equation}</p>
+
 <p>For this simulation, I consistently increase the correlation between x1 and x2 (from 0 to .99) and the sample size (from 50 to 10.000) and estimate separate models for each of these combinations,</p>
-<h3 id="a-idstdastandard-errorsstd"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#std">Standard Errors</a></h3>
+
+<h3 id="a-id-std-a-standard-errors-std"><a id="std"></a><a href="#std">Standard Errors</a></h3>
+
 <p>First, I take a look at the impact that sample size and collinearity have on the standard error of x1. On the x-axis, you can see the increasing collinearity between x1 and x2 and the individual lines are colored in by sample size. There are a few things we can observe here: the standard error diminishes with greater sample size, correlations around .75 increase the standard error quite drastically and this effect is weaker the higher your sample size is.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">get_smooths <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(smooth_dat, n_val, y) {
-  smooth_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">filter</span>(smooth_dat, n <span style="color:#f92672">==</span> n_val <span style="color:#f92672">&amp;</span> term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;x1&#34;</span>)
-  fm <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">paste0</span>(y,<span style="color:#e6db74">&#34; ~ cors&#34;</span>)
-  smooth_vals <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">predict</span>(<span style="color:#a6e22e">loess</span>(fm, smooth_dat), smooth_dat<span style="color:#f92672">$</span>cors) 
+
+<pre><code class="language-r">get_smooths &lt;- function(smooth_dat, n_val, y) {
+  smooth_dat &lt;- filter(smooth_dat, n == n_val &amp; term == &quot;x1&quot;)
+  fm &lt;- paste0(y,&quot; ~ cors&quot;)
+  smooth_vals &lt;- predict(loess(fm, smooth_dat), smooth_dat$cors) 
   
-  smooth_dat <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(smooth <span style="color:#f92672">=</span> smooth_vals) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(n) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarise</span>(max_smooth <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(smooth),
-            min_smooth <span style="color:#f92672">=</span> <span style="color:#a6e22e">min</span>(smooth)
+  smooth_dat %&gt;% 
+  mutate(smooth = smooth_vals) %&gt;% 
+  group_by(n) %&gt;% 
+  summarise(max_smooth = max(smooth),
+            min_smooth = min(smooth)
             )
 }
 
-smooth_dat <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">150</span>, <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">10000</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">map_df</span>(<span style="color:#f92672">~</span><span style="color:#a6e22e">get_smooths</span>(sim_data, n_val <span style="color:#f92672">=</span> .x, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;std.error&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(n_lab <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">50</span>, <span style="color:#e6db74">&#34;Sample Size: 50&#34;</span>, n))
+smooth_dat &lt;- c(50, 100, 150, 200, 10000) %&gt;% 
+  map_df(~get_smooths(sim_data, n_val = .x, y = &quot;std.error&quot;)) %&gt;% 
+  mutate(n_lab = ifelse(n == 50, &quot;Sample Size: 50&quot;, n))
 
-sim_data <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, std.error, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;loess&#34;</span>, se <span style="color:#f92672">=</span> F, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#a6e22e">expression</span>(<span style="color:#e6db74">&#34;Pearson&#39;s&#34;</span><span style="color:#f92672">~</span>r<span style="color:#f92672">~</span>correlation<span style="color:#f92672">~</span>between<span style="color:#f92672">~</span>x[1]<span style="color:#f92672">~</span>and<span style="color:#f92672">~</span>x[2])) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#a6e22e">expression</span>(x[1]<span style="color:#f92672">~</span>Standard<span style="color:#f92672">~</span>Error)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on Standard Error&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> smooth_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">.99</span>, y <span style="color:#f92672">=</span> max_smooth)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text_repel</span>(data <span style="color:#f92672">=</span> smooth_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">.99</span>, y <span style="color:#f92672">=</span> max_smooth, label <span style="color:#f92672">=</span> n_lab), 
-                  nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.07</span>, nudge_x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.03</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colourbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, label.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/multicol_sim/blob/master/images/std_static.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/std_static.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><h3 id="a-idt_statat-statistic-and-p-valuest_stat"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#t_stat">T-Statistic and P-Values</a></h3>
+sim_data %&gt;% 
+  filter(term == &quot;x1&quot;) %&gt;% 
+  ggplot(aes(cors, std.error, colour = n, group = n)) + 
+  geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~Standard~Error)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on Standard Error&quot;) +
+  geom_point(data = smooth_dat, aes(x = .99, y = max_smooth)) +
+  geom_text_repel(data = smooth_dat, aes(x = .99, y = max_smooth, label = n_lab), 
+                  nudge_y = 0.07, nudge_x = 0.03) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/std_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/std_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h3 id="a-id-t-stat-a-t-statistic-and-p-values-t-stat"><a id="t_stat"></a><a href="#t_stat">T-Statistic and P-Values</a></h3>
+
 <p>Next, let&rsquo;s take a look at the t-statistic and p-values. In line with what you would expect with greater standard errors, statistical significance also suffers from collinearity. Again, greater sample sizes seem to partly remedy this but the shift is clearly observable.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sim_data  <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, statistic, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-     <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;loess&#34;</span>, se <span style="color:#f92672">=</span> F, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#a6e22e">expression</span>(<span style="color:#e6db74">&#34;Pearson&#39;s&#34;</span><span style="color:#f92672">~</span>r<span style="color:#f92672">~</span>correlation<span style="color:#f92672">~</span>between<span style="color:#f92672">~</span>x[1]<span style="color:#f92672">~</span>and<span style="color:#f92672">~</span>x[2])) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#a6e22e">expression</span>(x[1]<span style="color:#f92672">~</span>t<span style="color:#f92672">-</span>Statistic)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.96</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(geom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.3</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;t = 1.96&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on t-Statistic&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colourbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, label.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/multicol_sim/blob/master/images/t_static.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/t_static.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sim_data  <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">filter</span>(term<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, p.value, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-     <span style="color:#a6e22e">geom_smooth</span>(method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;loess&#34;</span>, se <span style="color:#f92672">=</span> F, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#a6e22e">expression</span>(<span style="color:#e6db74">&#34;Pearson&#39;s&#34;</span><span style="color:#f92672">~</span>r<span style="color:#f92672">~</span>correlation<span style="color:#f92672">~</span>between<span style="color:#f92672">~</span>x[1]<span style="color:#f92672">~</span>and<span style="color:#f92672">~</span>x[2])) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#a6e22e">expression</span>(x[1]<span style="color:#f92672">~</span>p<span style="color:#f92672">-</span>value)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(geom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.08</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p = 0.05&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on p-values&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colourbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, label.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/multicol_sim/blob/master/images/p_static.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/p_static.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><h3 id="a-idb_coefab-coefficientsb_coef"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#b_coef">B-Coefficients</a></h3>
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term == &quot;x1&quot;) %&gt;% 
+     ggplot(aes(cors, statistic, colour = n, group = n)) + 
+     geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~t-Statistic)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 1.96, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 2.3, label = &quot;t = 1.96&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on t-Statistic&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/t_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/t_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term==&quot;x1&quot;) %&gt;% 
+     ggplot(aes(cors, p.value, colour = n, group = n)) + 
+     geom_smooth(method = &quot;loess&quot;, se = F, size = 1, alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~p-value)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  geom_hline(yintercept = 0.05, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 0.08, label = &quot;p = 0.05&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on p-values&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/p_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/p_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h3 id="a-id-b-coef-a-b-coefficients-b-coef"><a id="b_coef"></a><a href="#b_coef">B-Coefficients</a></h3>
+
 <p>This one I find most interesting. In addition to statistical signif. being affected, you can also see how the coefficients change with increasing collinearity. The most drastic impact is for small sample sizes (~1000) where a coefficient of .5 can even become negative.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sim_data  <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">filter</span>(term<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">filter</span>(n<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">200</span>) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, estimate, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-    <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">+</span>
-    <span style="color:#a6e22e">geom_line</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#a6e22e">expression</span>(<span style="color:#e6db74">&#34;Pearson&#39;s&#34;</span><span style="color:#f92672">~</span>r<span style="color:#f92672">~</span>correlation<span style="color:#f92672">~</span>between<span style="color:#f92672">~</span>x[1]<span style="color:#f92672">~</span>and<span style="color:#f92672">~</span>x[2])) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#a6e22e">expression</span>(x[1]<span style="color:#f92672">~</span>b<span style="color:#f92672">-</span>coefficient)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">annotate</span>(geom <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.08</span>, label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;b = 0.5&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on b-coefficients&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colourbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, label.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<h5 id="a-idanimaanimationanim"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#anim">Animation</a></h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(gganimate)
 
-sim_data_sub <span style="color:#f92672">&lt;-</span> sim_data  <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">filter</span>(term <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">200</span>) <span style="color:#f92672">%&gt;%</span> 
-    <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(estimate_lab <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(estimate, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%&gt;%</span> as.character) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(n))
+<pre><code class="language-r">sim_data  %&gt;%
+    filter(term==&quot;x1&quot;) %&gt;%
+    filter(n&gt;200) %&gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &quot;dashed&quot;, alpha = 0.9) +
+    geom_line(alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  annotate(geom = &quot;text&quot;, x = 0, y = 0.08, label = &quot;b = 0.5&quot;) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on b-coefficients&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
 
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_static.png?raw=true" alt="" /><!-- --></p>
 
- anim1 <span style="color:#f92672">&lt;-</span>  sim_data_sub  <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#75715e"># filter(term == &#34;x1&#34;) %&gt;%</span>
-    <span style="color:#75715e"># filter(n &gt; 200) %&gt;%</span>
-    <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, estimate, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-    <span style="color:#a6e22e">geom_hline</span>(yintercept <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(xend <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, yend <span style="color:#f92672">=</span> estimate), linetype <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, colour <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;grey&#39;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_point</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, label <span style="color:#f92672">=</span> n), hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.15</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.8</span>, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;Correlation: &#34;</span>, cors)), 
-                hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> estimate_lab), hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, nudge_y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Pearson&#39;s r correlation between x1 and x2&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;x1 b-coefficient&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">coord_cartesian</span>(clip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;off&#39;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, 
-                      direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>, 
-                      discrete <span style="color:#f92672">=</span> T,
-                      begin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>,
-       <span style="color:#75715e"># limits = seq(1000, 10000, 3000),</span>
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-        axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-        axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on b-coefficients (Sample Sizes: 300, 1000 and 10.000)&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># guides(colour = guide_colourbar(barwidth = 20, label.position = &#34;bottom&#34;)) +</span>
-  <span style="color:#75715e"># Here comes the gganimate code</span>
-  <span style="color:#a6e22e">transition_reveal</span>(n, cors) 
+<h5 id="a-id-anim-a-animation-anim"><a id="anim"></a><a href="#anim">Animation</a></h5>
+
+<pre><code class="language-r">library(gganimate)
+
+sim_data_sub &lt;- sim_data  %&gt;%
+    filter(term == &quot;x1&quot;) %&gt;%
+    filter(n &gt; 200) %&gt;% 
+    filter(n %in% c(300, 1000, 10000)) %&gt;% 
+  mutate(estimate_lab = round(estimate, 2) %&gt;% as.character) %&gt;% 
+  mutate(n = as.factor(n))
 
 
-anim1 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">animate</span>(
-  nframes <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>, fps <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">600</span>, detail <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+ anim1 &lt;-  sim_data_sub  %&gt;%
+    # filter(term == &quot;x1&quot;) %&gt;%
+    # filter(n &gt; 200) %&gt;%
+    ggplot(aes(cors, estimate, colour = n, group = n)) +
+    geom_hline(yintercept = 0.5, linetype = &quot;dashed&quot;, alpha = 0.9) +
+  geom_line() +
+  geom_segment(aes(xend = 1, yend = estimate), linetype = 2, colour = 'grey') +
+  geom_point(size = 2) +
+  geom_text(aes(x = 1, label = n), hjust = 0, size = 4, fontface = &quot;bold&quot;) +
+  geom_text(aes(x = 0.15, y = 1.8, label = paste0(&quot;Correlation: &quot;, cors)), 
+                hjust = 1, size = 5, color = &quot;black&quot;) +
+  geom_text(aes(label = estimate_lab), hjust = 0, size = 3, fontface = &quot;bold&quot;, nudge_y = 0.1) +
+  xlab(&quot;Pearson's r correlation between x1 and x2&quot;) +
+  ylab(&quot;x1 b-coefficient&quot;) + 
+  coord_cartesian(clip = 'off') + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, 
+                      direction = -1, 
+                      discrete = T,
+                      begin = 0.3,
+       # limits = seq(1000, 10000, 3000),
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  guides(colour = F) +
+  theme(title = element_text(size = 15, face = &quot;bold&quot;), 
+        axis.text.x = element_text(size = 14, face = &quot;bold&quot;), 
+        axis.text.y = element_text(size = 10, face = &quot;italic&quot;)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on b-coefficients (Sample Sizes: 300, 1000 and 10.000)&quot;) +
+  # guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;)) +
+  # Here comes the gganimate code
+  transition_reveal(n, cors) 
+
+
+anim1 %&gt;% animate(
+  nframes = 500, fps = 15, width = 1000, height = 600, detail = 3
 )
 
-<span style="color:#a6e22e">anim_save</span>(<span style="color:#e6db74">&#34;images/b_anim.gif&#34;</span>)
-</code></pre></div><p><a href="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true"><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/b_static.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><h5 id="a-idb_standastandardizedb_stand"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#b_stand">Standardized</a></h5>
+anim_save(&quot;images/b_anim.gif&quot;)
+</code></pre>
+
+<p><a href="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true" target="_blank"><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_anim.gif?raw=true" alt="" /></a></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/b_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h5 id="a-id-b-stand-a-standardized-b-stand"><a id="b_stand"></a><a href="#b_stand">Standardized</a></h5>
+
 <p>Same spiel, just this time with standardized coefficients.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">sim_data  <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">filter</span>(term<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;x1&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-     <span style="color:#a6e22e">filter</span>(n<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">200</span>) <span style="color:#f92672">%&gt;%</span>
-     <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(cors, std.estimate, colour <span style="color:#f92672">=</span> n, group <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-    <span style="color:#a6e22e">geom_line</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#a6e22e">expression</span>(<span style="color:#e6db74">&#34;Pearson&#39;s&#34;</span><span style="color:#f92672">~</span>r<span style="color:#f92672">~</span>correlation<span style="color:#f92672">~</span>between<span style="color:#f92672">~</span>x[1]<span style="color:#f92672">~</span>and<span style="color:#f92672">~</span>x[2])) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#a6e22e">expression</span>(x[1]<span style="color:#f92672">~</span>b<span style="color:#f92672">-</span>coefficient)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">scale_color_viridis</span>(<span style="color:#e6db74">&#34;Sample Size&#34;</span>, direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>,
-       breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>),
-       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">1000</span>, <span style="color:#ae81ff">10000</span>, <span style="color:#ae81ff">3000</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Sample Size and Collinearity Influence on standardized b-coefficients&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(colour <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_colourbar</span>(barwidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, label.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bottom&#34;</span>))
-</code></pre></div><p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_standardized_static.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave</span>(filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;images/b_standardized_static.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><h5 id="a-idsessionasession-infosession"><!-- raw HTML omitted --><!-- raw HTML omitted --><a href="#session">Session Info</a></h5>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">sessionInfo</span>()
-</code></pre></div><pre><code>## R version 3.5.0 (2018-04-23)
+
+<pre><code class="language-r">sim_data  %&gt;% 
+     filter(term==&quot;x1&quot;) %&gt;% 
+     filter(n&gt;200) %&gt;%
+     ggplot(aes(cors, std.estimate, colour = n, group = n)) + 
+    geom_line(alpha = 0.5) +
+  xlab(expression(&quot;Pearson's&quot;~r~correlation~between~x[1]~and~x[2])) + 
+  ylab(expression(x[1]~b-coefficient)) + 
+  theme_hc() + 
+  scale_color_viridis(&quot;Sample Size&quot;, direction = -1,
+       breaks = seq(1000, 10000, 3000),
+       labels = seq(1000, 10000, 3000)) +
+  ggtitle(&quot;Sample Size and Collinearity Influence on standardized b-coefficients&quot;) +
+  guides(colour = guide_colourbar(barwidth = 20, label.position = &quot;bottom&quot;))
+</code></pre>
+
+<p><img src="https://github.com/favstats/multicol_sim/blob/master/images/b_standardized_static.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">ggsave(filename = &quot;images/b_standardized_static.png&quot;, width = 10, height = 7)
+</code></pre>
+
+<h5 id="a-id-session-a-session-info-session"><a id="session"></a><a href="#session">Session Info</a></h5>
+
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.5.0 (2018-04-23)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 17134)
 ## 
@@ -681,7 +744,7 @@ anim1 <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">anim
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

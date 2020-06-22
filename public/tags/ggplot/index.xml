@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ggplot on favstats - personal blog</title>
@@ -18,7 +18,12 @@
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/terror_map/</guid>
-      <description>A short blogpost about creating an interactive map with Highcharter</description>
+      <description>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.
+The code for this blogpost can be found in this GitHub Repository.
+Getting Started
+First I need data about terror attacks. For this I downloaded the Global Terrorism Database.
+Now in Rstudio, I load in the needed packages:
+pacman::p_load(tidyverse, magrittr, readxl, highcharter)  After I put the downloaded .</description>
     </item>
     
     <item>
@@ -27,7 +32,10 @@
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/tidylocations/</guid>
-      <description>A short blogpost about creating a map of your geolocations using Google Data</description>
+      <description>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code here. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?
+The code for this blogpost can be found in this GitHub Repository.
+Getting Started
+First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours here.</description>
     </item>
     
   </channel>

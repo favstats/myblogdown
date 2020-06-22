@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Daesh on favstats - personal blog</title>
@@ -18,7 +18,7 @@
       <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
       <guid>/post/daesh/</guid>
-      <description>Here I want to dive a little bit into how Arab Muslims see Daesh (&lt;em&gt;a term for ISIS often used by Arabic speakers&lt;/em&gt;). The data I will be using is from the &lt;a href=&#34;http://www.arabbarometer.org/&#34;&gt;Arab Barometer Wave 4&lt;/a&gt;, released just a few weeks ago.</description>
+      <description>Welcome to my very first blogpost. Here I want to dive a little bit into how Arab Muslims see Daesh (a term for ISIS often used by Arab speakers). The data I will be using is from the Arab Barometer Wave 4, released just a few weeks ago. I will also be using the Arab Barometer in the future because it has a lot of interesting questions asked, including a small sample size of Syrian refugees.</description>
     </item>
     
   </channel>

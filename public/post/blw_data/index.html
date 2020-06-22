@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,23 +334,35 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>Is American democracy under threat? <a href="http://brightlinewatch.org">Bright Line Watch</a> regularly asks political scientists and the public questions about democratic performance.</p>
-<p>In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the <a href="http://brightlinewatch.org/wave7/">US fulfills these standards</a>.</p>
+        
+
+<p>Is American democracy under threat? <a href="http://brightlinewatch.org" target="_blank">Bright Line Watch</a> regularly asks political scientists and the public questions about democratic performance.</p>
+
+<p>In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the <a href="http://brightlinewatch.org/wave7/" target="_blank">US fulfills these standards</a>.</p>
+
 <p>In this little exercise, I want to focus on the measures that the US does <em>NOT</em> perform well on. Here I visualize the results.</p>
+
 <h2 id="load-neccesary-packages">Load neccesary Packages</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have them yet</span>
-<span style="color:#75715e"># if (!require(&#34;pacman&#34;)) install.packages(&#34;pacman&#34;)</span>
-<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, haven, tidytemplate)
-</code></pre></div><h2 id="download-data">Download Data</h2>
-<p>Data downloaded from <a href="http://brightlinewatch.org/surveys/">Bright Line Watch
+<pre><code class="language-r"># Install these packages if you don't have them yet
+# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
+# devtools::install_github(&quot;favstats/tidytemplate&quot;)
+
+pacman::p_load(tidyverse, haven, tidytemplate)
+</code></pre>
+
+<h2 id="download-data">Download Data</h2>
+
+<p>Data downloaded from <a href="http://brightlinewatch.org/surveys/" target="_blank">Bright Line Watch
 homepage</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">## Download Data</span>
-<span style="color:#75715e"># download.file(&#34;http://brightlinewatch.org/wp-content/uploads/2018/11/BLW-Wave-7.zip&#34;, destfile = &#34;data/blw_data7&#34;)</span>
 
-<span style="color:#a6e22e">as.character</span>(<span style="color:#a6e22e">unzip</span>(<span style="color:#e6db74">&#34;data/blw_data7&#34;</span>, list <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)<span style="color:#f92672">$</span>Name)
-</code></pre></div><pre><code>##  [1] &quot;BLW_Expert_Waves1234567.csv&quot;         
+<pre><code class="language-r">## Download Data
+# download.file(&quot;http://brightlinewatch.org/wp-content/uploads/2018/11/BLW-Wave-7.zip&quot;, destfile = &quot;data/blw_data7&quot;)
+
+as.character(unzip(&quot;data/blw_data7&quot;, list = TRUE)$Name)
+</code></pre>
+
+<pre><code>##  [1] &quot;BLW_Expert_Waves1234567.csv&quot;         
 ##  [2] &quot;BLW_Expert_Waves1234567.dta&quot;         
 ##  [3] &quot;BLW_Expert_Waves1234567_nolabels.csv&quot;
 ##  [4] &quot;BLW_Public_Waves34567.dta&quot;           
@@ -363,191 +375,222 @@ homepage</a>.</p>
 ## [11] &quot;BLW_wave7_public.dta&quot;                
 ## [12] &quot;BLW_wave7_public_nolabels.csv&quot;
 </code></pre>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blw_expert <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_dta</span>(<span style="color:#a6e22e">unzip</span>(<span style="color:#e6db74">&#34;data/blw_data7&#34;</span>, files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BLW_Expert_Waves1234567.dta&#34;</span>))
 
-<span style="color:#75715e"># blw_expert %&gt;% filter(wave == 6)</span>
-</code></pre></div><h2 id="expert-survey">Expert Survey</h2>
+<pre><code class="language-r">blw_expert &lt;- read_dta(unzip(&quot;data/blw_data7&quot;, files = &quot;BLW_Expert_Waves1234567.dta&quot;))
+
+# blw_expert %&gt;% filter(wave == 6)
+</code></pre>
+
+<h2 id="expert-survey">Expert Survey</h2>
+
 <p>Before I can visualize the survey, I clean and prepare the data:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">n_experts <span style="color:#f92672">&lt;-</span> blw_expert <span style="color:#f92672">%&gt;%</span> 
- <span style="color:#a6e22e">filter</span>(finished <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span> nrow
+
+<pre><code class="language-r">n_experts &lt;- blw_expert %&gt;% 
+ filter(finished == 1) %&gt;% nrow
  
 
-blw_expert_viz <span style="color:#f92672">&lt;-</span> blw_expert <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(wave, perf_misconduct<span style="color:#f92672">:</span>perf_investigations) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">gather</span>(key, value, <span style="color:#f92672">-</span>wave) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>(value) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(standard <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(value <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Missing Standard&#34;</span>, <span style="color:#e6db74">&#34;Anything Else&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">count</span>(key, wave, standard) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(wave, key) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> total) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(standard <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Missing Standard&#34;</span>)  <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(statements <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_ban_ideology&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;All parties allowed&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_candidates_disclose&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Candidates disclose info&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_common_und&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Common understanding of facts&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_compromise&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Compromise sought&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_contributions&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Contribs determine policy&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_districts&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Districts not biased&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_election_fraud&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Fraud-free elections&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_equal_rights&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Equal political/legal rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_expand_executive&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Constitution limits executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_foreign_influence&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No foreign influence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_funds_transparent&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Campaign funds transparent&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_investigations&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Investigations not compromised&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_journalists&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No interference with press&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_judicial_ind&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Judicial independence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_judiciary_check&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Judiciary can limit executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_legislature_check&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Legislature can limit executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_misconduct&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Sanctions for misconduct&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_monitor_opponents&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Agencies not used against opp.&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_opinions&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Opinions heard on policy&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_participation&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Voter participation&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_patriotism&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Patriotism not questioned&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_private_gain&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No private gains from office&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_private_violence&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No political violence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_protest&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Protest rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_votes_impact&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Votes have equal impact&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_voting_rights&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Equal voting rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_free_speech&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Free speech&#34;</span>,
-    T <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(statements <span style="color:#f92672">=</span> forcats<span style="color:#f92672">::</span><span style="color:#a6e22e">fct_reorder</span>(statements, perc)) 
-</code></pre></div><pre><code>## Warning: attributes are not identical across measure variables;
+blw_expert_viz &lt;- blw_expert %&gt;% 
+  select(wave, perf_misconduct:perf_investigations) %&gt;% 
+  gather(key, value, -wave) %&gt;% 
+  drop_na(value) %&gt;% 
+  mutate(standard = ifelse(value == 1, &quot;Missing Standard&quot;, &quot;Anything Else&quot;)) %&gt;% 
+  count(key, wave, standard) %&gt;% 
+  group_by(wave, key) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = n / total) %&gt;% 
+  ungroup() %&gt;% 
+  filter(standard == &quot;Missing Standard&quot;)  %&gt;% 
+  mutate(statements = case_when(
+    key == &quot;perf_ban_ideology&quot; ~ &quot;All parties allowed&quot;,
+    key == &quot;perf_candidates_disclose&quot; ~ &quot;Candidates disclose info&quot;,
+    key == &quot;perf_common_und&quot; ~ &quot;Common understanding of facts&quot;,
+    key == &quot;perf_compromise&quot; ~ &quot;Compromise sought&quot;,
+    key == &quot;perf_contributions&quot; ~ &quot;Contribs determine policy&quot;,
+    key == &quot;perf_districts&quot; ~ &quot;Districts not biased&quot;,
+    key == &quot;perf_election_fraud&quot; ~ &quot;Fraud-free elections&quot;,
+    key == &quot;perf_equal_rights&quot; ~ &quot;Equal political/legal rights&quot;,
+    key == &quot;perf_expand_executive&quot; ~ &quot;Constitution limits executive&quot;,
+    key == &quot;perf_foreign_influence&quot; ~ &quot;No foreign influence&quot;,
+    key == &quot;perf_funds_transparent&quot; ~ &quot;Campaign funds transparent&quot;,
+    key == &quot;perf_investigations&quot; ~ &quot;Investigations not compromised&quot;,
+    key == &quot;perf_journalists&quot; ~ &quot;No interference with press&quot;,
+    key == &quot;perf_judicial_ind&quot; ~ &quot;Judicial independence&quot;,
+    key == &quot;perf_judiciary_check&quot; ~ &quot;Judiciary can limit executive&quot;,
+    key == &quot;perf_legislature_check&quot; ~ &quot;Legislature can limit executive&quot;,
+    key == &quot;perf_misconduct&quot; ~ &quot;Sanctions for misconduct&quot;,
+    key == &quot;perf_monitor_opponents&quot; ~ &quot;Agencies not used against opp.&quot;,
+    key == &quot;perf_opinions&quot; ~ &quot;Opinions heard on policy&quot;,
+    key == &quot;perf_participation&quot; ~ &quot;Voter participation&quot;,
+    key == &quot;perf_patriotism&quot; ~ &quot;Patriotism not questioned&quot;,
+    key == &quot;perf_private_gain&quot; ~ &quot;No private gains from office&quot;,
+    key == &quot;perf_private_violence&quot; ~ &quot;No political violence&quot;,
+    key == &quot;perf_protest&quot; ~ &quot;Protest rights&quot;,
+    key == &quot;perf_votes_impact&quot; ~ &quot;Votes have equal impact&quot;,
+    key == &quot;perf_voting_rights&quot; ~ &quot;Equal voting rights&quot;,
+    key == &quot;perf_free_speech&quot; ~ &quot;Free speech&quot;,
+    T ~ NA_character_
+  )) %&gt;% 
+  mutate(statements = forcats::fct_reorder(statements, perc)) 
+</code></pre>
+
+<pre><code>## Warning: attributes are not identical across measure variables;
 ## they will be dropped
 </code></pre>
+
 <p>The data ranges from February 2017 to October 2018. For the purpose of this visualization, I took out 27 statements of democratic performance and show the percentage of experts that do not think the U.S. meets the necessary standard (a full list of statements can be found in the appendix).</p>
+
 <p>Visualizing expert survey results now:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">survey_dates <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Feb/17&#34;</span>, <span style="color:#e6db74">&#34;May/17&#34;</span>, <span style="color:#e6db74">&#34;Sep/17&#34;</span>, <span style="color:#e6db74">&#34;Jan/18&#34;</span>, <span style="color:#e6db74">&#34;Apr/18&#34;</span>, <span style="color:#e6db74">&#34;Jul/18&#34;</span>, <span style="color:#e6db74">&#34;Oct/18&#34;</span>)
+
+<pre><code class="language-r">survey_dates &lt;- c(&quot;Feb/17&quot;, &quot;May/17&quot;, &quot;Sep/17&quot;, &quot;Jan/18&quot;, &quot;Apr/18&quot;, &quot;Jul/18&quot;, &quot;Oct/18&quot;)
 
 
-blw_expert_viz <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># mutate(mean_perc =  ifelse(perc &gt;= mean(perc), &#34;Above&#34;, &#34;Below&#34;)) %&gt;% </span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wave, statements, fill <span style="color:#f92672">=</span> perc)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_tile</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
-  ggpubr<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_pubclean</span>() <span style="color:#f92672">+</span>
-  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>, begin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.25</span>, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;B&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(perc <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>))) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>, labels <span style="color:#f92672">=</span> survey_dates) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings of U.S. democratic (non-)performance - Expert perceptions&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Percentage who answered &#39;U.S. does not meet this standard&#39;&#34;</span>,
-       caption <span style="color:#f92672">=</span> glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;Data: Bright Line Watch expert survey results Wave 1 - 7\nRespondents: {n_experts} Political Scientists at American colleges and universities&#34;</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray93&#34;</span>, color <span style="color:#f92672">=</span> F), 
-        legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.935</span>, <span style="color:#ae81ff">0.075</span>), 
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>),
-    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>),
-    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>), 
-    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.height <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, unit <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cm&#34;</span>),
-    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    panel.spacing <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;lines&#34;</span>))
-</code></pre></div><p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(heatmap, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8.7</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><p>At a first glance, there seems to be widespread agreement on the topic of gerrymandering. Most experts would say that U.S. democracy fails at meeting the standard of fair electoral districts (69% in Oct. 2018). Other issues that many expert respondents pointed out were low voter turnout, equal impact of votes and a common understanding of the facts (49-50% in Oct. 2018).</p>
+blw_expert_viz %&gt;% 
+  # mutate(mean_perc =  ifelse(perc &gt;= mean(perc), &quot;Above&quot;, &quot;Below&quot;)) %&gt;% 
+  ggplot(aes(wave, statements, fill = perc)) +
+  geom_tile(alpha = 0.7) +
+  ggpubr::theme_pubclean() +
+  viridis::scale_fill_viridis(direction = -1, begin = 0.25, option = &quot;B&quot;) +
+  geom_text(aes(label = round(perc * 100))) +
+  scale_x_continuous(breaks = 1:7, labels = survey_dates) +
+  labs(y = &quot;&quot;, x = &quot;&quot;, title = &quot;Ratings of U.S. democratic (non-)performance - Expert perceptions&quot;,
+       subtitle = &quot;Percentage who answered 'U.S. does not meet this standard'&quot;,
+       caption = glue::glue(&quot;Data: Bright Line Watch expert survey results Wave 1 - 7\nRespondents: {n_experts} Political Scientists at American colleges and universities&quot;)) +
+  guides(fill = F) +
+  theme(strip.background = element_rect(fill = &quot;gray93&quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 14, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 10, face = &quot;italic&quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &quot;cm&quot;),
+    axis.title = element_text(size = 12, face = &quot;bold&quot;), 
+    panel.spacing = unit(1, &quot;lines&quot;))
+</code></pre>
+
+<p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-2-1.png?raw=true" alt="" /></a></p>
+
+<pre><code class="language-r">ggsave_it(heatmap, width = 8.7, height = 7)
+</code></pre>
+
+<p>At a first glance, there seems to be widespread agreement on the topic of gerrymandering. Most experts would say that U.S. democracy fails at meeting the standard of fair electoral districts (69% in Oct. 2018). Other issues that many expert respondents pointed out were low voter turnout, equal impact of votes and a common understanding of the facts (49-50% in Oct. 2018).</p>
+
 <p>If we consider the time dimension, we can observe that many ratings stay rather consistent over time.</p>
+
 <p>One change that stands out is from April to July 2018 on the question whether elections are free from foreign influence: a jump from 25 to 44% of experts who said that the U.S. does not meet this standard. This
-stark increase might be explained by President Trump’s Helsinki summit which happened during the survey was in the field. At the summit, <a href="https://www.washingtonpost.com/politics/americans-give-trump-negative-marks-for-helsinki-performance/2018/07/22/832ec2be-8d19-11e8-a345-a1bf7847b375_story.html">Trump made statements</a> that suggested he believed Putin over the assessment of the U.S. intelligence service when it comes to Russian interference in the U.S. election.</p>
+stark increase might be explained by President Trump’s Helsinki summit which happened during the survey was in the field. At the summit, <a href="https://www.washingtonpost.com/politics/americans-give-trump-negative-marks-for-helsinki-performance/2018/07/22/832ec2be-8d19-11e8-a345-a1bf7847b375_story.html" target="_blank">Trump made statements</a> that suggested he believed Putin over the assessment of the U.S. intelligence service when it comes to Russian interference in the U.S. election.</p>
+
 <p>Another interesting jump concerncs the statement that the legislature
 can limit executive power if need be. A jump from 12% of experts in
 April to 22% in July and October 2018 say that the U.S. does not meet
 this standard.</p>
+
 <h2 id="public-survey">Public Survey</h2>
+
 <p>Next, I complete the same procedure for the public survey. But first,
 some data
 wrangling:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blw_public <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_dta</span>(<span style="color:#a6e22e">unzip</span>(<span style="color:#e6db74">&#34;data/blw_data7&#34;</span>, files <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BLW_Public_Waves34567.dta&#34;</span>))
 
-survey_dates_3 <span style="color:#f92672">&lt;-</span> survey_dates[5<span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>]
+<pre><code class="language-r">blw_public &lt;- read_dta(unzip(&quot;data/blw_data7&quot;, files = &quot;BLW_Public_Waves34567.dta&quot;))
 
-not_na <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
-  <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(x)
+survey_dates_3 &lt;- survey_dates[5:7]
+
+not_na &lt;- function(x) {
+  !is.na(x)
 }
 
-n_public <span style="color:#f92672">&lt;-</span> blw_public <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(wave, weight, perf_misconduct<span style="color:#f92672">:</span>perf_investigations) <span style="color:#f92672">%&gt;%</span>  
-  <span style="color:#a6e22e">mutate_all</span>(not_na) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">colSums</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">as.vector</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">sort</span>() <span style="color:#f92672">%&gt;%</span> 
+n_public &lt;- blw_public %&gt;% 
+  select(wave, weight, perf_misconduct:perf_investigations) %&gt;%  
+  mutate_all(not_na) %&gt;% 
+  colSums() %&gt;% 
+  as.vector() %&gt;%
+  sort() %&gt;% 
   .[27]
 
 
-blw_public_viz <span style="color:#f92672">&lt;-</span> blw_public <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(wave, weight, perf_misconduct<span style="color:#f92672">:</span>perf_investigations) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">gather</span>(key, value, <span style="color:#f92672">-</span>wave, <span style="color:#f92672">-</span>weight) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>(value) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(standard <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(value <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;Missing Standard&#34;</span>, <span style="color:#e6db74">&#34;Anything Else&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">count</span>(key, wave, standard, wt <span style="color:#f92672">=</span> weight) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">group_by</span>(wave, key) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(perc <span style="color:#f92672">=</span> n <span style="color:#f92672">/</span> total) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ungroup</span>()  <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(standard <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Missing Standard&#34;</span>)  <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(statements <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_ban_ideology&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;All parties allowed&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_candidates_disclose&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Candidates disclose info&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_common_und&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Common understanding of facts&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_compromise&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Compromise sought&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_contributions&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Contribs determine policy&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_districts&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Districts not biased&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_election_fraud&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Fraud-free elections&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_equal_rights&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Equal political/legal rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_expand_executive&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Constitution limits executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_foreign&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No foreign influence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_funds_transparent&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Campaign funds transparent&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_investigations&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Investigations not compromised&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_journalists&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No interference with press&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_judicial_ind&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Judicial independence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_judiciary_check&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Judiciary can limit executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_legislature_check&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Legislature can limit executive&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_misconduct&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Sanctions for misconduct&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_monitor_opponents&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Agencies not used against opp.&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_opinions&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Opinions heard on policy&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_participation&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Voter participation&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_patriotism&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Patriotism not questioned&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_private_gain&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No private gains from office&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_private_violence&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;No political violence&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_protest&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Protest rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_votes_impact&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Votes have equal impact&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_voting_rights&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Equal voting rights&#34;</span>,
-    key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;perf_free_speech&#34;</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Free speech&#34;</span>,
-    T <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
-  )) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(statements <span style="color:#f92672">=</span> forcats<span style="color:#f92672">::</span><span style="color:#a6e22e">fct_reorder</span>(statements, perc)) 
-</code></pre></div><pre><code>## Warning: attributes are not identical across measure variables;
+blw_public_viz &lt;- blw_public %&gt;% 
+  select(wave, weight, perf_misconduct:perf_investigations) %&gt;% 
+  gather(key, value, -wave, -weight) %&gt;% 
+  drop_na(value) %&gt;% 
+  mutate(standard = ifelse(value == 1, &quot;Missing Standard&quot;, &quot;Anything Else&quot;)) %&gt;% 
+  count(key, wave, standard, wt = weight) %&gt;% 
+  group_by(wave, key) %&gt;% 
+  mutate(total = sum(n)) %&gt;% 
+  mutate(perc = n / total) %&gt;% 
+  ungroup()  %&gt;% 
+  filter(standard == &quot;Missing Standard&quot;)  %&gt;% 
+  mutate(statements = case_when(
+    key == &quot;perf_ban_ideology&quot; ~ &quot;All parties allowed&quot;,
+    key == &quot;perf_candidates_disclose&quot; ~ &quot;Candidates disclose info&quot;,
+    key == &quot;perf_common_und&quot; ~ &quot;Common understanding of facts&quot;,
+    key == &quot;perf_compromise&quot; ~ &quot;Compromise sought&quot;,
+    key == &quot;perf_contributions&quot; ~ &quot;Contribs determine policy&quot;,
+    key == &quot;perf_districts&quot; ~ &quot;Districts not biased&quot;,
+    key == &quot;perf_election_fraud&quot; ~ &quot;Fraud-free elections&quot;,
+    key == &quot;perf_equal_rights&quot; ~ &quot;Equal political/legal rights&quot;,
+    key == &quot;perf_expand_executive&quot; ~ &quot;Constitution limits executive&quot;,
+    key == &quot;perf_foreign&quot; ~ &quot;No foreign influence&quot;,
+    key == &quot;perf_funds_transparent&quot; ~ &quot;Campaign funds transparent&quot;,
+    key == &quot;perf_investigations&quot; ~ &quot;Investigations not compromised&quot;,
+    key == &quot;perf_journalists&quot; ~ &quot;No interference with press&quot;,
+    key == &quot;perf_judicial_ind&quot; ~ &quot;Judicial independence&quot;,
+    key == &quot;perf_judiciary_check&quot; ~ &quot;Judiciary can limit executive&quot;,
+    key == &quot;perf_legislature_check&quot; ~ &quot;Legislature can limit executive&quot;,
+    key == &quot;perf_misconduct&quot; ~ &quot;Sanctions for misconduct&quot;,
+    key == &quot;perf_monitor_opponents&quot; ~ &quot;Agencies not used against opp.&quot;,
+    key == &quot;perf_opinions&quot; ~ &quot;Opinions heard on policy&quot;,
+    key == &quot;perf_participation&quot; ~ &quot;Voter participation&quot;,
+    key == &quot;perf_patriotism&quot; ~ &quot;Patriotism not questioned&quot;,
+    key == &quot;perf_private_gain&quot; ~ &quot;No private gains from office&quot;,
+    key == &quot;perf_private_violence&quot; ~ &quot;No political violence&quot;,
+    key == &quot;perf_protest&quot; ~ &quot;Protest rights&quot;,
+    key == &quot;perf_votes_impact&quot; ~ &quot;Votes have equal impact&quot;,
+    key == &quot;perf_voting_rights&quot; ~ &quot;Equal voting rights&quot;,
+    key == &quot;perf_free_speech&quot; ~ &quot;Free speech&quot;,
+    T ~ NA_character_
+  )) %&gt;% 
+  mutate(statements = forcats::fct_reorder(statements, perc)) 
+</code></pre>
+
+<pre><code>## Warning: attributes are not identical across measure variables;
 ## they will be dropped
 </code></pre>
+
 <p>Now let’s investigate how the public evaluates American democracy:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">blw_public_viz <span style="color:#f92672">%&gt;%</span>  
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wave, statements, fill <span style="color:#f92672">=</span> perc)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_tile</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
-  ggpubr<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_pubclean</span>() <span style="color:#f92672">+</span>
-  viridis<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_viridis</span>(direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">-1</span>, begin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.35</span>, option <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;B&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(perc <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>))) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>, labels <span style="color:#f92672">=</span> survey_dates_3) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings of U.S. democratic (non-)performance - Public perceptions&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Percentage who answered &#39;U.S. does not meet this standard&#39;&#34;</span>,
-       caption <span style="color:#f92672">=</span> glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;Data: Bright Line Watch expert survey results Wave 5 - 7\nN: {n_public} respondents; nationally representative samples&#34;</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray93&#34;</span>, color <span style="color:#f92672">=</span> F), 
-        legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.935</span>, <span style="color:#ae81ff">0.075</span>), 
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>),
-    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>),
-    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>), 
-    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.height <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, unit <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cm&#34;</span>),
-    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    panel.spacing <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;lines&#34;</span>))
-</code></pre></div><p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(heatmap3, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">8.5</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><p>Evaluations of U.S. democratic non-performance by the public remain
+
+<pre><code class="language-r">blw_public_viz %&gt;%  
+  ggplot(aes(wave, statements, fill = perc)) +
+  geom_tile(alpha = 0.7) +
+  ggpubr::theme_pubclean() +
+  viridis::scale_fill_viridis(direction = -1, begin = 0.35, option = &quot;B&quot;) +
+  geom_text(aes(label = round(perc * 100))) +
+  scale_x_continuous(breaks = 5:7, labels = survey_dates_3) +
+  labs(y = &quot;&quot;, x = &quot;&quot;, title = &quot;Ratings of U.S. democratic (non-)performance - Public perceptions&quot;,
+       subtitle = &quot;Percentage who answered 'U.S. does not meet this standard'&quot;,
+       caption = glue::glue(&quot;Data: Bright Line Watch expert survey results Wave 5 - 7\nN: {n_public} respondents; nationally representative samples&quot;)) +
+  guides(fill = F) +
+  theme(strip.background = element_rect(fill = &quot;gray93&quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 14, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 10, face = &quot;italic&quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &quot;cm&quot;),
+    axis.title = element_text(size = 12, face = &quot;bold&quot;), 
+    panel.spacing = unit(1, &quot;lines&quot;))
+</code></pre>
+
+<p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-4-1.png?raw=true" alt="" /></a></p>
+
+<pre><code class="language-r">ggsave_it(heatmap3, width = 8.5, height = 7)
+</code></pre>
+
+<p>Evaluations of U.S. democratic non-performance by the public remain
 relatively stable over the three observation points in 2018.</p>
+
 <p>More than half of respondents in the public sample said that the U.S.
 fails to meet the standard of government officials not misusing public
 office for private gain (51% in October 2018). A majority of respondents
@@ -555,41 +598,48 @@ in the nationally representative sample also believe that political
 opponents are smeared with accusations of disloyalty and a lack of
 patriotism (53% in
 October).</p>
-<h2 id="experts--public">Experts + Public</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">survey_dates <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;2/17&#34;</span>, <span style="color:#e6db74">&#34;5/17&#34;</span>, <span style="color:#e6db74">&#34;9/17&#34;</span>, <span style="color:#e6db74">&#34;1/18&#34;</span>, <span style="color:#e6db74">&#34;4/18&#34;</span>, <span style="color:#e6db74">&#34;7/18&#34;</span>, <span style="color:#e6db74">&#34;10/18&#34;</span>)
+
+<h2 id="experts-public">Experts + Public</h2>
+
+<pre><code class="language-r">survey_dates &lt;- c(&quot;2/17&quot;, &quot;5/17&quot;, &quot;9/17&quot;, &quot;1/18&quot;, &quot;4/18&quot;, &quot;7/18&quot;, &quot;10/18&quot;)
 
 
-blw_public_viz <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(Survey <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Public Sample&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">bind_rows</span>(blw_expert_viz <span style="color:#f92672">%&gt;%</span>
-              <span style="color:#a6e22e">mutate</span>(Survey <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Expert Sample&#34;</span>)) <span style="color:#f92672">%&gt;%</span>  
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(wave, perc, color <span style="color:#f92672">=</span> Survey)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>(alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e"># viridis::scale_fill_viridis(direction = -1, begin = 0.25, option = &#34;B&#34;) +</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_gdocs</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(perc <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>)), show.legend  <span style="color:#f92672">=</span> F) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>, labels <span style="color:#f92672">=</span> survey_dates) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_y_continuous</span>(labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span><span style="color:#a6e22e">percent_format</span>()) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Ratings of U.S. democratic (non-)performance - Expert vs. Public perceptions&#34;</span>,
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Percentage who answered &#39;U.S. does not meet this standard&#39;&#34;</span>,
-       caption <span style="color:#f92672">=</span> glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;Data: Bright Line Watch expert survey results Wave 1 - 7\nExperts: {n_experts} Political Scientists at American colleges and universities\nPublic: {n_public} respondents; nationally representative samples&#34;</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">guides</span>(color <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_legend</span>(override.aes <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5</span>))) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>statements, nrow <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(strip.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray93&#34;</span>, color <span style="color:#f92672">=</span> F), 
-        legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.935</span>, <span style="color:#ae81ff">0.075</span>), 
-    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;italic&#34;</span>),
-    strip.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.9</span>),
-    legend.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>), 
-    legend.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-    legend.key.height <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, unit <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;cm&#34;</span>),
-    axis.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>), 
-    panel.spacing <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;lines&#34;</span>))
-</code></pre></div><p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true" alt=""></a></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">ggsave_it</span>(lineplot, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>)
-</code></pre></div><p>When we directly compare public and expert evaluations, we can see that
+blw_public_viz %&gt;% 
+  mutate(Survey = &quot;Public Sample&quot;) %&gt;% 
+  bind_rows(blw_expert_viz %&gt;%
+              mutate(Survey = &quot;Expert Sample&quot;)) %&gt;%  
+  ggplot(aes(wave, perc, color = Survey)) +
+  geom_line(alpha = 0.5, size = 0.5) +
+  theme_minimal() +
+  # viridis::scale_fill_viridis(direction = -1, begin = 0.25, option = &quot;B&quot;) +
+  ggthemes::scale_color_gdocs() +
+  geom_text(aes(label = round(perc * 100)), show.legend  = F) +
+  scale_x_continuous(breaks = 1:7, labels = survey_dates) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(y = &quot;&quot;, x = &quot;&quot;, title = &quot;Ratings of U.S. democratic (non-)performance - Expert vs. Public perceptions&quot;,
+       subtitle = &quot;Percentage who answered 'U.S. does not meet this standard'&quot;,
+       caption = glue::glue(&quot;Data: Bright Line Watch expert survey results Wave 1 - 7\nExperts: {n_experts} Political Scientists at American colleges and universities\nPublic: {n_public} respondents; nationally representative samples&quot;)) +
+  guides(color = guide_legend(override.aes = list(size = 1.5))) +
+  facet_wrap(~statements, nrow = 4) +
+  theme(strip.background = element_rect(fill = &quot;gray93&quot;, color = F), 
+        legend.position = c(0.935, 0.075), 
+    plot.title = element_text(size = 18, face = &quot;bold&quot;),
+    plot.subtitle = element_text(size = 14, face = &quot;italic&quot;),
+    strip.text = element_text(size = 10),
+    plot.caption = element_text(size = 10, hjust = 0.9),
+    legend.title = element_text(size = 12), 
+    legend.text = element_text(size = 10),
+    legend.key.height = unit(1, unit = &quot;cm&quot;),
+    axis.title = element_text(size = 12, face = &quot;bold&quot;), 
+    panel.spacing = unit(1, &quot;lines&quot;))
+</code></pre>
+
+<p><a href="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true" target="_blank"><img src="https://github.com/favstats/blw_surveys/blob/master/blw_viz_files/figure-gfm/unnamed-chunk-5-1.png?raw=true" alt="" /></a></p>
+
+<pre><code class="language-r">ggsave_it(lineplot, width = 16, height = 7)
+</code></pre>
+
+<p>When we directly compare public and expert evaluations, we can see that
 the public seems to be somewhat more or at least as skeptical than
 experts except for questions on adequate voter turnout, equal impact of
 votes and fair electoral districts. On such issues, experts are more
@@ -671,7 +721,7 @@ public.</p>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

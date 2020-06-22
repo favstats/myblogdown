@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>538 on favstats - personal blog</title>
@@ -18,7 +18,7 @@
       <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/538_midterms/</guid>
-      <description>Assessing the 538 Predictions for the 2018 Midterm Elections</description>
+      <description>Packages # Install these packages if you don&#39;t have them yet # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;) # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) pacman::p_load(tidyverse, tidytemplate, janitor, ggthemes, ggpubr, rvest, ggrepel)  Load Data csv_link &amp;lt;- &amp;quot;https://blogs.sciencemag.org/sciencehound/wp-content/uploads/sites/5/2018/11/Congressional-election-results-and-forecasts.csv&amp;quot; pred_dat &amp;lt;- read_csv(csv_link) %&amp;gt;% clean_names() %&amp;gt;% mutate(close = ifelse(election_results &amp;lt;= 55 &amp;amp; election_results &amp;gt;= 45, &amp;quot;Close&amp;quot;, &amp;quot;Safe&amp;quot;)) %&amp;gt;% left_join(tibble(state = state.name, abbr =state.abb)) %&amp;gt;% mutate(distr_abbr = paste0(abbr, district))  pred_dat  ## # A tibble: 435 x 14 ## state district democratic_cand~ republican_cand~ election_results ## &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; ## 1 Alab~ 1 Kennedy Byrne 36.</description>
     </item>
     
   </channel>

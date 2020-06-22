@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,31 +334,45 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>This is a short notebook outlining the code used to scrape tweets
-related to the ECPR Conference 2018 in Hamburg.</p>
-<h2 id="packages">Packages</h2>
-<p>Load the necessary packages</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># install pacman once if not avaible on your machine</span>
-<span style="color:#75715e"># install.packages(&#34;pacman&#34;)</span>
+        
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, purrr, tidyr, rtweet, stringr, ggraph, igraph, tidygraph, forcats)
-</code></pre></div><h2 id="get-data">Get Data</h2>
+<p>This is a short notebook outlining the code used to scrape tweets
+related to the ECPR Conference 2018 in Hamburg.</p>
+
+<h2 id="packages">Packages</h2>
+
+<p>Load the necessary packages</p>
+
+<pre><code class="language-r"># install pacman once if not avaible on your machine
+# install.packages(&quot;pacman&quot;)
+
+pacman::p_load(tidyverse, purrr, tidyr, rtweet, stringr, ggraph, igraph, tidygraph, forcats)
+</code></pre>
+
+<h2 id="get-data">Get Data</h2>
+
 <p>If you want to scrape data yourself you have to
 register a free account where you get your personal access point to
-Twitter. Check out <a href="https://github.com/mkearney/rtweet/"><code>rtweet</code></a> on
+Twitter. Check out <a href="https://github.com/mkearney/rtweet/" target="_blank"><code>rtweet</code></a> on
 github and follow their instructions for twitter authentication.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">twitter_token <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">readRDS</span>(<span style="color:#e6db74">&#34;twitter_token.rds&#34;</span>)
 
-rt <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">search_tweets</span>(
-  <span style="color:#e6db74">&#34;#ecprconf18 OR #ecprconf2018&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>, include_rts <span style="color:#f92672">=</span> F, retryonratelimit <span style="color:#f92672">=</span> T
+<pre><code class="language-r">twitter_token &lt;- readRDS(&quot;twitter_token.rds&quot;)
+
+rt &lt;- search_tweets(
+  &quot;#ecprconf18 OR #ecprconf2018&quot;, n = 5000, include_rts = F, retryonratelimit = T
 )
-<span style="color:#a6e22e">save</span>(rt, file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;data/rt.Rdata&#34;</span>)
-</code></pre></div><p>Lets first look at the data structure and column names. Twitter returns
-over 1,200 unique tweets.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">load</span>(<span style="color:#e6db74">&#34;data/rt.Rdata&#34;</span>)
+save(rt, file = &quot;data/rt.Rdata&quot;)
+</code></pre>
 
-rt <span style="color:#f92672">%&gt;%</span> glimpse <span style="color:#75715e"># the same as str, returns a df overview</span>
-</code></pre></div><pre><code>## Observations: 1,399
+<p>Lets first look at the data structure and column names. Twitter returns
+over 1,200 unique tweets.</p>
+
+<pre><code class="language-r">load(&quot;data/rt.Rdata&quot;)
+
+rt %&gt;% glimpse # the same as str, returns a df overview
+</code></pre>
+
+<pre><code>## Observations: 1,399
 ## Variables: 88
 ## $ user_id                 &lt;chr&gt; &quot;21951668&quot;, &quot;21951668&quot;, &quot;21951668&quot;, &quot;2...
 ## $ status_id               &lt;chr&gt; &quot;1033324994552573952&quot;, &quot;10325642035535...
@@ -449,16 +463,20 @@ rt <span style="color:#f92672">%&gt;%</span> glimpse <span style="color:#75715e"
 ## $ profile_background_url  &lt;chr&gt; &quot;http://abs.twimg.com/images/themes/th...
 ## $ profile_image_url       &lt;chr&gt; &quot;http://pbs.twimg.com/profile_images/2...
 </code></pre>
+
 <p>The top ten retweeted tweets.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># load(&#34;rt.Rdata&#34;)</span>
-rt <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(screen_name, text, retweet_count) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">str_detect</span>(text, <span style="color:#e6db74">&#34;^RT&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">str_replace_all</span>(text, <span style="color:#e6db74">&#34;\\\n&#34;</span>, <span style="color:#e6db74">&#34; &#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(retweet_count)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">top_n</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>) <span style="color:#f92672">%&gt;%</span> 
-  knitr<span style="color:#f92672">::</span><span style="color:#a6e22e">kable</span>(., format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;markdown&#34;</span>)
-</code></pre></div><table>
+
+<pre><code class="language-r"># load(&quot;rt.Rdata&quot;)
+rt %&gt;% 
+  select(screen_name, text, retweet_count) %&gt;% 
+  filter(!str_detect(text, &quot;^RT&quot;)) %&gt;% 
+  mutate(text = str_replace_all(text, &quot;\\\n&quot;, &quot; &quot;)) %&gt;% 
+  arrange(desc(retweet_count)) %&gt;% 
+  top_n(n = 10) %&gt;% 
+  knitr::kable(., format = &quot;markdown&quot;)
+</code></pre>
+
+<table>
 <thead>
 <tr>
 <th align="left">screen_name</th>
@@ -466,52 +484,62 @@ rt <span style="color:#f92672">%&gt;%</span>
 <th align="right">retweet_count</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td align="left">jrteruel</td>
-<td align="left">Cataluña y Escocia no son tan parecidas! Un análisis de discurso halla notables diferencias entre independentismos: recurrente retórica populista en Cat, pero no en Esc. Interesante esto d @josejolivas presentado en el panel de @_ignaciomolina <a href="https://t.co/DuGF8ppfq6">https://t.co/DuGF8ppfq6</a> #ecprconf18 <a href="https://t.co/OAh4CMMlqc">https://t.co/OAh4CMMlqc</a></td>
+<td align="left">Cataluña y Escocia no son tan parecidas! Un análisis de discurso halla notables diferencias entre independentismos: recurrente retórica populista en Cat, pero no en Esc. Interesante esto d @josejolivas presentado en el panel de @_ignaciomolina <a href="https://t.co/DuGF8ppfq6" target="_blank">https://t.co/DuGF8ppfq6</a> #ecprconf18 <a href="https://t.co/OAh4CMMlqc" target="_blank">https://t.co/OAh4CMMlqc</a></td>
 <td align="right">64</td>
 </tr>
+
 <tr>
 <td align="left">policy_politics</td>
-<td align="left">A special issue challenging scholars of policy theory to change the way they produce and communicate research. Read it for free until 20 September: <a href="https://t.co/iaMl4s08C6">https://t.co/iaMl4s08C6</a> #ecprconf18 @ECPR @CairneyPaul @chris_weible <a href="https://t.co/TsQBSlfN6T">https://t.co/TsQBSlfN6T</a></td>
+<td align="left">A special issue challenging scholars of policy theory to change the way they produce and communicate research. Read it for free until 20 September: <a href="https://t.co/iaMl4s08C6" target="_blank">https://t.co/iaMl4s08C6</a> #ecprconf18 @ECPR @CairneyPaul @chris_weible <a href="https://t.co/TsQBSlfN6T" target="_blank">https://t.co/TsQBSlfN6T</a></td>
 <td align="right">27</td>
 </tr>
+
 <tr>
 <td align="left">DelDemUCan</td>
-<td align="left">The countdown begins for the #ecprconf18 in Hamburg! Section conveners @NicoleCurato &amp; @_SofieMarien put together a schedule of democratic innovations panels here. Check it out <a href="https://t.co/e8PVzo8foA">https://t.co/e8PVzo8foA</a> <a href="https://t.co/kfEwLE6swv">https://t.co/kfEwLE6swv</a></td>
+<td align="left">The countdown begins for the #ecprconf18 in Hamburg! Section conveners @NicoleCurato &amp; @_SofieMarien put together a schedule of democratic innovations panels here. Check it out <a href="https://t.co/e8PVzo8foA" target="_blank">https://t.co/e8PVzo8foA</a> <a href="https://t.co/kfEwLE6swv" target="_blank">https://t.co/kfEwLE6swv</a></td>
 <td align="right">23</td>
 </tr>
+
 <tr>
 <td align="left">BJPolS</td>
-<td align="left">We are pleased to offer free access to a selection of the most-cited BJPolS articles until the end of 2018: <a href="https://t.co/G2wKHDnTdL">https://t.co/G2wKHDnTdL</a> #ecprconf18 <a href="https://t.co/rR7uPOwgCS">https://t.co/rR7uPOwgCS</a></td>
+<td align="left">We are pleased to offer free access to a selection of the most-cited BJPolS articles until the end of 2018: <a href="https://t.co/G2wKHDnTdL" target="_blank">https://t.co/G2wKHDnTdL</a> #ecprconf18 <a href="https://t.co/rR7uPOwgCS" target="_blank">https://t.co/rR7uPOwgCS</a></td>
 <td align="right">20</td>
 </tr>
+
 <tr>
 <td align="left">antje_wiener</td>
-<td align="left">Delighted to see the book published: #Contestation and #Constitution of #Norms in #GlobalIR ⁦ ⁦@CUP_PoliSci⁩ ⁦@CUP_Law⁩ ⁦@InternatlTheory⁩ ⁦@JacquiTrue⁩ @SassanGholiagha⁩ ⁦@JuttaBrunnee⁩ @womenalsoknow⁩ #ecprconf18 <a href="https://t.co/IbZUclVRpd">https://t.co/IbZUclVRpd</a></td>
+<td align="left">Delighted to see the book published: #Contestation and #Constitution of #Norms in #GlobalIR ⁦ ⁦@CUP_PoliSci⁩ ⁦@CUP_Law⁩ ⁦@InternatlTheory⁩ ⁦@JacquiTrue⁩ @SassanGholiagha⁩ ⁦@JuttaBrunnee⁩ @womenalsoknow⁩ #ecprconf18 <a href="https://t.co/IbZUclVRpd" target="_blank">https://t.co/IbZUclVRpd</a></td>
 <td align="right">19</td>
 </tr>
+
 <tr>
 <td align="left">CUP_PoliSci</td>
-<td align="left">Do you want to know what to do with your first book proposal? Read a series of blog posts from a @CambridgeUP Publisher: <a href="https://t.co/vGFEmb3r48">https://t.co/vGFEmb3r48</a> #ecprconf18 <a href="https://t.co/Z34hmGWfSe">https://t.co/Z34hmGWfSe</a></td>
+<td align="left">Do you want to know what to do with your first book proposal? Read a series of blog posts from a @CambridgeUP Publisher: <a href="https://t.co/vGFEmb3r48" target="_blank">https://t.co/vGFEmb3r48</a> #ecprconf18 <a href="https://t.co/Z34hmGWfSe" target="_blank">https://t.co/Z34hmGWfSe</a></td>
 <td align="right">18</td>
 </tr>
+
 <tr>
 <td align="left">ECPR</td>
-<td align="left">Are you joining us at the University of Hamburg for #ecprconf18? Rejoice! The printed programme is now available to view online <a href="https://t.co/GN8e81PaXx">https://t.co/GN8e81PaXx</a> <a href="https://t.co/4lZBbhLxV0">https://t.co/4lZBbhLxV0</a></td>
+<td align="left">Are you joining us at the University of Hamburg for #ecprconf18? Rejoice! The printed programme is now available to view online <a href="https://t.co/GN8e81PaXx" target="_blank">https://t.co/GN8e81PaXx</a> <a href="https://t.co/4lZBbhLxV0" target="_blank">https://t.co/4lZBbhLxV0</a></td>
 <td align="right">16</td>
 </tr>
+
 <tr>
 <td align="left">LauraSeelkopf</td>
-<td align="left">And here is the detailed programme of our section on the politics of taxation #ecprconf18 : come and listen to 7 panels with 32 papers written by 48 scholars from 40 different institutions and four continents <a href="https://t.co/1ZcM1No3ck">https://t.co/1ZcM1No3ck</a></td>
+<td align="left">And here is the detailed programme of our section on the politics of taxation #ecprconf18 : come and listen to 7 panels with 32 papers written by 48 scholars from 40 different institutions and four continents <a href="https://t.co/1ZcM1No3ck" target="_blank">https://t.co/1ZcM1No3ck</a></td>
 <td align="right">14</td>
 </tr>
+
 <tr>
 <td align="left">sarahcpolitics</td>
-<td align="left">Presenting at #ecprconf18 paper on political protest in the context of the global financial crisis. I find the crisis triggered mobilisations, but depressed participation trends more broadly. Saturday 2pm VMP 5, Rm 2067. @ValuesStudies. Download the paper: <a href="https://t.co/TlPdTydQdf">https://t.co/TlPdTydQdf</a> <a href="https://t.co/PzzAPiPrYp">https://t.co/PzzAPiPrYp</a></td>
+<td align="left">Presenting at #ecprconf18 paper on political protest in the context of the global financial crisis. I find the crisis triggered mobilisations, but depressed participation trends more broadly. Saturday 2pm VMP 5, Rm 2067. @ValuesStudies. Download the paper: <a href="https://t.co/TlPdTydQdf" target="_blank">https://t.co/TlPdTydQdf</a> <a href="https://t.co/PzzAPiPrYp" target="_blank">https://t.co/PzzAPiPrYp</a></td>
 <td align="right">14</td>
 </tr>
+
 <tr>
 <td align="left">kimgron</td>
 <td align="left">The #ecprconf18 starts on Thursday in Hamburg. We have a full #DemInno section 👍 Also, don’t miss the Standing Group on Democratic Innovations meeting on Friday at 1 pm, Building VMP 8, Room 105. Steering Committee candidates will present themselves there, election in September</td>
@@ -519,208 +547,240 @@ rt <span style="color:#f92672">%&gt;%</span>
 </tr>
 </tbody>
 </table>
+
 <h2 id="timeline">Timeline</h2>
+
 <p>What was the best time to tweet?</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#75715e">## parse date format</span>
-  <span style="color:#a6e22e">mutate</span>(
-    cdate <span style="color:#f92672">=</span> created_at <span style="color:#f92672">%&gt;%</span> 
-      <span style="color:#a6e22e">str_extract</span>(<span style="color:#e6db74">&#34;\\d{4}-\\d{2}-\\d{2}&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-      lubridate<span style="color:#f92672">::</span><span style="color:#a6e22e">ymd</span>(),
-    hour <span style="color:#f92672">=</span> lubridate<span style="color:#f92672">::</span><span style="color:#a6e22e">hour</span>(created_at)
-  ) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#75715e">## select relevant time period</span>
-  <span style="color:#a6e22e">filter</span>(cdate <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">as.Date</span>(<span style="color:#e6db74">&#34;2018-08-23&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## count tweet per and and hour</span>
-  <span style="color:#a6e22e">group_by</span>(cdate, hour) <span style="color:#f92672">%&gt;%</span>
-  tally <span style="color:#f92672">%&gt;%</span>
-  ungroup <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(hour, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_line</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## split the visualization </span>
-  <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>cdate, ncol <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Number of Tweets by Day and Hour&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Hour of the Day&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;Number of Tweets&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-5-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
+
+<pre><code class="language-r">rt %&gt;%
+  ## parse date format
+  mutate(
+    cdate = created_at %&gt;% 
+      str_extract(&quot;\\d{4}-\\d{2}-\\d{2}&quot;) %&gt;% 
+      lubridate::ymd(),
+    hour = lubridate::hour(created_at)
+  ) %&gt;%
+  ## select relevant time period
+  filter(cdate &gt;= as.Date(&quot;2018-08-23&quot;)) %&gt;% 
+  ## count tweet per and and hour
+  group_by(cdate, hour) %&gt;%
+  tally %&gt;%
+  ungroup %&gt;%
+  ggplot(aes(hour, n)) +
+  geom_line() +
+  ## split the visualization 
+  facet_wrap(~cdate, ncol = 1) +
+  theme_minimal() +
+  ggtitle(&quot;Number of Tweets by Day and Hour&quot;) +
+  xlab(&quot;Hour of the Day&quot;) +
+  ylab(&quot;Number of Tweets&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-5-1.png?raw=true" alt="" /><!-- --></p>
+
 <h2 id="mentions-network">Mentions Network</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt_graph <span style="color:#f92672">&lt;-</span> rt <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## select relevant variables</span>
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">select</span>(screen_name, mentions_screen_name) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## unnest list of mentions_screen_name</span>
-  unnest <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## count the number of coocurences</span>
-  <span style="color:#a6e22e">group_by</span>(screen_name, mentions_screen_name) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">tally</span>(sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span>
-  ungroup <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## drop missing values</span>
-  drop_na <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## filter those coocurences that appear at least 2 times</span>
-  <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## transforming the dataframe to a graph object</span>
-  <span style="color:#a6e22e">as_tbl_graph</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## calculating node centrality</span>
-  <span style="color:#a6e22e">mutate</span>(popularity <span style="color:#f92672">=</span> <span style="color:#a6e22e">centrality_degree</span>(mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;in&#39;</span>))
 
-rt_graph <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## create graph layout</span>
-  <span style="color:#a6e22e">ggraph</span>(layout <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;kk&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## define edge aestetics</span>
-  <span style="color:#a6e22e">geom_edge_fan</span>(<span style="color:#a6e22e">aes</span>(alpha <span style="color:#f92672">=</span> n, edge_width <span style="color:#f92672">=</span> n, color <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## scale down link saturation</span>
-  <span style="color:#a6e22e">scale_edge_alpha</span>(range <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.5</span>, <span style="color:#ae81ff">.9</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define note size param</span>
-  <span style="color:#a6e22e">scale_edge_color_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray50&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#1874CD&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_point</span>(<span style="color:#a6e22e">aes</span>(size <span style="color:#f92672">=</span> popularity), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray30&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## equal width and height</span>
-  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## plain theme</span>
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## title</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;#ecprconf18 Twitter Mentions Network&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt_graph <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## create graph layout</span>
-  <span style="color:#a6e22e">ggraph</span>(layout <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;kk&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## define edge aestetics</span>
-  <span style="color:#a6e22e">geom_edge_fan</span>(<span style="color:#a6e22e">aes</span>(alpha <span style="color:#f92672">=</span> n, edge_width <span style="color:#f92672">=</span> n, color <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## scale down link saturation</span>
-  <span style="color:#a6e22e">scale_edge_alpha</span>(range <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.5</span>, <span style="color:#ae81ff">.9</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define note size param</span>
-  <span style="color:#a6e22e">scale_edge_color_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray50&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#1874CD&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_point</span>(<span style="color:#a6e22e">aes</span>(size <span style="color:#f92672">=</span> popularity), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray30&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define node labels</span>
-  <span style="color:#a6e22e">geom_node_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> name), repel <span style="color:#f92672">=</span> T, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## equal width and height</span>
-  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## plain theme</span>
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## title</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;#ecprconf18 Twitter Mentions Network&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-2.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt_graph <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## create graph layout</span>
-  <span style="color:#a6e22e">ggraph</span>(layout <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;circle&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## define edge aestetics</span>
-  <span style="color:#a6e22e">geom_edge_fan</span>(<span style="color:#a6e22e">aes</span>(alpha <span style="color:#f92672">=</span> n, edge_width <span style="color:#f92672">=</span> n, color <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## scale down link saturation</span>
-  <span style="color:#a6e22e">scale_edge_alpha</span>(range <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.5</span>, <span style="color:#ae81ff">.9</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define note size param</span>
-  <span style="color:#a6e22e">scale_edge_color_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray50&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#1874CD&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_point</span>(<span style="color:#a6e22e">aes</span>(size <span style="color:#f92672">=</span> popularity), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray30&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define node labels</span>
-  <span style="color:#a6e22e">geom_node_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> name), repel <span style="color:#f92672">=</span> F, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## equal width and height</span>
-  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## plain theme</span>
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## title</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;#ecprconf18 Twitter Mentions Network&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-3.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<h3 id="smaller-mentions-network-n--2">Smaller Mentions Network (n &gt; 2)</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt_graph2 <span style="color:#f92672">&lt;-</span> rt <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## select relevant variables</span>
-  dplyr<span style="color:#f92672">::</span><span style="color:#a6e22e">select</span>(screen_name, mentions_screen_name) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## unnest list of mentions_screen_name</span>
-  unnest <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## count the number of coocurences</span>
-  <span style="color:#a6e22e">group_by</span>(screen_name, mentions_screen_name) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">tally</span>(sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span>
-  ungroup <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## drop missing values</span>
-  drop_na <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## filter those coocurences that appear at least 2 times</span>
-  <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## transforming the dataframe to a graph object</span>
-  <span style="color:#a6e22e">as_tbl_graph</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## calculating node centrality</span>
-  <span style="color:#a6e22e">mutate</span>(popularity <span style="color:#f92672">=</span> <span style="color:#a6e22e">centrality_degree</span>(mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;in&#39;</span>))
+<pre><code class="language-r">rt_graph &lt;- rt %&gt;% 
+  ## select relevant variables
+  dplyr::select(screen_name, mentions_screen_name) %&gt;% 
+  ## unnest list of mentions_screen_name
+  unnest %&gt;% 
+  ## count the number of coocurences
+  group_by(screen_name, mentions_screen_name) %&gt;% 
+  tally(sort = T) %&gt;%
+  ungroup %&gt;% 
+  ## drop missing values
+  drop_na %&gt;% 
+  ## filter those coocurences that appear at least 2 times
+  filter(n &gt; 1) %&gt;% 
+  ## transforming the dataframe to a graph object
+  as_tbl_graph() %&gt;% 
+  ## calculating node centrality
+  mutate(popularity = centrality_degree(mode = 'in'))
 
-rt_graph2 <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## create graph layout</span>
-  <span style="color:#a6e22e">ggraph</span>(layout <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;kk&#34;</span>) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## define edge aestetics</span>
-  <span style="color:#a6e22e">geom_edge_fan</span>(<span style="color:#a6e22e">aes</span>(alpha <span style="color:#f92672">=</span> n, edge_width <span style="color:#f92672">=</span> n, color <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span> 
-  <span style="color:#75715e">## scale down link saturation</span>
-  <span style="color:#a6e22e">scale_edge_alpha</span>(range <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">.5</span>, <span style="color:#ae81ff">.9</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## define note size param</span>
-  <span style="color:#a6e22e">scale_edge_color_gradient</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray50&#34;</span>, high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#1874CD&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_point</span>(<span style="color:#a6e22e">aes</span>(size <span style="color:#f92672">=</span> popularity), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray30&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## equal width and height</span>
-  <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> name), repel <span style="color:#f92672">=</span> T, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## plain theme</span>
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-  <span style="color:#75715e">## title</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;#ecprconf18 Twitter Mentions Network&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-7-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
+rt_graph %&gt;% 
+  ## create graph layout
+  ggraph(layout = &quot;kk&quot;) + 
+  ## define edge aestetics
+  geom_edge_fan(aes(alpha = n, edge_width = n, color = n)) + 
+  ## scale down link saturation
+  scale_edge_alpha(range = c(.5, .9)) +
+  ## define note size param
+  scale_edge_color_gradient(low = &quot;gray50&quot;, high = &quot;#1874CD&quot;) +
+  geom_node_point(aes(size = popularity), color = &quot;gray30&quot;) +
+  ## equal width and height
+  coord_fixed() +
+  ## plain theme
+  theme_void() +
+  ## title
+  ggtitle(&quot;#ecprconf18 Twitter Mentions Network&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">rt_graph %&gt;% 
+  ## create graph layout
+  ggraph(layout = &quot;kk&quot;) + 
+  ## define edge aestetics
+  geom_edge_fan(aes(alpha = n, edge_width = n, color = n)) + 
+  ## scale down link saturation
+  scale_edge_alpha(range = c(.5, .9)) +
+  ## define note size param
+  scale_edge_color_gradient(low = &quot;gray50&quot;, high = &quot;#1874CD&quot;) +
+  geom_node_point(aes(size = popularity), color = &quot;gray30&quot;) +
+  ## define node labels
+  geom_node_text(aes(label = name), repel = T, fontface = &quot;bold&quot;) +
+  ## equal width and height
+  coord_fixed() +
+  ## plain theme
+  theme_void() +
+  ## title
+  ggtitle(&quot;#ecprconf18 Twitter Mentions Network&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-2.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">rt_graph %&gt;% 
+  ## create graph layout
+  ggraph(layout = &quot;circle&quot;) + 
+  ## define edge aestetics
+  geom_edge_fan(aes(alpha = n, edge_width = n, color = n)) + 
+  ## scale down link saturation
+  scale_edge_alpha(range = c(.5, .9)) +
+  ## define note size param
+  scale_edge_color_gradient(low = &quot;gray50&quot;, high = &quot;#1874CD&quot;) +
+  geom_node_point(aes(size = popularity), color = &quot;gray30&quot;) +
+  ## define node labels
+  geom_node_text(aes(label = name), repel = F, fontface = &quot;bold&quot;) +
+  ## equal width and height
+  coord_fixed() +
+  ## plain theme
+  theme_void() +
+  ## title
+  ggtitle(&quot;#ecprconf18 Twitter Mentions Network&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-6-3.png?raw=true" alt="" /><!-- --></p>
+
+<h3 id="smaller-mentions-network-n-2">Smaller Mentions Network (n &gt; 2)</h3>
+
+<pre><code class="language-r">rt_graph2 &lt;- rt %&gt;% 
+  ## select relevant variables
+  dplyr::select(screen_name, mentions_screen_name) %&gt;% 
+  ## unnest list of mentions_screen_name
+  unnest %&gt;% 
+  ## count the number of coocurences
+  group_by(screen_name, mentions_screen_name) %&gt;% 
+  tally(sort = T) %&gt;%
+  ungroup %&gt;% 
+  ## drop missing values
+  drop_na %&gt;% 
+  ## filter those coocurences that appear at least 2 times
+  filter(n &gt; 2) %&gt;% 
+  ## transforming the dataframe to a graph object
+  as_tbl_graph() %&gt;% 
+  ## calculating node centrality
+  mutate(popularity = centrality_degree(mode = 'in'))
+
+rt_graph2 %&gt;% 
+  ## create graph layout
+  ggraph(layout = &quot;kk&quot;) + 
+  ## define edge aestetics
+  geom_edge_fan(aes(alpha = n, edge_width = n, color = n)) + 
+  ## scale down link saturation
+  scale_edge_alpha(range = c(.5, .9)) +
+  ## define note size param
+  scale_edge_color_gradient(low = &quot;gray50&quot;, high = &quot;#1874CD&quot;) +
+  geom_node_point(aes(size = popularity), color = &quot;gray30&quot;) +
+  ## equal width and height
+  coord_fixed() +
+  geom_node_text(aes(label = name), repel = T, fontface = &quot;bold&quot;) +
+  ## plain theme
+  theme_void() +
+  ## title
+  ggtitle(&quot;#ecprconf18 Twitter Mentions Network&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-7-1.png?raw=true" alt="" /><!-- --></p>
+
 <h2 id="most-frequent-hashtags">Most Frequent Hashtags</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rt_hashtags <span style="color:#f92672">&lt;-</span> rt <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(hashtags) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## unnest list of hastags</span>
-  unnest <span style="color:#f92672">%&gt;%</span> 
-    na.omit <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## clean hashtags</span>
-  <span style="color:#a6e22e">mutate</span>(hashtags <span style="color:#f92672">=</span> stringr<span style="color:#f92672">::</span><span style="color:#a6e22e">str_to_lower</span>(hashtags) <span style="color:#f92672">%&gt;%</span> 
-           <span style="color:#a6e22e">str_replace_all</span>(<span style="color:#e6db74">&#34;2018&#34;</span>, <span style="color:#e6db74">&#34;18&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-           <span style="color:#75715e">## add #symbol to vector</span>
-           <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;#&#34;</span>, .)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## count each hashtag and sort</span>
-  <span style="color:#a6e22e">count</span>(hashtags, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>)
 
-rt_hashtags <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(hashtags <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;#ecprconf18&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(hashtags <span style="color:#f92672">=</span> forcats<span style="color:#f92672">::</span><span style="color:#a6e22e">fct_reorder</span>(hashtags, n)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(hashtags, n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">.7</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Most Frequent Hastags related to #ecprconf18&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-8-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
+<pre><code class="language-r">rt_hashtags &lt;- rt %&gt;% 
+  select(hashtags) %&gt;% 
+  ## unnest list of hastags
+  unnest %&gt;% 
+    na.omit %&gt;% 
+  ## clean hashtags
+  mutate(hashtags = stringr::str_to_lower(hashtags) %&gt;% 
+           str_replace_all(&quot;2018&quot;, &quot;18&quot;) %&gt;% 
+           ## add #symbol to vector
+           paste0(&quot;#&quot;, .)) %&gt;% 
+  ## count each hashtag and sort
+  count(hashtags, sort = T) %&gt;% 
+  filter(n &gt; 5)
+
+rt_hashtags %&gt;% 
+  filter(hashtags != &quot;#ecprconf18&quot;) %&gt;%
+  mutate(hashtags = forcats::fct_reorder(hashtags, n)) %&gt;% 
+  ggplot(aes(hashtags, n)) +
+  geom_bar(stat = &quot;identity&quot;, alpha = .7) +
+  coord_flip() +
+  theme_minimal() +
+  ggtitle(&quot;Most Frequent Hastags related to #ecprconf18&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-8-1.png?raw=true" alt="" /><!-- --></p>
+
 <h2 id="most-frequent-bigram-network">Most Frequent Bigram Network</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_bigram <span style="color:#f92672">&lt;-</span> rt <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">select</span>(text) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## remove text noise</span>
-  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> stringr<span style="color:#f92672">::</span><span style="color:#a6e22e">str_remove_all</span>(text, <span style="color:#e6db74">&#34;w |amp &#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## remove retweets</span>
-  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span>stringr<span style="color:#f92672">::</span><span style="color:#a6e22e">str_detect</span>(text, <span style="color:#e6db74">&#34;^RT&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## remove urls</span>
-  <span style="color:#a6e22e">mutate</span>(text <span style="color:#f92672">=</span> stringr<span style="color:#f92672">::</span><span style="color:#a6e22e">str_remove_all</span>(text, <span style="color:#e6db74">&#34;https?[:]//[[:graph:]]+&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">n</span>()) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## split text into words</span>
-  tidytext<span style="color:#f92672">::</span><span style="color:#a6e22e">unnest_tokens</span>(word, text, token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;words&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## remove stop words</span>
-  <span style="color:#a6e22e">anti_join</span>(tidytext<span style="color:#f92672">::</span>stop_words) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## paste words to text by id</span>
-  <span style="color:#a6e22e">group_by</span>(id) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">summarise</span>(text <span style="color:#f92672">=</span> <span style="color:#a6e22e">paste</span>(word, collapse <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  ungroup <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## again split text into bigrams (word occurences or collocations)</span>
-  tidytext<span style="color:#f92672">::</span><span style="color:#a6e22e">unnest_tokens</span>(bigram, text, token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ngrams&#34;</span>, n <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">separate</span>(bigram, <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;word1&#34;</span>, <span style="color:#e6db74">&#34;word2&#34;</span>), sep <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34; &#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## remove the hashtag and count bigrams </span>
-  <span style="color:#a6e22e">filter</span>(word1 <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;ecprconf18&#34;</span>, word2 <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;ecprconf18&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">count</span>(word1, word2, sort <span style="color:#f92672">=</span> T) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## select first 100</span>
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">100</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">drop_na</span>() <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#75715e">## create tidy graph object</span>
-  <span style="color:#a6e22e">as_tbl_graph</span>() <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e">## calculate node centrality</span>
-  <span style="color:#a6e22e">mutate</span>(Popularity <span style="color:#f92672">=</span> <span style="color:#a6e22e">centrality_degree</span>(mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;in&#39;</span>))
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">gg_bigram <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggraph</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_edge_link</span>(<span style="color:#a6e22e">aes</span>(edge_alpha <span style="color:#f92672">=</span> n, edge_width <span style="color:#f92672">=</span> n)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_node_point</span>(<span style="color:#a6e22e">aes</span>(size <span style="color:#f92672">=</span> Popularity)) <span style="color:#f92672">+</span> 
-  <span style="color:#a6e22e">geom_node_text</span>(<span style="color:#a6e22e">aes</span>(label <span style="color:#f92672">=</span> name),  repel <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme_void</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_edge_alpha</span>(<span style="color:#e6db74">&#34;&#34;</span>, range <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.3</span>, <span style="color:#ae81ff">.6</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Top Bigram Network from Tweets using hashtag #ecprconf18&#34;</span>)
-</code></pre></div><p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-10-1.png?raw=true" alt=""><!-- raw HTML omitted --></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">sessionInfo</span>()
-</code></pre></div><pre><code>## R version 3.5.0 (2018-04-23)
+
+<pre><code class="language-r">gg_bigram &lt;- rt %&gt;%
+  select(text) %&gt;% 
+  ## remove text noise
+  mutate(text = stringr::str_remove_all(text, &quot;w |amp &quot;)) %&gt;% 
+  ## remove retweets
+  filter(!stringr::str_detect(text, &quot;^RT&quot;)) %&gt;% 
+  ## remove urls
+  mutate(text = stringr::str_remove_all(text, &quot;https?[:]//[[:graph:]]+&quot;)) %&gt;% 
+  mutate(id = 1:n()) %&gt;% 
+  ## split text into words
+  tidytext::unnest_tokens(word, text, token = &quot;words&quot;) %&gt;% 
+  ## remove stop words
+  anti_join(tidytext::stop_words) %&gt;% 
+  ## paste words to text by id
+  group_by(id) %&gt;% 
+  summarise(text = paste(word, collapse = &quot; &quot;)) %&gt;% 
+  ungroup %&gt;% 
+  ## again split text into bigrams (word occurences or collocations)
+  tidytext::unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2) %&gt;% 
+  separate(bigram, c(&quot;word1&quot;, &quot;word2&quot;), sep = &quot; &quot;) %&gt;% 
+  ## remove the hashtag and count bigrams 
+  filter(word1 != &quot;ecprconf18&quot;, word2 != &quot;ecprconf18&quot;) %&gt;%
+  count(word1, word2, sort = T) %&gt;% 
+  ## select first 100
+  slice(1:100) %&gt;% 
+  drop_na() %&gt;%
+  ## create tidy graph object
+  as_tbl_graph() %&gt;% 
+  ## calculate node centrality
+  mutate(Popularity = centrality_degree(mode = 'in'))
+</code></pre>
+
+<pre><code class="language-r">gg_bigram %&gt;% 
+  ggraph() +
+  geom_edge_link(aes(edge_alpha = n, edge_width = n)) +
+  geom_node_point(aes(size = Popularity)) + 
+  geom_node_text(aes(label = name),  repel = TRUE) +
+  theme_void() +
+  scale_edge_alpha(&quot;&quot;, range = c(0.3, .6)) +
+  ggtitle(&quot;Top Bigram Network from Tweets using hashtag #ecprconf18&quot;)
+</code></pre>
+
+<p><img src="https://github.com/favstats/ecprconf2018_twitter/blob/master/ecprconf2018_twitter_files/figure-gfm/unnamed-chunk-10-1.png?raw=true" alt="" /><!-- --></p>
+
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.5.0 (2018-04-23)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows 10 x64 (build 17134)
 ## 
@@ -840,7 +900,7 @@ rt_hashtags <span style="color:#f92672">%&gt;%</span>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

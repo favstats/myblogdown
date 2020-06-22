@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     
@@ -6,60 +7,6 @@
     
       <loc>/post/demdebates/</loc>
       <lastmod>2020-02-13T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/elections/</loc>
-      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/</loc>
-      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/rstats/</loc>
-      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/</loc>
-      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/package/</loc>
-      <lastmod>2020-02-05T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/project/</loc>
-      <lastmod>2020-02-05T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -85,33 +32,6 @@
     
     <url>
     
-      <loc>/tags/vdem/</loc>
-      <lastmod>2020-01-30T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/publication_types/2/</loc>
-      <lastmod>2019-07-26T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/publication_types/</loc>
-      <lastmod>2019-07-26T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/publication/radical_filter_bubbles/</loc>
       <lastmod>2019-07-26T00:00:00+00:00</lastmod>
     </url>
@@ -130,15 +50,6 @@
     
     <url>
     
-      <loc>/tags/extremism/</loc>
-      <lastmod>2019-06-26T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/project/tasm2019/</loc>
       <lastmod>2019-06-26T00:00:00+00:00</lastmod>
     </url>
@@ -148,44 +59,8 @@
     
     <url>
     
-      <loc>/tags/vox-pol/</loc>
-      <lastmod>2019-06-26T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/blog/</loc>
-      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/project/dataforprogress/</loc>
       <lastmod>2019-05-23T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/dataviz/</loc>
-      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/game-of-thrones/</loc>
-      <lastmod>2019-05-22T00:00:00+02:00</lastmod>
     </url>
     
   
@@ -211,25 +86,7 @@
     
     <url>
     
-      <loc>/tags/functions/</loc>
-      <lastmod>2019-05-14T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/exploring_us_refugee_data/</loc>
-      <lastmod>2019-04-27T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/refugees/</loc>
       <lastmod>2019-04-27T00:00:00+02:00</lastmod>
     </url>
     
@@ -247,62 +104,8 @@
     
     <url>
     
-      <loc>/tags/trump/</loc>
-      <lastmod>2019-02-16T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/xaringan_tut/</loc>
       <lastmod>2018-12-29T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/example/</loc>
-      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/slides/</loc>
-      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/tutorial/</loc>
-      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/xaringan/</loc>
-      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/538/</loc>
-      <lastmod>2018-11-09T00:00:00+01:00</lastmod>
     </url>
     
   
@@ -321,24 +124,6 @@
     
       <loc>/post/trump_endorsements/</loc>
       <lastmod>2018-11-08T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/politics/</loc>
-      <lastmod>2018-11-08T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/hoax/</loc>
-      <lastmod>2018-10-04T00:00:00+02:00</lastmod>
     </url>
     
   
@@ -409,43 +194,7 @@
     
     <url>
     
-      <loc>/tags/simulation/</loc>
-      <lastmod>2018-08-28T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/ecprconf18/</loc>
-      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/conferences/</loc>
-      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/ggraph/</loc>
-      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/twitter/</loc>
       <lastmod>2018-08-25T00:00:00+02:00</lastmod>
     </url>
     
@@ -465,33 +214,6 @@
     
       <loc>/project/godly/</loc>
       <lastmod>2018-06-30T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/survey/</loc>
-      <lastmod>2018-06-30T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/wapor/</loc>
-      <lastmod>2018-06-30T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/publication_types/3/</loc>
-      <lastmod>2018-06-29T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -544,33 +266,6 @@
     
     <url>
     
-      <loc>/tags/ggmap/</loc>
-      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/ggplot/</loc>
-      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/highcharter/</loc>
-      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/terror_map/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
     </url>
@@ -582,51 +277,6 @@
     
       <loc>/post/tidylocations/</loc>
       <lastmod>2018-01-03T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/maps/</loc>
-      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/arab-barometer/</loc>
-      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/daesh/</loc>
-      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/isis/</loc>
-      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/survey-data/</loc>
-      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
     </url>
     
   
@@ -679,15 +329,6 @@
     
     <url>
     
-      <loc>/tags/r-group/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/post/impakter/</loc>
     </url>
     
@@ -696,7 +337,418 @@
     
     <url>
     
+      <loc>/publication_types/2/</loc>
+      <lastmod>2019-07-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication_types/3/</loc>
+      <lastmod>2018-06-29T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/538/</loc>
+      <lastmod>2018-11-09T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/arab-barometer/</loc>
+      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/blog/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/</loc>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/daesh/</loc>
+      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/dataviz/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/extremism/</loc>
+      <lastmod>2019-06-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/game-of-thrones/</loc>
+      <lastmod>2019-05-22T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/isis/</loc>
+      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/project/</loc>
+      <lastmod>2020-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication_types/</loc>
+      <lastmod>2019-07-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/survey/</loc>
+      <lastmod>2018-06-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/survey-data/</loc>
+      <lastmod>2017-12-27T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/</loc>
+      <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/vox-pol/</loc>
+      <lastmod>2019-06-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/wapor/</loc>
+      <lastmod>2018-06-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/conferences/</loc>
+      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/dataviz/</loc>
+      <lastmod>2019-05-22T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/elections/</loc>
+      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/example/</loc>
+      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/</loc>
+      <lastmod>2017-12-25T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/functions/</loc>
+      <lastmod>2019-05-14T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/ggmap/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/ggplot/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/ggraph/</loc>
+      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/highcharter/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/hoax/</loc>
+      <lastmod>2018-10-04T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/maps/</loc>
+      <lastmod>2018-01-03T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/package/</loc>
+      <lastmod>2020-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/politics/</loc>
+      <lastmod>2018-11-08T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/r-group/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/refugees/</loc>
+      <lastmod>2019-04-27T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/rstats/</loc>
+      <lastmod>2020-02-13T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/simulation/</loc>
+      <lastmod>2018-08-28T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/slides/</loc>
+      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/trump/</loc>
+      <lastmod>2019-02-16T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/tutorial/</loc>
+      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/twitter/</loc>
+      <lastmod>2018-08-25T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/vdem/</loc>
+      <lastmod>2020-01-30T00:00:00+01:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/xaringan/</loc>
+      <lastmod>2018-12-29T00:00:00+01:00</lastmod>
+      <priority>0</priority>
     </url>
     
   

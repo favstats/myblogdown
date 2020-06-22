@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>vdem on favstats - personal blog</title>
@@ -18,7 +18,9 @@
       <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
       
       <guid>/post/greatest_body/</guid>
-      <description>Who has the greatest deliberative body in the world?</description>
+      <description>The U.S. Senate is the &amp;ldquo;greatest deliberative body in the world&amp;rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?
+I am not aware of a measure that looks at individual parliamentary bodies but V-Dem has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.
+Packages First, let&amp;rsquo;s load some necessary packages.</description>
     </item>
     
   </channel>

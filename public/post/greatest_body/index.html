@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.69.2" />
+  <meta name="generator" content="Hugo 0.53" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Empirical Social and Political Research">
 
@@ -334,130 +334,156 @@
 
 
       <div class="article-style" itemprop="articleBody">
-        <p>The U.S. Senate is the &ldquo;greatest deliberative body in the world&rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?</p>
-<p>I am not aware of a measure that looks at individual parliamentary bodies but <a href="https://www.v-dem.net/en/">V-Dem</a> has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.</p>
+        
+
+<p>The U.S. Senate is the &ldquo;greatest deliberative body in the world&rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?</p>
+
+<p>I am not aware of a measure that looks at individual parliamentary bodies but <a href="https://www.v-dem.net/en/" target="_blank">V-Dem</a> has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.</p>
+
 <h2 id="packages">Packages</h2>
+
 <p>First, let&rsquo;s load some necessary packages.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Install these packages if you don&#39;t have them yet</span>
-<span style="color:#75715e"># if (!require(&#34;pacman&#34;)) install.packages(&#34;pacman&#34;)</span>
-<span style="color:#75715e"># devtools::install_github(&#34;favstats/tidytemplate&#34;)</span>
 
-pacman<span style="color:#f92672">::</span><span style="color:#a6e22e">p_load</span>(tidyverse, tidytemplate, ggtext)
-</code></pre></div><h2 id="load-data">Load Data</h2>
+<pre><code class="language-r"># Install these packages if you don't have them yet
+# if (!require(&quot;pacman&quot;)) install.packages(&quot;pacman&quot;)
+# devtools::install_github(&quot;favstats/tidytemplate&quot;)
+
+pacman::p_load(tidyverse, tidytemplate, ggtext)
+</code></pre>
+
+<h2 id="load-data">Load Data</h2>
+
 <p>Let&rsquo;s load in the V-Dem data.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">vdem <span style="color:#f92672">&lt;-</span> readr<span style="color:#f92672">::</span><span style="color:#a6e22e">read_rds</span>(<span style="color:#e6db74">&#34;data/V-Dem-CY-Full+Others-v9.rds&#34;</span>)
-</code></pre></div><p>So what does the data say? There are many sub-dimensions to deliberation but here we are going to focus on one of them: &ldquo;respecting counter-arguments&rdquo;.</p>
-<p><img src="/img/vdem_info.jpg" alt=""></p>
+
+<pre><code class="language-r">vdem &lt;- readr::read_rds(&quot;data/V-Dem-CY-Full+Others-v9.rds&quot;)
+</code></pre>
+
+<p>So what does the data say? There are many sub-dimensions to deliberation but here we are going to focus on one of them: &ldquo;respecting counter-arguments&rdquo;.</p>
+
+<p><img src="/img/vdem_info.jpg" alt="" /></p>
+
 <p>A map of the most recent data (2018) reveals that the US is not the &ldquo;greatest&rdquo; when it comes to deliberation.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">world_dat <span style="color:#f92672">&lt;-</span> ggplot2<span style="color:#f92672">::</span><span style="color:#a6e22e">map_data</span>(<span style="color:#e6db74">&#34;world&#34;</span>)
+
+<pre><code class="language-r">world_dat &lt;- ggplot2::map_data(&quot;world&quot;)
 
 
-delib_map <span style="color:#f92672">&lt;-</span> vdem <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(v2dlcountr <span style="color:#f92672">=</span> v2dlcountr_mean) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(v2dlcountr, country_name, year) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(v2dlcountr <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(v2dlcountr) <span style="color:#f92672">%&gt;%</span> as.factor) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(region <span style="color:#f92672">=</span> countrycode<span style="color:#f92672">::</span><span style="color:#a6e22e">countrycode</span>(country_name, <span style="color:#e6db74">&#34;country.name&#34;</span>, <span style="color:#e6db74">&#34;country.name&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">right_join</span>(
-    world_dat <span style="color:#f92672">%&gt;%</span> 
-      <span style="color:#a6e22e">mutate</span>(region <span style="color:#f92672">=</span> countrycode<span style="color:#f92672">::</span><span style="color:#a6e22e">countrycode</span>(region, <span style="color:#e6db74">&#34;country.name&#34;</span>, <span style="color:#e6db74">&#34;country.name&#34;</span>))
+delib_map &lt;- vdem %&gt;% 
+  filter(year == 2018) %&gt;%
+  mutate(v2dlcountr = v2dlcountr_mean) %&gt;% 
+  select(v2dlcountr, country_name, year) %&gt;%
+  mutate(v2dlcountr = round(v2dlcountr) %&gt;% as.factor) %&gt;% 
+  mutate(region = countrycode::countrycode(country_name, &quot;country.name&quot;, &quot;country.name&quot;)) %&gt;% 
+  right_join(
+    world_dat %&gt;% 
+      mutate(region = countrycode::countrycode(region, &quot;country.name&quot;, &quot;country.name&quot;))
     ) 
 
 
-delib_map <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#75715e"># filter(is.na(v2dlcountr)) %&gt;% </span>
-  <span style="color:#a6e22e">filter</span>(region <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;Antarctica&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(region <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;Greenland&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(v2dlcountr)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(long, lat)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_polygon</span>(<span style="color:#a6e22e">aes</span>( group <span style="color:#f92672">=</span> group, fill <span style="color:#f92672">=</span> v2dlcountr),  
-               color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.2</span>) <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_map</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_fill_viridis_d</span>(<span style="color:#e6db74">&#34;Respect Counterarguments\n&#34;</span>, 
-                       breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span>, 
-                       limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>),
-                       labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(
-                         <span style="color:#e6db74">&#34;0: Counterarguments are not allowed or\nif articulated, punished.&#34;</span>, 
-                         <span style="color:#e6db74">&#34;1: Counterarguments are allowed at least from\nsome parties, but almost always are ignored.&#34;</span>, 
-                         <span style="color:#e6db74">&#34;2: Elites tend to acknowledge counterarguments\nbut then explicitly degrade them.&#34;</span>, 
-                         <span style="color:#e6db74">&#34;3: Elites tend to acknowledge counterarguments\nwithout making explicit negative or positive statements.&#34;</span>, 
-                         <span style="color:#e6db74">&#34;4: Elites almost always acknowledge counterarguments,\n even if they ultimately reject them.&#34;</span>, 
-                         <span style="color:#e6db74">&#34;5: Elites almost always acknowledge counterarguments\nand even accept them and change their position.&#34;</span>
+delib_map %&gt;% 
+  # filter(is.na(v2dlcountr)) %&gt;% 
+  filter(region != &quot;Antarctica&quot;) %&gt;% 
+  filter(region != &quot;Greenland&quot;) %&gt;% 
+  arrange(desc(v2dlcountr)) %&gt;% 
+  ggplot(aes(long, lat)) +
+  geom_polygon(aes( group = group, fill = v2dlcountr),  
+               color = &quot;white&quot;, alpha = 0.8, size = 0.2) +
+  ggthemes::theme_map() +
+  scale_fill_viridis_d(&quot;Respect Counterarguments\n&quot;, 
+                       breaks = 0:5, 
+                       limits = c(0,1, 2,3,4, 5),
+                       labels = c(
+                         &quot;0: Counterarguments are not allowed or\nif articulated, punished.&quot;, 
+                         &quot;1: Counterarguments are allowed at least from\nsome parties, but almost always are ignored.&quot;, 
+                         &quot;2: Elites tend to acknowledge counterarguments\nbut then explicitly degrade them.&quot;, 
+                         &quot;3: Elites tend to acknowledge counterarguments\nwithout making explicit negative or positive statements.&quot;, 
+                         &quot;4: Elites almost always acknowledge counterarguments,\n even if they ultimately reject them.&quot;, 
+                         &quot;5: Elites almost always acknowledge counterarguments\nand even accept them and change their position.&quot;
                          )
-                       ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_map</span>(xlim<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-180</span>,<span style="color:#ae81ff">180</span>)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who has the **Greatest Deliberative Body** in the world?&#34;</span>, 
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&lt;br&gt;&#34;</span>,
-    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data Source: V-Dem v9 (2018). Data Visualization: @favstats&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-        plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-0.05</span>, <span style="color:#ae81ff">0.075</span>),
-    legend.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-    legend.box.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
-    legend.key <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>()
-  ) <span style="color:#75715e">#+ guides(fill = guide_colourbar(barheight = 12))</span>
-</code></pre></div><p><img src="/img/delib_map.png" alt=""><!-- raw HTML omitted --></p>
+                       ) +
+  coord_map(xlim=c(-180,180)) +
+  labs(title = &quot;Who has the **Greatest Deliberative Body** in the world?&quot;, 
+       subtitle = &quot;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&lt;br&gt;&quot;,
+    caption = &quot;Data Source: V-Dem v9 (2018). Data Visualization: @favstats&quot;) +
+  theme(
+        plot.title = element_markdown(color = &quot;black&quot;,
+                                  size = 30, hjust = 0.5),
+        plot.subtitle = element_markdown(color = &quot;black&quot;,
+                                  size = 15, hjust = 0.5),
+        plot.caption = element_text(size = 12),
+        legend.position = c(-0.05, 0.075),
+    legend.background = element_blank(),
+    legend.box.background = element_blank(),
+    legend.key = element_blank()
+  ) #+ guides(fill = guide_colourbar(barheight = 12))
+</code></pre>
+
+<p><img src="/img/delib_map.png" alt="" /><!-- --></p>
+
 <p>In fact, we have to plot the 100 most deliberative countries in order to even reach the United States on this scale which is rank at 88th place (!). The US ranks more poorly on respecting counterarguments than most European and many developing countries. Why is that the case?</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">vdem <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(v2dlcountr_mean, country_name, year) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(v2dlcountr_mean)) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">slice</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">100</span>) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">mutate</span>(label <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(country_name <span style="color:#f92672">%in%</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;United States of America&#34;</span>), <span style="color:#e6db74">&#34;US&#34;</span>, <span style="color:#e6db74">&#34;not us&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(country_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">fct_reorder</span>(country_name, v2dlcountr_mean)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(country_name, v2dlcountr_mean, fill <span style="color:#f92672">=</span> label)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_col</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">coord_flip</span>() <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>()  <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_fill_colorblind</span>()  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who has the **Greatest Deliberative Body** in the world?&#34;</span>, 
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&lt;br&gt;&#34;</span>,
-    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nRespect Counterarguments (0 = No - 5 = Yes, and change minds)&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-        plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>
+
+<pre><code class="language-r">vdem %&gt;% 
+  select(v2dlcountr_mean, country_name, year) %&gt;% 
+  filter(year == 2018) %&gt;%
+  arrange(desc(v2dlcountr_mean)) %&gt;%
+  slice(1:100) %&gt;%
+  mutate(label = ifelse(country_name %in% c(&quot;United States of America&quot;), &quot;US&quot;, &quot;not us&quot;)) %&gt;% 
+  mutate(country_name = fct_reorder(country_name, v2dlcountr_mean)) %&gt;% 
+  ggplot(aes(country_name, v2dlcountr_mean, fill = label)) +
+  geom_col() +
+  coord_flip() +
+  ggthemes::theme_hc()  +
+  ggthemes::scale_fill_colorblind()  +
+  labs(title = &quot;Who has the **Greatest Deliberative Body** in the world?&quot;, 
+       subtitle = &quot;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&lt;br&gt;&quot;,
+    caption = &quot;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&quot;, x = &quot;&quot;, y = &quot;\nRespect Counterarguments (0 = No - 5 = Yes, and change minds)&quot;) +
+  theme(
+        plot.title = element_markdown(color = &quot;black&quot;,
+                                  size = 23, hjust = 0.5),
+        plot.subtitle = element_markdown(color = &quot;black&quot;,
+                                  size = 13, hjust = 0.5),
+        plot.caption = element_text(size = 12),
+        legend.position = &quot;none&quot;
   ) 
-</code></pre></div><p><img src="/img/delib_bars.png" alt=""><!-- raw HTML omitted --></p>
+</code></pre>
+
+<p><img src="/img/delib_bars.png" alt="" /><!-- --></p>
+
 <p>Looking at the data over time may allow us some insights. We can see that the US was actually at a highpoint in 2012.. but 2017 and 2018 have seen the lowest score ever assigned to the US Since 1900 (!). One may argue that the election 2016 may have something to do with this.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">cntry_list <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;United States&#34;</span>, <span style="color:#e6db74">&#34;Norway&#34;</span>, <span style="color:#e6db74">&#34;Russia&#34;</span>, <span style="color:#e6db74">&#34;Germany&#34;</span>, <span style="color:#e6db74">&#34;Israel&#34;</span>)
 
-label_dat <span style="color:#f92672">&lt;-</span> vdem <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">==</span> <span style="color:#ae81ff">2018</span>) <span style="color:#f92672">%&gt;%</span>
-                              <span style="color:#a6e22e">mutate</span>(country_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(country_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;United States of America&#34;</span>, <span style="color:#e6db74">&#34;United States&#34;</span>, country_name)) <span style="color:#f92672">%&gt;%</span> 
-                              <span style="color:#a6e22e">filter</span>(country_name <span style="color:#f92672">%in%</span> cntry_list)
+<pre><code class="language-r">cntry_list &lt;- c(&quot;United States&quot;, &quot;Norway&quot;, &quot;Russia&quot;, &quot;Germany&quot;, &quot;Israel&quot;)
 
-vdem  <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">mutate</span>(country_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(country_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;United States of America&#34;</span>, <span style="color:#e6db74">&#34;United States&#34;</span>, country_name)) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">select</span>(v2dlcountr_mean, country_name, year) <span style="color:#f92672">%&gt;%</span> 
-  <span style="color:#a6e22e">ggplot</span>(<span style="color:#a6e22e">aes</span>(year, v2dlcountr_mean, group <span style="color:#f92672">=</span> country_name)) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_step</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lightgrey&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_step</span>(data <span style="color:#f92672">=</span> vdem <span style="color:#f92672">%&gt;%</span> 
-                <span style="color:#a6e22e">mutate</span>(country_name <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(country_name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;United States of America&#34;</span>, <span style="color:#e6db74">&#34;United States&#34;</span>, country_name)) <span style="color:#f92672">%&gt;%</span> 
-              <span style="color:#a6e22e">filter</span>(country_name <span style="color:#f92672">%in%</span> cntry_list), <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> country_name), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.2</span>) <span style="color:#f92672">+</span> 
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">theme_hc</span>() <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">scale_x_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1900</span>, <span style="color:#ae81ff">1925</span>, <span style="color:#ae81ff">1950</span>, <span style="color:#ae81ff">1975</span>, <span style="color:#ae81ff">2000</span>, <span style="color:#ae81ff">2018</span>), limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1900</span>, <span style="color:#ae81ff">2024</span>)) <span style="color:#f92672">+</span>
-  ggthemes<span style="color:#f92672">::</span><span style="color:#a6e22e">scale_color_colorblind</span>(<span style="color:#e6db74">&#34;Country&#34;</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Who has the **Greatest Deliberative Body** in the world?&#34;</span>, 
-       subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&#34;</span>,
-    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>, y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Respect Counterarguments (0 = No - 5 = Yes, and change minds)\n&#34;</span>) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">theme</span>(
-        plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_markdown</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;black&#34;</span>,
-                                  size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-        plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
-        legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>
-  ) <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">geom_text</span>(data <span style="color:#f92672">=</span> label_dat, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2018.5</span>, color <span style="color:#f92672">=</span> country_name,label <span style="color:#f92672">=</span> country_name), hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>)  <span style="color:#f92672">+</span>
-  <span style="color:#a6e22e">ylim</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>)
-</code></pre></div><p><img src="/img/us_over_time.png" alt=""><!-- raw HTML omitted --></p>
+label_dat &lt;- vdem %&gt;% filter(year == 2018) %&gt;%
+                              mutate(country_name = ifelse(country_name == &quot;United States of America&quot;, &quot;United States&quot;, country_name)) %&gt;% 
+                              filter(country_name %in% cntry_list)
+
+vdem  %&gt;% 
+  mutate(country_name = ifelse(country_name == &quot;United States of America&quot;, &quot;United States&quot;, country_name)) %&gt;% 
+  select(v2dlcountr_mean, country_name, year) %&gt;% 
+  ggplot(aes(year, v2dlcountr_mean, group = country_name)) +
+  geom_step(color = &quot;lightgrey&quot;, alpha = 0.5) +
+  geom_step(data = vdem %&gt;% 
+                mutate(country_name = ifelse(country_name == &quot;United States of America&quot;, &quot;United States&quot;, country_name)) %&gt;% 
+              filter(country_name %in% cntry_list), aes(color = country_name), size = 1.2) + 
+  ggthemes::theme_hc() +
+  scale_x_continuous(breaks = c(1900, 1925, 1950, 1975, 2000, 2018), limits = c(1900, 2024)) +
+  ggthemes::scale_color_colorblind(&quot;Country&quot;)  +
+  labs(title = &quot;Who has the **Greatest Deliberative Body** in the world?&quot;, 
+       subtitle = &quot;*Question:* When important policy changes are being considered,&lt;br&gt;to what extent do political elites acknowledge and respect counterarguments?&quot;,
+    caption = &quot;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&quot;, x = &quot;&quot;, y = &quot;Respect Counterarguments (0 = No - 5 = Yes, and change minds)\n&quot;) +
+  theme(
+        plot.title = element_markdown(color = &quot;black&quot;,
+                                  size = 30, hjust = 0.5),
+        plot.subtitle = element_markdown(color = &quot;black&quot;,
+                                  size = 15, hjust = 0.5),
+        plot.caption = element_text(size = 12),
+        legend.position = &quot;none&quot;
+  ) +
+  geom_text(data = label_dat, aes(x = 2018.5, color = country_name,label = country_name), hjust = 0)  +
+  ylim(0, 5)
+</code></pre>
+
+<p><img src="/img/us_over_time.png" alt="" /><!-- --></p>
+
 <p>Looking at the data over time may allow us some insights. We can see that the US was actually at a highpoint in 2012.. but 2017 and 2018 have seen the lowest score ever assigned to the US Since 1900 (!). One may argue that the election 2016 may have something to do with this.</p>
 
       </div>
@@ -529,7 +555,7 @@ vdem  <span style="color:#f92672">%&gt;%</span>
   <div class="container">
     <p class="powered-by">
 
-      © 2019 Fabio Votta &middot; 
+      &copy; 2019 Fabio Votta &middot; 
 
       Powered by the
       <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for

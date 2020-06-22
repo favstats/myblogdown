@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>trump on favstats - personal blog</title>
@@ -18,7 +18,10 @@
       <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
       
       <guid>/post/blw_data/</guid>
-      <description>Analyzing Bright Line Watch surveys that regularly ask political scientists and the public questions about democratic performance.</description>
+      <description>Is American democracy under threat? Bright Line Watch regularly asks political scientists and the public questions about democratic performance.
+In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the US fulfills these standards.
+In this little exercise, I want to focus on the measures that the US does NOT perform well on. Here I visualize the results.
+Load neccesary Packages # Install these packages if you don&#39;t have them yet # if (!</description>
     </item>
     
   </channel>
