@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>twitter on favstats - personal blog</title>
@@ -18,9 +18,7 @@
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/ecprconf18/</guid>
-      <description>This is a short notebook outlining the code used to scrape tweets related to the ECPR Conference 2018 in Hamburg.
-Packages Load the necessary packages
-# install pacman once if not avaible on your machine # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, purrr, tidyr, rtweet, stringr, ggraph, igraph, tidygraph, forcats)  Get Data If you want to scrape data yourself you have to register a free account where you get your personal access point to Twitter.</description>
+      <description>In this blogpost I anaylize over 1200 tweets made during the ECPR General Conference 2018 in Hamburg</description>
     </item>
     
   </channel>

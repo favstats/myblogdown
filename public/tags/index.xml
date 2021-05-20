@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on favstats - personal blog</title>
@@ -7,62 +7,44 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Content tagged as &#39;Academic&#39;</title>
-      <link>/tags/academic/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      <title>elections</title>
+      <link>/tags/elections/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
       
-      <guid>/tags/academic/</guid>
-      <description>Here is a list of all the content that has been tagged as academic.</description>
-    </item>
-    
-    <item>
-      <title>538</title>
-      <link>/tags/538/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/538/</guid>
+      <guid>/tags/elections/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Arab Barometer</title>
-      <link>/tags/arab-barometer/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      <title>rstats</title>
+      <link>/tags/rstats/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
       
-      <guid>/tags/arab-barometer/</guid>
+      <guid>/tags/rstats/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Blog</title>
-      <link>/tags/blog/</link>
-      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
+      <title>package</title>
+      <link>/tags/package/</link>
+      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/blog/</guid>
+      <guid>/tags/package/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Daesh</title>
-      <link>/tags/daesh/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      <title>vdem</title>
+      <link>/tags/vdem/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
       
-      <guid>/tags/daesh/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dataviz</title>
-      <link>/tags/dataviz/</link>
-      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/dataviz/</guid>
+      <guid>/tags/vdem/</guid>
       <description></description>
     </item>
     
@@ -76,42 +58,6 @@
     </item>
     
     <item>
-      <title>Game of Thrones</title>
-      <link>/tags/game-of-thrones/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/game-of-thrones/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ISIS</title>
-      <link>/tags/isis/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/isis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Survey</title>
-      <link>/tags/survey/</link>
-      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/survey/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Survey Data</title>
-      <link>/tags/survey-data/</link>
-      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/survey-data/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>VOX-Pol</title>
       <link>/tags/vox-pol/</link>
       <pubDate>Wed, 26 Jun 2019 00:00:00 +0000</pubDate>
@@ -121,38 +67,56 @@
     </item>
     
     <item>
-      <title>WAPOR</title>
-      <link>/tags/wapor/</link>
-      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      <title>Blog</title>
+      <link>/tags/blog/</link>
+      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/wapor/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>conferences</title>
-      <link>/tags/conferences/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/conferences/</guid>
+      <guid>/tags/blog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dataviz</title>
       <link>/tags/dataviz/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
+      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/dataviz/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>elections</title>
-      <link>/tags/elections/</link>
-      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
+      <title>Game of Thrones</title>
+      <link>/tags/game-of-thrones/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
       
-      <guid>/tags/elections/</guid>
+      <guid>/tags/game-of-thrones/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functions</title>
+      <link>/tags/functions/</link>
+      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/functions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>refugees</title>
+      <link>/tags/refugees/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/refugees/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>trump</title>
+      <link>/tags/trump/</link>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/trump/</guid>
       <description></description>
     </item>
     
@@ -166,11 +130,110 @@
     </item>
     
     <item>
-      <title>functions</title>
-      <link>/tags/functions/</link>
-      <pubDate>Tue, 14 May 2019 00:00:00 +0200</pubDate>
+      <title>slides</title>
+      <link>/tags/slides/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
       
-      <guid>/tags/functions/</guid>
+      <guid>/tags/slides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xaringan</title>
+      <link>/tags/xaringan/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/xaringan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>538</title>
+      <link>/tags/538/</link>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/538/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>politics</title>
+      <link>/tags/politics/</link>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/politics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hoax</title>
+      <link>/tags/hoax/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/hoax/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>simulation</title>
+      <link>/tags/simulation/</link>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/simulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>conferences</title>
+      <link>/tags/conferences/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/conferences/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggraph</title>
+      <link>/tags/ggraph/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/ggraph/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>twitter</title>
+      <link>/tags/twitter/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/tags/twitter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Survey</title>
+      <link>/tags/survey/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/survey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WAPOR</title>
+      <link>/tags/wapor/</link>
+      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/wapor/</guid>
       <description></description>
     </item>
     
@@ -193,29 +256,11 @@
     </item>
     
     <item>
-      <title>ggraph</title>
-      <link>/tags/ggraph/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/ggraph/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>highcharter</title>
       <link>/tags/highcharter/</link>
       <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
       
       <guid>/tags/highcharter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>hoax</title>
-      <link>/tags/hoax/</link>
-      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/hoax/</guid>
       <description></description>
     </item>
     
@@ -229,21 +274,48 @@
     </item>
     
     <item>
-      <title>package</title>
-      <link>/tags/package/</link>
-      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
+      <title>Arab Barometer</title>
+      <link>/tags/arab-barometer/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>/tags/package/</guid>
+      <guid>/tags/arab-barometer/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>politics</title>
-      <link>/tags/politics/</link>
-      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      <title>Daesh</title>
+      <link>/tags/daesh/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
       
-      <guid>/tags/politics/</guid>
+      <guid>/tags/daesh/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>ISIS</title>
+      <link>/tags/isis/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/isis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Survey Data</title>
+      <link>/tags/survey-data/</link>
+      <pubDate>Tue, 26 Dec 2017 00:00:00 +0100</pubDate>
+      
+      <guid>/tags/survey-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Content tagged as &#39;Academic&#39;</title>
+      <link>/tags/academic/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/academic/</guid>
+      <description>Here is a list of all the content that has been tagged as academic.</description>
     </item>
     
     <item>
@@ -252,87 +324,6 @@
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/tags/r-group/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>refugees</title>
-      <link>/tags/refugees/</link>
-      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/refugees/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rstats</title>
-      <link>/tags/rstats/</link>
-      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/rstats/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>simulation</title>
-      <link>/tags/simulation/</link>
-      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/simulation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>slides</title>
-      <link>/tags/slides/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/slides/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>trump</title>
-      <link>/tags/trump/</link>
-      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/trump/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tutorial</title>
-      <link>/tags/tutorial/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>twitter</title>
-      <link>/tags/twitter/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
-      
-      <guid>/tags/twitter/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>vdem</title>
-      <link>/tags/vdem/</link>
-      <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/vdem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>xaringan</title>
-      <link>/tags/xaringan/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/tags/xaringan/</guid>
       <description></description>
     </item>
     

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>refugees on favstats - personal blog</title>
@@ -18,7 +18,7 @@
       <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
       
       <guid>/post/exploring_us_refugee_data/</guid>
-      <description>A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
+      <description>A short blog post exploring the number of accepted refugees in the US.</description>
     </item>
     
     <item>
@@ -27,10 +27,7 @@
       <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/de_refugee_dat/</guid>
-      <description>Data Sources:
- http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html
- http://biaj.de/
-  Load packages pacman::p_load(tidyverse, tabulizer, gganimate)  Get Acceptance Rates source(&amp;quot;asylum_dat.R&amp;quot;) load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)  Number of Refugees Data load(&amp;quot;data/asylum_dat.Rdata&amp;quot;) asylum_dat &amp;lt;- asylum_dat %&amp;gt;% full_join(refugee_decisions) %&amp;gt;% select(time, `Total Number of Asylum Seekers` = number, `Accepted Applications` = pos, `Declined Applications` = neg) %&amp;gt;% gather(key, number, -time)  Plot Static rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;) #rev(ggthemes::colorblind_pal()(3)) n_peak &amp;lt;- asylum_dat %&amp;gt;% filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% .</description>
+      <description>A short script visualizing the number of accepted refugees in Germany.</description>
     </item>
     
     <item>
@@ -39,8 +36,7 @@
       <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/refugee_dat/</guid>
-      <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
-Packages and Folders # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, readxl, sjmisc) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Load Data refugee_dat &amp;lt;- read_excel(&amp;quot;data/refugee_dat.xls&amp;quot;) %&amp;gt;% drop_na(X__1) %&amp;gt;% rename(cntry = X__1) %&amp;gt;% select(-Religion, -X__2, -X__3, - Total) %&amp;gt;% filter(!(str_detect(cntry, &amp;quot;Total|Data&amp;quot;))) %&amp;gt;% gather(year, n, -cntry) %&amp;gt;% mutate(year = str_replace(year, &amp;quot;CY &amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% as.numeric) refugee_dat %&amp;gt;% group_by(cntry) %&amp;gt;% tally() %&amp;gt;% arrange(desc(nn)) %&amp;gt;% .</description>
+      <description>A short script visualizing the number of accepted refugees in the US.</description>
     </item>
     
   </channel>
