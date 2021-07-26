@@ -6,7 +6,7 @@ date = "2021-07-09"
 title = "A fun Introduction to R"
 
 # Project summary to display on homepage.
-summary = "Slides for my workshop that I gave for the Data Science Summer School at the Hertie School."
+summary = "Slides for workshop I taught during the Data Science Summer School at the Hertie School."
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = "ds3rintro.png"
