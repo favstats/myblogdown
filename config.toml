@@ -1,6 +1,6 @@
 baseurl = "/"  # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
 title = "favstats - personal blog"
-copyright = "&copy; 2019 Fabio Votta"
+copyright = "&copy; 2021 Fabio Votta"
 theme = "hugo-academic"
 enableEmoji = true
 footnotereturnlinkcontents = "<sup>^</sup>"
@@ -40,11 +40,11 @@ defaultContentLanguageInSubdir = false
 
   # Your details.
   name = "Fabio Votta"
-  role = "Empirical Social and Political Research"
+  role = "Ph.D. Candidate in Political Communication"
 
   # Organizations/Affiliations.
   #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
-  organizations = [ { name = "University of Stuttgart", url = "" } ]
+  organizations = [ { name = "University of Amsterdam", url = "" } ]
 
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portraits.jpg"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
