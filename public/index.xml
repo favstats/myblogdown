@@ -53,6 +53,36 @@
     </item>
     
     <item>
+      <title>So... how common is political targeting on Facebook anyway?</title>
+      <link>/post/common_microtargeting_btw21/</link>
+      <pubDate>Wed, 21 Apr 2021 00:00:00 +0200</pubDate>
+      
+      <guid>/post/common_microtargeting_btw21/</guid>
+      <description>&lt;p&gt;Electoral campaigns in Germany are increasingly making use of digital advertising to get their message across to voters during the 2021 German elections. &lt;a href=&#34;https://whotargets.me/en/ad-targeting-in-the-german-election/&#34; target=&#34;_blank&#34;&gt;As shown previously&lt;/a&gt;, Facebook enables advertisers to use a wide variety of targeting criteria based on age, gender, location, interests, and much more.&lt;/p&gt;
+
+&lt;p&gt;But how common is targeting and are parties and other political actors making use of this affordance?&lt;/p&gt;
+
+&lt;p&gt;Using data by &lt;a href=&#34;https://whotargets.me/&#34; target=&#34;_blank&#34;&gt;Who Targets Me&lt;/a&gt; we can answer this question.&lt;/p&gt;
+
+&lt;p&gt;For the purposes of this investigation, we define every ad as &lt;strong&gt;&lt;em&gt;targeted&lt;/em&gt;&lt;/strong&gt; if they include any targeting criteria other than the default ones (Age Range: 18-65+, Gender: Any) and ads that were targeted at all of Germany rather than any particular region or city within the country.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/FAI_L3TXMAA192x?format=png&amp;amp;name=4096x4096&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Looking at the figure above, we can observe that every political actor that we are tracking, regardless of political persuasion, is heavily using the offered targeting options to get their messages to voters. For example, pretty much every single SPD ad that landed in people&amp;rsquo;s newsfeeds on Facebook between April and September 2021 was targeted in some way, and only 1% of ads were directed at an audience of all ages, genders, and the entire country. Almost half of all impressions were delivered with at least three different targeting criteria.&lt;/p&gt;
+
+&lt;p&gt;Now, one may speculate that political actors make more or less use of targeting depending on the stage of the political campaign. This however does not seem to be the case broadly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/HmBMW6x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The graph above shows that percentage of targeted impressions remains quite constant and high overtime for most political parties. There is a short dip for the FDP in June 2021 which may be due to them re-arranging their targeting strategy at the time and for political accounts (media, non-profits, etc.) we can observe a decline over time in the usage of targeting.&lt;/p&gt;
+
+&lt;p&gt;This of course has important implications. Most importantly, if targeting is so widespread we have to ask about who is not being targeted and &lt;em&gt;who is being left out&lt;/em&gt;?&lt;/p&gt;
+
+&lt;p&gt;When political actors predominantly use targeting to get their messages across to people that already agree with them, some groups of society might be completely left out of the picture, for example traditionally marginalized communities. Parties may never reach out to citizen that usually don&amp;rsquo;t participate in elections and can thus further solidify their exclusion from the political process.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>2020 Democratic Debates dataset</title>
       <link>/post/demdebates/</link>
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
@@ -2057,203 +2087,6 @@ experts except for questions on adequate voter turnout, equal impact of
 votes and fair electoral districts. On such issues, experts are more
 likely to say that the U.S. does not meet this standard than the general
 public.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Create awesome HTML slides with xaringan</title>
-      <link>/post/xaringan_tut/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
-      
-      <guid>/post/xaringan_tut/</guid>
-      <description>
-
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this &lt;a href=&#34;https://remark.js.org/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. Here are some example slides by the creator which also serves as an introduction:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://slides.yihui.name/xaringan/&#34; target=&#34;_blank&#34;&gt;https://slides.yihui.name/xaringan/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Are you ready to become a &lt;strong&gt;presentation ninja&lt;/strong&gt;?&lt;/p&gt;
-
-&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
-
-&lt;p&gt;There is multiple ways to install packages in R. One safe bet is to install the xaringan package from CRAN, as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;install.packages(&amp;quot;xaringan&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Sometimes the versions on CRAN are somewhat older. If you are interested in the newest version, one option is to always look for the related (GitHub) repository. To install it from here you need to first install the devtools package in case you don&amp;rsquo;t have it and then use install_github(&amp;ldquo;yihui/xaringan&amp;rdquo;) to install the package from GitHub.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;## only install devtools if needed ##
-#install.packages(devtools)
-
-devtools::install_github(&#39;yihui/xaringan&#39;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/rmarkdown.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Next select &amp;ldquo;From Template&amp;rdquo; then Ninja Presentation, and you will see an R Markdown example.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/ninja_presentation.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Press the Knit button to compile it.&lt;/p&gt;
-
-&lt;h2 id=&#34;basics&#34;&gt;Basics&lt;/h2&gt;
-
-&lt;p&gt;As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/yaml.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This gives us the following title slide:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/titleslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So how are slides created with xaringan? Easy!&lt;/p&gt;
-
-&lt;p&gt;Overall, regular R Markdown rules apply so you can use this for &lt;em&gt;italic&lt;/em&gt; and two stars for &lt;strong&gt;bold&lt;/strong&gt; for example or even your most complicated LaTeX equations.&lt;/p&gt;
-
-&lt;p&gt;The # before a line of text creates a header for the slide and the more hashtags you add the smaller is the header&lt;/p&gt;
-
-&lt;p&gt;Slides are then seperated with three lines &lt;code&gt;---&lt;/code&gt;. For the first slide you don&amp;rsquo;t need to do this because it is already implied after the yaml header.&lt;/p&gt;
-
-&lt;p&gt;If we wanted to let elements on the slides appear with a click, we seperate them with two lines &lt;code&gt;--&lt;/code&gt; like this.&lt;/p&gt;
-
-&lt;p&gt;Lastly, if we want to have more space between the elements on a slide we can use the html tag &lt;code&gt;&amp;lt;br&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;You could start with something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;# Slide 1
-
-This is slide 1
-
-* Item 1
-* Item 2
-    + Item 2a
-    + Item 2b
-  
-
----
-
-# Slide 2
-
-This is slide 2
-
-Here is a complicated equation:
-
-$$S (ω)=1.466\, H_s^2 \,  \frac{ω_0^5}{ω^6 }  \, e^[-3^ { ω/(ω_0  )]^2}$$
-
----
-
-# Slide 3
-
-This is slide 3
-
---
-
-This will appear on click
-
---
-
-&amp;lt;br&amp;gt;
-&amp;lt;br&amp;gt;
-
-This will appear on click but a bit farther away
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is how this would look like:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/slides1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This looks awesome already!&lt;/p&gt;
-
-&lt;h2 id=&#34;formatting-slides&#34;&gt;Formatting Slides&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s say we want to play around a bit with the format of our slides. There are some build in functions that lets us do exactly that.&lt;/p&gt;
-
-&lt;p&gt;We specify the following code at the beginning of a slide:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;class: inverse, center, middle&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;This will inverse the color (here: black) center the elements horizontally (center) and vertically (middle) on that slide. This makes for some pretty cool transition slides.&lt;/p&gt;
-
-&lt;p&gt;Here is an example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;---
-
-class: inverse, center, middle
-
-# Statistical Analysis
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Which produces the following slide:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/transitionslide.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;adding-a-gif-or-an-image&#34;&gt;Adding a GIF or an Image&lt;/h2&gt;
-
-&lt;p&gt;You can also add GIFs or images to your slides. It&amp;rsquo;s done exactly in the same way as you would with a normal R Markdown document. Here is an example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;---
-
-class: inverse, center, middle
-
-![](https://www.ukcophumour.co.uk/wp-content/uploads/f2w/1526816_674334732588821_1244473478_n.jpg)
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/image.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;using-themes-and-xaringanthemer&#34;&gt;using themes and xaringanthemer&lt;/h2&gt;
-
-&lt;p&gt;We&amp;rsquo;ve already come a long way creating nice xaringan slides. If we wanted to customize the theme of the presentation, xaringan comes with some build-in color schemes that you can try out.&lt;/p&gt;
-
-&lt;p&gt;Here is one of them. Just add the following line in your YAML header and you are good to go:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r, echo=T, eval=F&#34;&gt;output:
-  xaringan::moon_reader:
-    css: [metropolis]
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.favstats.eu/img/metropolis.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is a list of themes:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;metropolis&lt;/li&gt;
-&lt;li&gt;hygge&lt;/li&gt;
-&lt;li&gt;rladies&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If you want to create your own themes I can recommend the xaringanthemer package:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/gadenbuie/xaringanthemer&#34; target=&#34;_blank&#34;&gt;https://github.com/gadenbuie/xaringanthemer&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;exporting-the-presentation-to-pdf&#34;&gt;Exporting the presentation to .pdf&lt;/h2&gt;
-
-&lt;p&gt;The output format of xaringan is html. However, if you want a .pdf file you could just simply open the slides in your favorite web browser and print them to .pdf. This seems to be the easiest version to do it.&lt;/p&gt;
-
-&lt;h2 id=&#34;what-now&#34;&gt;What Now?&lt;/h2&gt;
-
-&lt;p&gt;I hope you enjoyed this little tutorial!&lt;/p&gt;
-
-&lt;p&gt;Here are some more examples of beautiful xaringan slides that can serve as your inspiration:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/favstats/xaringan_slides/&#34; target=&#34;_blank&#34;&gt;https://github.com/favstats/xaringan_slides/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;You want to add animated transitions? Well, here&amp;rsquo;s an implementation of that:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/&#34; target=&#34;_blank&#34;&gt;https://www.garrickadenbuie.com/blog/2018/12/03/animate-xaringan-slide-transitions/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Lastly, a wiki helps to implement more advanced options. Be sure to check it out at some point:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/yihui/xaringan/wiki&#34; target=&#34;_blank&#34;&gt;https://github.com/yihui/xaringan/wiki&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
