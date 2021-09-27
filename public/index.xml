@@ -11,6 +11,36 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>So... how common is political targeting on Facebook anyway?</title>
+      <link>/post/common_microtargeting_btw21/</link>
+      <pubDate>Sat, 25 Sep 2021 00:00:00 +0200</pubDate>
+      
+      <guid>/post/common_microtargeting_btw21/</guid>
+      <description>&lt;p&gt;Electoral campaigns in Germany are increasingly making use of digital advertising to get their message across to voters during the 2021 German elections. &lt;a href=&#34;https://whotargets.me/en/ad-targeting-in-the-german-election/&#34; target=&#34;_blank&#34;&gt;As shown previously&lt;/a&gt;, Facebook enables advertisers to use a wide variety of targeting criteria based on age, gender, location, interests, and much more.&lt;/p&gt;
+
+&lt;p&gt;But how common is targeting and are parties and other political actors making use of this affordance?&lt;/p&gt;
+
+&lt;p&gt;Using data by &lt;a href=&#34;https://whotargets.me/&#34; target=&#34;_blank&#34;&gt;Who Targets Me&lt;/a&gt; we can answer this question.&lt;/p&gt;
+
+&lt;p&gt;For the purposes of this investigation, we define every ad as &lt;strong&gt;&lt;em&gt;targeted&lt;/em&gt;&lt;/strong&gt; if they include any targeting criteria other than the default ones (Age Range: 18-65+, Gender: Any) and ads that were targeted at all of Germany rather than any particular region or city within the country.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/FAI_L3TXMAA192x?format=png&amp;amp;name=4096x4096&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Looking at the figure above, we can observe that every political actor that we are tracking, regardless of political persuasion, is heavily using the offered targeting options to get their messages to voters. For example, pretty much every single SPD ad that landed in people&amp;rsquo;s newsfeeds on Facebook between April and September 2021 was targeted in some way, and only 1% of ads were directed at an audience of all ages, genders, and the entire country. Almost half of all impressions were delivered with at least three different targeting criteria.&lt;/p&gt;
+
+&lt;p&gt;Now, one may speculate that political actors make more or less use of targeting depending on the stage of the political campaign. This however does not seem to be the case broadly.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/HmBMW6x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The graph above shows that percentage of targeted impressions remains quite constant and high overtime for most political parties. There is a short dip for the FDP in June 2021 which may be due to them re-arranging their targeting strategy at the time and for political accounts (media, non-profits, etc.) we can observe a decline over time in the usage of targeting.&lt;/p&gt;
+
+&lt;p&gt;This of course has important implications. Most importantly, if targeting is so widespread we have to ask about who is not being targeted and &lt;em&gt;who is being left out&lt;/em&gt;?&lt;/p&gt;
+
+&lt;p&gt;When political actors predominantly use targeting to get their messages across to people that already agree with them, some groups of society might be completely left out of the picture, for example traditionally marginalized communities. Parties may never reach out to citizen that usually don&amp;rsquo;t participate in elections and can thus further solidify their exclusion from the political process.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>A fun Introduction to R</title>
       <link>/project/ds3rintro/</link>
       <pubDate>Fri, 09 Jul 2021 00:00:00 +0000</pubDate>
@@ -49,36 +79,6 @@
 &lt;p&gt;If you are interested in that sort of stuff: here are the most ratio&amp;rsquo;d tweets at time of collection.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/EzdTD83XMAES4f6?format=jpg&amp;amp;name=large&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>So... how common is political targeting on Facebook anyway?</title>
-      <link>/post/common_microtargeting_btw21/</link>
-      <pubDate>Wed, 21 Apr 2021 00:00:00 +0200</pubDate>
-      
-      <guid>/post/common_microtargeting_btw21/</guid>
-      <description>&lt;p&gt;Electoral campaigns in Germany are increasingly making use of digital advertising to get their message across to voters during the 2021 German elections. &lt;a href=&#34;https://whotargets.me/en/ad-targeting-in-the-german-election/&#34; target=&#34;_blank&#34;&gt;As shown previously&lt;/a&gt;, Facebook enables advertisers to use a wide variety of targeting criteria based on age, gender, location, interests, and much more.&lt;/p&gt;
-
-&lt;p&gt;But how common is targeting and are parties and other political actors making use of this affordance?&lt;/p&gt;
-
-&lt;p&gt;Using data by &lt;a href=&#34;https://whotargets.me/&#34; target=&#34;_blank&#34;&gt;Who Targets Me&lt;/a&gt; we can answer this question.&lt;/p&gt;
-
-&lt;p&gt;For the purposes of this investigation, we define every ad as &lt;strong&gt;&lt;em&gt;targeted&lt;/em&gt;&lt;/strong&gt; if they include any targeting criteria other than the default ones (Age Range: 18-65+, Gender: Any) and ads that were targeted at all of Germany rather than any particular region or city within the country.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/FAI_L3TXMAA192x?format=png&amp;amp;name=4096x4096&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Looking at the figure above, we can observe that every political actor that we are tracking, regardless of political persuasion, is heavily using the offered targeting options to get their messages to voters. For example, pretty much every single SPD ad that landed in people&amp;rsquo;s newsfeeds on Facebook between April and September 2021 was targeted in some way, and only 1% of ads were directed at an audience of all ages, genders, and the entire country. Almost half of all impressions were delivered with at least three different targeting criteria.&lt;/p&gt;
-
-&lt;p&gt;Now, one may speculate that political actors make more or less use of targeting depending on the stage of the political campaign. This however does not seem to be the case broadly.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/HmBMW6x.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The graph above shows that percentage of targeted impressions remains quite constant and high overtime for most political parties. There is a short dip for the FDP in June 2021 which may be due to them re-arranging their targeting strategy at the time and for political accounts (media, non-profits, etc.) we can observe a decline over time in the usage of targeting.&lt;/p&gt;
-
-&lt;p&gt;This of course has important implications. Most importantly, if targeting is so widespread we have to ask about who is not being targeted and &lt;em&gt;who is being left out&lt;/em&gt;?&lt;/p&gt;
-
-&lt;p&gt;When political actors predominantly use targeting to get their messages across to people that already agree with them, some groups of society might be completely left out of the picture, for example traditionally marginalized communities. Parties may never reach out to citizen that usually don&amp;rsquo;t participate in elections and can thus further solidify their exclusion from the political process.&lt;/p&gt;
 </description>
     </item>
     
