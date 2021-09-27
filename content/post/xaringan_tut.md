@@ -50,12 +50,12 @@ devtools::install_github('yihui/xaringan')
 To create a xaringan presentation, you create an R Markdown document with the xaringan::moon_reader output format. From within RStudio, it is easy to get started. First click on the New File icon below File and then on R Markdown:
 
 
-![](http://www.favstats.eu/img/rmarkdown.png)
+![](https://www.favstats.eu/img/rmarkdown.png)
 
 Next select "From Template" then Ninja Presentation, and you will see an R Markdown example. 
 
 
-![](http://www.favstats.eu/img/ninja_presentation.png)
+![](https://www.favstats.eu/img/ninja_presentation.png)
 
 
 Press the Knit button to compile it.
@@ -66,11 +66,11 @@ Press the Knit button to compile it.
 
 As is the norm with any R Markdown document, there is a yaml header at the beginning which specifies some meta data. Here you can put in the title of the presentation, authors and more. This will configure the title slide. Much more can be done here to customize how your slides will look like but for now we stick with the basics. Here is how your yaml header could look like:
 
-![](http://www.favstats.eu/img/yaml.png)
+![](https://www.favstats.eu/img/yaml.png)
 
 This gives us the following title slide:
 
-![](http://www.favstats.eu/img/titleslide.png)
+![](https://www.favstats.eu/img/titleslide.png)
 
 So how are slides created with xaringan? Easy! 
 
@@ -127,7 +127,7 @@ This will appear on click but a bit farther away
 
 This is how this would look like:
 
-![](http://www.favstats.eu/img/slides1.png)
+![](https://www.favstats.eu/img/slides1.png)
 
 
 This looks awesome already! 
@@ -156,7 +156,7 @@ class: inverse, center, middle
 
 Which produces the following slide:
 
-![](http://www.favstats.eu/img/transitionslide.png)
+![](https://www.favstats.eu/img/transitionslide.png)
 
 
 ## Adding a GIF or an Image
@@ -172,7 +172,7 @@ class: inverse, center, middle
 
 ```
 
-![](http://www.favstats.eu/img/image.png)
+![](https://www.favstats.eu/img/image.png)
 
 
 
@@ -193,7 +193,7 @@ output:
     
 This looks like this:
 
-![](http://www.favstats.eu/img/metropolis.png)
+![](https://www.favstats.eu/img/metropolis.png)
 
 
 Here is a list of themes:
