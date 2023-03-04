@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ggraph on favstats - personal blog</title>
+    <title>Ggraph on favstats - personal blog</title>
     <link>/tags/ggraph/</link>
-    <description>Recent content in ggraph on favstats - personal blog</description>
+    <description>Recent content in Ggraph on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
     <lastBuildDate>Sat, 25 Aug 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/ggraph/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,9 @@
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/ecprconf18/</guid>
-      <description>In this blogpost I anaylize over 1200 tweets made during the ECPR General Conference 2018 in Hamburg</description>
+      <description>This is a short notebook outlining the code used to scrape tweets related to the ECPR Conference 2018 in Hamburg.
+Packages Load the necessary packages
+# install pacman once if not avaible on your machine # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, purrr, tidyr, rtweet, stringr, ggraph, igraph, tidygraph, forcats)  Get Data If you want to scrape data yourself you have to register a free account where you get your personal access point to Twitter.</description>
     </item>
     
   </channel>

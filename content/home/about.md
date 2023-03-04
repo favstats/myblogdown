@@ -10,7 +10,8 @@ weight = 5
 # List your academic interests.
 [interests]
   interests = [
-    "Political Communication",
+    "Political Microtargeting",
+    "Data-Driven Campaigns",
     "Computational Social Science",
     "Data Visualization",
     "Fringe Groups online",
@@ -20,7 +21,7 @@ weight = 5
 
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "Ph.D. Candidate in Political Communication"
+  course = "Ph.D. Candidate in Political Communication (current)"
   institution = "University of Amsterdam"
   year = 2020
 

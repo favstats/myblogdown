@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Microtargeting on favstats - personal blog</title>
+    <link>/tags/microtargeting/</link>
+    <description>Recent content in Microtargeting on favstats - personal blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
+    <lastBuildDate>Sat, 25 Sep 2021 00:00:00 +0200</lastBuildDate>
+    
+	<atom:link href="/tags/microtargeting/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>So... how common is political targeting on Facebook anyway?</title>
+      <link>/post/common_microtargeting_btw21/</link>
+      <pubDate>Sat, 25 Sep 2021 00:00:00 +0200</pubDate>
+      
+      <guid>/post/common_microtargeting_btw21/</guid>
+      <description>Electoral campaigns in Germany are increasingly making use of digital advertising to get their message across to voters during the 2021 German elections. As shown previously, Facebook enables advertisers to use a wide variety of targeting criteria based on age, gender, location, interests, and much more.
+But how common is targeting and are parties and other political actors making use of this affordance?
+Using data by Who Targets Me we can answer this question.</description>
+    </item>
+    
+  </channel>
+</rss>

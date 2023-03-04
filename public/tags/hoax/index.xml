@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>hoax on favstats - personal blog</title>
+    <title>Hoax on favstats - personal blog</title>
     <link>/tags/hoax/</link>
-    <description>Recent content in hoax on favstats - personal blog</description>
+    <description>Recent content in Hoax on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
     <lastBuildDate>Thu, 04 Oct 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/hoax/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,9 @@
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/hoax_papers/</guid>
-      <description>Taking a look at the Journals that received Hoax Papers by Pluckrose et al.</description>
+      <description>Here I want to analyze the Rankings of Journals that received hoax papers by Boghossian, Lindsay and Pluckrose. You can read about the story here and here in their own words.
+Packages Loading in some packages.
+# Install these packages if you don&#39;t have them yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, rvest, sjrdata, janitor, ggthemes)  Load Data Some quick webscraping to get the details on the papers created by Pluckrose et al.</description>
     </item>
     
   </channel>

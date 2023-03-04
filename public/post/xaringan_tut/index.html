@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.37.1" />
+  <meta name="generator" content="Hugo 0.44" />
   <meta name="author" content="Fabio Votta">
   <meta name="description" content="Ph.D. Candidate in Political Communication">
 
@@ -348,12 +348,12 @@
 
 <p>There is multiple ways to install packages in R. One safe bet is to install the xaringan package from CRAN, as follows:</p>
 
-<pre><code class="language-r, echo=T, eval=F">install.packages(&quot;xaringan&quot;)
+<pre><code class="language-r,">install.packages(&quot;xaringan&quot;)
 </code></pre>
 
 <p>Sometimes the versions on CRAN are somewhat older. If you are interested in the newest version, one option is to always look for the related (GitHub) repository. To install it from here you need to first install the devtools package in case you don&rsquo;t have it and then use install_github(&ldquo;yihui/xaringan&rdquo;) to install the package from GitHub.</p>
 
-<pre><code class="language-r, echo=T, eval=F">## only install devtools if needed ##
+<pre><code class="language-r,">## only install devtools if needed ##
 #install.packages(devtools)
 
 devtools::install_github('yihui/xaringan')
@@ -393,7 +393,7 @@ devtools::install_github('yihui/xaringan')
 
 <p>You could start with something like this:</p>
 
-<pre><code class="language-r, echo=T, eval=F"># Slide 1
+<pre><code class="language-r,"># Slide 1
 
 This is slide 1
 
@@ -449,7 +449,7 @@ This will appear on click but a bit farther away
 
 <p>Here is an example:</p>
 
-<pre><code class="language-r, echo=T, eval=F">---
+<pre><code class="language-r,">---
 
 class: inverse, center, middle
 
@@ -465,7 +465,7 @@ class: inverse, center, middle
 
 <p>You can also add GIFs or images to your slides. It&rsquo;s done exactly in the same way as you would with a normal R Markdown document. Here is an example:</p>
 
-<pre><code class="language-r, echo=T, eval=F">---
+<pre><code class="language-r,">---
 
 class: inverse, center, middle
 
@@ -481,7 +481,7 @@ class: inverse, center, middle
 
 <p>Here is one of them. Just add the following line in your YAML header and you are good to go:</p>
 
-<pre><code class="language-r, echo=T, eval=F">output:
+<pre><code class="language-r,">output:
   xaringan::moon_reader:
     css: [metropolis]
 

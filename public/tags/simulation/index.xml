@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>simulation on favstats - personal blog</title>
+    <title>Simulation on favstats - personal blog</title>
     <link>/tags/simulation/</link>
-    <description>Recent content in simulation on favstats - personal blog</description>
+    <description>Recent content in Simulation on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
     <lastBuildDate>Tue, 28 Aug 2018 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,10 @@
       <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/multicol_sim/</guid>
-      <description>This is a little simulation where I try to visualize the impact of collinearity on linear regressions.</description>
+      <description>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.
+Overview:
+ Packages Simulation Function Simulate and Save Data Visualizing the Influence of Collinearity  Standard Errors T-Statistic and P-Values B-Coefficients Animation Standardized   Packages Load the necessary packages
+# install pacman once if not avaible on your machine # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.</description>
     </item>
     
   </channel>

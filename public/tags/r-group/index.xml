@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>r-group on favstats - personal blog</title>
+    <title>R-group on favstats - personal blog</title>
     <link>/tags/r-group/</link>
-    <description>Recent content in r-group on favstats - personal blog</description>
+    <description>Recent content in R-group on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
     <lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r-group/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,7 @@
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/project/example-external-project/</guid>
-      <description>Die Modelldiagnostik dient dazu die Validität und Reliabilität der Ergebnisse einer linearen Regression sicherzustellen. In diesem Workshop lernt ihr die Grundkonzepte, deren Anwendung sowie Interpretation und Visualisierung.</description>
+      <description></description>
     </item>
     
   </channel>

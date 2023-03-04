@@ -1,16 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tutorial on favstats - personal blog</title>
+    <title>Tutorial on favstats - personal blog</title>
     <link>/tags/tutorial/</link>
-    <description>Recent content in tutorial on favstats - personal blog</description>
+    <description>Recent content in Tutorial on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
-    <lastBuildDate>Sat, 29 Dec 2018 00:00:00 +0100</lastBuildDate>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
+    <lastBuildDate>Fri, 09 Jul 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A fun Introduction to R</title>
+      <link>/project/ds3rintro/</link>
+      <pubDate>Fri, 09 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/project/ds3rintro/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Create awesome HTML slides with xaringan</title>
@@ -18,7 +27,7 @@
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0100</pubDate>
       
       <guid>/post/xaringan_tut/</guid>
-      <description>A short tutorial that can help you get started with Xaringan Slides</description>
+      <description>Introduction There are many ways to create presentations with R Markdown. The package xaringan build by Rstudio employee Yihui Xie is one possiblity to create impressionable HTML5 slides that really stand out. It&amp;rsquo;s beautiful layout and concise and tidy coding structure makes it a charm to work with. It&amp;rsquo;s build on the remark.js library and if you want to learn more about it you can do this here. Here are some example slides by the creator which also serves as an introduction:</description>
     </item>
     
   </channel>

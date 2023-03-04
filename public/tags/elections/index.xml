@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>elections on favstats - personal blog</title>
+    <title>Elections on favstats - personal blog</title>
     <link>/tags/elections/</link>
-    <description>Recent content in elections on favstats - personal blog</description>
+    <description>Recent content in Elections on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>&amp;copy; 2019 Fabio Votta</copyright>
+    <copyright>&amp;copy; 2021 Fabio Votta</copyright>
     <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/elections/index.xml" rel="self" type="application/rss+xml" />
@@ -18,7 +18,9 @@
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
       
       <guid>/post/demdebates/</guid>
-      <description>This blog post introduces the transcripts of the U.S. Democratic primary debates available as data in the R package &lt;code&gt;demdebates2020&lt;/code&gt;.</description>
+      <description>For anyone who is interested in exploring the Democratic primary debates of the U.S. Presidential Election, I compiled a dataset with all debates so far (i.e.: 8).
+In the following blog post I will introduce the R package demdebates2020 which will be updated to include data from all Democratic debates as they are held. Further, I will present some possible use-cases and an exploratory analysis of the debates.
+Start First, I load in some packages.</description>
     </item>
     
     <item>
@@ -27,7 +29,10 @@
       <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
       
       <guid>/post/btw_map/</guid>
-      <description>I recently got my hands on some German election data and here I play around with it a little bit.</description>
+      <description>Data Sources:
+https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017
+https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html
+Settings, Packages and Folders options(scipen = 999) knitr::opts_chunk$set(message = F, warning = F, error = F, fig.align = &amp;quot;center&amp;quot;, fig.width = 10, fig.height = 6) # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Helper Functions get_percentage &amp;lt;- function(part, total, digits = NULL) { if(!is.numeric(part) | !is.numeric(total)){ cat(&amp;quot;Non-numeric variables.. converting\n&amp;quot;) part &amp;lt;- as.</description>
     </item>
     
   </channel>
