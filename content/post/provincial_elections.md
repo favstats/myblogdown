@@ -87,6 +87,8 @@ We also saw that parties spent varying percentages of their budgets on digital a
 Overall, this data provides an important window into the ways in which political parties are adapting to the digital age and seeking to connect with voters in new and innovative ways. 
 
 
+If you want to explore the data for yourself, check out the 🎯 [targeting dashboard](https://favstats.github.io/ProvincialeStatenverkiezingen2023/#methodology) for more insights on the multifaceted digital ad campaigns used by Dutch political parties during the provincial elections.
+
 ### Final Words
 
 I would like to give a special thanks to [Who Targets Me](https://whotargets.me/en/), a non-profit organization that has made it their mission to increase transparency in political advertising. We heavily relied on their tools and data to gather the information presented in this blog post.
