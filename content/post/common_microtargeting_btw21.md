@@ -11,7 +11,7 @@ Short answer: very common.
 
 [header]
 image = "headers/targeting_freq.png"
-caption = "Percent of Impressiosn using at least 3 and 1 Targeting Criteria/ion"
+caption = "Percent of Impressions using at least 3 and 1 Targeting Criteria/ion"
 
 +++
 
