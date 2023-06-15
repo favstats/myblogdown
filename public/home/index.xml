@@ -32,7 +32,7 @@ I am a Ph.D. candidate in Political Communication at the University of Amsterdam
     </item>
     
     <item>
-      <title>Recent Publications</title>
+      <title>Publications</title>
       <link>/home/publications/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
@@ -46,9 +46,9 @@ I am a Ph.D. candidate in Political Communication at the University of Amsterdam
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/r_packages/</guid>
-      <description> peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
- datenguideR - R wrapper for the datengui.de GraphQL API to easily access German regional statistics.
-  </description>
+      <description>peRspective - Perspective is an API that uses machine learning models to score the perceived impact a comment might have on a conversation. The package provides access to the API using the R programming language.
+ metatargetr - The goal of metatargetr is to parse targeting information from the Meta Ad Targeting dataset as well as retrieve data from the Audience tab in the Meta Ad Library.
+ untruthr - The goal of untruthr is to provide access to the social networking website Truth Social.</description>
     </item>
     
     <item>
@@ -57,8 +57,9 @@ I am a Ph.D. candidate in Political Communication at the University of Amsterdam
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/awards/</guid>
-      <description>Naomi C. Turner Prize 2018
- This prize is awarded for the best paper presented by a graduate student at the World Association for Public Opinion (WAPOR) annual conference.  </description>
+      <description>APSA ITP Best Journal Article Award 2023
+ This award is given to best article published in Information Technology and Politics (ITP) published in 2022. The awarded paper can be found here.  Best Paper Award in Political Communication at ICA 2023
+ This award is given to the best paper presented in the Political Communication division at the International Communication Association (ICA) annual conference in Toronto 2023. The awarded paper is: Algorithmic Microtargeting?</description>
     </item>
     
     <item>
@@ -80,13 +81,19 @@ I am a Ph.D. candidate in Political Communication at the University of Amsterdam
     </item>
     
     <item>
-      <title>Teaching</title>
+      <title>Teaching Experience</title>
       <link>/home/teaching/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/teaching/</guid>
-      <description>I am a teaching instructor for the following courses at University of Stuttgart:
- Statistische Modellbildung II Tutorium  </description>
+      <description>Between 2017 and 2020, led the R-User Group Stuttgart and taught multiple workshops:
+ Introduction to R
+ Introduction to Linear Regression
+ How to perform Diagnostics for Linear Regression
+ Introduction to Multilevel Regression
+ Intorduction to Computational Social Science
+  Winter Semester 2018&amp;frasl;19 and Summer Semester 2019:
+ Master course tutorial to the accompanying lecture &amp;ldquo;Statistical Modeling II&amp;rdquo; at the University of Stuttgart which covered advanced statistical models like multilevel regression  April 2020:</description>
     </item>
     
     <item>
