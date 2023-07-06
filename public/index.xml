@@ -11,6 +11,37 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Political Microtargeting and Ad Delivery Algorithms</title>
+      <link>/post/algo_microtargeting/</link>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 +0200</pubDate>
+      
+      <guid>/post/algo_microtargeting/</guid>
+      <description>&lt;p&gt;So far, online political microtargeting has been mainly understood as a strategic choice that advertisers can make to maximize the impact of their messaging by reaching certain audiences that are most most likely to be receptive of them.&lt;/p&gt;
+
+&lt;p&gt;In fact, social media companies like Meta have built an entire business model around this promise. In a public outreach campaign Meta started in early 2021 called &amp;ldquo;&lt;a href=&#34;https://about.meta.com/supportsmallbusiness/personalized-ads/&#34; target=&#34;_blank&#34;&gt;Good Ideas Deserve To Be Found&lt;/a&gt;&amp;rdquo; they stress the importance of allowing targeted personalized ads because it helps thousands of businesses find their niche audience.&lt;/p&gt;
+
+&lt;p&gt;This idea can also be found in a lot of the reporting on microtargeting, that centers companies like Cambridge Analytica or other bad actors who are allegedly capable of launching highly personalized and thus effective ad campaigns to manipulate voters.&lt;/p&gt;
+
+&lt;p&gt;The implicit assumption of these narratives is that advertisers have strong control over who sees their ads and that they can in fact reach who they are attempting to target. Unfortunately, little public scrutiny and academic attention has been given to the entity that is ultimately responsible for why an ad shows up in a personalized newsfeed: &lt;em&gt;the ad delivery algorithm&lt;/em&gt;.
+The Facebook ad delivery algorithm is set up to learn over time what kind of individuals are more likely to fulfill the ad goal, be it clicking the ad or buying a product, and shows ads to users based on an inferred relevance score.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What does the research say?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Some research indeed finds that the Meta&amp;rsquo;s ad delivery algorithm is steering ads towards certain audiences without the explicit intention or knowledge of the advertiser themselves. &lt;a href=&#34;https://dl.acm.org/doi/10.1145/3359301&#34; target=&#34;_blank&#34;&gt;Ali et al. 2019&lt;/a&gt; find that ads that ran at the same time, with the custom same audience, and the same budget can be heavily skewed along gendered and racial stereotypes.&lt;/p&gt;
+
+&lt;p&gt;In the realm of political advertising, researchers have also found that ads are more likely to be delivered to ideologically congruent audiences. Moreover, &lt;a href=&#34;https://dl.acm.org/doi/10.1145/3437963.3441801&#34; target=&#34;_blank&#34;&gt;Ali et al. 2021&lt;/a&gt; find evidence for an increased cost for reaching ideologically incongruent audiences: for example, when placing a liberal ad to a liberal audience they had to pay 21 Dollar per 1000 reached users, whereas a conservative ad delivered to a liberal audience cost almost twice as much with 40 Dollar per 1000 users.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://themarkup.org/election-2020/2020/10/29/facebook-political-ad-targeting-algorithm-prices-trump-biden&#34; target=&#34;_blank&#34;&gt;Another report by The Markup&lt;/a&gt; reveals that ads targeted at older voters during the US 2020 election were six times more expensive for the Biden campaign compared to the Trump campaign.&lt;/p&gt;
+
+&lt;p&gt;Much of the research concerning ad algorithms has been focused on the United States. There&amp;rsquo;s a scarcity of data when it comes to the European multi-party context. Our current investigation involves the Dutch 2021 parliamentary election as a case study to understand whether ad delivery skews also occur in Europe.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://github.com/favstats/myblogdown/blob/master/static/img/Picture2.png?raw=true&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Analyzing data from the Meta ad library we find that during the Dutch 2021 parliamentary election, Meta charged different prices for reaching 1000 impressions, with discrepancies among political parties. For instance, the CDA (Median = 13.30) paid more than twice as much as the PvdA (Median = 6.50) to reach the same number of views. And again, the right-wing populist FvD only spend 3.3 Euro for 1000 impressions. However, looking at the ad library data alone is not enough to infer that Facebook inherently (dis-) advantages one party over the other. For example, one party may just be more skilled at using the Facebook Ad Manager and thus extract a more cost-efficient result. In order to establish whether biases in ad delivery are taking place we need a compare the same ads with the same targeting criteria across parties.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Dutch Provincial Elections 2023: A Look at Digital Campaigning</title>
       <link>/post/provincial_elections/</link>
       <pubDate>Sat, 18 Mar 2023 00:00:00 +0100</pubDate>
@@ -1143,15 +1174,6 @@ vdem  %&amp;gt;%
       <pubDate>Fri, 26 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>/publication/radical_filter_bubbles/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Slides: Package Development in R</title>
-      <link>/project/rpkgs/</link>
-      <pubDate>Sat, 29 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/project/rpkgs/</guid>
       <description></description>
     </item>
     

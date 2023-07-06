@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021 Fabio Votta</copyright>
-    <lastBuildDate>Sat, 18 Mar 2023 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/microtargeting/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Political Microtargeting and Ad Delivery Algorithms</title>
+      <link>/post/algo_microtargeting/</link>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 +0200</pubDate>
+      
+      <guid>/post/algo_microtargeting/</guid>
+      <description>So far, online political microtargeting has been mainly understood as a strategic choice that advertisers can make to maximize the impact of their messaging by reaching certain audiences that are most most likely to be receptive of them.
+In fact, social media companies like Meta have built an entire business model around this promise. In a public outreach campaign Meta started in early 2021 called &amp;ldquo;Good Ideas Deserve To Be Found&amp;rdquo; they stress the importance of allowing targeted personalized ads because it helps thousands of businesses find their niche audience.</description>
+    </item>
     
     <item>
       <title>Dutch Provincial Elections 2023: A Look at Digital Campaigning</title>
