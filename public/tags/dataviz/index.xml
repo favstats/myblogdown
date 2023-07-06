@@ -7,27 +7,175 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021 Fabio Votta</copyright>
-    <lastBuildDate>Thu, 23 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 21 Apr 2021 00:00:00 +0200</lastBuildDate>
     
 	<atom:link href="/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Blog Post: Retaliatory Tariffs and Trump’s Base</title>
-      <link>/project/dataforprogress/</link>
-      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
+      <title>Guilty Verdict for Murder of George Floyd</title>
+      <link>/post/georgefloyd/</link>
+      <pubDate>Wed, 21 Apr 2021 00:00:00 +0200</pubDate>
       
-      <guid>/project/dataforprogress/</guid>
-      <description></description>
+      <guid>/post/georgefloyd/</guid>
+      <description>Derek Chauvin has been found guilty on all counts for the murder of George Floyd. Without a doubt, today was an important day for justice &amp;amp; a step in the right direction. But so much more is left to do for sustained change and I hope this can be a turning point.
+Because I love data visualization, I collected some data for this occassion to show the moment that Twitter found out about the guilty verdict:</description>
     </item>
     
     <item>
-      <title>Visualizing Gas Explosions in Lawrence, MA</title>
-      <link>/project/lawrence_ma/</link>
-      <pubDate>Sat, 22 Sep 2018 00:00:00 +0000</pubDate>
+      <title>Game of Thrones ratings</title>
+      <link>/post/got_ratings/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 +0200</pubDate>
       
-      <guid>/project/lawrence_ma/</guid>
-      <description></description>
+      <guid>/post/got_ratings/</guid>
+      <description>Packages and Folders # Install these packages if you don&#39;t have them yet # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;) # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) pacman::p_load(tidyverse, tidytemplate, htmltab, janitor, gameofthrones, extrafont, scales, ggthemes) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Scraping Views from Wikipedia got_tables &amp;lt;- &amp;quot;https://en.wikipedia.org/wiki/List_of_Game_of_Thrones_episodes&amp;quot; episode_list &amp;lt;- 2:9 %&amp;gt;% map_dfr(~htmltab(got_tables, .x) %&amp;gt;% mutate(season = .x - 1)) %&amp;gt;% clean_names() %&amp;gt;% mutate_at(vars(no_overall, no_inseason, u_s_viewers_millions), as.numeric) %&amp;gt;% mutate(season = str_glue(&amp;quot;Season {season}&amp;quot;)) %&amp;gt;% mutate(written_by = ifelse(str_detect(written_by, &amp;quot;David Benioff &amp;amp; D.</description>
+    </item>
+    
+    <item>
+      <title>Exploring U.S. Refugee Data</title>
+      <link>/post/exploring_us_refugee_data/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0200</pubDate>
+      
+      <guid>/post/exploring_us_refugee_data/</guid>
+      <description>A Short History of Refugees in the U.S. The United States has a long history of accepting refugees fleeing war, violence or persecution. From the aftermath of World War II to wars in Asia and the collapse of the Soviet bloc, there has not been a shortage of people seeking to escape dire conditions and applying for refugee status in the United States. According to State Department data, more than 3.</description>
+    </item>
+    
+    <item>
+      <title>Is American democracy under threat?</title>
+      <link>/post/blw_data/</link>
+      <pubDate>Sat, 16 Feb 2019 00:00:00 +0100</pubDate>
+      
+      <guid>/post/blw_data/</guid>
+      <description>Is American democracy under threat? Bright Line Watch regularly asks political scientists and the public questions about democratic performance.
+In their visualizations and reports, Bright Line Watch mostly focuses on measures of democratic performance to the degree that the US fulfills these standards.
+In this little exercise, I want to focus on the measures that the US does NOT perform well on. Here I visualize the results.
+Load neccesary Packages # Install these packages if you don&#39;t have them yet # if (!</description>
+    </item>
+    
+    <item>
+      <title>538 Predictions for the 2018 Midterm Elections</title>
+      <link>/post/538_midterms/</link>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/538_midterms/</guid>
+      <description>Packages # Install these packages if you don&#39;t have them yet # if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;) # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) pacman::p_load(tidyverse, tidytemplate, janitor, ggthemes, ggpubr, rvest, ggrepel)  Load Data csv_link &amp;lt;- &amp;quot;https://blogs.sciencemag.org/sciencehound/wp-content/uploads/sites/5/2018/11/Congressional-election-results-and-forecasts.csv&amp;quot; pred_dat &amp;lt;- read_csv(csv_link) %&amp;gt;% clean_names() %&amp;gt;% mutate(close = ifelse(election_results &amp;lt;= 55 &amp;amp; election_results &amp;gt;= 45, &amp;quot;Close&amp;quot;, &amp;quot;Safe&amp;quot;)) %&amp;gt;% left_join(tibble(state = state.name, abbr =state.abb)) %&amp;gt;% mutate(distr_abbr = paste0(abbr, district))  pred_dat  ## # A tibble: 435 x 14 ## state district democratic_cand~ republican_cand~ election_results ## &amp;lt;chr&amp;gt; &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; ## 1 Alab~ 1 Kennedy Byrne 36.</description>
+    </item>
+    
+    <item>
+      <title>How did Candidates endorsed by Trump fare in the 2018 Midterm Elections?</title>
+      <link>/post/trump_endorsements/</link>
+      <pubDate>Thu, 08 Nov 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/trump_endorsements/</guid>
+      <description>Data Sources:
+https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html
+https://www.politico.com/story/2018/11/07/2018-election-results-trump-endorsements-967767
+Packages # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, rvest, qdapRegex, ggthemes, tidytemplate, rtweet)  Including Plots candidate &amp;lt;- read_html(&amp;quot;https://www.mcclatchydc.com/news/politics-government/election/midterms/article221145845.html&amp;quot;) %&amp;gt;% html_nodes(&amp;quot;#content-body- li&amp;quot;) %&amp;gt;% html_text() mcclatch &amp;lt;- tibble(candidate) %&amp;gt;% mutate(won = case_when( str_detect(candidate, &amp;quot;✓&amp;quot;) ~ &amp;quot;Won&amp;quot;, str_detect(candidate, &amp;quot;✗&amp;quot;) ~ &amp;quot;Lost&amp;quot;, T~ &amp;quot;Undecided&amp;quot;)) %&amp;gt;% mutate(type = case_when( str_detect(candidate, &amp;quot;House&amp;quot;) ~ &amp;quot;House&amp;quot;, str_detect(candidate, &amp;quot;Senate|senator&amp;quot;) ~ &amp;quot;Senate&amp;quot;, str_detect(candidate, &amp;quot;governor|gubernatorial&amp;quot;) ~ &amp;quot;Governor&amp;quot;)) %&amp;gt;% mutate(incumbent = ifelse(str_detect(candidate, &amp;quot;incumbent|Incumbent&amp;quot;), &amp;quot;Incumbent&amp;quot;, &amp;quot;Not Incumbent&amp;quot;)) %&amp;gt;% mutate(candidate = str_remove(candidate, &amp;quot;✓|✗&amp;quot;) %&amp;gt;% str_trim()) %&amp;gt;% mutate(candidate = str_extract(candidate, &amp;quot;.</description>
+    </item>
+    
+    <item>
+      <title>Pluckrose et al. Hoax Papers</title>
+      <link>/post/hoax_papers/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/hoax_papers/</guid>
+      <description>Here I want to analyze the Rankings of Journals that received hoax papers by Boghossian, Lindsay and Pluckrose. You can read about the story here and here in their own words.
+Packages Loading in some packages.
+# Install these packages if you don&#39;t have them yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, rvest, sjrdata, janitor, ggthemes)  Load Data Some quick webscraping to get the details on the papers created by Pluckrose et al.</description>
+    </item>
+    
+    <item>
+      <title>Monthly Development of Asylum Applications and Decisions in Germany (2010 - 2018)</title>
+      <link>/post/de_refugee_dat/</link>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/de_refugee_dat/</guid>
+      <description>Data Sources:
+ http://www.bamf.de/DE/Infothek/Statistiken/statistiken-node.html
+ http://biaj.de/
+  Load packages pacman::p_load(tidyverse, tabulizer, gganimate)  Get Acceptance Rates source(&amp;quot;asylum_dat.R&amp;quot;) load(&amp;quot;data/refugee_decisions.Rdata&amp;quot;)  Number of Refugees Data load(&amp;quot;data/asylum_dat.Rdata&amp;quot;) asylum_dat &amp;lt;- asylum_dat %&amp;gt;% full_join(refugee_decisions) %&amp;gt;% select(time, `Total Number of Asylum Seekers` = number, `Accepted Applications` = pos, `Declined Applications` = neg) %&amp;gt;% gather(key, number, -time)  Plot Static rev_cols &amp;lt;- c(&amp;quot;#56B4E9&amp;quot;, &amp;quot;#E69F00&amp;quot;, &amp;quot;#000000&amp;quot;) #rev(ggthemes::colorblind_pal()(3)) n_peak &amp;lt;- asylum_dat %&amp;gt;% filter(time == as.Date(&amp;quot;2016-08-01&amp;quot;)) %&amp;gt;% filter(key == &amp;quot;Total Number of Asylum Seekers&amp;quot;) %&amp;gt;% .</description>
+    </item>
+    
+    <item>
+      <title>Number of Refugees accepted by the US (2002 - 2018)</title>
+      <link>/post/refugee_dat/</link>
+      <pubDate>Sat, 22 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/refugee_dat/</guid>
+      <description>Data from: http://ireports.wrapsnet.org/Interactive-Reporting/EnumType/Report?ItemPath=/rpt_WebArrivalsReports/MX%20-%20Arrivals%20by%20Nationality%20and%20Religion
+Packages and Folders # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, readxl, sjmisc) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Load Data refugee_dat &amp;lt;- read_excel(&amp;quot;data/refugee_dat.xls&amp;quot;) %&amp;gt;% drop_na(X__1) %&amp;gt;% rename(cntry = X__1) %&amp;gt;% select(-Religion, -X__2, -X__3, - Total) %&amp;gt;% filter(!(str_detect(cntry, &amp;quot;Total|Data&amp;quot;))) %&amp;gt;% gather(year, n, -cntry) %&amp;gt;% mutate(year = str_replace(year, &amp;quot;CY &amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% as.numeric) refugee_dat %&amp;gt;% group_by(cntry) %&amp;gt;% tally() %&amp;gt;% arrange(desc(nn)) %&amp;gt;% .</description>
+    </item>
+    
+    <item>
+      <title>Visualizing Results of German Elections (2013 and 2017)</title>
+      <link>/post/btw_map/</link>
+      <pubDate>Wed, 19 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/btw_map/</guid>
+      <description>Data Sources:
+https://www.govdata.de/web/guest/apps/-/details/bundestagswahl-2017
+https://www.bundeswahlleiter.de/bundestagswahlen/2017/strukturdaten.html
+Settings, Packages and Folders options(scipen = 999) knitr::opts_chunk$set(message = F, warning = F, error = F, fig.align = &amp;quot;center&amp;quot;, fig.width = 10, fig.height = 6) # Install these packages if you don&#39;t have theme yet # devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;) # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse) # Creates folders # tidytemplate::data_dir() # tidytemplate::images_dir()  Helper Functions get_percentage &amp;lt;- function(part, total, digits = NULL) { if(!is.numeric(part) | !is.numeric(total)){ cat(&amp;quot;Non-numeric variables.. converting\n&amp;quot;) part &amp;lt;- as.</description>
+    </item>
+    
+    <item>
+      <title>Visualizing Temperature Rise in Stuttgart, Germany over Time</title>
+      <link>/post/temperature_viz/</link>
+      <pubDate>Sat, 01 Sep 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/temperature_viz/</guid>
+      <description>This is a quick use-case of gganimate to visualize the rise of average temperature in my home town, Stuttgart, Germany.
+Get Packages pacman::p_load(tidyverse, rvest, gganimate)  Get and Save Data You can get the data from here: https://icdc.cen.uni-hamburg.de/daten/atmosphere/dwd-station.html
+ The German Weather Service (DWD) provides climate data for more than 70 observation stations from the measurement network in Germany. The stations provide scheduled, daily and monthly readings of temperatures, rainfall, sunshine duration, wind speed, humidity, barometric pressure and cloud cover, which are updated daily.</description>
+    </item>
+    
+    <item>
+      <title>How does Collinearity Influence Linear Regressions?</title>
+      <link>/post/multicol_sim/</link>
+      <pubDate>Tue, 28 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/multicol_sim/</guid>
+      <description>This is a short simulation study trying to figure out the impact of collinearity on linear regressions.
+Overview:
+ Packages Simulation Function Simulate and Save Data Visualizing the Influence of Collinearity  Standard Errors T-Statistic and P-Values B-Coefficients Animation Standardized   Packages Load the necessary packages
+# install pacman once if not avaible on your machine # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(arm, purrr, MASS, broom, ggthemes, tidyverse, ecodist, viridis, gridExtra, grid, lm.</description>
+    </item>
+    
+    <item>
+      <title>Analyzing Tweets of the ECPR General Conference 2018</title>
+      <link>/post/ecprconf18/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0200</pubDate>
+      
+      <guid>/post/ecprconf18/</guid>
+      <description>This is a short notebook outlining the code used to scrape tweets related to the ECPR Conference 2018 in Hamburg.
+Packages Load the necessary packages
+# install pacman once if not avaible on your machine # install.packages(&amp;quot;pacman&amp;quot;) pacman::p_load(tidyverse, purrr, tidyr, rtweet, stringr, ggraph, igraph, tidygraph, forcats)  Get Data If you want to scrape data yourself you have to register a free account where you get your personal access point to Twitter.</description>
+    </item>
+    
+    <item>
+      <title>Mapping Terror Attacks with Highcharter</title>
+      <link>/post/terror_map/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/terror_map/</guid>
+      <description>A few days ago someone asked me whether I could visualize the terror attacks of recent years in Europe. Here is an attempt to do exactly this.
+The code for this blogpost can be found in this GitHub Repository.
+Getting Started
+First I need data about terror attacks. For this I downloaded the Global Terrorism Database.
+Now in Rstudio, I load in the needed packages:
+pacman::p_load(tidyverse, magrittr, readxl, highcharter)  After I put the downloaded .</description>
+    </item>
+    
+    <item>
+      <title>Mapping your 2017 Geolocations: The Tidy Way</title>
+      <link>/post/tidylocations/</link>
+      <pubDate>Wed, 03 Jan 2018 00:00:00 +0100</pubDate>
+      
+      <guid>/post/tidylocations/</guid>
+      <description>A few days ago I stumbled upon an instagram user who created a cool map of his geolocations. You can get his code here. I had to reproduce these cool maps myself and why not also make a blogpost while doing so?
+The code for this blogpost can be found in this GitHub Repository.
+Getting Started
+First I need my geolocation data. If you use Google and own an Android cell phone, you can download yours here.</description>
     </item>
     
   </channel>
