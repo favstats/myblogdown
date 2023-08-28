@@ -24,7 +24,7 @@ Here, I take a deep dive into the world of digital advertising during the Dutch 
 
 ![](https://pbs.twimg.com/media/FrheFjBX0AYaR9x?format=png&name=4096x4096)
 
-Overall, Dutch political parties spent a total of €1.31M on digital ads in the 30 days leading up to the provincial elections. This figure includes spending on Google, Meta (Facebook and Instagram), and Snapchat. This represents roughly 19% of the total budget that was spent by these parties during the election campaign.
+Overall, Dutch political parties spent a total of €1.36M on digital ads in the 30 days leading up to the provincial elections. This figure includes spending on Google, Meta (Facebook and Instagram), and Snapchat. This represents roughly 20.8% of the total budget that was spent by these parties during the election campaign.
 
 It's worth noting that there was significant variation in the amount that each party spent on digital ads. GroenLinks was the biggest spender on digital ads, with a total spend of €248K. This was followed by the PvdA at €149K, and the CDA also at €149K. The FvD was a close fourth with a total spend of €145K in the last 30 days before the election.
 
