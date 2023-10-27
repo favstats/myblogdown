@@ -36,7 +36,7 @@ Here I present dashboards that I created in collaboration with [Who Targets Me](
 <li>🇲🇪 <a href="https://favstats.github.io/2023MontenegrinParliamentaryElection/">2023 Montenegrin parliamentary elections</a> (11 June 2023)</li>
 <li>🇬🇷 <a href="https://favstats.github.io/2ndGreeceElection2023/">2nd 2023 Greek Legislative election</a> (25 May 2023)</li>
 <li>🇸🇰 <a href="https://favstats.github.io/slovakia2023/">2023 Slovak parliamentary election</a> (30 September 2023)</li>
-<li>🇩🇪 <a href="https://favstats.github.io/LTW2023/bavaria">2023 Bavarian state election</a> (8 October 2023)</li>
+<li>🇩🇪 <a href="https://favstats.github.io/LTW2023/bayern">2023 Bavarian state election</a> (8 October 2023)</li>
 <li>🇩🇪 <a href="https://favstats.github.io/LTW2023/hessen">2023 Hessian state election</a> (8 October 2023)</li>
 <li>🇳🇿 <a href="https://favstats.github.io/NZ2023/">2023 New Zealand general election</a> (14 October 2023)</li>
 <li>🇵🇱 <a href="https://favstats.github.io/poland2023/">2023 Polish parliamentary election</a> (15 October 2023)</li>
