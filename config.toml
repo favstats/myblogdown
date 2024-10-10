@@ -39,8 +39,8 @@ defaultContentLanguageInSubdir = false
   font = "default"
 
   # Your details.
-  name = "Fabio Votta"
-  role = "Ph.D. Candidate in Political Communication"
+  name = "Dr. Fabio Votta"
+  role = "Postdoctoral Researcher in Political Communication"
 
   # Organizations/Affiliations.
   #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.

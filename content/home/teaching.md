@@ -49,4 +49,8 @@ March 2022
 
 June 2022
 
-- 2-day workshop "Intoduction to Quantitative Text Analysis" at the University of Warwick
+- 2-day workshop "Introduction to Quantitative Text Analysis" at the University of Warwick
+
+Spring Semester 2024
+
+- "Introduction to Computational Communication Science" at the University of Amsterdam

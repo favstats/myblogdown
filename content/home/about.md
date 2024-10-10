@@ -15,15 +15,19 @@ weight = 5
     "Computational Social Science",
     "Data Visualization",
     "Fringe Groups online",
-    "Political Polarization",
     "Statistical Programming Language R"
   ]
 
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "Ph.D. Candidate in Political Communication (current)"
+  course = "Postdoctoral Researcher (current)"
   institution = "University of Amsterdam"
-  year = 2020
+  year = 2024
+  
+[[education.courses]]
+  course = "Ph.D. in Political Communication"
+  institution = "University of Amsterdam"
+  year = 2024
 
 [[education.courses]]
   course = "M.A. Empirical Political and Social Research"
@@ -46,4 +50,4 @@ weight = 5
 
 <a href="docs/VottaFabio_CV.pdf">Curriculum Vitae</a>
 
-I am a Ph.D. candidate in Political Communication at the University of Amsterdam. My research focuses on the impact of microtargeted political advertisements on citizens and society. I am very passionate about reproducible open science, data visualization and communicating insights from data to a broader audience. My other research interests include the study of political extremism and fringe political groups online. In my spare time, I am constantly looking for new ways to improve my R skills and acquire new methods in my tool box. Finally, I am very enthusiastic about teaching statistics and programming, both introductory courses or more advanced topics.
+I am a Postdoctoral Researcher at the University of Amsterdam (Amsterdam School of Communication Research). My research focuses on digital election campaigns, specifically data-driven campaigning and political microtargeting. I am very passionate about reproducible open science, data visualization and communicating insights from data to a broader audience. In my spare time, I am constantly looking for new ways to improve my R skills and acquire new methods in my tool box. Finally, I am very enthusiastic about teaching statistics and programming, both introductory courses or more advanced topics.

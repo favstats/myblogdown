@@ -40,5 +40,6 @@ Here I present dashboards that I created in collaboration with [Who Targets Me](
 <li>🇩🇪 <a href="https://favstats.github.io/LTW2023/hessen">2023 Hessian state election</a> (8 October 2023)</li>
 <li>🇳🇿 <a href="https://favstats.github.io/NZ2023/">2023 New Zealand general election</a> (14 October 2023)</li>
 <li>🇵🇱 <a href="https://favstats.github.io/poland2023/">2023 Polish parliamentary election</a> (15 October 2023)</li>
-<li>🇺🇸 <a href="https://favstats.github.io/USprimaries2024/">US Presidential Primaries</a> (2023-2024)</li>
+<li>🇺🇸 <a href="https://favstats.github.io/us24/">US Presidential Election</a> (2024)</li>
+
 </ul>
