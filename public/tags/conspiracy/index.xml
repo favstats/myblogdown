@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Conspiracy on favstats - personal blog</title>
+    <title>conspiracy on favstats - personal blog</title>
     <link>/tags/conspiracy/</link>
-    <description>Recent content in Conspiracy on favstats - personal blog</description>
+    <description>Recent content in conspiracy on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021 Fabio Votta</copyright>
@@ -18,7 +18,7 @@
       <pubDate>Fri, 21 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/conspiracyland/</guid>
-      <description></description>
+      <description>This page visualizes 14,259 images posted on Instagram between January and September 2020.</description>
     </item>
     
   </channel>

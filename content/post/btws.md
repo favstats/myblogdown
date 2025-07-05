@@ -32,7 +32,7 @@ The second graph showcases cumulative digital ad spending by major German politi
 
 These shifts might highlight a trend where newer or more dynamic parties aggressively expand their digital footprint whereas established parties may rely more on traditional campaign methods. 
 
-But does this mean that the importance digital platforms has changed? For that we need to look into some data about the *relative share of digital ad spending* compared to their [*total budget](https://www.rnd.de/politik/was-kostet-der-wahlkampf-die-budgets-der-parteien-im-ueberblick-74RTDCITNNHETINXYGQNN4DUTE.html).
+But does this mean that the importance digital platforms has changed? For that we need to look into some data about the *relative share of digital ad spending* compared to their [*total budget*](https://www.rnd.de/politik/was-kostet-der-wahlkampf-die-budgets-der-parteien-im-ueberblick-74RTDCITNNHETINXYGQNN4DUTE.html).
 
 ![](https://i.imgur.com/ASiW05N.png)
 

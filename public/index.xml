@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>favstats - personal blog on favstats - personal blog</title>
@@ -7,8 +6,163 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021 Fabio Votta</copyright>
-    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0100</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>DHS Targeted Campaign Threatens Deportation on Meta and Google</title>
+      <link>/post/dhs/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0100</pubDate>
+      
+      <guid>/post/dhs/</guid>
+      <description>
+
+&lt;p&gt;A &lt;a href=&#34;https://www.dhs.gov/news/2025/03/15/dhs-launches-international-ad-campaign-warning-illegal-aliens-self-deport-and-stay&#34; target=&#34;_blank&#34;&gt;press release from the Department of Homeland Security&lt;/a&gt; issued earlier this year announced the launch of a &amp;ldquo;multimillion-dollar ad campaign&amp;rdquo; that would leverage ads that are &amp;ldquo;hyper-targeted, including through social media, text message and digital&amp;rdquo;.&lt;/p&gt;
+
+&lt;p&gt;The goal, in their words, is to send a&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;warning [to] illegal aliens to not to come to America and break its laws or they will be hunted down and deported&amp;rdquo;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For this blog post, I will look into how &amp;ldquo;hyper-targeted&amp;rdquo; these ads are and how much money DHS is spending on them.&lt;/p&gt;
+
+&lt;p&gt;Using public data from the Meta Ad Library and Google&amp;rsquo;s Ad Transparency Report, analyzed with the open-source tool &lt;a href=&#34;https://github.com/favstats/metatargetr&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;metatargetr&lt;/code&gt;&lt;/a&gt;, we can get a good picture of what is going on.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-ad-itself&#34;&gt;The Ad Itself:&lt;/h3&gt;
+
+&lt;p&gt;The ad features Homeland Security Secretary Kristi Noem delivering a threatening message. She states:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;President Trump has a clear message for those of you who are here illegally: Leave now. If you don&amp;rsquo;t, we will find you and we will deport you. You will never return.&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;a href=&#34;https://www.youtube.com/watch?v=hezXQvjzCkQ&#34;&gt;
+&lt;img src=&#34;https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:46yyakot3byghwqc6rhmqzqd/bafkreiasrcfymnds3k3p2zswzue5s7wscdmqf2dv6dknlr2pgh2qhid2wa@jpeg&#34; alt=&#34;WARNING - Domestic&#34;&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;the-scale-over-2-4-million-spent-since-march&#34;&gt;The Scale: Over $2.4 Million Spent Since March&lt;/h3&gt;
+
+&lt;p&gt;First, the spending is massive. Between March 1st and July 5th of this year, DHS has poured over &lt;strong&gt;$2.4 million&lt;/strong&gt; into digital ads on Google and Meta.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/3QaJCQK.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;how-good-is-the-hyper-targeting&#34;&gt;How Good is the &amp;ldquo;Hyper-Targeting&amp;rdquo;?&lt;/h3&gt;
+
+&lt;p&gt;The DHS press release used the term &amp;ldquo;hyper-targeted,&amp;rdquo; and the data shows what this means. The spending is geographically concentrated in U.S. counties with some of the largest Latino populations.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/yiI0kWp.png&#34; alt=&#34;Image: A scatter plot titled &amp;quot;Homeland Security advertising concentrated in U.S. counties with 25%+ Latino pop.&amp;quot;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As the plot shows, counties like Hidalgo, TX (over 90% Latino) and Miami-Dade, FL (over 70% Latino) are major targets and the vast majority of ads go to areas with a 25%+ Latino population. It is a clear strategic decision to aim this messaging at specific communities based on ethnicity.&lt;/p&gt;
+
+&lt;p&gt;Not convinced yet? Well, the use of &amp;ldquo;detailed&amp;rdquo; target audiences makes it very clear who the Trump administration is aiming to reach. The campaign targets users based on interests that are likely strongly correlated with the Latino demographic.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/LcIbuy8.png&#34; alt=&#34;Image: A bar chart titled &amp;quot;Most Used Detailed Targeting Criteria by DHS Digital Ads.&amp;quot;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Targeting users interested in &amp;ldquo;Regional Mexican,&amp;rdquo; &amp;ldquo;Mexican pop music,&amp;rdquo; and the &amp;ldquo;Spanish language&amp;rdquo; is a clear proxy for ethnicity. It also demonstrates how trivial it is to bypass Meta&amp;rsquo;s supposed safeguards.&lt;/p&gt;
+
+&lt;p&gt;Because Meta &lt;em&gt;DOES&lt;/em&gt; claim it has &lt;a href=&#34;https://www.facebook.com/business/news/removing-certain-ad-targeting-options-and-expanding-advertiser-controls&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;banned targeting by &amp;ldquo;race or ethnicity&amp;rdquo;&lt;/strong&gt;&lt;/a&gt;, but anyone who is only slightly familiar with targeted ad campaigns knows how easy it is to find proxies for sensitive data categories.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-hyper-targeting-is-bad-duh&#34;&gt;The &amp;ldquo;Hyper-Targeting&amp;rdquo; is Bad, Duh&lt;/h3&gt;
+
+&lt;p&gt;Herein lies the central problem. The ad claims to focus on &amp;ldquo;illegal aliens&amp;rdquo; but the &amp;ldquo;hyper-targeting&amp;rdquo; method is, perhaps unsurprisingly, &lt;em&gt;quite indiscriminate&lt;/em&gt;. Using broad cultural proxies like musical taste or language blankets entire communities with intimidating messages.&lt;/p&gt;
+
+&lt;p&gt;The result is that U.S. citizens, legal residents, and their families are served a threatening government message based on nothing more than their (likely) cultural background. Obviously, the issue is not that the targeting is imprecise though. It is that the tactic itself, subjecting a whole demographic to a message of intimidation, is fundamentally problematic.&lt;/p&gt;
+
+&lt;p&gt;This approach just adds to the &lt;a href=&#34;https://www.latimes.com/delos/newsletter/2025-06-27/ice-raids-latino-community-racial-profiling&#34; target=&#34;_blank&#34;&gt;widespread &amp;ldquo;climate of fear&amp;rdquo;&lt;/a&gt; caused by the Trump administration&amp;rsquo;s promise of mass deportation. It becomes particularly worrisome when placed in the context of well-documented cases, such as those in a major &lt;a href=&#34;https://www.latimes.com/projects/la-me-ice-wrongful-detention-investigation/&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;Los Angeles Times&lt;/em&gt; investigation&lt;/a&gt;, where U.S. citizens too have been swept up in enforcement actions. To the suprise of probably only few people, &amp;ldquo;hypertargeted&amp;rdquo; is just a poorly-hidden euphemism for digital racial profiling.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Digital Campaign Trail: Unpacking Germany’s Political Ad Spending</title>
+      <link>/post/btws/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0100</pubDate>
+      
+      <guid>/post/btws/</guid>
+      <description>
+
+&lt;p&gt;&lt;em&gt;Digital political advertising has become an integral part of modern election campaigns&lt;/em&gt; &lt;a href=&#34;https://journalqd.org/article/view/4188&#34; target=&#34;_blank&#34;&gt;all around the world&lt;/a&gt;. For the upcoming German parliamentary elections on February 23rd, I analyze data comparing digital ad spending across Germany&amp;rsquo;s 2021 and 2025 elections, focusing on overall trends, spending by party, and platform preferences.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/EyHrp9J.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;First, I zoom out to the aggregate level. Here, the data reveals that the spending is that the ad spending in 2025 overall tracks the spending in 2021. The cumulative spend reached €8.36 million in 2025, compared to €8.32 million in 2021 3 days before election day. &lt;em&gt;Note: &lt;a href=&#34;https://www.destatis.de/DE/Themen/Wirtschaft/Preise/Verbraucherpreisindex/Tabellen/Verbraucherpreise-12Kategorien.html#236116&#34; target=&#34;_blank&#34;&gt;spending data is inflation-adjusted&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/mtMNPXH.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The second graph showcases cumulative digital ad spending by major German political parties leading up to the elections. Several key patterns emerge:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The &lt;strong&gt;FDP&lt;/strong&gt; and &lt;strong&gt;Volt&lt;/strong&gt; show the most significant increases in spending, with FPD&amp;rsquo;s ad budget rising by €217K and Volt&amp;rsquo;s by an impressive €815K compared to 2021. Particularly, the Volt increase is noteworthy, as a party that has not ever entered the Bundestag, this time around they really seem to set their eyes on target.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Conversely, traditional powerhouses like CDU/CSU and SPD reduced their digital ad budgets, cutting €530K and €731K respectively.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These shifts might highlight a trend where newer or more dynamic parties aggressively expand their digital footprint whereas established parties may rely more on traditional campaign methods.&lt;/p&gt;
+
+&lt;p&gt;But does this mean that the importance digital platforms has changed? For that we need to look into some data about the &lt;em&gt;relative share of digital ad spending&lt;/em&gt; compared to their &lt;a href=&#34;https://www.rnd.de/politik/was-kostet-der-wahlkampf-die-budgets-der-parteien-im-ueberblick-74RTDCITNNHETINXYGQNN4DUTE.html&#34; target=&#34;_blank&#34;&gt;&lt;em&gt;total budget&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/ASiW05N.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The graph above reveals how the share of digital ad spending within the total campaign budget has shifted from 2021 to 2025 across major German political parties:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Volt stands out as the most aggressive adopter of digital campaigning, with a staggering increase of 28.33 percentage points in the share of their total budget allocated to digital ads, up to 40% of their budget is spend on Meta and Google ads.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;In contrast, traditional parties such as CDU/CSU and SPD have significantly reduced the share of their budget spent on digital ads by 3.8 and 3.5 percentage points, respectively. This decline could reflect a return to more conventional campaign strategies.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The Linke also saw a notable drop of 1.6 percentage points, while the Grüne experienced only a slight decrease of 0.3 percentage points.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These shifts suggest a divergence in campaign strategies: newer or smaller parties like Volt are doubling down on digital platforms to increase visibility. Meanwhile, more established parties might be relying on their existing offline infrastructure and traditional campaign methods.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/cT25PnW.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The fourth and final graph compares spending across Meta (Facebook and Instagram) and Google (including YouTube), the most important platforms for digital political advertising (political ads on TikTok are banned):&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Google spending more than doubled&lt;/strong&gt;, jumping from €699K in 2021 to €1.5 million in 2025, a gain of €813K. In contrast, &lt;strong&gt;Meta saw a similar decline&lt;/strong&gt;, with spending dropping from €4.2 million to €3.3 million, a decrease of €814K. Despite that decrease, spending on Meta platforms remains much higher compared to Google.&lt;/p&gt;
+
+&lt;h1 id=&#34;google-retreats-meta-here-to-stay&#34;&gt;Google Retreats, Meta here to Stay?&lt;/h1&gt;
+
+&lt;p&gt;This shift by German political parties to increase spending on Google comes with an interesting backdrop.  Recently, Google has announced that it will &lt;a href=&#34;https://blog.google/around-the-globe/google-europe/political-advertising-in-eu/?utm_source=chatgpt.com&#34; target=&#34;_blank&#34;&gt;cease serving political advertisements&lt;/a&gt; within the European Union before the Transparency and Targeting of Political Advertising (&lt;a href=&#34;https://www.consilium.europa.eu/en/press/press-releases/2024/03/11/eu-introduces-new-rules-on-transparency-and-targeting-of-political-advertising/&#34; target=&#34;_blank&#34;&gt;TTPA&lt;/a&gt;) regulation comes into effect in October 2025. The company cites the TTPA’s broad definition of political advertising and the associated operational challenges as primary reasons for its decision. However, &lt;a href=&#34;https://www.liberties.eu/en/stories/google-ad-ban-open-letter/45235&#34; target=&#34;_blank&#34;&gt;this rationale raises questions&lt;/a&gt;: if Google struggles to enforce a broad definition of political ads, how does it plan to ensure that &lt;em&gt;no political ads are being served&lt;/em&gt;? When political ads are disallowed, platforms still need to be able to identify them to be able to take them down.&lt;/p&gt;
+
+&lt;p&gt;But the issues do not end here. With Google’s exit, Meta will emerge as the dominant platform for digital political ads, effectively holding a near-monopoly in this space. Meta (including Facebook and Instagram) offers the most granular targeting capabilities alongside a large user base, making it the primary gateway for paid digital political outreach. Other platforms, such as Snapchat, account for only a minimal share of political ad spending, often in the low thousands of euros.&lt;/p&gt;
+
+&lt;p&gt;This consolidation of power should be seen as concerning. It risks reducing competition, empowering already established political actors at the disadvantage of smaller entities with less reach, and further concentrating influence over electoral dynamics within a single corporate entity that seems increasingly &lt;a href=&#34;https://theconversation.com/alliance-between-meta-and-trump-is-likely-to-create-informational-economic-and-geopolitical-conflicts-around-the-world-246872&#34; target=&#34;_blank&#34;&gt;captured by the Trump administration&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As Germany approaches its upcoming election, I hope this blog post provided a clear snapshot of digital ad spending and how it has evolved over time. With shifting budgets, changing platform dynamics, and new regulations reshaping the landscape, it’s crucial to keep a close watch on these developments and their broader implications for political communication.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: a previous version of this blog post included data up to 2 weeks to election day. It also now uses inflation-adjusted spending, so spending displayed is given in 2025 Euros.&lt;/em&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Cost of Reach: Testing the Role of Ad Delivery Algorithms in Online Political Campaigns</title>
+      <link>/publication/algoads/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/algoads/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Accepting Exclusion: Examining the (Un) Intended Consequences of Data-Driven Campaigns</title>
+      <link>/publication/accepting_exclusion/</link>
+      <pubDate>Thu, 03 Oct 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/accepting_exclusion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Who Does(n&#39;t) Target You? Mapping the Worldwide Usage of Online Political Microtargeting</title>
+      <link>/publication/wdy/</link>
+      <pubDate>Wed, 01 May 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/wdy/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Political Microtargeting and Ad Delivery Algorithms</title>
@@ -215,965 +369,6 @@ The Facebook ad delivery algorithm is set up to learn over time what kind of ind
       <pubDate>Fri, 21 May 2021 00:00:00 +0000</pubDate>
       
       <guid>/project/conspiracyland/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Guilty Verdict for Murder of George Floyd</title>
-      <link>/post/georgefloyd/</link>
-      <pubDate>Wed, 21 Apr 2021 00:00:00 +0200</pubDate>
-      
-      <guid>/post/georgefloyd/</guid>
-      <description>&lt;p&gt;Derek Chauvin has been found guilty on all counts for the murder of George Floyd. Without a doubt, today was an important day for justice &amp;amp; a step in the right direction. But so much more is left to do for sustained change and I hope this can be a turning point.&lt;/p&gt;
-
-&lt;p&gt;Because I love data visualization, I collected some data for this occassion to show the moment that Twitter found out about the guilty verdict:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/EzdMGlGWYAIu0sG?format=png&amp;amp;name=900x900&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;At it&amp;rsquo;s peak, ~1500 tweets were send out per second.&lt;/p&gt;
-
-&lt;p&gt;Here is the entire Twitter dataset I collected during the guilty verdict (ca. 2.3 million tweets in ~an hour)&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/EzdPnEbWQAAfWLu?format=png&amp;amp;name=900x900&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If you are interested in that sort of stuff: here are the most ratio&amp;rsquo;d tweets at time of collection.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://pbs.twimg.com/media/EzdTD83XMAES4f6?format=jpg&amp;amp;name=large&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>2020 Democratic Debates dataset</title>
-      <link>/post/demdebates/</link>
-      <pubDate>Thu, 13 Feb 2020 00:00:00 +0100</pubDate>
-      
-      <guid>/post/demdebates/</guid>
-      <description>
-
-&lt;p&gt;For anyone who is interested in exploring the Democratic primary debates
-of the U.S. Presidential Election, I compiled a dataset with all debates
-so far (i.e.: 8).&lt;/p&gt;
-
-&lt;p&gt;In the following blog post I will introduce the R package
-&lt;code&gt;demdebates2020&lt;/code&gt; which will be updated to include data from all
-Democratic debates as they are held. Further, I will present some
-possible use-cases and an exploratory analysis of the debates.&lt;/p&gt;
-
-&lt;h2 id=&#34;start&#34;&gt;Start&lt;/h2&gt;
-
-&lt;p&gt;First, I load in some packages.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
-# if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
-# devtools::install_github(&amp;quot;favstats/demdebates2020&amp;quot;)
-
-pacman::p_load(tidyverse,       # powerful data wrangling (and so much more)
-               knitr,           # for tables
-               extrafont,       # extra fonts
-               ggtext,          # markdown in ggplot!
-               rvest,           # for emoji scraping 
-               tidytext,        # text processing
-               demdebates2020,  # democratic debates datasets
-               ggthemes,        # custom themes
-               scales)          # for prettying up plot labels
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;To liven things up (and as a personal learning opportunity) I will use
-the great &lt;a href=&#34;https://github.com/wilkelab/ggtext&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;ggtext&lt;/code&gt;&lt;/a&gt; package and
-include some emojis in the graphs to come.&lt;/p&gt;
-
-&lt;p&gt;I will now present the main dataset: &lt;code&gt;debates&lt;/code&gt;. This dataset represents
-the spoken words of all Democratic candidates for US president at eight
-Democratic debates. The following
-&lt;a href=&#34;https://github.com/favstats/demdebates2020#sources&#34; target=&#34;_blank&#34;&gt;sources&lt;/a&gt; have been
-used to compile the data: Washington Post, Des Moines Register and
-rev.com. The dataset has the following eight columns:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;speaker&lt;/code&gt;: Who is speaking&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;background&lt;/code&gt;: Reactions from the audience, includes &lt;code&gt;(APPLAUSE)&lt;/code&gt; or
-&lt;code&gt;(LAUGHTER)&lt;/code&gt;
-
-&lt;ul&gt;
-&lt;li&gt;only availabe for the first seven debates&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;speech&lt;/code&gt;: Transcribed speech&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;type&lt;/code&gt;: Candidate, Moderator or Protester&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;gender&lt;/code&gt;: The gender of the person speaking&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;debate&lt;/code&gt;: Which debate&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;day&lt;/code&gt;: Which day of the debate
-
-&lt;ul&gt;
-&lt;li&gt;first and second debate were held on two separate days&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;order&lt;/code&gt;: The order in which the speech acts were delivered&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are two ways in which you can access the dataset.&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Read .csv file directly from GitHub&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;!-- end list --&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates_url &amp;lt;- &amp;quot;https://raw.githubusercontent.com/favstats/demdebates2020/master/data/debates.csv&amp;quot;
-
-debates &amp;lt;- readr::read_csv(debates_url)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Install and load the R package like this:&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;!-- end list --&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_github(&amp;quot;favstats/demdebates2020&amp;quot;)
-
-library(demdebates2020)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is how the dataset looks like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;demdebates2020::debates %&amp;gt;% 
-  dplyr::slice(1502:1510) %&amp;gt;% 
-  knitr::kable()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;speaker&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;background&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;speech&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;type&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;gender&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;debate&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;day&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;order&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;One of the differences - one of the differences that Joe and I have in our record is Joe voted for that war, I helped lead the opposition to that war, which was a total disaster.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;759&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;(APPLAUSE)&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;760&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;NA&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Second of all, I helped lead the effort for the first time to utilize the War Powers Act to get the United States out of the Saudi-led intervention in Yemen, which is the most horrific humanitarian disaster on Earth.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Candidate&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;male&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;761&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;If you want to explore applause or laughter that candidates received,
-then you can take a look at the &lt;code&gt;background&lt;/code&gt; variable.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;Note:&lt;/em&gt; as of now, &lt;code&gt;backgound&lt;/code&gt; is only available for Democratic
-debates 1 through 7. I couldn’t find a transcript source that recorded
-applause or laughter for the 8th debate. If you have a source, please
-feel free to contact me and I am happy to add it!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&#34;who-received-the-most-applause&#34;&gt;Who received the most applause?&lt;/h2&gt;
-
-&lt;p&gt;We can use the &lt;code&gt;background&lt;/code&gt; variable to see who received the most
-applause.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## check out who received Applause
-debates %&amp;gt;% 
-  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
-  dplyr::count(speaker, sort = T) %&amp;gt;% 
-  slice(1:10) %&amp;gt;% 
-  knitr::kable()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;speaker&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;73&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Elizabeth Warren&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;65&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;48&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Pete Buttigieg&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;47&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Kamala Harris&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;44&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Andrew Yang&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;39&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Cory Booker&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;36&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Julian Castro&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;36&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Amy Klobuchar&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;32&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Beto O’Rourke&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;22&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Looks like Bernie Sanders received the most applause.&lt;/p&gt;
-
-&lt;p&gt;We can also create a data visualization to better emphasize the
-differences.&lt;/p&gt;
-
-&lt;p&gt;As mentioned before I will use emojis in the graphs to liven things up.
-In order to so, I use two functions from the great blogpost &lt;a href=&#34;https://www.hvitfeldt.me/blog/real-emojis-in-ggplot2/&#34; target=&#34;_blank&#34;&gt;Real emojis
-in ggplot2&lt;/a&gt; by
-Emil Hvitfeldt.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;emoji_to_link &amp;lt;- function(x) {
-  paste0(&amp;quot;https://emojipedia.org/emoji/&amp;quot;,x) %&amp;gt;%
-    read_html() %&amp;gt;%
-    html_nodes(&amp;quot;tr td a&amp;quot;) %&amp;gt;%
-    .[1] %&amp;gt;%
-    html_attr(&amp;quot;href&amp;quot;) %&amp;gt;%
-    paste0(&amp;quot;https://emojipedia.org/&amp;quot;, .) %&amp;gt;%
-    read_html() %&amp;gt;%
-    html_node(&#39;div[class=&amp;quot;vendor-image&amp;quot;] img&#39;) %&amp;gt;%
-    html_attr(&amp;quot;src&amp;quot;)
-}
-
-link_to_img &amp;lt;- function(x, size = 20) {
-  paste0(&amp;quot;&amp;lt;img src=&#39;&amp;quot;, x, &amp;quot;&#39; width=&#39;&amp;quot;, size, &amp;quot;&#39;/&amp;gt;&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next, I get the emoji link for 👏&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;clap_emoji &amp;lt;- emoji_to_link(&amp;quot;👏&amp;quot;) %&amp;gt;% link_to_img()
-
-clap_emoji
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And I can include that in a graph:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## load fonts
-loadfonts(device = &amp;quot;win&amp;quot;)
-
-debates %&amp;gt;% 
-  dplyr::count(background, speaker, type, sort = T) %&amp;gt;% 
-  drop_na() %&amp;gt;% 
-  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
-  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
-  mutate(type = paste0(type, &amp;quot;s&amp;quot;)) %&amp;gt;% 
-  ggplot(aes(speaker, n)) +
-  geom_col(aes(fill = type), width = 0.5) +
-  coord_flip() +
-  ggthemes::theme_hc() +
-  geom_label(aes(label = n), size = 3) +
-  facet_wrap(~type, scales = &amp;quot;free&amp;quot;) +
-  ggthemes::scale_fill_gdocs() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    legend.position = &amp;quot;none&amp;quot;, 
-    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Applause&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Applause&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;We can also plot the same data as a heatmap across debates:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
-  filter(background == &amp;quot;(APPLAUSE)&amp;quot;) %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
-  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
-  mutate(debate = as.factor(debate)) %&amp;gt;% 
-  dplyr::count(background, speaker, debate, .drop = F) %&amp;gt;% 
-  drop_na() %&amp;gt;% 
-  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
-  ggplot(aes(debate, speaker, fill = n)) +
-  geom_tile() +
-  scale_fill_gradient(&amp;quot;Applause&amp;quot;, low = &amp;quot;white&amp;quot;) +
-  theme_classic() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Applause&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/clapping-hands-sign_1f44f.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/applause_heat.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;who-was-the-greatest-jokester-at-democratic-debates&#34;&gt;Who was the greatest jokester at democratic debates?&lt;/h2&gt;
-
-&lt;p&gt;We can also take a look at who received the most laughs during the
-debates. Just filter &lt;code&gt;background&lt;/code&gt; by &lt;code&gt;(LAUGHTER)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
-  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
-  dplyr::count(speaker, sort = T) %&amp;gt;% 
-  drop_na() %&amp;gt;% 
-  slice(1:10) %&amp;gt;% 
-  knitr::kable()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;speaker&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Amy Klobuchar&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Andrew Yang&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Elizabeth Warren&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Cory Booker&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Pete Buttigieg&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Kamala Harris&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Chuck Todd&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;Jay Inslee&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Again, Bernie Sanders leads the field, closely followed by Andrew Yang
-(now dropped out) and Amy Klobuchar.&lt;/p&gt;
-
-&lt;p&gt;We can visualize the data to get a better understanding. With the same process as before, I get the emoji link for 😂&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;laugh_emoji &amp;lt;- emoji_to_link(&amp;quot;😂&amp;quot;) %&amp;gt;% link_to_img()
-
-laugh_emoji
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And I can include that in a graph:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
-  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
-  dplyr::count(background, speaker, type, sort = T) %&amp;gt;% 
-  drop_na() %&amp;gt;% 
-  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
-  ggplot(aes(speaker, n)) +
-  geom_col(aes(fill = type), width = 0.5) +
-  # geom_point(aes(fill = type), size = 9) +
-  coord_flip() +
-  ggthemes::theme_hc() +
-  geom_label(aes(label = n), size = 3) +
-  # facet_grid(~type, scales = &amp;quot;free_x&amp;quot;, space = &amp;quot;free&amp;quot;) +
-  ggthemes::scale_fill_gdocs() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    legend.position = &amp;quot;none&amp;quot;, 
-    plot.title = element_markdown(size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;Laughs&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Laughs&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tidytemplate::ggsave_it(laughs, width = 8, height = 8)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can also plot the same data as a heatmap across debates:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
-  filter(background == &amp;quot;(LAUGHTER)&amp;quot;) %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
-  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
-  mutate(debate = as.factor(debate)) %&amp;gt;% 
-  dplyr::count(background, speaker, debate, .drop = F) %&amp;gt;% 
-  drop_na() %&amp;gt;% 
-  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
-  ggplot(aes(debate, speaker, fill = n)) +
-  geom_tile() +
-  scale_fill_gradient(&amp;quot;Laughs&amp;quot;, low = &amp;quot;white&amp;quot;) +
-  theme_classic() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who got the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Laughs&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/face-with-tears-of-joy_1f602.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 7\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/laughs_heat.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;who-spoke-the-most-words&#34;&gt;Who spoke the most words?&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debates %&amp;gt;% 
-  unnest_tokens(word, speech) %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
-  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
-  mutate(debate = as.factor(debate)) %&amp;gt;% 
-  dplyr::count(speaker, .drop = F, sort = T) %&amp;gt;% 
-  mutate(total = sum(n)) %&amp;gt;% 
-  mutate(perc = round(n / total*100, 2)) %&amp;gt;% 
-  slice(1:10) %&amp;gt;% 
-  knitr::kable()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&#34;left&#34;&gt;speaker&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;n&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;total&lt;/th&gt;
-&lt;th align=&#34;right&#34;&gt;perc&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Joe Biden&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;25295&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;12.54&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Elizabeth Warren&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;22473&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;11.14&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Pete Buttigieg&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;21400&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;10.61&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Amy Klobuchar&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;20076&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;9.96&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Bernie Sanders&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;19065&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;9.45&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Kamala Harris&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;12128&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;6.01&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Cory Booker&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;11839&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;5.87&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Andrew Yang&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;10586&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;5.25&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Tom Steyer&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;9635&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.78&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Beto O’Rourke&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;8253&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;201653&lt;/td&gt;
-&lt;td align=&#34;right&#34;&gt;4.09&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;In the Top 10 we see candidates who were present in each debate (for example Joe Biden, Elizabeth Warren and Bernie Sanders). Out of a share of all spoken words during all eight debates, Joe Biden spoke a plurality of words. Tom Steyer (as of writing still in the race) has less than half as many spoken words as most other candidates still in the race, despite being present in 5 out of 8 debates.&lt;/p&gt;
-
-&lt;p&gt;Again, we can also visualize the data.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;speak_emoji &amp;lt;- emoji_to_link(&amp;quot;🗣&amp;quot;) %&amp;gt;% link_to_img()
-
-speak_emoji
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png&#39; width=&#39;20&#39;/&amp;gt;&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debate_words &amp;lt;- debates %&amp;gt;% 
-  unnest_tokens(word, speech) %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
-  mutate(speaker = as.factor(speaker)) %&amp;gt;% 
-  mutate(debate = as.factor(debate)) %&amp;gt;% 
-  dplyr::count(speaker, debate, .drop = F, sort = T) 
-
-# frontrunners &amp;lt;- c(&amp;quot;Bernie Sanders&amp;quot;, 
-#                   &amp;quot;Elizabeth Warren&amp;quot;, 
-#                   &amp;quot;Joe Biden&amp;quot;, 
-#                   &amp;quot;Pete Buttigieg&amp;quot;, 
-#                   &amp;quot;Amy Klobuchar&amp;quot;)
-
-
-
-debate_words %&amp;gt;% 
-  mutate(speaker = fct_reorder(speaker, n)) %&amp;gt;% 
-  ggplot(aes(debate, speaker, fill = n)) +
-  geom_tile() +
-  scale_fill_gradient(&amp;quot;Words&amp;quot;, low = &amp;quot;white&amp;quot;) +
-  theme_classic() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    plot.title = element_markdown(hjust = 0.5, size = 30, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;Debate&amp;quot;, y = &amp;quot;&amp;quot;, title = &amp;quot;Who spoke the &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;most Words&amp;lt;/span&amp;gt;&amp;lt;img src=&#39;https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/speaking-head-in-silhouette_1f5e3.png&#39; width=&#39;20&#39;/&amp;gt;&amp;lt;br&amp;gt;in Democratic Debates?&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;We see something very obvious: as the number of candidates decreases,
-the spoken words also increase for the remaining candidates (as they
-have to fill the space). Numbers remain rather low for Tom Steyer and Andrew Yang throughout the debates.&lt;/p&gt;
-
-&lt;h2 id=&#34;did-men-speak-more-than-women&#34;&gt;Did men speak more than women?&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;debate_gender &amp;lt;- debates %&amp;gt;% 
-  unnest_tokens(word, speech) %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;%
-  dplyr::count(gender, debate, .drop = F) %&amp;gt;% 
-  group_by(debate) %&amp;gt;% 
-  mutate(total = sum(n)) %&amp;gt;% 
-  mutate(perc = n/total)
-
-debate_gender %&amp;gt;% 
-  filter(gender == &amp;quot;female&amp;quot;) %&amp;gt;%
-  ggplot(aes(debate, perc, fill = gender)) +
-  geom_area(fill = &amp;quot;#3E7ACF&amp;quot;, alpha = 0.75) +
-  ggrepel::geom_text_repel(aes(label = paste0(round(perc*100, 1), &amp;quot;%&amp;quot;)), nudge_y = 0.025,
-                           direction = &amp;quot;y&amp;quot;) +
-  scale_y_continuous(labels = scales::percent, limits = c(0, 0.5)) +
-  ggthemes::theme_hc()  +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    legend.position = &amp;quot;top&amp;quot;,
-    plot.title = element_markdown(size = 25, margin=margin(0,0,15,0), face = &amp;quot;bold&amp;quot;)
-    ) +
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;% Spoken Words by Women\n&amp;quot;, title = &amp;quot;Share of spoken Words by &amp;lt;span style=&#39;color: #3E7ACF&#39;&amp;gt;Women&amp;lt;/span&amp;gt;&amp;lt;br&amp;gt;during the Democratic Debates&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) +
-  scale_x_continuous(breaks = 1:8)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/spoken_words_gender.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Men have spoken more words than women across all debates. Of course,
-throughout the debates women were always in the minority (only 6 out of
-22 Democratic candidates were women and now only 2 are left: Amy
-Klobuchar and Elizabeth Warren).&lt;/p&gt;
-
-&lt;h2 id=&#34;what-were-the-most-common-distinct-words-used-by-candidates&#34;&gt;What were the most common distinct words used by candidates?&lt;/h2&gt;
-
-&lt;p&gt;We can use tf-idf scores to tell what word combinations (bigrams)
-candidates used the most and also were most distinct across other
-candidates.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;speaker_words &amp;lt;- debates %&amp;gt;% 
-  filter(type == &amp;quot;Candidate&amp;quot;) %&amp;gt;% 
-  mutate(speech = tm::removeWords(str_to_lower(speech), stop_words$word)) %&amp;gt;% 
-  unnest_tokens(word, speech, token = &amp;quot;ngrams&amp;quot;, n = 2) %&amp;gt;%
-  count(speaker, word, sort = TRUE)
-  
-total_words &amp;lt;- speaker_words %&amp;gt;% 
-  group_by(speaker) %&amp;gt;% 
-  summarize(total = sum(n))
-
-
-speaker_words &amp;lt;- left_join(speaker_words, total_words)
-
-
-speaker_words &amp;lt;- speaker_words %&amp;gt;% 
-  bind_tf_idf(word, speaker, n)
-
-
-
-speaker_words %&amp;gt;%
-  arrange(desc(tf_idf)) %&amp;gt;%
-  filter(speaker %in% c(&amp;quot;Bernie Sanders&amp;quot;, &amp;quot;Elizabeth Warren&amp;quot;,
-                        &amp;quot;Joe Biden&amp;quot;, &amp;quot;Pete Buttigieg&amp;quot;, 
-                        &amp;quot;Andrew Yang&amp;quot;, &amp;quot;Amy Klobuchar&amp;quot;)) %&amp;gt;%
-  group_by(speaker) %&amp;gt;% 
-  arrange(desc(tf_idf)) %&amp;gt;% 
-  slice(1:15) %&amp;gt;% 
-  ungroup() %&amp;gt;%
-  mutate(word = factor(word, levels = rev(unique(word)))) %&amp;gt;% 
-  ggplot(aes(word, tf_idf, fill = speaker)) +
-  geom_col(show.legend = FALSE) +
-  labs(x = NULL, y = &amp;quot;tf-idf&amp;quot;) +
-  facet_wrap(~speaker, ncol = 3, scales = &amp;quot;free&amp;quot;) +
-  coord_flip()   +
-  ggthemes::theme_hc() +
-  # facet_grid(~type, scales = &amp;quot;free_x&amp;quot;, space = &amp;quot;free&amp;quot;) +
-  ggthemes::scale_fill_colorblind() +
-  theme(
-    text = element_text(family = &amp;quot;Fira Code Retina&amp;quot;),
-    legend.position = &amp;quot;top&amp;quot;,
-    plot.title = element_markdown(size = 30, margin=margin(0,0,20,0), face = &amp;quot;bold&amp;quot;, hjust = 0.5)
-    ) +
-  labs(x = &amp;quot;&amp;quot;, y = &amp;quot;tf-idf&amp;quot;, title = &amp;quot;Most Common Distinct Word Combinations&amp;lt;br&amp;gt;for each Democratic Presidential Candidate&amp;quot;,
-       caption = &amp;quot;\nDemocratic Debates: 1 - 8\nData Visualization: @favstats\nSource: Transcripts by Washington Post &amp;amp; Des Moines Register&amp;quot;) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/favstats/demdebates2020/master/vignettes/images/tfidfplot.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Some fitting and recognizable word patterns emerge. For exampe, Andrew Yang and his proposal for Universal Basic Income (UBI) clearly distinguish him from other candidates with his most common distinct words referring to the &amp;ldquo;freedom dividend&amp;rdquo; and &amp;ldquo;1000 [dollars a] month&amp;rdquo;. A similar distinct pattern emerges with Bernie Sanders who frequently uses the phrase &amp;ldquo;The US is the only &lt;em&gt;major country on earth&lt;/em&gt; that does/does not have X&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;In conclusio&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;So far from me. What kind of analysis would you run on the Democratic debates data? Feel free to use the data as you wish and I am curious to see what comes out of it!&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sessionInfo()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;## R version 3.6.1 (2019-07-05)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 18362)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_Germany.1252  LC_CTYPE=English_Germany.1252   
-## [3] LC_MONETARY=English_Germany.1252 LC_NUMERIC=C                    
-## [5] LC_TIME=English_Germany.1252    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-##  [1] scales_1.1.0              ggthemes_4.2.0           
-##  [3] demdebates2020_0.0.0.9000 tidytext_0.2.2           
-##  [5] rvest_0.3.4               xml2_1.2.2               
-##  [7] ggtext_0.1.0              extrafont_0.17           
-##  [9] knitr_1.25                forcats_0.4.0            
-## [11] stringr_1.4.0             dplyr_0.8.3              
-## [13] purrr_0.3.3               readr_1.3.1              
-## [15] tidyr_1.0.0               tibble_2.1.3             
-## [17] ggplot2_3.2.1             tidyverse_1.2.1          
-## 
-## loaded via a namespace (and not attached):
-##  [1] httr_1.4.1         jsonlite_1.6       modelr_0.1.5      
-##  [4] assertthat_0.2.1   highr_0.8          tidytemplate_0.1.0
-##  [7] selectr_0.4-1      cellranger_1.1.0   slam_0.1-45       
-## [10] yaml_2.2.0         ggrepel_0.8.1      Rttf2pt1_1.3.7    
-## [13] pillar_1.4.3       backports_1.1.5    lattice_0.20-38   
-## [16] glue_1.3.1         extrafontdb_1.0    digest_0.6.23     
-## [19] gridtext_0.1.0     colorspace_1.4-1   htmltools_0.4.0   
-## [22] Matrix_1.2-17      tm_0.7-7           pkgconfig_2.0.3   
-## [25] broom_0.5.2        haven_2.1.1        generics_0.0.2    
-## [28] farver_2.0.1       ellipsis_0.3.0     pacman_0.5.1      
-## [31] withr_2.1.2        lazyeval_0.2.2     NLP_0.2-0         
-## [34] cli_2.0.0          magrittr_1.5       crayon_1.3.4      
-## [37] readxl_1.3.1       evaluate_0.14      tokenizers_0.2.1  
-## [40] janeaustenr_0.1.5  fansi_0.4.0        nlme_3.1-140      
-## [43] SnowballC_0.6.0    tools_3.6.1        hms_0.5.2         
-## [46] lifecycle_0.1.0    munsell_0.5.0      compiler_3.6.1    
-## [49] rlang_0.4.1        grid_3.6.1         RCurl_1.95-4.12   
-## [52] rstudioapi_0.10    bitops_1.0-6       labeling_0.3      
-## [55] rmarkdown_1.14     gtable_0.3.0       curl_4.2          
-## [58] markdown_1.1       R6_2.4.1           lubridate_1.7.4   
-## [61] zeallot_0.1.0      stringi_1.4.3      parallel_3.6.1    
-## [64] Rcpp_1.0.3         vctrs_0.2.1        png_0.1-7         
-## [67] tidyselect_0.2.5   xfun_0.10
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Slides: Hacking Germany’s Official Statistics with datenguideR</title>
-      <link>/project/dg_slides/</link>
-      <pubDate>Wed, 05 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/project/dg_slides/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The &#39;Greatest Deliberative Body in the World&#39;?</title>
-      <link>/post/greatest_body/</link>
-      <pubDate>Thu, 30 Jan 2020 00:00:00 +0100</pubDate>
-      
-      <guid>/post/greatest_body/</guid>
-      <description>
-
-&lt;p&gt;The U.S. Senate is the &amp;ldquo;greatest deliberative body in the world&amp;rdquo;. A common phrase last used by Chief Justice John Roberts during the Impeachment Trial. But what does the data say?&lt;/p&gt;
-
-&lt;p&gt;I am not aware of a measure that looks at individual parliamentary bodies but &lt;a href=&#34;https://www.v-dem.net/en/&#34; target=&#34;_blank&#34;&gt;V-Dem&lt;/a&gt; has expert ratings on the deliberative quality of political elites by country, which may serve as a proxy.&lt;/p&gt;
-
-&lt;h2 id=&#34;packages&#34;&gt;Packages&lt;/h2&gt;
-
-&lt;p&gt;First, let&amp;rsquo;s load some necessary packages.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Install these packages if you don&#39;t have them yet
-# if (!require(&amp;quot;pacman&amp;quot;)) install.packages(&amp;quot;pacman&amp;quot;)
-# devtools::install_github(&amp;quot;favstats/tidytemplate&amp;quot;)
-
-pacman::p_load(tidyverse, tidytemplate, ggtext)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;load-data&#34;&gt;Load Data&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s load in the V-Dem data.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;vdem &amp;lt;- readr::read_rds(&amp;quot;data/V-Dem-CY-Full+Others-v9.rds&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;So what does the data say? There are many sub-dimensions to deliberation but here we are going to focus on one of them: &amp;ldquo;respecting counter-arguments&amp;rdquo;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/vdem_info.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A map of the most recent data (2018) reveals that the US is not the &amp;ldquo;greatest&amp;rdquo; when it comes to deliberation.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;world_dat &amp;lt;- ggplot2::map_data(&amp;quot;world&amp;quot;)
-
-
-delib_map &amp;lt;- vdem %&amp;gt;% 
-  filter(year == 2018) %&amp;gt;%
-  mutate(v2dlcountr = v2dlcountr_mean) %&amp;gt;% 
-  select(v2dlcountr, country_name, year) %&amp;gt;%
-  mutate(v2dlcountr = round(v2dlcountr) %&amp;gt;% as.factor) %&amp;gt;% 
-  mutate(region = countrycode::countrycode(country_name, &amp;quot;country.name&amp;quot;, &amp;quot;country.name&amp;quot;)) %&amp;gt;% 
-  right_join(
-    world_dat %&amp;gt;% 
-      mutate(region = countrycode::countrycode(region, &amp;quot;country.name&amp;quot;, &amp;quot;country.name&amp;quot;))
-    ) 
-
-
-delib_map %&amp;gt;% 
-  # filter(is.na(v2dlcountr)) %&amp;gt;% 
-  filter(region != &amp;quot;Antarctica&amp;quot;) %&amp;gt;% 
-  filter(region != &amp;quot;Greenland&amp;quot;) %&amp;gt;% 
-  arrange(desc(v2dlcountr)) %&amp;gt;% 
-  ggplot(aes(long, lat)) +
-  geom_polygon(aes( group = group, fill = v2dlcountr),  
-               color = &amp;quot;white&amp;quot;, alpha = 0.8, size = 0.2) +
-  ggthemes::theme_map() +
-  scale_fill_viridis_d(&amp;quot;Respect Counterarguments\n&amp;quot;, 
-                       breaks = 0:5, 
-                       limits = c(0,1, 2,3,4, 5),
-                       labels = c(
-                         &amp;quot;0: Counterarguments are not allowed or\nif articulated, punished.&amp;quot;, 
-                         &amp;quot;1: Counterarguments are allowed at least from\nsome parties, but almost always are ignored.&amp;quot;, 
-                         &amp;quot;2: Elites tend to acknowledge counterarguments\nbut then explicitly degrade them.&amp;quot;, 
-                         &amp;quot;3: Elites tend to acknowledge counterarguments\nwithout making explicit negative or positive statements.&amp;quot;, 
-                         &amp;quot;4: Elites almost always acknowledge counterarguments,\n even if they ultimately reject them.&amp;quot;, 
-                         &amp;quot;5: Elites almost always acknowledge counterarguments\nand even accept them and change their position.&amp;quot;
-                         )
-                       ) +
-  coord_map(xlim=c(-180,180)) +
-  labs(title = &amp;quot;Who has the **Greatest Deliberative Body** in the world?&amp;quot;, 
-       subtitle = &amp;quot;*Question:* When important policy changes are being considered,&amp;lt;br&amp;gt;to what extent do political elites acknowledge and respect counterarguments?&amp;lt;br&amp;gt;&amp;quot;,
-    caption = &amp;quot;Data Source: V-Dem v9 (2018). Data Visualization: @favstats&amp;quot;) +
-  theme(
-        plot.title = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 30, hjust = 0.5),
-        plot.subtitle = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 15, hjust = 0.5),
-        plot.caption = element_text(size = 12),
-        legend.position = c(-0.05, 0.075),
-    legend.background = element_blank(),
-    legend.box.background = element_blank(),
-    legend.key = element_blank()
-  ) #+ guides(fill = guide_colourbar(barheight = 12))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/delib_map.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;In fact, we have to plot the 100 most deliberative countries in order to even reach the United States on this scale which is rank at 88th place (!). The US ranks more poorly on respecting counterarguments than most European and many developing countries. Why is that the case?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;vdem %&amp;gt;% 
-  select(v2dlcountr_mean, country_name, year) %&amp;gt;% 
-  filter(year == 2018) %&amp;gt;%
-  arrange(desc(v2dlcountr_mean)) %&amp;gt;%
-  slice(1:100) %&amp;gt;%
-  mutate(label = ifelse(country_name %in% c(&amp;quot;United States of America&amp;quot;), &amp;quot;US&amp;quot;, &amp;quot;not us&amp;quot;)) %&amp;gt;% 
-  mutate(country_name = fct_reorder(country_name, v2dlcountr_mean)) %&amp;gt;% 
-  ggplot(aes(country_name, v2dlcountr_mean, fill = label)) +
-  geom_col() +
-  coord_flip() +
-  ggthemes::theme_hc()  +
-  ggthemes::scale_fill_colorblind()  +
-  labs(title = &amp;quot;Who has the **Greatest Deliberative Body** in the world?&amp;quot;, 
-       subtitle = &amp;quot;*Question:* When important policy changes are being considered,&amp;lt;br&amp;gt;to what extent do political elites acknowledge and respect counterarguments?&amp;lt;br&amp;gt;&amp;quot;,
-    caption = &amp;quot;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&amp;quot;, x = &amp;quot;&amp;quot;, y = &amp;quot;\nRespect Counterarguments (0 = No - 5 = Yes, and change minds)&amp;quot;) +
-  theme(
-        plot.title = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 23, hjust = 0.5),
-        plot.subtitle = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 13, hjust = 0.5),
-        plot.caption = element_text(size = 12),
-        legend.position = &amp;quot;none&amp;quot;
-  ) 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/delib_bars.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Looking at the data over time may allow us some insights. We can see that the US was actually at a highpoint in 2012.. but 2017 and 2018 have seen the lowest score ever assigned to the US Since 1900 (!). One may argue that the election 2016 may have something to do with this.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;cntry_list &amp;lt;- c(&amp;quot;United States&amp;quot;, &amp;quot;Norway&amp;quot;, &amp;quot;Russia&amp;quot;, &amp;quot;Germany&amp;quot;, &amp;quot;Israel&amp;quot;)
-
-label_dat &amp;lt;- vdem %&amp;gt;% filter(year == 2018) %&amp;gt;%
-                              mutate(country_name = ifelse(country_name == &amp;quot;United States of America&amp;quot;, &amp;quot;United States&amp;quot;, country_name)) %&amp;gt;% 
-                              filter(country_name %in% cntry_list)
-
-vdem  %&amp;gt;% 
-  mutate(country_name = ifelse(country_name == &amp;quot;United States of America&amp;quot;, &amp;quot;United States&amp;quot;, country_name)) %&amp;gt;% 
-  select(v2dlcountr_mean, country_name, year) %&amp;gt;% 
-  ggplot(aes(year, v2dlcountr_mean, group = country_name)) +
-  geom_step(color = &amp;quot;lightgrey&amp;quot;, alpha = 0.5) +
-  geom_step(data = vdem %&amp;gt;% 
-                mutate(country_name = ifelse(country_name == &amp;quot;United States of America&amp;quot;, &amp;quot;United States&amp;quot;, country_name)) %&amp;gt;% 
-              filter(country_name %in% cntry_list), aes(color = country_name), size = 1.2) + 
-  ggthemes::theme_hc() +
-  scale_x_continuous(breaks = c(1900, 1925, 1950, 1975, 2000, 2018), limits = c(1900, 2024)) +
-  ggthemes::scale_color_colorblind(&amp;quot;Country&amp;quot;)  +
-  labs(title = &amp;quot;Who has the **Greatest Deliberative Body** in the world?&amp;quot;, 
-       subtitle = &amp;quot;*Question:* When important policy changes are being considered,&amp;lt;br&amp;gt;to what extent do political elites acknowledge and respect counterarguments?&amp;quot;,
-    caption = &amp;quot;\nData Source: V-Dem v9 (2018). Data Visualization: @favstats&amp;quot;, x = &amp;quot;&amp;quot;, y = &amp;quot;Respect Counterarguments (0 = No - 5 = Yes, and change minds)\n&amp;quot;) +
-  theme(
-        plot.title = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 30, hjust = 0.5),
-        plot.subtitle = element_markdown(color = &amp;quot;black&amp;quot;,
-                                  size = 15, hjust = 0.5),
-        plot.caption = element_text(size = 12),
-        legend.position = &amp;quot;none&amp;quot;
-  ) +
-  geom_text(data = label_dat, aes(x = 2018.5, color = country_name,label = country_name), hjust = 0)  +
-  ylim(0, 5)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/us_over_time.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Looking at the data over time may allow us some insights. We can see that the US was actually at a highpoint in 2012.. but 2017 and 2018 have seen the lowest score ever assigned to the US Since 1900 (!). One may argue that the election 2016 may have something to do with this.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Radical Filter Bubbles: Social Media Personalisation Algorithms and Extremist Content</title>
-      <link>/publication/radical_filter_bubbles/</link>
-      <pubDate>Fri, 26 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/radical_filter_bubbles/</guid>
       <description></description>
     </item>
     

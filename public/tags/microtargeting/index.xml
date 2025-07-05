@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Microtargeting on favstats - personal blog</title>
+    <title>microtargeting on favstats - personal blog</title>
     <link>/tags/microtargeting/</link>
-    <description>Recent content in Microtargeting on favstats - personal blog</description>
+    <description>Recent content in microtargeting on favstats - personal blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2021 Fabio Votta</copyright>
-    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0100</lastBuildDate>
     
 	<atom:link href="/tags/microtargeting/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>DHS Targeted Campaign Threatens Deportation on Meta and Google</title>
+      <link>/post/dhs/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0100</pubDate>
+      
+      <guid>/post/dhs/</guid>
+      <description>In this post I briefly discuss the targeted campaign that Department of Homeland Security is running to threaten people with Latin American background with deportation.</description>
+    </item>
+    
+    <item>
+      <title>Digital Campaign Trail: Unpacking Germany’s Political Ad Spending</title>
+      <link>/post/btws/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0100</pubDate>
+      
+      <guid>/post/btws/</guid>
+      <description>In this post I analyze digital ad spending in recent German parliamentary election.</description>
+    </item>
     
     <item>
       <title>Political Microtargeting and Ad Delivery Algorithms</title>
@@ -18,8 +36,7 @@
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0200</pubDate>
       
       <guid>/post/algo_microtargeting/</guid>
-      <description>So far, online political microtargeting has been mainly understood as a strategic choice that advertisers can make to maximize the impact of their messaging by reaching certain audiences that are most most likely to be receptive of them.
-In fact, social media companies like Meta have built an entire business model around this promise. In a public outreach campaign Meta started in early 2021 called &amp;ldquo;Good Ideas Deserve To Be Found&amp;rdquo; they stress the importance of allowing targeted personalized ads because it helps thousands of businesses find their niche audience.</description>
+      <description>How the ad delivery algorithm may affect the distribution of political ads.</description>
     </item>
     
     <item>
@@ -28,8 +45,7 @@ In fact, social media companies like Meta have built an entire business model ar
       <pubDate>Sat, 18 Mar 2023 00:00:00 +0100</pubDate>
       
       <guid>/post/provincial_elections/</guid>
-      <description>Digital advertising has become an integral part of political campaigning in recent years, and the 2023 Dutch provincial elections (15th March) were no exception. Political parties vied for the attention of potential voters across a range of digital platforms (including YouTube, Facebook, Instagram, and Snapchat), with spending totaling €1.31 million in the 30 days leading up to the election
-Here, I take a deep dive into the world of digital advertising during the Dutch provincial elections, analyzing the spending patterns of political parties and examining the various targeting methods used to reach potential voters.</description>
+      <description>Discover how Dutch political parties used digital platforms to target you.</description>
     </item>
     
     <item>
@@ -38,9 +54,7 @@ Here, I take a deep dive into the world of digital advertising during the Dutch 
       <pubDate>Sat, 25 Sep 2021 00:00:00 +0200</pubDate>
       
       <guid>/post/common_microtargeting_btw21/</guid>
-      <description>Electoral campaigns in Germany are increasingly making use of digital advertising to get their message across to voters during the 2021 German elections. As shown previously, Facebook enables advertisers to use a wide variety of targeting criteria based on age, gender, location, interests, and much more.
-But how common is targeting and are parties and other political actors making use of this affordance?
-Using data by Who Targets Me we can answer this question.</description>
+      <description>Short answer: very common.</description>
     </item>
     
   </channel>
