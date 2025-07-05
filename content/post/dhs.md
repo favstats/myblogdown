@@ -1,6 +1,6 @@
 +++
-date = 2025-02-11
-lastmod = 2025-02-23
+date = 2025-07-05
+lastmod = 2025-07-05
 draft = false
 tags = ["microtargeting", "ad spending"]
 title = "DHS Targeted Campaign Threatens Deportation on Meta and Google"
