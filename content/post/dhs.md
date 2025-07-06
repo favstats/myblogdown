@@ -57,7 +57,7 @@ Not convinced yet? Well, the use of "detailed" target audiences makes it very cl
 
 Targeting users interested in "Regional Mexican," "Mexican pop music," and the "Spanish language" is a clear proxy for ethnicity. It also demonstrates how trivial it is to bypass Meta's supposed safeguards.
 
-Because Meta *DOES* claim it has [**banned targeting by "race or ethnicity"**](https://www.facebook.com/business/news/removing-certain-ad-targeting-options-and-expanding-advertiser-controls), but anyone who is only slightly familiar with targeted ad campaigns knows how easy it is to find proxies for sensitive data categories.
+Because Meta *DOES* claim it has [**banned targeting by "race or ethnicity"**](https://www.facebook.com/business/news/removing-certain-ad-targeting-options-and-expanding-our-ad-controls), but anyone who is only slightly familiar with targeted ad campaigns knows how easy it is to find proxies for sensitive data categories.
 
 
 ### The "Hyper-Targeting" is Bad, Duh
