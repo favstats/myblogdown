@@ -29,7 +29,7 @@ The key indicators for these being ads are the view counts and the lack of engag
 
 ![](https://cdn.bsky.app/img/feed_fullsize/plain/did:plc:46yyakot3byghwqc6rhmqzqd/bafkreib4zvjybyheedpn6dwyjexmw27pewtocfpzngrqv3nqg5r4ds2imi@jpeg)
 
-For any organic video reaching millions of viewers, a complete absence of comments is practically unheard of. However, when ads are being shown within a different a different YouTube video, there is no comment section for people to give their opinion. This, combined with the high production value and multi-language push, strongly suggests the views are the result of paid promotion.
+For any organic video reaching millions of viewers, a complete absence of comments is practically unheard of. However, when ads are being shown within a different YouTube video, there is no comment section for people to give their opinion on the ad itself. This, combined with the high production value and multi-language push, strongly suggests the views are the result of paid promotion.
 
 #### A Transparency Failure
 
