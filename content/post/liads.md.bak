@@ -1,0 +1,248 @@
++++
+date = 2025-08-06
+lastmod = 2025-08-06
+draft = true
+tags = ["LinkedIn", "political ads", "microtargeting", "platform governance", "Germany"]
+title = "Yes, LinkedIn Says It Bans Political Ads. No, That Didn’t Stop Parties and Lobbyists During Germany’s 2025 Election."
+math = true
+summary = """
+LinkedIn officially prohibits political advertising. Yet during Germany’s 2025 election, political parties, party-adjacent groups, and lobby organizations ran paid campaigns at real scale. Here’s what we found in LinkedIn’s own ad archive: who advertised, how big it was, and why weak enforcement creates an uneven playing field.
+"""
+[header]
+image = "headers/linkedin_election.jpg"
+caption = "Screens from LinkedIn’s ad archive (examples below)"
++++
+
+> *Platforms love to announce bans. Enforcement is the part they keep vague.*
+
+## TL;DR
+
+- **LinkedIn bans political ads** in policy, including content “intended to influence an election outcome” and ads that **exploit sensitive political issues**.  
+- Despite that, in the **2025 German election** window we find **478 ads** from **161 advertisers**, reaching an estimated **8.5–22.8 million impressions** (midpoint ≈ **15.6M**).  
+- **Political parties** (e.g., **BÜNDNIS DEUTSCHLAND**) and **party-aligned groups** (e.g., **MIT** – the CDU/CSU’s Mittelstands-union) ran **literal campaigns**.  
+- **Lobby organizations** (e.g., **BAVC**, **BVE**, **ZVEI**, **INSM**) pushed **policy demands** and **explicit anti-left / pro-market framing**.  
+- **Corporate brands and chambers** (e.g., **Daimler Truck AG**, **IHK München**) used the election as a hook to push sectoral agendas.  
+- When a platform bans political ads **but doesn’t actually catch violators**, **those bold enough to ignore the rules gain a free advantage**. That’s **unequal competition** by design.
+
+---
+
+## Context: The “ban” era that isn’t one
+
+Meta and Google have both announced **EU-wide halts** to political and issue ads starting **October 2025** under the new **EU TTPA** regime. That’s a big shift — but it’s **regional** and **not immediate**. Outside the EU (and even inside, pre-October 2025), both allow political ads with verification and periodic blackouts. Meanwhile, **LinkedIn’s policy is stricter on paper** (it prohibits such ads outright), but as this case shows, **prohibitions without robust detection/enforcement are performative**.
+
+---
+
+## Data & Method
+
+- Source: LinkedIn’s public ad archive (export from the research API).  
+- Units: each row is a paid **ad variant** with **impression range** (`lowimp`, `hiimp`).  
+- To summarize scale we compute a **midpoint estimate** `midimp = (lowimp + hiimp)/2`.  
+- We also regex-classify advertiser **actor types** (Party, Parliamentary group, Lobby/Trade association, Chamber, Company/Corporate, NGO/Non-profit, Media/Publisher).  
+- Caveats: ranges are **imprecise**; some entries lack granular targeting breakdowns; classification is **rule-based** and errs conservative.
+
+**Snapshot (Germany 2025):**
+
+- **Ads:** 478  
+- **Unique advertisers:** 161  
+- **Impressions (lower–upper bound):** **8,476,000–22,795,056**  
+- **Midpoint total:** **15,635,528**  
+- **Ad types:** Single Image (284), Video (115), Document (55), Carousel (12), Event (8), Message (1), Unknown (3).  
+- **Location targeting mentions “Germany/Deutschland”:** 440/478 ads.
+
+---
+
+## Who showed up (and how big)
+
+Across the period, impressions concentrate heavily among a small set of actors: the **top 15 advertisers account for ~52%** of estimated impressions.
+
+- **Top impression drivers (examples; midpoint totals):**  
+  - **NZZ (media):** ~1.17M  
+  - **IHK München (chamber):** ~0.80M  
+  - **BVE – food industry lobby:** ~0.75M  
+  - **Daimler Truck AG (corporate):** ~0.70M  
+  - **Pharma Deutschland (industry):** ~0.57M  
+  - **ZVEI – electronics lobby:** ~0.50M  
+  - **BÜNDNIS DEUTSCHLAND (political party):** ~0.48M  
+  - **BAVC – chemical employers:** ~0.41M  
+  - **INSM – Initiative Neue Soziale Marktwirtschaft (lobby):** ~0.35M  
+
+**By actor type (share of estimated impressions):**
+
+- **Media/Publishers:** ~6.7M  
+- **Companies/Corporates:** ~3.81M  
+- **Lobby/Trade associations:** ~3.05M  
+- **Chambers (IHK):** ~1.09M  
+- **NGO/Non-profit:** ~0.50M  
+- **Political parties/branches:** ~0.49M  
+
+> **Takeaway:** even without overt party placements, **corporate and lobby voices** dominate the paid landscape — and **several did run** overtly political campaigns.
+
+---
+
+## The most egregious examples
+
+### 1) **A literal party campaign on LinkedIn**
+**BÜNDNIS DEUTSCHLAND** ran a slate of **overt election creatives** (“Ausstieg aus dem Green Deal”, “Ausbaustopp für erneuerbare Energien”, “Mehr Freiheit für alle!”, “Grenzen sichern, Sicherheit stärken”), with **clear ballot-program framing** and a hard **anti-green, pro-market** line. Estimated reach ~**480k** impressions.
+
+![BÜNDNIS DEUTSCHLAND – ad set](./bundnis-deutschland-grid.png)
+
+(If you need the raw images from my archive export:  
+`/mnt/data/9F8A8EC6-3DD8-46E8-9663-BD3D37C9A460.png`)
+
+---
+
+### 2) **Party-adjacent advocacy pushing CDU/CSU**
+**MIT – Mittelstands- und Wirtschaftsunion** (the CDU/CSU’s business wing) ran placements calling for a **Wirtschaftswende**, celebrating the **Schuldenbremse**, and generally attacking the Ampel coalition — **election-oriented persuasion**.
+
+![MIT – ad set](./mit-grid.png)
+
+(raw file: `/mnt/data/8759D392-441C-4898-A70C-67D4A5FD3D32.png`)
+
+---
+
+### 3) **CDU campaign/branded caucus content**
+**CDU in Niedersachsen** and **CDU-Fraktion Berlin** appear with election-timed creatives like “Am 23. Februar entscheiden Sie über die Richtung unseres Landes” or policy touting (“Schneller-Bauen-Gesetz”). This is **direct political campaign messaging**.
+
+![CDU – examples](./cdu-grid.png)
+
+(raw file: `/mnt/data/BA6AA8A7-F744-4BE5-AFFD-7B54C8E68483.png`)
+
+---
+
+### 4) **Lobby blitz: “Habeck-Steuer” and friends**
+**INSM** pushed fear appeals about a supposed *“Habeck-Steuer”* on private investments — explicit **anti-left**/anti-Green framing, clearly meant to **shift vote preferences** on tax policy. Estimated reach ~**350k** impressions.
+
+![INSM – example](./insm-detail.png)
+
+(raw file: `/mnt/data/8B60ADA3-75D8-4C2B-BB44-AD93C7E555FA.png`)
+
+Other lobby pushes included **BAVC**, **BVE**, **ZVEI**, **VCI**, and **IHKs**, each offering **issue slates** (“Entbürokratisierung”, “Energiepreise runter”, “Ausbau stoppen/erlauben”, “Standort sichern”), framed **around the election** — which matches LinkedIn’s **“sensitive political issue”** clause.
+
+---
+
+## Why this matters: bans without enforcement reward rule-breakers
+
+When political ads are *formally* banned but **practically served**, the advantage flows to:
+
+1. **Actors who are willing to ignore the rules** (parties, party-adjacent groups, well-funded lobby orgs).  
+2. **Those with legal/agency muscle** to craft content that skirts detection while plainly aiming to influence the election.  
+
+That’s an **unequal playing field**. The costs of compliance (self-censorship) are paid by cautious actors; the **benefits of reach** accrue to those bold enough to test the system.
+
+Philosophically (and practically), bans **without auditable, independent enforcement and searchable, complete archives** are just PR. The **caretaker platforms** — whose business is selling reach — remain conflicted referees.
+
+---
+
+## Reproduce the analysis (R)
+
+> **What you need:** the CSV export (`alldat (1).csv`) from LinkedIn’s ad archive.  
+> Put it next to your script or adjust the path below.
+
+```r
+# Packages ---------------------------------------------------------------
+library(tidyverse)
+library(lubridate)
+library(stringr)
+library(scales)
+
+# Data -------------------------------------------------------------------
+path <- "alldat (1).csv"
+ads  <- readr::read_csv(path, show_col_types = FALSE)
+
+# Helpers ----------------------------------------------------------------
+midpoint <- function(lo, hi) (coalesce(lo, 0) + coalesce(hi, 0)) / 2
+
+parse_start <- function(x) {
+  # "Ran from Feb 18, 2025 to Feb 18, 2025"
+  s <- str_extract(x, "(?<=from ).+?(?= to)")
+  suppressWarnings(mdy(s))
+}
+
+# Classify actor type (regex, conservative) ------------------------------
+ads <- ads %>%
+  mutate(
+    midimp   = midpoint(lowimp, hiimp),
+    start_dt = parse_start(run_dates),
+    actor_type = case_when(
+      str_detect(advertiser, regex("\\b(CDU|SPD|AfD|FDP|Gr(ü|u)ne|Die Linke|B(ü|u)ndnis Deutschland)\\b", ignore_case = TRUE)) ~ "Political party / branch",
+      str_detect(advertiser, regex("Fraktion|Parlamentsfraktion", ignore_case = TRUE)) ~ "Parliamentary group",
+      str_detect(advertiser, regex("\\bIHK\\b|Industrie- und Handelskammer", ignore_case = TRUE)) ~ "Chamber of commerce",
+      str_detect(advertiser, regex("Verband|Bundesverband|Vereinigung|Union|Initiative|B(ü|u)ndnis", ignore_case = TRUE)) ~ "Lobby / trade association",
+      str_detect(advertiser, regex("GmbH|AG|SE|Group|Holding|Bank|Gruppe|Security|Commercial", ignore_case = TRUE)) ~ "Company / corporate",
+      str_detect(advertiser, regex("e\\. ?V\\.|Stiftung|NGO|Verein", ignore_case = TRUE)) ~ "NGO / non-profit",
+      str_detect(advertiser, regex("NZZ|WELT|Cicero|F\\.A\\.Z\\.|FinanceNewsTV", ignore_case = TRUE)) ~ "Media / publisher",
+      TRUE ~ "Other / unknown"
+    )
+  )
+
+# Key numbers ------------------------------------------------------------
+key <- tibble(
+  n_ads         = nrow(ads),
+  n_advertisers = n_distinct(ads$advertiser),
+  imp_low_sum   = sum(ads$lowimp, na.rm = TRUE),
+  imp_hi_sum    = sum(ads$hiimp,  na.rm = TRUE),
+  imp_mid_sum   = sum(ads$midimp, na.rm = TRUE)
+)
+print(key)
+
+# Top advertisers by estimated impressions -------------------------------
+top_adv <- ads %>%
+  group_by(advertiser, advertiser_id) %>%
+  summarise(midimp = sum(midimp, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(midimp)) %>%
+  slice_head(n = 15)
+
+ggplot(top_adv, aes(x = reorder(advertiser, midimp), y = midimp/1e6)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Top 15 advertisers by estimated impressions (midpoint)",
+       x = NULL, y = "Impressions (millions)") +
+  scale_y_continuous(labels = label_number(accuracy = 0.1)) +
+  theme_minimal(base_size = 12)
+
+# Save: ggsave("fig_top_advertisers.png", width = 8, height = 6, dpi = 300)
+
+# Impressions by actor type ----------------------------------------------
+by_type <- ads %>%
+  group_by(actor_type) %>%
+  summarise(midimp = sum(midimp, na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(midimp))
+
+ggplot(by_type, aes(x = reorder(actor_type, midimp), y = midimp/1e6)) +
+  geom_col() +
+  coord_flip() +
+  labs(title = "Estimated impressions by actor type",
+       x = NULL, y = "Impressions (millions)") +
+  scale_y_continuous(labels = label_number(accuracy = 0.1)) +
+  theme_minimal(base_size = 12)
+
+# Save: ggsave("fig_actor_types.png", width = 8, height = 6, dpi = 300)
+
+# Daily volume (ad starts) -----------------------------------------------
+daily <- ads %>%
+  filter(!is.na(start_dt)) %>%
+  count(start_dt, name = "n_ads")
+
+ggplot(daily, aes(start_dt, n_ads)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "New ads per day (start date from archive string)",
+       x = NULL, y = "Count of ads") +
+  theme_minimal(base_size = 12)
+
+# Save: ggsave("fig_daily_starts.png", width = 8, height = 4, dpi = 300)
+
+# Party & lobby spot-checks ----------------------------------------------
+focus <- c("BÜNDNIS DEUTSCHLAND",
+           "Initiative Neue Soziale Marktwirtschaft (INSM)",
+           "Bundesarbeitgeberverband Chemie (BAVC)",
+           "Bundesvereinigung der Deutschen Ernährungsindustrie e. V. (BVE)",
+           "ZVEI e. V.", "Daimler Truck AG", "IHK für München und Oberbayern",
+           "CDU in Niedersachsen")
+
+ads %>%
+  filter(advertiser %in% focus) %>%
+  group_by(advertiser) %>%
+  summarise(estimated_impressions = sum(midimp), .groups = "drop") %>%
+  arrange(desc(estimated_impressions)) %>%
+  mutate(estimated_impressions = scales::comma(estimated_impressions))

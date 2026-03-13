@@ -11,7 +11,7 @@ Google, just like Meta, banned political ads in the EU in 2025. We found politic
 
 [header]
 image = "headers/google_political_ads_collage.png"
-caption = "Political ads from D66, DENK, GroenLinks, PvdA, JA21, Partij voor Ontwikkeling, and Partij voor de Dieren served via Google's ad infrastructure on at5.nl"
+caption = "Political ads from D66, DENK, GroenLinks, PvdA, JA21, Volt, Partij voor Ontwikkeling, and Partij voor de Dieren served via Google's ad infrastructure on at5.nl"
 
 +++
 
@@ -52,7 +52,7 @@ While monitoring the Dutch municipal elections, we spotted something on [at5.nl]
 
 {{< figure src="/img/google_ads/at5_d66_fullpage.png" caption="D66 political ad displayed on the at5.nl homepage, served via Google's ad infrastructure" >}}
 
-We built a scraper to systematically collect these ads. Over the course of several days, we captured political display ads from D66, DENK, PvdA, GroenLinks, JA21, Partij voor Ontwikkeling, and Partij voor de Dieren on at5.nl, all served through Google's ad infrastructure:
+We built a scraper to systematically collect these ads. Over the course of several days, we captured political display ads from D66, DENK, PvdA, GroenLinks, JA21, Volt, Partij voor Ontwikkeling, and Partij voor de Dieren on at5.nl, all served through Google's ad infrastructure:
 
 {{< figure src="/img/google_ads/denk.png" caption="DENK: \"Voorrang voor Amsterdammers bij een betaalbare woning\"" >}}
 
@@ -69,6 +69,8 @@ We built a scraper to systematically collect these ads. Over the course of sever
 {{< figure src="/img/google_ads/partij_voor_ontwikkeling.png" caption="Partij voor Ontwikkeling: \"Amsterdam van het slot af\"" >}}
 
 {{< figure src="/img/google_ads/partij_voor_de_dieren.png" caption="Partij voor de Dieren: \"Stem 18 maart\"" >}}
+
+{{< figure src="/img/google_ads/volt.png" caption="Volt: \"Stem 18 maart - Kies Volt\"" >}}
 
 Every single one of these ads carries the official `politiekereclame.nl` disclaimer, correctly self-identifying as political advertising for the municipal elections. And yet, when you search for these parties and their ads in Google's Ads Transparency Center, they don't show up. There is no public record that they ever ran. For researchers, journalists, and regulators, these ads are essentially invisible.
 
